@@ -161,14 +161,16 @@
 
             try {
                 const url = `https://api.github.com/repos/${user}/${repo}/contents/semences.json`;
+                // J'ai viré la ligne Cache-Control qui faisait tout planter
                 const res = await fetch(url, {
-                    headers: { 'Authorization': `Bearer ${token}`, 'Cache-Control': 'no-cache' }
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
                 
                 if (!res.ok) throw new Error("Fichier semences.json introuvable");
 
                 const data = await res.json();
-                allSemences = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+                const content = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+                allSemences = content;
                 renderSeeds(allSemences);
 
             } catch (e) {
