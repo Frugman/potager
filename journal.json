@@ -88,5 +88,15 @@
     "note": "",
     "bac": "Bac A",
     "filet": true
+  },
+  {
+    "id": 1773076873887,
+    "date": "2026-03-06",
+    "seedId": "epinard-matador",
+    "action": "Plantation",
+    "quantite": "30",
+    "note": "",
+    "bac": "Bac E",
+    "filet": true
   }
 ]
