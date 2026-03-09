@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "id": "seed-1773065986288",
+    "identite": {
+      "nom_commun": "Poivron",
+      "variete": "Yag Bibberi",
+      "provenance": "Kokopelli"
+    },
+    "culture": {
+      "periode_semis": [
+        "Fév",
+        "Mar"
+      ]
+    }
+  }
+]
