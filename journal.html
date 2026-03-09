@@ -25,7 +25,6 @@
         header { margin-bottom: 25px; }
         h1 { font-size: 24px; margin: 0; color: var(--text); }
 
-        /* Section Filtres */
         .filter-section {
             background: var(--card-bg);
             padding: 15px;
@@ -48,7 +47,6 @@
             outline: none;
         }
 
-        /* Liste des entrées */
         .entry-list { display: flex; flex-direction: column; gap: 15px; }
 
         .entry-card {
@@ -56,7 +54,6 @@
             border-radius: 16px;
             padding: 18px;
             border: 1px solid var(--border);
-            position: relative;
         }
 
         .entry-date {
@@ -67,7 +64,6 @@
             margin-bottom: 8px;
         }
 
-        .entry-main { display: flex; justify-content: space-between; align-items: flex-start; }
         .entry-info h3 { margin: 0; font-size: 18px; }
         .entry-info p { margin: 4px 0 0; font-size: 15px; font-weight: bold; }
 
@@ -88,7 +84,6 @@
             border: 1px solid #444;
         }
 
-        /* Navigation Basse */
         .nav-bar {
             position: fixed;
             bottom: 0; left: 0; width: 100%; height: 85px;
@@ -140,16 +135,19 @@
 
     <script>
         let allEntries = [];
-        let seedMap = {}; // Pour transformer les IDs en noms lisibles
+        let seedMap = {};
 
         const user = localStorage.getItem('gh_user');
         const repo = localStorage.getItem('gh_repo');
         const token = localStorage.getItem('gh_token');
 
         async function loadJournal() {
-            if (!token) return;
+            if (!token || !user || !repo) {
+                document.getElementById('journalContent').innerHTML = "⚠️ Paramètres manquants.";
+                return;
+            }
             try {
-                // 1. Charger les semences pour avoir les noms
+                // 1. Charger les semences
                 const resSeeds = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
@@ -162,16 +160,14 @@
                     filterSeedSelect.innerHTML += `<option value="${s.id}">${seedMap[s.id]}</option>`;
                 });
 
-                // 2. Charger le journal
+                // 2. Charger le journal (SANS Cache-Control pour éviter le bug CORS)
                 const resJournal = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, {
-                    headers: { 'Authorization': `Bearer ${token}`, 'Cache-Control': 'no-cache' }
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const journalData = await resJournal.json();
                 allEntries = JSON.parse(decodeURIComponent(escape(atob(journalData.content))));
                 
-                // Trier du plus récent au plus ancien
                 allEntries.reverse();
-                
                 applyFilters();
             } catch (e) {
                 document.getElementById('journalContent').innerHTML = `<p style="color:red; text-align:center;">Erreur : ${e.message}</p>`;
@@ -181,37 +177,32 @@
         function applyFilters() {
             const month = document.getElementById('filterMonth').value;
             const seedId = document.getElementById('filterSeed').value;
-            
             const filtered = allEntries.filter(entry => {
                 const matchMonth = month === "" || entry.date.split('-')[1] === month;
                 const matchSeed = seedId === "" || entry.seedId === seedId;
                 return matchMonth && matchSeed;
             });
-
             renderJournal(filtered);
         }
 
         function renderJournal(entries) {
             const container = document.getElementById('journalContent');
             if (entries.length === 0) {
-                container.innerHTML = `<p style="text-align:center; padding:40px; color:#666;">Aucune action trouvée pour ces filtres.</p>`;
+                container.innerHTML = `<p style="text-align:center; padding:40px; color:#666;">Aucune action trouvée.</p>`;
                 return;
             }
-
             container.innerHTML = entries.map(e => `
                 <div class="entry-card">
                     <div class="entry-date">${new Date(e.date).toLocaleDateString('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'})}</div>
-                    <div class="entry-main">
-                        <div class="entry-info">
-                            <h3>${e.action}</h3>
-                            <p>${seedMap[e.seedId] || 'Plante inconnue'}</p>
-                        </div>
+                    <div class="entry-info">
+                        <h3>${e.action}</h3>
+                        <p>${seedMap[e.seedId] || 'Plante inconnue'}</p>
                     </div>
                     <div class="entry-details">
-                        ${e.quantite ? `<div class="badge">Quantité : <b>${e.quantite}</b></div>` : ''}
+                        ${e.quantite ? `<div class="badge">Qté : <b>${e.quantite}</b></div>` : ''}
                         ${e.contenant ? `<div class="badge">📦 ${e.contenant}</div>` : ''}
                         ${e.bac ? `<div class="badge">📍 ${e.bac}</div>` : ''}
-                        ${e.filet ? `<div class="badge">🕸️ Sous filet</div>` : ''}
+                        ${e.filet ? `<div class="badge">🕸️ Filet</div>` : ''}
                     </div>
                 </div>
             `).join('');
