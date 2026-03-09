@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mon Potager - Répertoire</title>
+    <style>
+        :root {
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --text: #e0e0e0;
+            --text-dim: #a0a0a0;
+            --accent: #4CAF50;
+            --border: #333;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding-bottom: 80px; /* Espace pour la nav mobile */
+        }
+
+        /* Barre de recherche */
+        .header {
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            z-index: 10;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 14px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        /* Grille de cartes */
+        .grid {
+            padding: 10px 20px;
+            display: grid;
+            gap: 15px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .card:active { transform: scale(0.98); }
+
+        .card-info h3 { margin: 0; font-size: 18px; }
+        .card-info p { margin: 4px 0 0; font-size: 14px; color: var(--text-dim); }
+
+        .tag-famille {
+            font-size: 12px;
+            padding: 4px 8px;
+            background: #333;
+            border-radius: 6px;
+            color: var(--accent);
+        }
+
+        /* Navigation Basse */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 65px;
+            background: #181818;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .nav-item {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 11px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .nav-item.active { color: var(--accent); }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+            background: currentColor;
+            mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <input type="text" class="search-bar" placeholder="Rechercher une semence..." id="searchInput">
+    </div>
+
+    <div class="grid" id="seedGrid">
+        </div>
+
+    <nav class="nav-bar">
+        <a href="#" class="nav-item"><span>🏠</span>Accueil</a>
+        <a href="#" class="nav-item active"><span>🌱</span>Semences</a>
+        <a href="#" class="nav-item"><span>📖</span>Journal</a>
+        <a href="#" class="nav-item"><span>📦</span>Bacs</a>
+    </nav>
+
+    <script>
+        // Données fictives pour le rendu visuel
+        const semences = [
+            { id: 1, nom: "Rose de Berne", type: "Tomate", famille: "Solanacées" },
+            { id: 2, nom: "Nantaise améliorée", type: "Carotte", famille: "Apiacées" },
+            { id: 3, nom: "Grand Vert", type: "Basilic", famille: "Lamiacées" }
+        ];
+
+        function renderSeeds(filter = "") {
+            const grid = document.getElementById('seedGrid');
+            grid.innerHTML = "";
+
+            const filtered = semences.filter(s => 
+                s.nom.toLowerCase().includes(filter.toLowerCase()) || 
+                s.type.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            filtered.forEach(s => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-info">
+                        <h3>${s.nom}</h3>
+                        <p>${s.type}</p>
+                    </div>
+                    <span class="tag-famille">${s.famille}</span>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            renderSeeds(e.target.value);
+        });
+
+        // Premier rendu
+        renderSeeds();
+    </script>
+</body>
+</html>
