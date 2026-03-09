@@ -6,19 +6,23 @@
     <title>Mon Potager - Dashboard</title>
     <style>
         :root { --bg: #000000; --card-bg: #1a1a1a; --text: #ffffff; --accent: #4CAF50; --border: #333; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 100px; font-size: 16px; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 110px; font-size: 16px; }
+        
         select, input, textarea { width: 100%; padding: 15px; background: #000; color: #fff; border: 1px solid var(--border); border-radius: 10px; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; outline: none; }
         input[type="date"] { font-weight: bold; border-color: var(--accent); }
         label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 13px; color: var(--accent); text-transform: uppercase; }
+
         #action-express { background: #111; padding: 20px; border-bottom: 2px solid var(--border); }
         .type-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; }
-        .type-btn { padding: 15px; background: #222; border: 1px solid var(--border); border-radius: 12px; color: #fff; font-weight: bold; text-align: center; min-height: 44px; }
+        .type-btn { padding: 15px; background: #222; border: 1px solid var(--border); border-radius: 12px; color: #fff; font-weight: bold; text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
         .type-btn.active { background: var(--accent); border-color: var(--accent); }
         .save-action-btn { width: 100%; padding: 20px; background: var(--accent); color: #fff; border: none; border-radius: 15px; font-weight: bold; font-size: 18px; cursor: pointer; }
+
         .widget { padding: 20px 20px 0; }
         .card { background: var(--card-bg); border-radius: 16px; padding: 15px; border: 1px solid var(--border); margin-bottom: 10px; }
+        
         .nav-bar { position: fixed; bottom: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
-        .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; min-height: 44px; }
+        .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
         .nav-icon { font-size: 26px; margin-bottom: 2px; }
         .active-nav { color: var(--accent); }
         .hidden { display: none; }
@@ -33,27 +37,40 @@
 
     <section id="action-express">
         <h2>🌱 Action Express</h2>
+        
         <label>Semence</label>
         <select id="select-seed"><option value="">Choisir...</option></select>
+
         <label>Date</label>
         <input type="date" id="val-date">
+
         <div class="type-grid">
             <div class="type-btn" onclick="selectAction(this, 'Semis')">Semis</div>
             <div class="type-btn" onclick="selectAction(this, 'Repiquage')">Repiquage</div>
             <div class="type-btn" onclick="selectAction(this, 'Plantation')">Plantation</div>
             <div class="type-btn" onclick="selectAction(this, 'Récolte')">Récolte</div>
         </div>
+
         <div id="dynamic-fields" class="hidden">
-            <div id="field-emplacement" class="hidden">
+            <div id="fields-semis" class="hidden">
                 <label>Emplacement</label>
                 <select id="val-emplacement">
                     <option value="Serre intérieure">Serre intérieure</option>
                     <option value="Serre extérieure">Serre extérieure</option>
                 </select>
+                <label>Contenant</label>
+                <select id="val-contenant">
+                    <option>Plaque 40 alvéoles</option>
+                    <option>Godet 7cm</option>
+                    <option>Godet 9cm</option>
+                    <option>Sac 5cm</option>
+                    <option>Sac 10cm</option>
+                </select>
             </div>
-            <div id="field-bac" class="hidden">
+
+            <div id="fields-plantation" class="hidden">
                 <label>Destination</label>
-                <select id="val-bac" onchange="toggleBacAutre(this.value)">
+                <select id="val-bac" onchange="document.getElementById('val-bac-autre').classList.toggle('hidden', this.value !== 'Autre')">
                     <option>Bac A</option><option>Bac B</option><option>Bac C</option><option>Bac D</option><option>Bac E</option>
                     <option value="Autre">Autre (préciser...)</option>
                 </select>
@@ -62,11 +79,14 @@
                     <input type="checkbox" id="val-filet" style="width:25px; height:25px; margin-right:15px;"> Sous filet ?
                 </label>
             </div>
-            <label id="label-qte">Quantité</label>
+
+            <label id="label-qte">Quantité / Nombre</label>
             <input type="number" id="val-qte" placeholder="Nombre">
-            <label>Notes</label>
-            <textarea id="val-note" rows="2" placeholder="Commentaire libre..."></textarea>
-            <button class="save-action-btn" id="btnSaveAction" onclick="saveJournalAction()">ENREGISTRER</button>
+
+            <label>Notes / Observations</label>
+            <textarea id="val-note" rows="2" placeholder="Un commentaire libre ?"></textarea>
+            
+            <button class="save-action-btn" id="btnSaveAction" onclick="saveJournalAction()">ENREGISTRER AU JOURNAL</button>
         </div>
     </section>
 
@@ -74,6 +94,7 @@
         <h2 style="font-size:14px; color:var(--accent); text-transform:uppercase;">📅 Agenda (7j)</h2>
         <div id="agenda-mini" class="card" style="font-size:14px; color:#aaa;">Chargement...</div>
     </div>
+
     <div class="widget">
         <h2 style="font-size:14px; color:var(--accent); text-transform:uppercase;">📝 Dernières Notes</h2>
         <div id="last-notes"></div>
@@ -99,13 +120,11 @@
                 const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
                 allSemences = JSON.parse(decodeURIComponent(escape(atob((await res.json()).content))));
                 const select = document.getElementById('select-seed');
-                allSemences.forEach(s => { select.innerHTML += `<option value="${s.id}">${s.identite.nom_commun} (${s.identite.variete})</option>`; });
+                allSemences.sort((a,b) => a.identite.nom_commun.localeCompare(b.identite.nom_commun)).forEach(s => {
+                    select.innerHTML += `<option value="${s.id}">${s.identite.nom_commun} (${s.identite.variete})</option>`;
+                });
                 loadWidgets();
             } catch (e) { console.error(e); }
-        }
-
-        function toggleBacAutre(val) {
-            document.getElementById('val-bac-autre').classList.toggle('hidden', val !== 'Autre');
         }
 
         function selectAction(btn, type) {
@@ -113,15 +132,18 @@
             btn.classList.add('active');
             currentAction = type;
             document.getElementById('dynamic-fields').classList.remove('hidden');
-            document.getElementById('field-emplacement').classList.toggle('hidden', !['Semis', 'Repiquage'].includes(type));
-            document.getElementById('field-bac').classList.toggle('hidden', type !== 'Plantation');
+            
+            const isSemis = (type === 'Semis' || type === 'Repiquage');
+            document.getElementById('fields-semis').classList.toggle('hidden', !isSemis);
+            document.getElementById('fields-plantation').classList.toggle('hidden', type !== 'Plantation');
+            document.getElementById('label-qte').innerText = (type === 'Récolte') ? 'Poids / Quantité' : 'Nombre de plants/graines';
         }
 
         async function saveJournalAction() {
             const seedId = document.getElementById('select-seed').value;
-            if (!seedId || !currentAction) return;
+            if (!seedId || !currentAction) { alert("Sélectionne une plante et une action !"); return; }
             const btn = document.getElementById('btnSaveAction');
-            btn.innerText = "⏳..."; btn.disabled = true;
+            btn.innerText = "⏳ ENREGISTREMENT..."; btn.disabled = true;
 
             const entry = {
                 id: Date.now(),
@@ -131,34 +153,38 @@
                 quantite: document.getElementById('val-qte').value,
                 note: document.getElementById('val-note').value
             };
-            
-            if (currentAction === 'Plantation') {
-                const bacVal = document.getElementById('val-bac').value;
-                entry.bac = (bacVal === 'Autre') ? document.getElementById('val-bac-autre').value : bacVal;
+
+            if (currentAction === 'Semis' || currentAction === 'Repiquage') {
+                entry.emplacement = document.getElementById('val-emplacement').value;
+                entry.contenant = document.getElementById('val-contenant').value;
+            } else if (currentAction === 'Plantation') {
+                const b = document.getElementById('val-bac').value;
+                entry.bac = (b === 'Autre') ? document.getElementById('val-bac-autre').value : b;
                 entry.filet = document.getElementById('val-filet').checked;
             }
-            if (['Semis', 'Repiquage'].includes(currentAction)) {
-                entry.emplacement = document.getElementById('val-emplacement').value;
-                entry.contenant = document.getElementById('val-contenant')?.value || "";
-            }
 
-            const url = `https://api.github.com/repos/${user}/${repo}/contents/journal.json`;
-            const getRes = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-            const fileData = await getRes.json();
-            let journal = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
-            journal.push(entry);
-            await fetch(url, {
-                method: 'PUT', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: `Note ${currentAction}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: fileData.sha })
-            });
-            location.reload();
+            try {
+                const url = `https://api.github.com/repos/${user}/${repo}/contents/journal.json`;
+                const getRes = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
+                const fileData = await getRes.json();
+                let journal = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
+                journal.push(entry);
+                await fetch(url, {
+                    method: 'PUT', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: `Journal : ${currentAction} ${seedId}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: fileData.sha })
+                });
+                location.reload();
+            } catch (e) { alert(e.message); btn.disabled = false; }
         }
 
         async function loadWidgets() {
             const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
             const journal = JSON.parse(decodeURIComponent(escape(atob((await res.json()).content))));
-            document.getElementById('last-notes').innerHTML = journal.slice(-3).reverse().map(n => `<div class="card" onclick="window.location.href='modifier-journal.html?id=${n.id}'"><b style="color:var(--accent)">${n.date}</b> - ${n.action} : ${n.seedId}</div>`).join('');
-            document.getElementById('agenda-mini').innerText = "Vérifiez vos prochains semis dans l'onglet Agenda !";
+            document.getElementById('last-notes').innerHTML = journal.slice(-3).reverse().map(n => `
+                <div class="card" onclick="window.location.href='modifier-journal.html?id=${n.id}'">
+                    <b style="color:var(--accent)">${n.date}</b> - ${n.action} : ${n.seedId}
+                </div>`).join('');
+            document.getElementById('agenda-mini').innerText = "Vérifiez vos semis dans l'onglet Agenda !";
         }
         window.onload = init;
     </script>
