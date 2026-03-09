@@ -17,9 +17,11 @@
         body {
             background-color: var(--bg);
             color: var(--text);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             margin: 0;
             padding: 20px;
+            padding-bottom: 120px; /* Espace pour la nav-bar fixe */
+            font-size: 16px; /* CDC 5.0 */
         }
 
         header {
@@ -35,6 +37,7 @@
             font-size: 30px;
             margin-right: 15px;
             padding: 0;
+            cursor: pointer;
         }
 
         h1 { font-size: 22px; margin: 0; }
@@ -50,7 +53,7 @@
 
         .form-group { margin-bottom: 25px; }
 
-        label { display: block; margin-bottom: 10px; font-weight: bold; font-size: 16px; }
+        label { display: block; margin-bottom: 10px; font-weight: bold; font-size: 16px; color: #aaa; text-transform: uppercase; }
 
         input {
             width: 100%;
@@ -76,6 +79,8 @@
             font-size: 18px;
             font-weight: bold;
             margin-top: 20px;
+            cursor: pointer;
+            min-height: 44px; /* Zone tactile CDC 5.0 */
         }
 
         .reset-btn {
@@ -87,6 +92,8 @@
             border-radius: 15px;
             font-size: 14px;
             margin-top: 40px;
+            cursor: pointer;
+            min-height: 44px; /* Zone tactile CDC 5.0 */
         }
 
         .status {
@@ -94,6 +101,42 @@
             margin-top: 15px;
             font-weight: bold;
             display: none;
+        }
+
+        /* Barre de navigation universelle */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 85px;
+            background: #111;
+            border-top: 2px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .nav-item {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            min-height: 44px; /* Zone tactile CDC 5.0 */
+        }
+
+        .nav-icon {
+            font-size: 28px;
+            margin-bottom: 2px;
+        }
+
+        .active-nav {
+            color: var(--accent);
         }
     </style>
 </head>
@@ -128,6 +171,24 @@
     <div id="statusMsg" class="status">✅ Configuration sauvegardée !</div>
 
     <button class="reset-btn" onclick="clearSettings()">EFFACER LES DONNÉES SUR CET APPAREIL</button>
+
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-item">
+            <span class="nav-icon">🏠</span>Accueil
+        </a>
+        <a href="bacs.html" class="nav-item">
+            <span class="nav-icon">🍱</span>Bacs
+        </a>
+        <a href="agenda.html" class="nav-item">
+            <span class="nav-icon">📅</span>Agenda
+        </a>
+        <a href="journal.html" class="nav-item">
+            <span class="nav-icon">📖</span>Journal
+        </a>
+        <a href="parametres.html" class="nav-item active-nav">
+            <span class="nav-icon">⚙️</span>Réglages
+        </a>
+    </nav>
 
     <script>
         // Charger les données existantes au démarrage
