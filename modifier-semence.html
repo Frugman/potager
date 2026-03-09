@@ -3,309 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Modifier la fiche</title>
+    <title>Modifier Semence</title>
     <style>
-        :root {
-            --bg: #000000;
-            --card-bg: #1a1a1a;
-            --text: #ffffff;
-            --accent: #4CAF50;
-            --border: #444;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 20px;
-            padding-bottom: 120px;
-        }
-
+        :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #444; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; padding-bottom: 120px; font-size: 16px; }
         header { display: flex; align-items: center; margin-bottom: 25px; }
-        .back-btn { background: none; border: none; color: var(--text); font-size: 30px; margin-right: 15px; cursor: pointer; }
-        h1 { font-size: 22px; margin: 0; }
-
-        section {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border);
-        }
-
-        h2 { font-size: 16px; color: var(--accent); margin-top: 0; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
-
+        .back-btn { background: none; border: none; color: #fff; font-size: 30px; margin-right: 15px; cursor: pointer; }
+        section { background: var(--card-bg); padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 1px solid var(--border); }
+        h2 { font-size: 14px; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
         .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 16px; color: #ffffff; }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 16px;
-            background: #000;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            color: #fff;
-            font-size: 18px;
-            box-sizing: border-box;
-            outline: none;
-        }
-
-        input:focus { border-color: var(--accent); }
-
+        label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 14px; color: #aaa; }
+        input, select, textarea { width: 100%; padding: 15px; background: #000; border: 2px solid var(--border); border-radius: 10px; color: #fff; font-size: 16px; box-sizing: border-box; }
         .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-
         .month-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-        .month-btn {
-            padding: 12px 2px;
-            background: #000;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: #fff;
-            text-align: center;
-            font-size: 12px;
-            cursor: pointer;
-        }
+        .month-btn { padding: 10px 2px; background: #000; border: 1px solid var(--border); border-radius: 6px; color: #fff; text-align: center; font-size: 12px; cursor: pointer; min-height: 44px; display: flex; align-items: center; justify-content: center;}
         .month-btn.active { background: var(--accent); border-color: var(--accent); font-weight: bold; }
-
-        .save-btn {
-            position: fixed;
-            bottom: 20px; left: 20px; right: 20px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 22px;
-            border-radius: 15px;
-            font-size: 20px;
-            font-weight: bold;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
-        }
-
-        .hidden { display: none; }
+        .check-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .check-item { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+        .check-item input { width: 25px; height: 25px; }
+        .save-btn { position: fixed; bottom: 20px; left: 20px; right: 20px; background: var(--accent); color: white; border: none; padding: 20px; border-radius: 15px; font-size: 18px; font-weight: bold; z-index: 100; cursor: pointer; }
     </style>
 </head>
 <body>
-
     <header>
-        <button id="btnCancel" class="back-btn">←</button>
-        <h1>Modifier la fiche</h1>
+        <button id="cancel" class="back-btn">←</button>
+        <h1>Modifier Fiche</h1>
     </header>
 
     <form id="editForm">
         <section>
-            <h2>1. Identité & Origine</h2>
-            <div class="form-group">
-                <label>Nom commun</label>
-                <input type="text" id="nom_commun" required>
-            </div>
-            <div class="form-group">
-                <label>Variété</label>
-                <input type="text" id="variete" required>
-            </div>
-            <div class="form-group">
-                <label>Provenance</label>
-                <select id="provenance" onchange="toggleAutre(this)">
-                    <option value="Kokopelli">Kokopelli</option>
-                    <option value="Récolte personnelle">Récolte personnelle</option>
-                    <option value="Autre">Ajout libre (préciser...)</option>
-                </select>
-                <input type="text" id="provenance_autre" class="hidden" style="margin-top:10px">
-            </div>
-            <div class="form-group">
-                <label>Description</label>
-                <textarea id="description" rows="2"></textarea>
-            </div>
-            <div class="form-group">
-    <label>Famille Botanique</label>
-    <input type="text" id="famille" placeholder="ex: Solanacées">
-</div>
-
-<div class="row">
-    <div class="form-group"><label>Cycle Maturité (jours)</label><input type="number" id="cycle_maturite"></div>
-    <div class="form-group"><label>Durée Germinative (ans)</label><input type="number" id="duree_germ"></div>
-</div>
-
-<section>
-    <h2>Particularités & Soins</h2>
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-        <label><input type="checkbox" class="soins-check" value="Besoin de tuteur"> Tuteur</label>
-        <label><input type="checkbox" class="soins-check" value="Sensible mildiou"> Mildiou</label>
-        <label><input type="checkbox" class="soins-check" value="Pincement requis"> Pincement</label>
-    </div>
-    <label style="margin-top:15px;">Cultures associées (Tags)</label>
-    <input type="text" id="assoc" placeholder="ex: Basilic, Oeillet">
-</section>
+            <h2>Identité</h2>
+            <div class="form-group"><label>Nom commun</label><input type="text" id="nom_commun"></div>
+            <div class="form-group"><label>Variété</label><input type="text" id="variete"></div>
+            <div class="form-group"><label>Famille Botanique</label><input type="text" id="famille"></div>
+            <div class="form-group"><label>Description</label><textarea id="description" rows="2"></textarea></div>
         </section>
-
         <section>
-            <h2>2. Culture</h2>
-            <div class="form-group">
-                <label>Style de semis</label>
-                <select id="style_semis">
-                    <option value="Graine à graine">Graine à graine</option>
-                    <option value="En poquet">En poquet</option>
-                    <option value="En ligne">En ligne</option>
-                    <option value="À la volée">À la volée</option>
-                </select>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label>Profondeur</label>
-                    <input type="text" id="profondeur">
-                </div>
-                <div class="form-group">
-                    <label>T° Levée</label>
-                    <input type="text" id="temp_levee">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label>Exposition</label>
-                    <select id="exposition">
-                        <option value="Plein soleil">Plein soleil</option>
-                        <option value="Mi-ombre">Mi-ombre</option>
-                        <option value="Ombre">Ombre</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Besoins Eau</label>
-                    <select id="besoins_eau">
-                        <option value="Moyen">Moyen</option>
-                        <option value="Faible">Faible</option>
-                        <option value="Fort">Fort</option>
-                    </select>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <h2>3. Calendrier (Semis)</h2>
+            <h2>Culture & Calendrier</h2>
             <div class="month-grid" id="semisMonths">
-                <div class="month-btn" onclick="this.classList.toggle('active')">Jan</div>
-                <div class="month-btn" onclick="this.classList.toggle('active')">Fév</div>
-                <div class="month-btn" onclick="this.classList.toggle('active')">Mar</div>
-                <div class="month-btn" onclick="this.classList.toggle('active')">Avr</div>
-                <div class="month-btn" onclick="this.classList.toggle('active')">Mai</div>
-                <div class="month-btn" onclick="this.classList.toggle('active')">Juin</div>
-                <div class="month-btn" onclick="this.classList.toggle('active')">Juil</div>
-                <div class="month-btn" onclick="this.classList.toggle('active')">Août</div>
-                <div class="month-btn" onclick="this.classList.toggle('active')">Sep</div>
-                <div class="month-btn" onclick="this.classList.toggle('active')">Oct</div>
-                <div class="month-btn" onclick="this.classList.toggle('active')">Nov</div>
-                <div class="month-btn" onclick="this.classList.toggle('active')">Déc</div>
+                <div class="month-btn">Jan</div><div class="month-btn">Fév</div><div class="month-btn">Mar</div><div class="month-btn">Avr</div>
+                <div class="month-btn">Mai</div><div class="month-btn">Juin</div><div class="month-btn">Juil</div><div class="month-btn">Août</div>
+                <div class="month-btn">Sep</div><div class="month-btn">Oct</div><div class="month-btn">Nov</div><div class="month-btn">Déc</div>
+            </div>
+            <div class="check-group" style="margin-top:20px">
+                <label class="check-item"><input type="checkbox" class="soins-cb" value="Tuteur"> Tuteur</label>
+                <label class="check-item"><input type="checkbox" class="soins-cb" value="Mildiou"> Mildiou</label>
+                <label class="check-item"><input type="checkbox" class="soins-cb" value="Pincement"> Pincement</label>
             </div>
         </section>
-
-        <button type="button" class="save-btn" id="submitBtn" onclick="updateSeed()">ENREGISTRER LES MODIFICATIONS</button>
+        <button type="button" class="save-btn" id="btnUpdate" onclick="update()">ENREGISTRER</button>
     </form>
 
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const seedId = params.get('id');
-        const user = localStorage.getItem('gh_user');
-        const repo = localStorage.getItem('gh_repo');
-        const token = localStorage.getItem('gh_token');
+        const id = new URLSearchParams(window.location.search).get('id');
+        const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
+        let semences = [], sha = "";
 
-        document.getElementById('btnCancel').onclick = () => window.location.href = `fiche-semence.html?id=${seedId}`;
+        document.getElementById('cancel').onclick = () => window.location.href = `fiche-semence.html?id=${id}`;
+        document.querySelectorAll('.month-btn').forEach(b => b.onclick = () => b.classList.toggle('active'));
 
-        function toggleAutre(select) {
-            document.getElementById('provenance_autre').className = (select.value === 'Autre') ? '' : 'hidden';
-        }
-
-        async function loadSeedData() {
-            const url = `https://api.github.com/repos/${user}/${repo}/contents/semences.json`;
-            const res = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-            const data = await res.json();
-            const semences = JSON.parse(decodeURIComponent(escape(atob(data.content))));
-            const s = semences.find(i => i.id === seedId);
-
+        async function load() {
+            const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const data = await res.json(); sha = data.sha;
+            semences = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+            const s = semences.find(i => i.id === id);
             if (s) {
-                // Remplissage Identité
-                document.getElementById('nom_commun').value = s.identite.nom_commun || '';
-                document.getElementById('variete').value = s.identite.variete || '';
+                document.getElementById('nom_commun').value = s.identite.nom_commun;
+                document.getElementById('variete').value = s.identite.variete;
+                document.getElementById('famille').value = s.identite.famille || '';
                 document.getElementById('description').value = s.identite.description || '';
-                
-                if (['Kokopelli', 'Récolte personnelle'].includes(s.identite.provenance)) {
-                    document.getElementById('provenance').value = s.identite.provenance;
-                } else {
-                    document.getElementById('provenance').value = 'Autre';
-                    document.getElementById('provenance_autre').value = s.identite.provenance || '';
-                    document.getElementById('provenance_autre').classList.remove('hidden');
-                }
-
-                // Remplissage Culture
-                document.getElementById('style_semis').value = s.culture?.style_semis || 'Graine à graine';
-                document.getElementById('profondeur').value = s.culture?.profondeur_semis || '';
-                document.getElementById('temp_levee').value = s.culture?.temp_levee || '';
-                document.getElementById('exposition').value = s.culture?.exposition || 'Plein soleil';
-                document.getElementById('besoins_eau').value = s.culture?.besoins_eau || 'Moyen';
-
-                // Remplissage Calendrier
-                const monthBtns = document.querySelectorAll('.month-btn');
-                monthBtns.forEach(btn => {
-                    if ((s.culture?.periode_semis || []).includes(btn.innerText)) btn.classList.add('active');
-                });
+                document.querySelectorAll('.month-btn').forEach(b => { if((s.culture?.periode_semis || []).includes(b.innerText)) b.classList.add('active'); });
+                document.querySelectorAll('.soins-cb').forEach(cb => { if((s.particularites?.soins || []).includes(cb.value)) cb.checked = true; });
             }
         }
 
-        async function updateSeed() {
-            const btn = document.getElementById('submitBtn');
-            btn.innerText = "⏳ MISE À JOUR...";
-            btn.disabled = true;
+        async function update() {
+            const btn = document.getElementById('btnUpdate'); btn.innerText = "⏳..."; btn.disabled = true;
+            const idx = semences.findIndex(i => i.id === id);
+            semences[idx].identite.nom_commun = document.getElementById('nom_commun').value;
+            semences[idx].identite.variete = document.getElementById('variete').value;
+            semences[idx].identite.famille = document.getElementById('famille').value;
+            semences[idx].identite.description = document.getElementById('description').value;
+            semences[idx].culture.periode_semis = Array.from(document.querySelectorAll('#semisMonths .active')).map(b => b.innerText);
+            semences[idx].particularites.soins = Array.from(document.querySelectorAll('.soins-cb:checked')).map(cb => cb.value);
 
-            const url = `https://api.github.com/repos/${user}/${repo}/contents/semences.json`;
-            
             try {
-                const getRes = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-                const fileData = await getRes.json();
-                const sha = fileData.sha;
-                let semences = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
-
-                const index = semences.findIndex(i => i.id === seedId);
-                if (index !== -1) {
-                    semences[index].identite = {
-                        nom_commun: document.getElementById('nom_commun').value,
-                        variete: document.getElementById('variete').value,
-                        provenance: document.getElementById('provenance').value === 'Autre' ? document.getElementById('provenance_autre').value : document.getElementById('provenance').value,
-                        description: document.getElementById('description').value
-                    };
-                    semences[index].culture = {
-                        style_semis: document.getElementById('style_semis').value,
-                        profondeur_semis: document.getElementById('profondeur').value,
-                        temp_levee: document.getElementById('temp_levee').value,
-                        exposition: document.getElementById('exposition').value,
-                        besoins_eau: document.getElementById('besoins_eau').value,
-                        periode_semis: Array.from(document.querySelectorAll('.month-btn.active')).map(b => b.innerText)
-                    };
-                }
-
-                const updatedContent = btoa(unescape(encodeURIComponent(JSON.stringify(semences, null, 2))));
-                
-                const putRes = await fetch(url, {
-                    method: 'PUT',
-                    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        message: `Mise à jour de ${semences[index].identite.variete}`,
-                        content: updatedContent,
-                        sha: sha
-                    })
+                const putRes = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, {
+                    method: 'PUT', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: `Maj ${id}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(semences, null, 2)))), sha: sha })
                 });
-
-                if (putRes.ok) {
-                    alert("✅ Fiche mise à jour !");
-                    window.location.href = `fiche-semence.html?id=${seedId}`;
-                } else {
-                    throw new Error("Erreur lors de la sauvegarde GitHub");
-                }
-            } catch (e) {
-                alert("Erreur : " + e.message);
-                btn.disabled = false;
-                btn.innerText = "ENREGISTRER LES MODIFICATIONS";
-            }
+                if (putRes.ok) window.location.href = `fiche-semence.html?id=${id}`;
+            } catch (e) { alert(e.message); btn.disabled = false; }
         }
-
-        window.onload = loadSeedData;
+        window.onload = load;
     </script>
 </body>
 </html>
