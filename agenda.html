@@ -13,12 +13,29 @@
             margin: 0; 
             padding: 20px; 
             padding-bottom: 100px; 
-            font-size: 16px; /* CDC 5.0 */
+            font-size: 16px; 
         }
-        header { margin-bottom: 25px; }
-        h1 { font-size: 24px; margin: 0; }
+        header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 25px; 
+        }
+        h1 { font-size: 22px; margin: 0; }
         
-        /* Séparateur de mois (Style Image) */
+        /* Filtre en haut à droite */
+        #filter-tasks {
+            background: var(--card-bg);
+            color: var(--accent);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: bold;
+            outline: none;
+            min-height: 44px; /* CDC 5.0 Touch UI */
+        }
+
         .month-separator { 
             font-size: 18px; 
             font-weight: bold; 
@@ -39,7 +56,6 @@
             border: 1px solid var(--border); 
             margin-bottom: 15px; 
             position: relative; 
-            min-height: 44px; /* Touch UI CDC 5.0 */
         }
         
         .event-card::before { 
@@ -58,7 +74,6 @@
         .event-title { font-size: 17px; font-weight: bold; display: block; }
         .event-subtitle { font-size: 14px; color: #888; margin-top: 2px; }
         
-        /* Navigation Basse */
         .nav-bar { 
             position: fixed; bottom: 0; left: 0; width: 100%; height: 85px; 
             background: #111; border-top: 2px solid var(--border); 
@@ -71,11 +86,18 @@
 </head>
 <body>
     <header>
-        <h1>📅 Agenda Prévisionnel</h1>
+        <h1>📅 Agenda</h1>
+        <select id="filter-tasks" onchange="renderAgenda()">
+            <option value="Tous">Tout voir</option>
+            <option value="Levée">🌱 Levées</option>
+            <option value="Repiquage">🪴 Repiquages</option>
+            <option value="Plantation">🚜 Plantations</option>
+            <option value="Récolte">🧺 Récoltes</option>
+        </select>
     </header>
 
     <div id="agenda-container">
-        <p style="text-align:center; padding:40px; color:#666;">Calcul des prochaines étapes...</p>
+        <p style="text-align:center; padding:40px; color:#666;">Calcul des étapes...</p>
     </div>
 
     <nav class="nav-bar">
@@ -98,6 +120,7 @@
 
     <script>
         const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
+        let upcomingTasks = [];
 
         function addDays(date, days) {
             const result = new Date(date);
@@ -105,10 +128,9 @@
             return result;
         }
 
-        async function load() {
+        async function loadData() {
             if (!token) return;
             try {
-                // Charger semences et journal [cite: 5, 6]
                 const resSeeds = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
                 const seeds = JSON.parse(decodeURIComponent(escape(atob((await resSeeds.json()).content))));
                 
@@ -117,67 +139,71 @@
 
                 const today = new Date();
                 today.setHours(0,0,0,0);
-                let upcoming = [];
+                upcomingTasks = [];
 
-                // Moteur de calcul basé sur les délais de la fiche semence [cite: 9, 10, 24]
                 journal.forEach(entry => {
                     if (entry.action === 'Semis') {
                         const seed = seeds.find(s => s.id === entry.seedId);
                         if (!seed || !seed.delais) return;
 
                         const dSemis = new Date(entry.date);
-                        const dLevee = addDays(dSemis, seed.delais.levee);
-                        const dRepiquage = addDays(dLevee, seed.delais.repiquage);
-                        const dPlantation = addDays(dRepiquage, seed.delais.plantation);
-                        const dRecolte = addDays(dPlantation, seed.delais.maturite);
+                        const steps = [
+                            { date: addDays(dSemis, seed.delais.levee), task: "🌱 Levée attendue", type: "Levée" },
+                            { date: addDays(addDays(dSemis, seed.delais.levee), seed.delais.repiquage), task: "🪴 Repiquage à faire", type: "Repiquage" },
+                            { date: addDays(addDays(addDays(dSemis, seed.delais.levee), seed.delais.repiquage), seed.delais.plantation), task: "🚜 Plantation finale", type: "Plantation" },
+                            { date: addDays(addDays(addDays(addDays(dSemis, seed.delais.levee), seed.delais.repiquage), seed.delais.plantation), seed.delais.maturite), task: "🧺 Début récolte", type: "Récolte" }
+                        ];
 
-                        if (dLevee >= today) upcoming.push({ date: dLevee, task: "🌱 Levée attendue", plant: seed.identite.nom_commun });
-                        if (dRepiquage >= today) upcoming.push({ date: dRepiquage, task: "🪴 Repiquage à faire", plant: seed.identite.nom_commun });
-                        if (dPlantation >= today) upcoming.push({ date: dPlantation, task: "🚜 Plantation finale", plant: seed.identite.nom_commun });
-                        if (dRecolte >= today) upcoming.push({ date: dRecolte, task: "🧺 Début récolte", plant: seed.identite.nom_commun });
+                        steps.forEach(s => {
+                            if (s.date >= today) {
+                                upcomingTasks.push({ ...s, plant: seed.identite.nom_commun });
+                            }
+                        });
                     }
                 });
 
-                upcoming.sort((a, b) => a.date - b.date);
-                const container = document.getElementById('agenda-container');
+                upcomingTasks.sort((a, b) => a.date - b.date);
+                renderAgenda();
+
+            } catch (e) { console.error(e); }
+        }
+
+        function renderAgenda() {
+            const filter = document.getElementById('filter-tasks').value;
+            const container = document.getElementById('agenda-container');
+            const filtered = filter === "Tous" ? upcomingTasks : upcomingTasks.filter(t => t.type === filter);
+            
+            if (filtered.length === 0) {
+                container.innerHTML = "<p style='color:#666; text-align:center; padding:40px;'>Aucune tâche trouvée pour ce filtre.</p>";
+                return;
+            }
+
+            let html = "";
+            let currentMonthYear = "";
+
+            filtered.forEach(u => {
+                const monthYear = u.date.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }).toUpperCase();
                 
-                if (upcoming.length === 0) {
-                    container.innerHTML = "<p style='color:#666; text-align:center; padding:40px;'>Aucune action à venir. Enregistrez un semis pour générer vos prévisions.</p>";
-                    return;
+                if (monthYear !== currentMonthYear) {
+                    if (currentMonthYear !== "") html += `</div>`;
+                    currentMonthYear = monthYear;
+                    html += `<div class="month-separator">${currentMonthYear}</div><div class="timeline">`;
                 }
 
-                let html = "";
-                let currentMonthYear = "";
+                html += `
+                    <div class="event-card">
+                        <div class="event-date">${u.date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}</div>
+                        <span class="event-title">${u.task}</span>
+                        <span class="event-subtitle">${u.plant}</span>
+                    </div>
+                `;
+            });
 
-                upcoming.forEach(u => {
-                    // Détection du changement de mois pour insérer le séparateur
-                    const monthYear = u.date.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }).toUpperCase();
-                    
-                    if (monthYear !== currentMonthYear) {
-                        if (currentMonthYear !== "") html += `</div>`; // Ferme la timeline précédente
-                        currentMonthYear = monthYear;
-                        html += `<div class="month-separator">${currentMonthYear}</div>`;
-                        html += `<div class="timeline">`; // Ouvre une nouvelle timeline pour le mois
-                    }
-
-                    html += `
-                        <div class="event-card">
-                            <div class="event-date">${u.date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}</div>
-                            <span class="event-title">${u.task}</span>
-                            <span class="event-subtitle">${u.plant}</span>
-                        </div>
-                    `;
-                });
-
-                html += `</div>`; // Fermeture finale
-                container.innerHTML = html;
-
-            } catch (e) { 
-                console.error(e);
-                document.getElementById('agenda-container').innerHTML = "<p style='color:red; text-align:center;'>Erreur de chargement des données.</p>";
-            }
+            html += `</div>`;
+            container.innerHTML = html;
         }
-        window.onload = load;
+
+        window.onload = loadData;
     </script>
 </body>
 </html>
