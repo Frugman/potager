@@ -6,33 +6,29 @@
     <title>Mon Potager - Dashboard</title>
     <style>
         :root { --bg: #000000; --card-bg: #1a1a1a; --text: #ffffff; --accent: #4CAF50; --border: #333; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 100px; }
-        
-        /* Module Action Express */
-        #action-express { background: #111; padding: 20px; border-bottom: 2px solid var(--border); margin-bottom: 20px; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 100px; font-size: 16px; }
         h2 { font-size: 14px; color: var(--accent); margin-top: 0; text-transform: uppercase; letter-spacing: 1px; }
         
-        select, input { width: 100%; padding: 15px; background: #000; color: #fff; border: 1px solid var(--border); border-radius: 10px; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; }
-        
+        /* Formulaires */
+        select, input, textarea { width: 100%; padding: 15px; background: #000; color: #fff; border: 1px solid var(--border); border-radius: 10px; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; outline: none; }
+        textarea { font-family: inherit; resize: none; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; color: #aaa; }
+
+        /* Action Express */
+        #action-express { background: #111; padding: 20px; border-bottom: 2px solid var(--border); margin-bottom: 20px; }
         .type-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; }
-        .type-btn { padding: 12px; background: #222; border: 1px solid var(--border); border-radius: 8px; color: #fff; font-weight: bold; cursor: pointer; text-align: center; }
+        .type-btn { padding: 15px; background: #222; border: 1px solid var(--border); border-radius: 12px; color: #fff; font-weight: bold; cursor: pointer; text-align: center; min-height: 44px; }
         .type-btn.active { background: var(--accent); border-color: var(--accent); }
+        .save-action-btn { width: 100%; padding: 20px; background: var(--accent); color: #fff; border: none; border-radius: 15px; font-weight: bold; font-size: 18px; cursor: pointer; }
 
-        #dynamic-fields { background: #080808; padding: 15px; border-radius: 12px; border: 1px dashed #444; margin-bottom: 15px; display: none; }
-        .save-action-btn { width: 100%; padding: 18px; background: var(--accent); color: #fff; border: none; border-radius: 12px; font-weight: bold; font-size: 18px; }
-
-        /* Répertoire */
-        .header { padding: 0 20px 10px; }
-        .search-bar { width: 100%; padding: 15px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; color: #fff; font-size: 16px; box-sizing: border-box; }
-        .grid { padding: 0 20px; display: grid; gap: 12px; }
-        .card { background: var(--card-bg); border-radius: 12px; padding: 15px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .card h3 { margin: 0; font-size: 18px; }
-        .card p { margin: 4px 0 0; font-size: 14px; }
-
+        /* Widgets */
+        .widget { padding: 0 20px 20px; }
+        .card { background: var(--card-bg); border-radius: 16px; padding: 15px; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; }
+        
         /* Nav */
-        .nav-bar { position: fixed; bottom: 0; width: 100%; height: 80px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
+        .nav-bar { position: fixed; bottom: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
         .nav-item { color: #fff; text-decoration: none; font-size: 12px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
-        .nav-icon { font-size: 28px; margin-bottom: 2px; }
+        .nav-icon { font-size: 30px; }
         .active-nav { color: var(--accent); }
         .hidden { display: none; }
     </style>
@@ -42,7 +38,11 @@
     <section id="action-express">
         <h2>🌱 Action Express</h2>
         
-        <select id="select-seed"><option value="">Choisir une semence...</option></select>
+        <label>Semence concernée</label>
+        <select id="select-seed"><option value="">Choisir...</option></select>
+
+        <label>Date de l'action</label>
+        <input type="date" id="val-date">
 
         <div class="type-grid">
             <div class="type-btn" onclick="selectAction(this, 'Semis')">Semis</div>
@@ -51,47 +51,51 @@
             <div class="type-btn" onclick="selectAction(this, 'Récolte')">Récolte</div>
         </div>
 
-        <div id="dynamic-fields">
+        <div id="dynamic-fields" class="hidden">
+            <div id="field-emplacement" class="hidden">
+                <label>Emplacement</label>
+                <select id="val-emplacement">
+                    <option value="Serre intérieure">Serre intérieure</option>
+                    <option value="Serre extérieure">Serre extérieure</option>
+                </select>
+            </div>
+
             <div id="field-contenant" class="hidden">
                 <label>Contenant</label>
                 <select id="val-contenant">
                     <option>Plaque 40 alvéoles</option><option>Godet 7cm</option><option>Godet 9cm</option><option>Sac 5cm</option><option>Sac 10cm</option>
                 </select>
             </div>
+
             <div id="field-bac" class="hidden">
                 <label>Bac de destination</label>
                 <select id="val-bac">
                     <option>Bac A</option><option>Bac B</option><option>Bac C</option><option>Bac D</option><option>Bac E</option>
                 </select>
-                <label style="display:flex; align-items:center; margin-top:10px;">
-                    <input type="checkbox" id="val-filet" style="width:20px; height:20px; margin-right:10px;"> Sous filet ?
+                <label style="display:flex; align-items:center; margin-top:10px; color:#fff;">
+                    <input type="checkbox" id="val-filet" style="width:25px; height:25px; margin-right:15px;"> Sous filet ?
                 </label>
             </div>
-            <label id="label-qte" style="display:block; margin-top:10px;">Quantité</label>
-            <input type="number" id="val-qte" placeholder="Nombre / Grammes">
+
+            <label id="label-qte">Quantité</label>
+            <input type="number" id="val-qte" placeholder="Nombre">
+
+            <label>Note libre</label>
+            <textarea id="val-note" rows="2" placeholder="Une observation ?"></textarea>
             
             <button class="save-action-btn" id="btnSaveAction" onclick="saveJournalAction()">ENREGISTRER</button>
         </div>
     </section>
 
-    <section style="padding: 20px;">
-    <h2>📅 Agenda (7 prochains jours)</h2>
-    <div id="agenda-mini" style="background: #111; border-radius: 12px; padding: 15px; border: 1px solid #333; font-size: 14px;">
-        <p style="color:#666; margin:0;">Vérification des semis en cours...</p>
+    <div class="widget">
+        <h2>📅 Agenda (7j)</h2>
+        <div id="agenda-mini" class="card" style="font-size:14px; color:#aaa;">Chargement de l'agenda...</div>
     </div>
-    </section>
-    
-    <section style="padding: 0 20px 20px;">
-        <h2>📝 Dernières Notes</h2>
-        <div id="last-notes" class="grid" style="padding:0;">
-            <p style="color:#666;">Chargement des notes...</p>
-        </div>
-    </section>
 
-    <div class="header">
-        <input type="text" class="search-bar" placeholder="Rechercher dans mes graines..." id="searchInput">
+    <div class="widget">
+        <h2>📝 Dernières Notes</h2>
+        <div id="last-notes"></div>
     </div>
-    <div id="seedGrid" class="grid"></div>
 
     <nav class="nav-bar">
         <a href="index.html" class="nav-item active-nav"><span class="nav-icon">🏠</span>Accueil</a>
@@ -103,70 +107,52 @@
     <script>
         let allSemences = [];
         let currentAction = "";
-        const user = localStorage.getItem('gh_user');
-        const repo = localStorage.getItem('gh_repo');
-        const token = localStorage.getItem('gh_token');
+        const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
 
-        // 1. CHARGEMENT
         async function init() {
             if (!token) return;
+            document.getElementById('val-date').valueAsDate = new Date();
             try {
-                const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
+                const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
                 const data = await res.json();
                 allSemences = JSON.parse(decodeURIComponent(escape(atob(data.content))));
-                
-                // Remplir le sélecteur
                 const select = document.getElementById('select-seed');
                 allSemences.forEach(s => {
                     select.innerHTML += `<option value="${s.id}">${s.identite.nom_commun} (${s.identite.variete})</option>`;
                 });
-                
-                renderSeeds(allSemences);
+                loadWidgets();
             } catch (e) { console.error(e); }
         }
 
-        function renderSeeds(data) {
-            const grid = document.getElementById('seedGrid');
-            grid.innerHTML = data.map(s => `
-                <div class="card" onclick="window.location.href='fiche-semence.html?id=${s.id}'">
-                    <div><h3>${s.identite.nom_commun}</h3><p>${s.identite.variete}</p></div>
-                    <span class="tag-provenance">${s.identite.provenance || 'N/C'}</span>
-                </div>
-            `).join('');
-        }
-
-        // 2. LOGIQUE ACTION EXPRESS
         function selectAction(btn, type) {
             document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentAction = type;
-            
-            document.getElementById('dynamic-fields').style.display = 'block';
-            document.getElementById('field-contenant').classList.toggle('hidden', !['Semis', 'Repiquage'].includes(type));
+            document.getElementById('dynamic-fields').classList.remove('hidden');
+            const isSeedAction = (type === 'Semis' || type === 'Repiquage');
+            document.getElementById('field-emplacement').classList.toggle('hidden', !isSeedAction);
+            document.getElementById('field-contenant').classList.toggle('hidden', !isSeedAction);
             document.getElementById('field-bac').classList.toggle('hidden', type !== 'Plantation');
-            document.getElementById('label-qte').innerText = (type === 'Récolte') ? 'Poids / Quantité' : 'Nombre de plants/graines';
+            document.getElementById('label-qte').innerText = (type === 'Récolte') ? 'Poids / Quantité récoltée' : 'Nombre de plants/graines';
         }
 
         async function saveJournalAction() {
             const seedId = document.getElementById('select-seed').value;
-            if (!seedId || !currentAction) { alert("Sélectionne une plante et une action !"); return; }
-
+            if (!seedId || !currentAction) { alert("Champs manquants !"); return; }
             const btn = document.getElementById('btnSaveAction');
-            btn.innerText = "⏳ ENREGISTREMENT...";
-            btn.disabled = true;
+            btn.innerText = "⏳..."; btn.disabled = true;
 
-            // ON AJOUTE UN ID UNIQUE (TIMESTAMP) ICI
             const entry = {
-                id: Date.now(), 
-                date: new Date().toISOString().split('T')[0],
+                id: Date.now(),
+                date: document.getElementById('val-date').value,
                 seedId: seedId,
                 action: currentAction,
-                quantite: document.getElementById('val-qte').value
+                quantite: document.getElementById('val-qte').value,
+                note: document.getElementById('val-note').value
             };
 
             if (currentAction === 'Semis' || currentAction === 'Repiquage') {
+                entry.emplacement = document.getElementById('val-emplacement').value;
                 entry.contenant = document.getElementById('val-contenant').value;
             } else if (currentAction === 'Plantation') {
                 entry.bac = document.getElementById('val-bac').value;
@@ -177,47 +163,27 @@
                 const url = `https://api.github.com/repos/${user}/${repo}/contents/journal.json`;
                 const getRes = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
                 const fileData = await getRes.json();
-                const sha = fileData.sha;
                 let journal = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
-
                 journal.push(entry);
-
                 const putRes = await fetch(url, {
                     method: 'PUT',
                     headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        message: `Journal : ${currentAction} de ${seedId}`,
-                        content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))),
-                        sha: sha
-                    })
+                    body: JSON.stringify({ message: `Note : ${currentAction} ${seedId}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: fileData.sha })
                 });
-
-                if (putRes.ok) { alert("✅ Action notée !"); location.reload(); }
-            } catch (e) { alert("Erreur : " + e.message); btn.disabled = false; }
+                if (putRes.ok) location.reload();
+            } catch (e) { alert(e.message); btn.disabled = false; }
         }
 
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const val = e.target.value.toLowerCase();
-            renderSeeds(allSemences.filter(s => s.identite.nom_commun.toLowerCase().includes(val) || s.identite.variete.toLowerCase().includes(val)));
-        });
-
         async function loadWidgets() {
-        // 1. Widget Notes (Journal)
-        const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
-        const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
-        const last3 = journal.reverse().slice(0, 3);
-        
-        document.getElementById('last-notes').innerHTML = last3.map(n => `
-            <div class="card" style="padding:10px; margin-bottom:8px; font-size:13px;">
-                <div><b>${n.date}</b> - ${n.action} de ${n.seedId}</div>
-            </div>
-        `).join('');
-    
-        // 2. Widget Agenda (Logique simplifiée pour 2026)
-        // Ici on pourrait comparer la date actuelle avec les periode_semis de semences.json
-        document.getElementById('agenda-mini').innerHTML = `Semaine du ${new Date().toLocaleDateString('fr-FR')}: Préparez vos semis de tomates et poivrons ! [cite: 14]`;
-    }
-    // Appelle loadWidgets() à la fin de ton window.onload
+            const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const journal = JSON.parse(decodeURIComponent(escape(atob((await res.json()).content))));
+            const last3 = journal.slice(-3).reverse();
+            document.getElementById('last-notes').innerHTML = last3.map(n => `
+                <div class="card" onclick="window.location.href='modifier-journal.html?id=${n.id}'">
+                    <b style="color:var(--accent)">${n.date}</b> - ${n.action} : ${n.seedId}
+                </div>`).join('');
+            document.getElementById('agenda-mini').innerText = "Semis de mars : Tomates, Poivrons, Aubergines en serre intérieure.";
+        }
 
         window.onload = init;
     </script>
