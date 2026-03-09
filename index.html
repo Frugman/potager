@@ -137,21 +137,32 @@
 
         async function saveJournalAction() {
             const seedId = document.getElementById('select-seed').value;
-            if (!seedId || !currentAction) { alert("Sélectionne une plante et une action !"); return; }
+            if (!seedId || !currentAction) { 
+                alert("Sélectionne une plante et une action !"); 
+                return; 
+            }
 
             const btn = document.getElementById('btnSaveAction');
             btn.innerText = "⏳ ENREGISTREMENT...";
             btn.disabled = true;
 
+            // 1. On crée la base commune à toutes les actions
             const entry = {
                 date: new Date().toISOString().split('T')[0],
                 seedId: seedId,
                 action: currentAction,
-                contenant: document.getElementById('val-contenant').value,
-                bac: document.getElementById('val-bac').value,
-                filet: document.getElementById('val-filet').checked,
                 quantite: document.getElementById('val-qte').value
             };
+
+            // 2. On ajoute les détails uniquement si c'est pertinent
+            if (currentAction === 'Semis' || currentAction === 'Repiquage') {
+                entry.contenant = document.getElementById('val-contenant').value;
+            } 
+            else if (currentAction === 'Plantation') {
+                entry.bac = document.getElementById('val-bac').value;
+                entry.filet = document.getElementById('val-filet').checked;
+            }
+            // Pour 'Récolte', on garde juste la base (date, graine, action, quantité)
 
             try {
                 const url = `https://api.github.com/repos/${user}/${repo}/contents/journal.json`;
@@ -176,7 +187,11 @@
                     alert("✅ Action notée au journal !");
                     location.reload();
                 }
-            } catch (e) { alert("Erreur : " + e.message); btn.disabled = false; }
+            } catch (e) { 
+                alert("Erreur : " + e.message); 
+                btn.disabled = false; 
+                btn.innerText = "ENREGISTRER";
+            }
         }
 
         document.getElementById('searchInput').addEventListener('input', (e) => {
