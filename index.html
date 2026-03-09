@@ -127,35 +127,47 @@
     </nav>
 
     <script>
-        const semences = [
-            { id: 1, nom: "Rose de Berne", type: "Tomate", famille: "Solanacées" },
-            { id: 2, nom: "Nantaise améliorée", type: "Carotte", famille: "Apiacées" },
-            { id: 3, nom: "Grand Vert", type: "Basilic", famille: "Lamiacées" }
-        ];
-
-        function renderSeeds(filter = "") {
-            const grid = document.getElementById('seedGrid');
+        async function loadAndRenderSeeds() {
+        const grid = document.getElementById('seedGrid');
+        const user = localStorage.getItem('gh_user');
+        const repo = localStorage.getItem('gh_repo');
+        const token = localStorage.getItem('gh_token');
+    
+        if (!user || !repo) {
+            grid.innerHTML = "<p style='padding:20px;'>⚠️ Configurez les paramètres pour voir vos semences.</p>";
+            return;
+        }
+    
+        try {
+            const url = `https://api.github.com/repos/${user}/${repo}/contents/semences.json`;
+            const res = await fetch(url, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            const data = await res.json();
+            // Décodage du contenu GitHub
+            const semences = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+    
             grid.innerHTML = "";
-            const filtered = semences.filter(s => 
-                s.nom.toLowerCase().includes(filter.toLowerCase()) || 
-                s.type.toLowerCase().includes(filter.toLowerCase())
-            );
-            filtered.forEach(s => {
+            semences.forEach(s => {
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.innerHTML = `
                     <div class="card-info">
-                        <h3>${s.nom}</h3>
-                        <p>${s.type}</p>
+                        <h3>${s.identite.nom_commun}</h3>
+                        <p>${s.identite.variete}</p>
                     </div>
-                    <span class="tag-famille">${s.famille}</span>
+                    <span class="tag-famille">${s.identite.provenance}</span>
                 `;
                 grid.appendChild(card);
             });
+        } catch (e) {
+            grid.innerHTML = "<p style='padding:20px;'>❌ Erreur de chargement : " + e.message + "</p>";
         }
-
-        document.getElementById('searchInput').addEventListener('input', (e) => renderSeeds(e.target.value));
-        renderSeeds();
+    }
+    
+    // Lancer le chargement
+    loadAndRenderSeeds();
     </script>
 </body>
 </html>
