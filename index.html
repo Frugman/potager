@@ -6,29 +6,32 @@
     <title>Mon Potager - Dashboard</title>
     <style>
         :root { --bg: #000000; --card-bg: #1a1a1a; --text: #ffffff; --accent: #4CAF50; --border: #333; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 110px; font-size: 16px; } /* CDC 5.0 [cite: 28] */
+        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 110px; font-size: 16px; } /* CDC 5.0 */
         
-        /* En-tête */
         header { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: #000; }
         header h1 { margin: 0; font-size: 22px; }
         .settings-link { text-decoration: none; font-size: 24px; padding: 5px; }
 
-        /* Formulaires Action Express [cite: 15] */
+        /* Action Express (CDC 3.3) */
         #action-express { background: #111; padding: 20px; border-bottom: 2px solid var(--border); }
         select, input, textarea { width: 100%; padding: 15px; background: #000; color: #fff; border: 1px solid var(--border); border-radius: 10px; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; outline: none; }
-        input[type="date"] { font-weight: bold; border-color: var(--accent); } /* CDC 3.3 [cite: 21] */
+        input[type="date"] { font-weight: bold; border-color: var(--accent); }
         label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 13px; color: var(--accent); text-transform: uppercase; }
         .type-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; }
-        .type-btn { padding: 15px; background: #222; border: 1px solid var(--border); border-radius: 12px; color: #fff; font-weight: bold; text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } /* CDC 5.0 [cite: 29] */
+        .type-btn { padding: 15px; background: #222; border: 1px solid var(--border); border-radius: 12px; color: #fff; font-weight: bold; text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } /* CDC 5.0 */
         .type-btn.active { background: var(--accent); border-color: var(--accent); }
         .save-action-btn { width: 100%; padding: 20px; background: var(--accent); color: #fff; border: none; border-radius: 15px; font-weight: bold; font-size: 18px; cursor: pointer; }
 
-        /* Widgets */
+        /* Widgets (CDC 3.3 & 5.0) */
         .widget { padding: 20px 20px 0; }
-        .widget h2 { font-size: 14px; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px; }
+        .widget h2 { font-size: 14px; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px; display: flex; align-items: center; justify-content: space-between; }
         .card { background: var(--card-bg); border-radius: 16px; padding: 15px; border: 1px solid var(--border); margin-bottom: 10px; }
 
-        /* Météo [cite: 27] */
+        /* Lien discret Météo France */
+        .external-link { font-size: 10px; color: #666; text-decoration: none; font-weight: normal; text-transform: none; border: 1px solid #333; padding: 2px 6px; border-radius: 4px; }
+        .external-link:active { background: #222; }
+
+        /* Météo Scrollable */
         .weather-scroll { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px; scrollbar-width: none; }
         .weather-scroll::-webkit-scrollbar { display: none; }
         .weather-day { min-width: 80px; background: #111; padding: 12px; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
@@ -36,22 +39,15 @@
         .weather-icon { font-size: 24px; margin: 8px 0; display: block; }
         .weather-temp { font-size: 14px; font-weight: bold; }
 
-        /* Agenda Urgent  */
+        /* Agenda & Notes */
         .urgent-tag { color: var(--accent); font-weight: bold; font-size: 12px; margin-bottom: 4px; display: block; }
         .urgent-title { font-size: 15px; font-weight: bold; display: block; }
         .urgent-subtitle { font-size: 13px; color: #888; }
-
-        /* Design "SaaS" pour les notes  */
         .note-card { border-left: 4px solid var(--accent); }
-        .note-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-        .note-date { font-size: 11px; color: #777; font-weight: bold; }
-        .note-action { font-size: 14px; font-weight: bold; color: var(--accent); }
-        .note-plant { font-size: 16px; font-weight: bold; margin-bottom: 4px; }
-        .note-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
-        .badge { background: #222; padding: 4px 8px; border-radius: 6px; font-size: 11px; color: #bbb; border: 1px solid #333; }
-        .note-text { font-size: 13px; color: #aaa; font-style: italic; line-height: 1.4; }
+        .note-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 11px; }
+        .badge { background: #222; padding: 4px 8px; border-radius: 6px; font-size: 11px; color: #bbb; margin-right: 5px; border: 1px solid #333; }
 
-        /* Nav Bar  */
+        /* Nav Bar (CDC 5.0) */
         .nav-bar { position: fixed; bottom: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
         .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
         .nav-icon { font-size: 26px; margin-bottom: 2px; }
@@ -67,9 +63,9 @@
     </header>
 
     <section id="action-express">
-        <label>Semence concernée</label>
+        <label>Semence</label>
         <select id="select-seed"><option value="">Choisir...</option></select>
-        <label>Date de l'action</label>
+        <label>Date</label>
         <input type="date" id="val-date">
         <div class="type-grid">
             <div class="type-btn" onclick="selectAction(this, 'Semis')">Semis</div>
@@ -79,38 +75,43 @@
         </div>
         <div id="dynamic-fields" class="hidden">
             <div id="fields-semis" class="hidden">
-                <label>Emplacement [cite: 17]</label>
+                <label>Emplacement</label>
                 <select id="val-emplacement">
                     <option value="Serre intérieure">Serre intérieure</option>
                     <option value="Serre extérieure">Serre extérieure</option>
                 </select>
-                <label>Contenant [cite: 18]</label>
+                <label>Contenant</label>
                 <select id="val-contenant">
                     <option>Plaque 40 alvéoles</option><option>Godet 7cm</option><option>Godet 9cm</option><option>Sac 5cm</option><option>Sac 10cm</option>
                 </select>
             </div>
             <div id="fields-plantation" class="hidden">
-                <label>Bac de destination [cite: 19]</label>
+                <label>Destination</label>
                 <select id="val-bac" onchange="document.getElementById('val-bac-autre').classList.toggle('hidden', this.value !== 'Autre')">
                     <option>Bac A</option><option>Bac B</option><option>Bac C</option><option>Bac D</option><option>Bac E</option>
-                    <option value="Autre">Autre (préciser...)</option>
+                    <option value="Autre">Autre...</option>
                 </select>
                 <input type="text" id="val-bac-autre" class="hidden" placeholder="Où plantez-vous ?">
-                <label style="display:flex; align-items:center; margin-top:10px; text-transform:none; color:#fff;">
-                    <input type="checkbox" id="val-filet" style="width:25px; height:25px; margin-right:15px;"> Sous filet ? [cite: 19]
+                <label style="display:flex; align-items:center; margin-top:10px; color:#fff; text-transform:none;">
+                    <input type="checkbox" id="val-filet" style="width:25px; height:25px; margin-right:15px;"> Sous filet ?
                 </label>
             </div>
-            <label id="label-qte">Quantité / Nombre [cite: 20]</label>
+            <label id="label-qte">Quantité</label>
             <input type="number" id="val-qte">
-            <label>Notes libres [cite: 11]</label>
+            <label>Notes</label>
             <textarea id="val-note" rows="2"></textarea>
             <button class="save-action-btn" id="btnSaveAction" onclick="saveJournalAction()">ENREGISTRER</button>
         </div>
     </section>
 
     <section class="widget">
-        <h2>🌤️ Météo (La Roche)</h2>
-        <div class="weather-scroll" id="weather-container"><p style="font-size:14px; color:#666;">Chargement...</p></div>
+        <h2>
+            🌤️ Météo (La Roche)
+            <a href="https://meteofrance.com/previsions-meteo-france/la-roche-sur-yon/85000" target="_blank" class="external-link">Météo France ↗</a>
+        </h2>
+        <div class="weather-scroll" id="weather-container">
+            <p style="font-size:14px; color:#666;">Chargement du ciel...</p>
+        </div>
     </section>
 
     <section class="widget">
@@ -120,7 +121,7 @@
 
     <div class="widget" style="padding-bottom:20px;">
         <h2>📝 Dernières Notes</h2>
-        <div id="last-notes"><p style="font-size:14px; color:#666;">Récupération du journal...</p></div>
+        <div id="last-notes"></div>
     </div>
 
     <nav class="nav-bar">
@@ -156,13 +157,12 @@
                 const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=46.6705&longitude=-1.426&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=Europe%2FParis");
                 const data = await res.json();
                 const container = document.getElementById('weather-container');
-                const weatherIcons = { 0: "☀️", 1: "🌤️", 2: "⛅", 3: "☁️", 45: "🌫️", 51: "🌦️", 61: "🌧️", 71: "❄️", 80: "⛈️", 95: "⚡" };
+                const icons = { 0: "☀️", 1: "🌤️", 2: "⛅", 3: "☁️", 45: "🌫️", 51: "🌦️", 61: "🌧️", 71: "❄️", 80: "⛈️", 95: "⚡" };
                 let html = "";
                 for (let i = 0; i < 7; i++) {
                     const date = new Date(data.daily.time[i]);
-                    const dayName = i === 0 ? "Auj." : date.toLocaleDateString('fr-FR', { weekday: 'short' });
-                    const code = data.daily.weathercode[i];
-                    html += `<div class="weather-day"><b>${dayName}</b><span class="weather-icon">${weatherIcons[code] || "☀️"}</span><div class="weather-temp">${Math.round(data.daily.temperature_2m_max[i])}°</div><div style="font-size:10px; color:#666">${Math.round(data.daily.temperature_2m_min[i])}°</div></div>`;
+                    const day = i === 0 ? "Auj." : date.toLocaleDateString('fr-FR', { weekday: 'short' });
+                    html += `<div class="weather-day"><b>${day}</b><span class="weather-icon">${icons[data.daily.weathercode[i]] || "☀️"}</span><div class="weather-temp">${Math.round(data.daily.temperature_2m_max[i])}°</div><div style="font-size:10px; color:#666">${Math.round(data.daily.temperature_2m_min[i])}°</div></div>`;
                 }
                 container.innerHTML = html;
             } catch (e) { document.getElementById('weather-container').innerHTML = "Météo indisponible"; }
@@ -200,26 +200,11 @@
             try {
                 const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
                 const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
-                
-                // 1. Dernières Notes Enrichies 
-                const last3 = journal.slice(-3).reverse();
-                document.getElementById('last-notes').innerHTML = last3.map(n => {
+                document.getElementById('last-notes').innerHTML = journal.slice(-3).reverse().map(n => {
                     const s = allSemences.find(i => i.id === n.seedId) || { identite: { nom_commun: n.seedId, variete: "" } };
-                    const loc = n.bac || n.emplacement || "-";
-                    return `
-                    <div class="card note-card" onclick="window.location.href='modifier-journal.html?id=${n.id}'">
-                        <div class="note-header"><span class="note-action">${n.action}</span><span class="note-date">${n.date}</span></div>
-                        <div class="note-plant">${s.identite.nom_commun} - ${s.identite.variete}</div>
-                        <div class="note-meta">
-                            <span class="badge">📍 ${loc}</span>
-                            <span class="badge">🔢 Qté: ${n.quantite || 0}</span>
-                            ${n.filet ? '<span class="badge">🕸️ Sous filet</span>' : ''}
-                        </div>
-                        ${n.note ? `<div class="note-text">"${n.note.substring(0, 80)}${n.note.length > 80 ? '...' : ''}"</div>` : ''}
-                    </div>`;
+                    return `<div class="card note-card" onclick="window.location.href='modifier-journal.html?id=${n.id}'"><div class="note-header"><b>${n.action}</b><span>${n.date}</span></div><div>${s.identite.nom_commun} - ${s.identite.variete}</div><div style="margin-top:8px;"><span class="badge">📍 ${n.bac || n.emplacement || '-'}</span><span class="badge">🔢 ${n.quantite || 0}</span></div></div>`;
                 }).join('');
 
-                // 2. Agenda 7 jours
                 const today = new Date(); today.setHours(0,0,0,0);
                 const limit = new Date(today); limit.setDate(today.getDate() + 7);
                 let urgent = [];
@@ -229,7 +214,7 @@
                         if (!seed || !seed.delais) return;
                         const dSemis = new Date(entry.date);
                         const addD = (d, n) => { let r = new Date(d); r.setDate(r.getDate() + n); return r; };
-                        const steps = [{ d: addD(dSemis, seed.delais.levee), t: "🌱 Levée attendue" }, { d: addD(addD(dSemis, seed.delais.levee), seed.delais.repiquage), t: "🪴 Repiquage" }, { d: addD(addD(addD(dSemis, seed.delais.levee), seed.delais.repiquage), seed.delais.plantation), t: "🚜 Plantation" }, { d: addD(addD(addD(addD(dSemis, seed.delais.levee), seed.delais.repiquage), seed.delais.plantation), seed.delais.maturite), t: "🧺 Récolte" }];
+                        const steps = [{ d: addD(dSemis, seed.delais.levee), t: "🌱 Levée" }, { d: addD(addD(dSemis, seed.delais.levee), seed.delais.repiquage), t: "🪴 Repiquage" }, { d: addD(addD(addD(dSemis, seed.delais.levee), seed.delais.repiquage), seed.delais.plantation), t: "🚜 Plantation" }, { d: addD(addD(addD(addD(dSemis, seed.delais.levee), seed.delais.repiquage), seed.delais.plantation), seed.delais.maturite), t: "🧺 Récolte" }];
                         steps.forEach(s => { if (s.d >= today && s.d <= limit) urgent.push({ ...s, p: `${seed.identite.nom_commun} - ${seed.identite.variete}` }); });
                     }
                 });
