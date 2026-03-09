@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mes Bacs - Plan de Culture</title>
+    <style>
+        :root {
+            --bg: #000000;
+            --card-bg: #1a1a1a;
+            --text: #ffffff;
+            --accent: #4CAF50;
+            --border: #333;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        header { margin-bottom: 25px; }
+        h1 { font-size: 24px; margin: 0; }
+
+        /* Conteneur des Bacs */
+        .bacs-container { display: flex; flex-direction: column; gap: 25px; }
+
+        .bac-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 2px solid var(--border);
+            overflow: hidden;
+        }
+
+        .bac-header {
+            background: #222;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .bac-content { padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+
+        /* Style des plantes dans le bac */
+        .plant-item {
+            background: #000;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .plant-info h4 { margin: 0; font-size: 16px; color: var(--accent); }
+        .plant-info p { margin: 2px 0 0; font-size: 13px; color: #bbb; }
+
+        .plant-meta { text-align: right; }
+        .qty-tag { font-weight: bold; font-size: 14px; color: #fff; }
+        .net-icon { font-size: 18px; margin-left: 5px; }
+
+        .empty-msg { color: #666; font-style: italic; font-size: 14px; text-align: center; padding: 10px; }
+
+        /* Nav Bar */
+        .nav-bar {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 85px;
+            background: #111; border-top: 2px solid var(--border);
+            display: flex; justify-content: space-around; align-items: center; z-index: 100;
+        }
+        .nav-item { color: #fff; text-decoration: none; font-size: 12px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
+        .nav-icon { font-size: 30px; margin-bottom: 2px; }
+        .active-nav { color: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🍱 Mes Bacs</h1>
+    </header>
+
+    <div id="bacsList" class="bacs-container">
+        </div>
+
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Accueil</a>
+        <a href="bacs.html" class="nav-item active-nav"><span class="nav-icon">🍱</span>Bacs</a>
+        <a href="journal.html" class="nav-item"><span class="nav-icon">📖</span>Journal</a>
+        <a href="parametres.html" class="nav-item"><span class="nav-icon">⚙️</span>Réglages</a>
+    </nav>
+
+    <script>
+        const user = localStorage.getItem('gh_user');
+        const repo = localStorage.getItem('gh_repo');
+        const token = localStorage.getItem('gh_token');
+        const bacs = ["Bac A", "Bac B", "Bac C", "Bac D", "Bac E"];
+
+        async function loadBacs() {
+            try {
+                // 1. Charger les semences pour les noms
+                const resSeeds = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const seedsData = await resSeeds.json();
+                const semences = JSON.parse(decodeURIComponent(escape(atob(seedsData.content))));
+                const seedMap = {};
+                semences.forEach(s => seedMap[s.id] = s.identite);
+
+                // 2. Charger le journal
+                const resJournal = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const journalData = await resJournal.json();
+                const journal = JSON.parse(decodeURIComponent(escape(atob(journalData.content))));
+
+                renderBacs(journal, seedMap);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function renderBacs(journal, seedMap) {
+            const container = document.getElementById('bacsList');
+            container.innerHTML = "";
+
+            bacs.forEach(bacName => {
+                // On filtre les plantations pour ce bac précis
+                const plantés = journal.filter(e => e.action === 'Plantation' && e.bac === bacName);
+
+                const bacCard = document.createElement('div');
+                bacCard.className = 'bac-card';
+                
+                let contentHtml = plantés.length > 0 ? "" : '<p class="empty-msg">Rien de planté pour le moment.</p>';
+                
+                plantés.forEach(p => {
+                    const info = seedMap[p.seedId] || { nom_commun: "Inconnu", variete: "?" };
+                    contentHtml += `
+                        <div class="plant-item">
+                            <div class="plant-info">
+                                <h4>${info.nom_commun}</h4>
+                                <p>${info.variete}</p>
+                            </div>
+                            <div class="plant-meta">
+                                <span class="qty-tag">x${p.quantite || 0}</span>
+                                ${p.filet ? '<span class="net-icon">🕸️</span>' : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                bacCard.innerHTML = `
+                    <div class="bac-header">
+                        <span>${bacName}</span>
+                        <span style="font-size:12px; color:#666;">${plantés.length} culture(s)</span>
+                    </div>
+                    <div class="bac-content">${contentHtml}</div>
+                `;
+                container.appendChild(bacCard);
+            });
+        }
+
+        window.onload = loadBacs;
+    </script>
+</body>
+</html>
