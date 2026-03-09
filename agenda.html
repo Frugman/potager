@@ -6,22 +6,67 @@
     <title>Mon Agenda Dynamique</title>
     <style>
         :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #333; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; padding-bottom: 100px; font-size: 16px; }
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            padding-bottom: 100px; 
+            font-size: 16px; /* CDC 5.0 */
+        }
         header { margin-bottom: 25px; }
         h1 { font-size: 24px; margin: 0; }
         
-        .month-label { font-size: 14px; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        /* Séparateur de mois (Style Image) */
+        .month-separator { 
+            font-size: 18px; 
+            font-weight: bold; 
+            color: var(--accent); 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            margin: 30px 0 15px 0; 
+            padding-bottom: 10px; 
+            border-bottom: 1px solid #222; 
+        }
         
         .timeline { position: relative; padding-left: 20px; border-left: 2px solid #222; margin-left: 10px; }
-        .event-card { background: var(--card-bg); border-radius: 12px; padding: 15px; border: 1px solid var(--border); margin-bottom: 15px; position: relative; }
-        .event-card::before { content: ''; position: absolute; left: -27px; top: 20px; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 3px solid var(--bg); }
         
-        .event-date { font-size: 12px; font-weight: bold; color: var(--accent); margin-bottom: 5px; }
-        .event-title { font-size: 16px; font-weight: bold; display: block; }
-        .event-subtitle { font-size: 14px; color: #888; }
+        .event-card { 
+            background: var(--card-bg); 
+            border-radius: 12px; 
+            padding: 15px; 
+            border: 1px solid var(--border); 
+            margin-bottom: 15px; 
+            position: relative; 
+            min-height: 44px; /* Touch UI CDC 5.0 */
+        }
         
-        .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
-        .nav-item { color: #fff; text-decoration: none; font-size: 12px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
+        .event-card::before { 
+            content: ''; 
+            position: absolute; 
+            left: -27px; 
+            top: 20px; 
+            width: 12px; 
+            height: 12px; 
+            background: var(--accent); 
+            border-radius: 50%; 
+            border: 3px solid var(--bg); 
+        }
+        
+        .event-date { font-size: 13px; font-weight: bold; color: var(--accent); margin-bottom: 5px; }
+        .event-title { font-size: 17px; font-weight: bold; display: block; }
+        .event-subtitle { font-size: 14px; color: #888; margin-top: 2px; }
+        
+        /* Navigation Basse */
+        .nav-bar { 
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 85px; 
+            background: #111; border-top: 2px solid var(--border); 
+            display: flex; justify-content: space-around; align-items: center; z-index: 100; 
+        }
+        .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
+        .nav-icon { font-size: 26px; margin-bottom: 2px; }
+        .active-nav { color: var(--accent); }
     </style>
 </head>
 <body>
@@ -29,18 +74,26 @@
         <h1>📅 Agenda Prévisionnel</h1>
     </header>
 
-    <span class="month-label" id="current-month-view">Mars 2026</span>
-
-    <div id="agenda-content" class="timeline">
+    <div id="agenda-container">
         <p style="text-align:center; padding:40px; color:#666;">Calcul des prochaines étapes...</p>
     </div>
 
     <nav class="nav-bar">
-        <a href="index.html" class="nav-item active-nav"><span class="nav-icon">🏠</span>Accueil</a>
-        <a href="repertoire.html" class="nav-item"><span class="nav-icon">📚</span>Semences</a>
-        <a href="bacs.html" class="nav-item"><span class="nav-icon">🍱</span>Bacs</a>
-        <a href="agenda.html" class="nav-item"><span class="nav-icon">📅</span>Agenda</a>
-        <a href="journal.html" class="nav-item"><span class="nav-icon">📖</span>Journal</a>
+        <a href="index.html" class="nav-item">
+            <span class="nav-icon">🏠</span>Accueil
+        </a>
+        <a href="repertoire.html" class="nav-item">
+            <span class="nav-icon">📚</span>Semences
+        </a>
+        <a href="bacs.html" class="nav-item">
+            <span class="nav-icon">🍱</span>Bacs
+        </a>
+        <a href="agenda.html" class="nav-item active-nav">
+            <span class="nav-icon">📅</span>Agenda
+        </a>
+        <a href="journal.html" class="nav-item">
+            <span class="nav-icon">📖</span>Journal
+        </a>
     </nav>
 
     <script>
@@ -53,8 +106,9 @@
         }
 
         async function load() {
+            if (!token) return;
             try {
-                // 1. Charger les fiches et le journal
+                // Charger semences et journal [cite: 5, 6]
                 const resSeeds = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
                 const seeds = JSON.parse(decodeURIComponent(escape(atob((await resSeeds.json()).content))));
                 
@@ -62,23 +116,21 @@
                 const journal = JSON.parse(decodeURIComponent(escape(atob((await resJournal.json()).content))));
 
                 const today = new Date();
+                today.setHours(0,0,0,0);
                 let upcoming = [];
 
-                // 2. Moteur de calcul
+                // Moteur de calcul basé sur les délais de la fiche semence [cite: 9, 10, 24]
                 journal.forEach(entry => {
                     if (entry.action === 'Semis') {
                         const seed = seeds.find(s => s.id === entry.seedId);
                         if (!seed || !seed.delais) return;
 
-                        const dateSemis = new Date(entry.date);
-                        
-                        // Calcul des étapes
-                        const dLevee = addDays(dateSemis, seed.delais.levee);
+                        const dSemis = new Date(entry.date);
+                        const dLevee = addDays(dSemis, seed.delais.levee);
                         const dRepiquage = addDays(dLevee, seed.delais.repiquage);
                         const dPlantation = addDays(dRepiquage, seed.delais.plantation);
                         const dRecolte = addDays(dPlantation, seed.delais.maturite);
 
-                        // On n'ajoute que si la date est future
                         if (dLevee >= today) upcoming.push({ date: dLevee, task: "🌱 Levée attendue", plant: seed.identite.nom_commun });
                         if (dRepiquage >= today) upcoming.push({ date: dRepiquage, task: "🪴 Repiquage à faire", plant: seed.identite.nom_commun });
                         if (dPlantation >= today) upcoming.push({ date: dPlantation, task: "🚜 Plantation finale", plant: seed.identite.nom_commun });
@@ -86,24 +138,44 @@
                     }
                 });
 
-                // 3. Tri et Affichage
                 upcoming.sort((a, b) => a.date - b.date);
-                const container = document.getElementById('agenda-content');
+                const container = document.getElementById('agenda-container');
                 
                 if (upcoming.length === 0) {
-                    container.innerHTML = "<p style='color:#666'>Aucune action calculée. Enregistrez un semis pour voir les prévisions.</p>";
+                    container.innerHTML = "<p style='color:#666; text-align:center; padding:40px;'>Aucune action à venir. Enregistrez un semis pour générer vos prévisions.</p>";
                     return;
                 }
 
-                container.innerHTML = upcoming.map(u => `
-                    <div class="event-card">
-                        <div class="event-date">${u.date.toLocaleDateString('fr-FR', {day:'numeric', month:'long'})}</div>
-                        <span class="event-title">${u.task}</span>
-                        <span class="event-subtitle">${u.plant}</span>
-                    </div>
-                `).join('');
+                let html = "";
+                let currentMonthYear = "";
 
-            } catch (e) { console.error(e); }
+                upcoming.forEach(u => {
+                    // Détection du changement de mois pour insérer le séparateur
+                    const monthYear = u.date.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }).toUpperCase();
+                    
+                    if (monthYear !== currentMonthYear) {
+                        if (currentMonthYear !== "") html += `</div>`; // Ferme la timeline précédente
+                        currentMonthYear = monthYear;
+                        html += `<div class="month-separator">${currentMonthYear}</div>`;
+                        html += `<div class="timeline">`; // Ouvre une nouvelle timeline pour le mois
+                    }
+
+                    html += `
+                        <div class="event-card">
+                            <div class="event-date">${u.date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}</div>
+                            <span class="event-title">${u.task}</span>
+                            <span class="event-subtitle">${u.plant}</span>
+                        </div>
+                    `;
+                });
+
+                html += `</div>`; // Fermeture finale
+                container.innerHTML = html;
+
+            } catch (e) { 
+                console.error(e);
+                document.getElementById('agenda-container').innerHTML = "<p style='color:red; text-align:center;'>Erreur de chargement des données.</p>";
+            }
         }
         window.onload = load;
     </script>
