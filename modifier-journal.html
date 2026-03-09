@@ -6,29 +6,14 @@
     <title>Modifier Note</title>
     <style>
         :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #444; }
-        body { background: var(--bg); color: var(--text); font-family: sans-serif; padding: 20px; padding-bottom: 60px; }
+        body { background: var(--bg); color: var(--text); font-family: sans-serif; padding: 20px; padding-bottom: 60px; font-size: 16px; }
         section { background: var(--card-bg); padding: 20px; border-radius: 15px; border: 1px solid var(--border); margin-bottom: 20px; }
-        
         label { display: block; margin: 15px 0 8px; font-weight: bold; color: var(--accent); text-transform: uppercase; font-size: 13px;}
-        
-        /* DatePicker Amélioré */
-        input[type="date"] {
-            width: 100%;
-            padding: 18px;
-            background: #080808;
-            color: #fff;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: bold;
-            box-sizing: border-box;
-            appearance: none; /* Supprime le style par défaut sur certains mobiles */
-            -webkit-appearance: none;
-        }
-        
+        input[type="date"] { width: 100%; padding: 18px; background: #080808; color: #fff; border: 2px solid var(--border); border-radius: 12px; font-size: 18px; font-weight: bold; box-sizing: border-box; }
         input, select, textarea { width: 100%; padding: 15px; background: #000; color: #fff; border: 1px solid var(--border); border-radius: 10px; font-size: 16px; box-sizing: border-box; outline: none; }
         .save-btn { width: 100%; padding: 22px; background: var(--accent); color: #fff; border: none; border-radius: 15px; font-weight: bold; font-size: 18px; cursor: pointer;}
         .del-btn { width: 100%; padding: 15px; background: #400; color: #fff; border: none; border-radius: 15px; font-weight: bold; margin-top: 20px; cursor: pointer; font-size: 14px;}
+        .hidden { display: none; }
     </style>
 </head>
 <body>
@@ -36,17 +21,13 @@
     <h1>Modifier la saisie</h1>
 
     <section>
-        <label>Calendrier</label>
+        <label>Date</label>
         <input type="date" id="edit-date">
-
         <div id="dynamic-area"></div>
-
         <label>Quantité</label>
         <input type="number" id="edit-qte">
-
         <label>Notes libres</label>
         <textarea id="edit-note" rows="4" placeholder="Observations..."></textarea>
-
         <button class="save-btn" onclick="updateJournal()">ENREGISTRER</button>
         <button class="del-btn" onclick="deleteEntry()">SUPPRIMER L'ENTRÉE</button>
     </section>
@@ -69,9 +50,23 @@
             document.getElementById('edit-qte').value = e.quantite || '';
             document.getElementById('edit-note').value = e.note || '';
             
-            // On peut ici charger l'emplacement ou le bac dynamiquement comme avant
             let html = "";
-            if (e.bac) html += `<label>Bac</label><input type="text" id="edit-bac" value="${e.bac}">`;
+            if (e.action === 'Plantation') {
+                const stdBacs = ["Bac A", "Bac B", "Bac C", "Bac D", "Bac E"];
+                const isAutre = !stdBacs.includes(e.bac);
+                html += `<label>Destination</label>
+                         <select id="edit-bac" onchange="document.getElementById('edit-bac-autre').classList.toggle('hidden', this.value !== 'Autre')">
+                            <option value="Bac A" ${e.bac==='Bac A'?'selected':''}>Bac A</option>
+                            <option value="Bac B" ${e.bac==='Bac B'?'selected':''}>Bac B</option>
+                            <option value="Bac C" ${e.bac==='Bac C'?'selected':''}>Bac C</option>
+                            <option value="Bac D" ${e.bac==='Bac D'?'selected':''}>Bac D</option>
+                            <option value="Bac E" ${e.bac==='Bac E'?'selected':''}>Bac E</option>
+                            <option value="Autre" ${isAutre?'selected':''}>Autre (préciser...)</option>
+                         </select>
+                         <input type="text" id="edit-bac-autre" class="${isAutre?'':'hidden'}" value="${isAutre?e.bac:''}" placeholder="Où avez-vous planté ?">`;
+                html += `<label style="display:flex; align-items:center; margin-top:15px; color:#fff;">
+                         <input type="checkbox" id="edit-filet" ${e.filet?'checked':''} style="width:25px; height:25px; margin-right:15px;"> Sous filet ?</label>`;
+            }
             document.getElementById('dynamic-area').innerHTML = html;
         }
 
@@ -80,7 +75,12 @@
             e.date = document.getElementById('edit-date').value;
             e.quantite = document.getElementById('edit-qte').value;
             e.note = document.getElementById('edit-note').value;
-            if (document.getElementById('edit-bac')) e.bac = document.getElementById('edit-bac').value;
+            
+            if (document.getElementById('edit-bac')) {
+                const bacVal = document.getElementById('edit-bac').value;
+                e.bac = (bacVal === 'Autre') ? document.getElementById('edit-bac-autre').value : bacVal;
+                e.filet = document.getElementById('edit-filet').checked;
+            }
             
             const content = btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2))));
             const url = `https://api.github.com/repos/${user}/${repo}/contents/journal.json`;
