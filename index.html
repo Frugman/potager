@@ -55,7 +55,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            cursor: pointer; /* Indispensable pour voir qu'on peut cliquer */
+            transition: background 0.2s;
         }
+
+        .card:active { background: #333; }
 
         .card-info h3 { margin: 0; font-size: 20px; font-weight: bold; color: #ffffff; }
         .card-info p { margin: 6px 0 0; font-size: 16px; color: #ffffff; }
@@ -161,7 +165,6 @@
 
             try {
                 const url = `https://api.github.com/repos/${user}/${repo}/contents/semences.json`;
-                // J'ai viré la ligne Cache-Control qui faisait tout planter
                 const res = await fetch(url, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
@@ -169,8 +172,7 @@
                 if (!res.ok) throw new Error("Fichier semences.json introuvable");
 
                 const data = await res.json();
-                const content = JSON.parse(decodeURIComponent(escape(atob(data.content))));
-                allSemences = content;
+                allSemences = JSON.parse(decodeURIComponent(escape(atob(data.content))));
                 renderSeeds(allSemences);
 
             } catch (e) {
@@ -190,6 +192,13 @@
             data.forEach(s => {
                 const card = document.createElement('div');
                 card.className = 'card';
+                
+                // Méthode de redirection robuste
+                card.addEventListener('click', () => {
+                    console.log("Clic sur :", s.id);
+                    window.location.href = 'fiche-semence.html?id=' + s.id;
+                });
+                
                 card.innerHTML = `
                     <div class="card-info">
                         <h3>${s.identite.nom_commun}</h3>
