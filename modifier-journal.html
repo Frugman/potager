@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modifier Note</title>
+    <title>Modifier l'Action</title>
     <style>
         :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #444; }
         body { background: var(--bg); color: var(--text); font-family: sans-serif; padding: 20px; padding-bottom: 60px; font-size: 16px; }
         section { background: var(--card-bg); padding: 20px; border-radius: 15px; border: 1px solid var(--border); margin-bottom: 20px; }
         label { display: block; margin: 15px 0 8px; font-weight: bold; color: var(--accent); text-transform: uppercase; font-size: 13px;}
-        input[type="date"] { width: 100%; padding: 18px; background: #080808; color: #fff; border: 2px solid var(--border); border-radius: 12px; font-size: 18px; font-weight: bold; box-sizing: border-box; }
+        input[type="date"] { width: 100%; padding: 18px; background: #080808; color: #fff; border: 2px solid var(--border); border-radius: 12px; font-size: 18px; font-weight: bold; box-sizing: border-box; outline: none; }
         input, select, textarea { width: 100%; padding: 15px; background: #000; color: #fff; border: 1px solid var(--border); border-radius: 10px; font-size: 16px; box-sizing: border-box; outline: none; }
         .save-btn { width: 100%; padding: 22px; background: var(--accent); color: #fff; border: none; border-radius: 15px; font-weight: bold; font-size: 18px; cursor: pointer;}
         .del-btn { width: 100%; padding: 15px; background: #400; color: #fff; border: none; border-radius: 15px; font-weight: bold; margin-top: 20px; cursor: pointer; font-size: 14px;}
@@ -23,12 +23,16 @@
     <section>
         <label>Date</label>
         <input type="date" id="edit-date">
+
         <div id="dynamic-area"></div>
-        <label>Quantité</label>
+
+        <label>Quantité / Nombre</label>
         <input type="number" id="edit-qte">
-        <label>Notes libres</label>
-        <textarea id="edit-note" rows="4" placeholder="Observations..."></textarea>
-        <button class="save-btn" onclick="updateJournal()">ENREGISTRER</button>
+
+        <label>Note libre / Observations</label>
+        <textarea id="edit-note" rows="4"></textarea>
+
+        <button class="save-btn" onclick="updateJournal()">ENREGISTRER LES MODIFICATIONS</button>
         <button class="del-btn" onclick="deleteEntry()">SUPPRIMER L'ENTRÉE</button>
     </section>
 
@@ -51,7 +55,21 @@
             document.getElementById('edit-note').value = e.note || '';
             
             let html = "";
-            if (e.action === 'Plantation') {
+            if (e.action === 'Semis' || e.action === 'Repiquage') {
+                html += `<label>Emplacement</label>
+                         <select id="edit-loc">
+                            <option value="Serre intérieure" ${e.emplacement==='Serre intérieure'?'selected':''}>Serre intérieure</option>
+                            <option value="Serre extérieure" ${e.emplacement==='Serre extérieure'?'selected':''}>Serre extérieure</option>
+                         </select>
+                         <label>Contenant</label>
+                         <select id="edit-cont">
+                            <option ${e.contenant==='Plaque 40 alvéoles'?'selected':''}>Plaque 40 alvéoles</option>
+                            <option ${e.contenant==='Godet 7cm'?'selected':''}>Godet 7cm</option>
+                            <option ${e.contenant==='Godet 9cm'?'selected':''}>Godet 9cm</option>
+                            <option ${e.contenant==='Sac 5cm'?'selected':''}>Sac 5cm</option>
+                            <option ${e.contenant==='Sac 10cm'?'selected':''}>Sac 10cm</option>
+                         </select>`;
+            } else if (e.action === 'Plantation') {
                 const stdBacs = ["Bac A", "Bac B", "Bac C", "Bac D", "Bac E"];
                 const isAutre = !stdBacs.includes(e.bac);
                 html += `<label>Destination</label>
@@ -63,8 +81,8 @@
                             <option value="Bac E" ${e.bac==='Bac E'?'selected':''}>Bac E</option>
                             <option value="Autre" ${isAutre?'selected':''}>Autre (préciser...)</option>
                          </select>
-                         <input type="text" id="edit-bac-autre" class="${isAutre?'':'hidden'}" value="${isAutre?e.bac:''}" placeholder="Où avez-vous planté ?">`;
-                html += `<label style="display:flex; align-items:center; margin-top:15px; color:#fff;">
+                         <input type="text" id="edit-bac-autre" class="${isAutre?'':'hidden'}" value="${isAutre?e.bac:''}" placeholder="Où avez-vous planté ?">
+                         <label style="display:flex; align-items:center; margin-top:15px; color:#fff; text-transform:none;">
                          <input type="checkbox" id="edit-filet" ${e.filet?'checked':''} style="width:25px; height:25px; margin-right:15px;"> Sous filet ?</label>`;
             }
             document.getElementById('dynamic-area').innerHTML = html;
@@ -76,22 +94,28 @@
             e.quantite = document.getElementById('edit-qte').value;
             e.note = document.getElementById('edit-note').value;
             
+            if (document.getElementById('edit-loc')) {
+                e.emplacement = document.getElementById('edit-loc').value;
+                e.contenant = document.getElementById('edit-cont').value;
+            }
             if (document.getElementById('edit-bac')) {
-                const bacVal = document.getElementById('edit-bac').value;
-                e.bac = (bacVal === 'Autre') ? document.getElementById('edit-bac-autre').value : bacVal;
+                const b = document.getElementById('edit-bac').value;
+                e.bac = (b === 'Autre') ? document.getElementById('edit-bac-autre').value : b;
                 e.filet = document.getElementById('edit-filet').checked;
             }
             
             const content = btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2))));
             const url = `https://api.github.com/repos/${user}/${repo}/contents/journal.json`;
-            await fetch(url, {
-                method: 'PUT', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: "Update journal", content: content, sha: sha })
-            });
-            window.location.href = 'journal.html';
+            try {
+                const res = await fetch(url, {
+                    method: 'PUT', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: `Maj journal ${e.id}`, content: content, sha: sha })
+                });
+                if (res.ok) window.location.href = 'journal.html';
+            } catch (e) { alert(e.message); }
         }
 
-        async function deleteEntry() { if(confirm("Supprimer ?")) { journal.splice(entryIndex, 1); updateJournal(); } }
+        async function deleteEntry() { if(confirm("Supprimer définitivement cette action ?")) { journal.splice(entryIndex, 1); updateJournal(); } }
         window.onload = load;
     </script>
 </body>
