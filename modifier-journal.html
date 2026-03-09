@@ -3,93 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modifier Action</title>
+    <title>Modifier Note</title>
     <style>
         :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #444; }
-        body { background: var(--bg); color: var(--text); font-family: sans-serif; padding: 20px; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; padding: 20px; padding-bottom: 50px;}
         section { background: var(--card-bg); padding: 20px; border-radius: 15px; border: 1px solid var(--border); margin-bottom: 20px; }
-        label { display: block; margin: 15px 0 5px; font-weight: bold; }
-        input, select { width: 100%; padding: 15px; background: #000; color: #fff; border: 1px solid var(--border); border-radius: 10px; box-sizing: border-box; }
+        label { display: block; margin: 15px 0 5px; font-weight: bold; color: var(--accent); font-size: 14px; text-transform: uppercase;}
+        input, select { width: 100%; padding: 15px; background: #000; color: #fff; border: 1px solid var(--border); border-radius: 10px; font-size: 16px; box-sizing: border-box; }
         .save-btn { width: 100%; padding: 20px; background: var(--accent); color: #fff; border: none; border-radius: 15px; font-weight: bold; font-size: 18px; margin-top: 10px; }
-        .del-btn { width: 100%; padding: 15px; background: #600; color: #fff; border: none; border-radius: 15px; font-weight: bold; margin-top: 20px; cursor: pointer; }
+        .del-btn { width: 100%; padding: 15px; background: #400; color: #fff; border: none; border-radius: 15px; font-weight: bold; margin-top: 20px; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
-    <button onclick="window.location.href='journal.html'" style="background:none; border:none; color:#fff; font-size:30px; cursor:pointer;">←</button>
+    <button onclick="window.location.href='journal.html'" style="background:none; border:none; color:#fff; font-size:30px;">←</button>
     <h1>Modifier l'action</h1>
 
-    <section id="form-container">
+    <section id="form-edit">
         <label>Date</label>
         <input type="date" id="edit-date">
 
-        <label>Quantité / Poids</label>
-        <input type="text" id="edit-qte">
+        <label>Quantité (Graines ou Unités)</label>
+        <input type="number" id="edit-qte">
 
-        <div id="fields-sup"></div>
+        <div id="dynamic-area"></div>
 
-        <button class="save-btn" onclick="updateJournal()">ENREGISTRER</button>
+        <button class="save-btn" onclick="updateJournal()">ENREGISTRER LES MODIFICATIONS</button>
         <button class="del-btn" onclick="deleteEntry()">SUPPRIMER L'ENTRÉE</button>
     </section>
 
     <script>
         const params = new URLSearchParams(window.location.search);
         const entryId = params.get('id');
-        const user = localStorage.getItem('gh_user');
-        const repo = localStorage.getItem('gh_repo');
-        const token = localStorage.getItem('gh_token');
+        const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
+        let journal = [], entryIndex = -1, sha = "";
 
-        let journal = [];
-        let entryIndex = -1;
-
-        async function loadEntry() {
-            const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
+        async function load() {
+            const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
             const data = await res.json();
-            journal = JSON.parse(decodeURIComponent(escape(atob(data.content))));
             sha = data.sha;
-
+            journal = JSON.parse(decodeURIComponent(escape(atob(data.content))));
             entryIndex = journal.findIndex(e => e.id == entryId);
             const e = journal[entryIndex];
 
-            if (e) {
-                document.getElementById('edit-date').value = e.date;
-                document.getElementById('edit-qte').value = e.quantite || '';
-                
-                let sup = document.getElementById('fields-sup');
-                if (e.contenant) sup.innerHTML += `<label>Contenant</label><input type="text" id="edit-cont" value="${e.contenant}">`;
-                if (e.bac) sup.innerHTML += `<label>Bac</label><input type="text" id="edit-bac" value="${e.bac}">`;
+            if (!e) return;
+            document.getElementById('edit-date').value = e.date;
+            document.getElementById('edit-qte').value = e.quantite || '';
+            
+            let html = "";
+            if (e.action === 'Semis' || e.action === 'Repiquage') {
+                html += `<label>Emplacement</label><select id="edit-loc"><option ${e.emplacement==='Serre Intérieure'?'selected':''}>Serre Intérieure</option><option ${e.emplacement==='Serre Extérieure'?'selected':''}>Serre Extérieure</option></select>`;
+                html += `<label>Contenant</label><select id="edit-cont">
+                    <option ${e.contenant==='Plaque 40 alvéoles'?'selected':''}>Plaque 40 alvéoles</option>
+                    <option ${e.contenant==='Godet 7cm'?'selected':''}>Godet 7cm</option>
+                    <option ${e.contenant==='Sac 10cm'?'selected':''}>Sac 10cm</option>
+                </select>`;
+            } else if (e.action === 'Plantation') {
+                html += `<label>Bac</label><select id="edit-bac"><option ${e.bac==='Bac A'?'selected':''}>Bac A</option><option ${e.bac==='Bac B'?'selected':''}>Bac B</option><option ${e.bac==='Bac C'?'selected':''}>Bac C</option><option ${e.bac==='Bac D'?'selected':''}>Bac D</option><option ${e.bac==='Bac E'?'selected':''}>Bac E</option></select>`;
+                html += `<label style="display:flex; align-items:center; margin-top:15px;"><input type="checkbox" id="edit-filet" ${e.filet?'checked':''} style="width:25px; margin-right:10px;"> Sous filet ?</label>`;
             }
+            document.getElementById('dynamic-area').innerHTML = html;
         }
 
         async function updateJournal() {
-            journal[entryIndex].date = document.getElementById('edit-date').value;
-            journal[entryIndex].quantite = document.getElementById('edit-qte').value;
-            if (document.getElementById('edit-cont')) journal[entryIndex].contenant = document.getElementById('edit-cont').value;
-            if (document.getElementById('edit-bac')) journal[entryIndex].bac = document.getElementById('edit-bac').value;
-
-            await saveToGithub("Mise à jour journal");
+            let e = journal[entryIndex];
+            e.date = document.getElementById('edit-date').value;
+            e.quantite = document.getElementById('edit-qte').value;
+            if (document.getElementById('edit-loc')) e.emplacement = document.getElementById('edit-loc').value;
+            if (document.getElementById('edit-cont')) e.contenant = document.getElementById('edit-cont').value;
+            if (document.getElementById('edit-bac')) e.bac = document.getElementById('edit-bac').value;
+            if (document.getElementById('edit-filet')) e.filet = document.getElementById('edit-filet').checked;
+            
+            await push("Mise à jour : " + e.action);
         }
 
-        async function deleteEntry() {
-            if(confirm("Supprimer définitivement cette action ?")) {
-                journal.splice(entryIndex, 1);
-                await saveToGithub("Suppression entrée journal");
-            }
-        }
+        async function deleteEntry() { if(confirm("Supprimer ?")) { journal.splice(entryIndex, 1); await push("Suppression entrée"); } }
 
-        async function saveToGithub(msg) {
+        async function push(msg) {
             const content = btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2))));
-            const url = `https://api.github.com/repos/${user}/${repo}/contents/journal.json`;
-            const res = await fetch(url, {
-                method: 'PUT',
-                headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+            const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, {
+                method: 'PUT', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: msg, content: content, sha: sha })
             });
             if (res.ok) window.location.href = 'journal.html';
         }
-
-        window.onload = loadEntry;
+        window.onload = load;
     </script>
 </body>
 </html>
