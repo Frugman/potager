@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mon Journal de Culture</title>
+    <style>
+        :root {
+            --bg: #000000;
+            --card-bg: #1a1a1a;
+            --text: #ffffff;
+            --accent: #4CAF50;
+            --border: #333;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        header { margin-bottom: 25px; }
+        h1 { font-size: 24px; margin: 0; color: var(--text); }
+
+        /* Section Filtres */
+        .filter-section {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            background: #000;
+            color: #fff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        /* Liste des entrées */
+        .entry-list { display: flex; flex-direction: column; gap: 15px; }
+
+        .entry-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 18px;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .entry-date {
+            font-size: 12px;
+            color: var(--accent);
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .entry-main { display: flex; justify-content: space-between; align-items: flex-start; }
+        .entry-info h3 { margin: 0; font-size: 18px; }
+        .entry-info p { margin: 4px 0 0; font-size: 15px; font-weight: bold; }
+
+        .entry-details {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed #333;
+            font-size: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .badge {
+            background: #222;
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid #444;
+        }
+
+        /* Navigation Basse */
+        .nav-bar {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%; height: 85px;
+            background: #111; border-top: 2px solid var(--border);
+            display: flex; justify-content: space-around; align-items: center; z-index: 100;
+        }
+        .nav-item { color: #fff; text-decoration: none; font-size: 12px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
+        .nav-icon { font-size: 30px; margin-bottom: 2px; }
+        .active-nav { color: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>📖 Journal de Bord</h1>
+    </header>
+
+    <div class="filter-section">
+        <select id="filterMonth" onchange="applyFilters()">
+            <option value="">Tous les mois</option>
+            <option value="01">Janvier</option>
+            <option value="02">Février</option>
+            <option value="03">Mars</option>
+            <option value="04">Avril</option>
+            <option value="05">Mai</option>
+            <option value="06">Juin</option>
+            <option value="07">Juillet</option>
+            <option value="08">Août</option>
+            <option value="09">Septembre</option>
+            <option value="10">Octobre</option>
+            <option value="11">Novembre</option>
+            <option value="12">Décembre</option>
+        </select>
+        <select id="filterSeed" onchange="applyFilters()">
+            <option value="">Toutes les semences</option>
+        </select>
+    </div>
+
+    <div id="journalContent" class="entry-list">
+        <p style="text-align:center; padding:40px;">Chargement du journal...</p>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Accueil</a>
+        <a href="index.html" class="nav-item"><span class="nav-icon">🌱</span>Semences</a>
+        <a href="journal.html" class="nav-item active-nav"><span class="nav-icon">📖</span>Journal</a>
+        <a href="parametres.html" class="nav-item"><span class="nav-icon">⚙️</span>Réglages</a>
+    </nav>
+
+    <script>
+        let allEntries = [];
+        let seedMap = {}; // Pour transformer les IDs en noms lisibles
+
+        const user = localStorage.getItem('gh_user');
+        const repo = localStorage.getItem('gh_repo');
+        const token = localStorage.getItem('gh_token');
+
+        async function loadJournal() {
+            if (!token) return;
+            try {
+                // 1. Charger les semences pour avoir les noms
+                const resSeeds = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const seedsData = await resSeeds.json();
+                const semences = JSON.parse(decodeURIComponent(escape(atob(seedsData.content))));
+                
+                const filterSeedSelect = document.getElementById('filterSeed');
+                semences.forEach(s => {
+                    seedMap[s.id] = `${s.identite.nom_commun} (${s.identite.variete})`;
+                    filterSeedSelect.innerHTML += `<option value="${s.id}">${seedMap[s.id]}</option>`;
+                });
+
+                // 2. Charger le journal
+                const resJournal = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, {
+                    headers: { 'Authorization': `Bearer ${token}`, 'Cache-Control': 'no-cache' }
+                });
+                const journalData = await resJournal.json();
+                allEntries = JSON.parse(decodeURIComponent(escape(atob(journalData.content))));
+                
+                // Trier du plus récent au plus ancien
+                allEntries.reverse();
+                
+                applyFilters();
+            } catch (e) {
+                document.getElementById('journalContent').innerHTML = `<p style="color:red; text-align:center;">Erreur : ${e.message}</p>`;
+            }
+        }
+
+        function applyFilters() {
+            const month = document.getElementById('filterMonth').value;
+            const seedId = document.getElementById('filterSeed').value;
+            
+            const filtered = allEntries.filter(entry => {
+                const matchMonth = month === "" || entry.date.split('-')[1] === month;
+                const matchSeed = seedId === "" || entry.seedId === seedId;
+                return matchMonth && matchSeed;
+            });
+
+            renderJournal(filtered);
+        }
+
+        function renderJournal(entries) {
+            const container = document.getElementById('journalContent');
+            if (entries.length === 0) {
+                container.innerHTML = `<p style="text-align:center; padding:40px; color:#666;">Aucune action trouvée pour ces filtres.</p>`;
+                return;
+            }
+
+            container.innerHTML = entries.map(e => `
+                <div class="entry-card">
+                    <div class="entry-date">${new Date(e.date).toLocaleDateString('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'})}</div>
+                    <div class="entry-main">
+                        <div class="entry-info">
+                            <h3>${e.action}</h3>
+                            <p>${seedMap[e.seedId] || 'Plante inconnue'}</p>
+                        </div>
+                    </div>
+                    <div class="entry-details">
+                        ${e.quantite ? `<div class="badge">Quantité : <b>${e.quantite}</b></div>` : ''}
+                        ${e.contenant ? `<div class="badge">📦 ${e.contenant}</div>` : ''}
+                        ${e.bac ? `<div class="badge">📍 ${e.bac}</div>` : ''}
+                        ${e.filet ? `<div class="badge">🕸️ Sous filet</div>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.onload = loadJournal;
+    </script>
+</body>
+</html>
