@@ -3,194 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mon Agenda Potager</title>
+    <title>Mon Agenda Dynamique</title>
     <style>
-        :root {
-            --bg: #000000;
-            --card-bg: #1a1a1a;
-            --text: #ffffff;
-            --accent: #4CAF50;
-            --border: #333;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', -apple-system, sans-serif;
-            margin: 0;
-            padding: 20px;
-            padding-bottom: 100px;
-            font-size: 16px; /* CDC 5.0 */
-        }
-
-        header { margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
+        :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #333; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; padding-bottom: 100px; font-size: 16px; }
+        header { margin-bottom: 25px; }
         h1 { font-size: 24px; margin: 0; }
-
-        /* Sélecteur de mois */
-        .month-selector {
-            display: flex;
-            align-items: center;
-            background: var(--card-bg);
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            padding: 5px;
-            margin-bottom: 25px;
-        }
-
-        .month-selector select {
-            flex: 1;
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 12px;
-            outline: none;
-            text-align: center;
-        }
-
-        /* Sections de tâches */
-        section { margin-bottom: 30px; }
-        h2 { font-size: 14px; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; border-bottom: 1px solid #222; padding-bottom: 8px; margin-bottom: 15px; }
-
-        .task-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 15px;
-            border: 1px solid var(--border);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            min-height: 44px; /* CDC 5.0 */
-        }
-
-        .task-icon { font-size: 24px; width: 30px; text-align: center; }
-        .task-info b { display: block; font-size: 17px; }
-        .task-info span { font-size: 14px; color: #aaa; }
-
-        .empty-msg { color: #555; font-style: italic; font-size: 14px; text-align: center; padding: 20px; }
-
-        /* Navigation Basse */
-        .nav-bar {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 85px;
-            background: #111; border-top: 2px solid var(--border);
-            display: flex; justify-content: space-around; align-items: center; z-index: 100;
-        }
+        
+        .month-label { font-size: 14px; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        
+        .timeline { position: relative; padding-left: 20px; border-left: 2px solid #222; margin-left: 10px; }
+        .event-card { background: var(--card-bg); border-radius: 12px; padding: 15px; border: 1px solid var(--border); margin-bottom: 15px; position: relative; }
+        .event-card::before { content: ''; position: absolute; left: -27px; top: 20px; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 3px solid var(--bg); }
+        
+        .event-date { font-size: 12px; font-weight: bold; color: var(--accent); margin-bottom: 5px; }
+        .event-title { font-size: 16px; font-weight: bold; display: block; }
+        .event-subtitle { font-size: 14px; color: #888; }
+        
+        .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
         .nav-item { color: #fff; text-decoration: none; font-size: 12px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
-        .nav-icon { font-size: 30px; margin-bottom: 2px; }
-        .active-nav { color: var(--accent); }
     </style>
 </head>
 <body>
-
     <header>
-        <h1>📅 Agenda</h1>
+        <h1>📅 Agenda Prévisionnel</h1>
     </header>
 
-    <div class="month-selector">
-        <select id="selectMonth" onchange="updateAgenda()">
-            <option value="Jan">Janvier</option>
-            <option value="Fév">Février</option>
-            <option value="Mar">Mars</option>
-            <option value="Avr">Avril</option>
-            <option value="Mai">Mai</option>
-            <option value="Juin">Juin</option>
-            <option value="Juil">Juillet</option>
-            <option value="Août">Août</option>
-            <option value="Sep">Septembre</option>
-            <option value="Oct">Octobre</option>
-            <option value="Nov">Novembre</option>
-            <option value="Déc">Décembre</option>
-        </select>
+    <span class="month-label" id="current-month-view">Mars 2026</span>
+
+    <div id="agenda-content" class="timeline">
+        <p style="text-align:center; padding:40px; color:#666;">Calcul des prochaines étapes...</p>
     </div>
 
-    <section id="sec-semis">
-        <h2>🌱 À Semer</h2>
-        <div class="list" id="list-semis"></div>
-    </section>
-
-    <section id="sec-plantation">
-        <h2>🚜 À Planter</h2>
-        <div class="list" id="list-plantation"></div>
-    </section>
-
-    <section id="sec-recolte">
-        <h2>🧺 À Récolter</h2>
-        <div class="list" id="list-recolte"></div>
-    </section>
-
     <nav class="nav-bar">
-    <a href="index.html" class="nav-item">
-        <span class="nav-icon">🏠</span>Accueil
-    </a>
-    <a href="bacs.html" class="nav-item">
-        <span class="nav-icon">🍱</span>Bacs
-    </a>
-    <a href="agenda.html" class="nav-item">
-        <span class="nav-icon">📅</span>Agenda
-    </a>
-    <a href="journal.html" class="nav-item">
-        <span class="nav-icon">📖</span>Journal
-    </a>
-    <a href="parametres.html" class="nav-item">
-        <span class="nav-icon">⚙️</span>Réglages
-    </a>
-</nav>
+        <a href="index.html" class="nav-item">🏠 Accueil</a>
+        <a href="bacs.html" class="nav-item">🍱 Bacs</a>
+        <a href="agenda.html" class="nav-item" style="color:var(--accent)">📅 Agenda</a>
+        <a href="journal.html" class="nav-item">📖 Journal</a>
+    </nav>
 
     <script>
         const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
-        let allSeeds = [];
-        const monthShortNames = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"];
 
-        async function init() {
-            if (!token) return;
-            // Sélection automatique du mois actuel
-            const currentMonthIdx = new Date().getMonth();
-            document.getElementById('selectMonth').value = monthShortNames[currentMonthIdx];
+        function addDays(date, days) {
+            const result = new Date(date);
+            result.setDate(result.getDate() + days);
+            return result;
+        }
 
+        async function load() {
             try {
-                const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
+                // 1. Charger les fiches et le journal
+                const resSeeds = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const seeds = JSON.parse(decodeURIComponent(escape(atob((await resSeeds.json()).content))));
+                
+                const resJournal = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const journal = JSON.parse(decodeURIComponent(escape(atob((await resJournal.json()).content))));
+
+                const today = new Date();
+                let upcoming = [];
+
+                // 2. Moteur de calcul
+                journal.forEach(entry => {
+                    if (entry.action === 'Semis') {
+                        const seed = seeds.find(s => s.id === entry.seedId);
+                        if (!seed || !seed.delais) return;
+
+                        const dateSemis = new Date(entry.date);
+                        
+                        // Calcul des étapes
+                        const dLevee = addDays(dateSemis, seed.delais.levee);
+                        const dRepiquage = addDays(dLevee, seed.delais.repiquage);
+                        const dPlantation = addDays(dRepiquage, seed.delais.plantation);
+                        const dRecolte = addDays(dPlantation, seed.delais.maturite);
+
+                        // On n'ajoute que si la date est future
+                        if (dLevee >= today) upcoming.push({ date: dLevee, task: "🌱 Levée attendue", plant: seed.identite.nom_commun });
+                        if (dRepiquage >= today) upcoming.push({ date: dRepiquage, task: "🪴 Repiquage à faire", plant: seed.identite.nom_commun });
+                        if (dPlantation >= today) upcoming.push({ date: dPlantation, task: "🚜 Plantation finale", plant: seed.identite.nom_commun });
+                        if (dRecolte >= today) upcoming.push({ date: dRecolte, task: "🧺 Début récolte", plant: seed.identite.nom_commun });
+                    }
                 });
-                const data = await res.json();
-                allSeeds = JSON.parse(decodeURIComponent(escape(atob(data.content))));
-                updateAgenda();
+
+                // 3. Tri et Affichage
+                upcoming.sort((a, b) => a.date - b.date);
+                const container = document.getElementById('agenda-content');
+                
+                if (upcoming.length === 0) {
+                    container.innerHTML = "<p style='color:#666'>Aucune action calculée. Enregistrez un semis pour voir les prévisions.</p>";
+                    return;
+                }
+
+                container.innerHTML = upcoming.map(u => `
+                    <div class="event-card">
+                        <div class="event-date">${u.date.toLocaleDateString('fr-FR', {day:'numeric', month:'long'})}</div>
+                        <span class="event-title">${u.task}</span>
+                        <span class="event-subtitle">${u.plant}</span>
+                    </div>
+                `).join('');
+
             } catch (e) { console.error(e); }
         }
-
-        function updateAgenda() {
-            const selectedMonth = document.getElementById('selectMonth').value;
-            
-            const tasks = {
-                semis: allSeeds.filter(s => (s.culture?.periode_semis || []).includes(selectedMonth)),
-                plantation: allSeeds.filter(s => (s.culture?.periode_plantation || []).includes(selectedMonth)),
-                recolte: allSeeds.filter(s => (s.recolte?.periode_recolte || []).includes(selectedMonth))
-            };
-
-            renderList('list-semis', tasks.semis, '🌱');
-            renderList('list-plantation', tasks.plantation, '🚜');
-            renderList('list-recolte', tasks.recolte, '🧺');
-        }
-
-        function renderList(elementId, plants, icon) {
-            const container = document.getElementById(elementId);
-            if (plants.length === 0) {
-                container.innerHTML = `<p class="empty-msg">Aucune action prévue ce mois-ci.</p>`;
-                return;
-            }
-            container.innerHTML = plants.map(p => `
-                <div class="task-card" onclick="window.location.href='fiche-semence.html?id=${p.id}'">
-                    <div class="task-icon">${icon}</div>
-                    <div class="task-info">
-                        <b>${p.identite.nom_commun}</b>
-                        <span>${p.identite.variete}</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        window.onload = init;
+        window.onload = load;
     </script>
 </body>
 </html>
