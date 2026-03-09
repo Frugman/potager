@@ -18,10 +18,9 @@
             color: var(--text);
             font-family: 'Inter', -apple-system, sans-serif;
             margin: 0;
-            padding-bottom: 100px; /* Espace pour la nav large */
+            padding-bottom: 100px;
         }
 
-        /* En-tête avec recherche */
         .header {
             padding: 20px;
             position: sticky;
@@ -42,9 +41,6 @@
             box-sizing: border-box;
         }
 
-        .search-bar:focus { border-color: var(--accent); }
-
-        /* Grille des semences */
         .grid {
             padding: 0 20px;
             display: grid;
@@ -59,8 +55,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            text-decoration: none;
-            color: inherit;
         }
 
         .card-info h3 { margin: 0; font-size: 20px; font-weight: bold; color: #ffffff; }
@@ -73,10 +67,8 @@
             border-radius: 8px;
             color: var(--accent);
             font-weight: bold;
-            white-space: nowrap;
         }
 
-        /* Bouton flottant Ajouter */
         .fab {
             position: fixed;
             bottom: 100px;
@@ -93,12 +85,10 @@
             font-weight: bold;
             box-shadow: 0 4px 15px rgba(0,0,0,0.6);
             border: none;
-            cursor: pointer;
             z-index: 99;
             text-decoration: none;
         }
 
-        /* Barre de navigation basse */
         .nav-bar {
             position: fixed;
             bottom: 0;
@@ -124,13 +114,8 @@
         }
 
         .nav-item.active { color: var(--accent); }
-
-        .nav-icon {
-            font-size: 32px; /* Icônes agrandies */
-            margin-bottom: 4px;
-        }
-
-        .loading { padding: 40px; text-align: center; font-size: 18px; }
+        .nav-icon { font-size: 32px; margin-bottom: 4px; }
+        .loading { padding: 40px; text-align: center; font-size: 18px; color: #ffffff; }
     </style>
 </head>
 <body>
@@ -170,18 +155,14 @@
             const token = localStorage.getItem('gh_token');
 
             if (!user || !repo || !token) {
-                grid.innerHTML = `
-                    <div class="loading">
-                        <p>Configuration manquante</p>
-                        <a href="parametres.html" style="color:var(--accent); text-decoration:none; font-weight:bold;">Aller aux réglages →</a>
-                    </div>`;
+                grid.innerHTML = '<div class="loading">⚠️ Paramètres manquants. <a href="parametres.html" style="color:var(--accent);">Réglages</a></div>';
                 return;
             }
 
             try {
                 const url = `https://api.github.com/repos/${user}/${repo}/contents/semences.json`;
                 const res = await fetch(url, {
-                    headers: { 'Authorization': `Bearer ${token}` }
+                    headers: { 'Authorization': `Bearer ${token}`, 'Cache-Control': 'no-cache' }
                 });
                 
                 if (!res.ok) throw new Error("Fichier semences.json introuvable");
@@ -196,30 +177,28 @@
         }
 
         function renderSeeds(data) {
-        const grid = document.getElementById('seedGrid');
-        grid.innerHTML = "";
-    
-        if (data.length === 0) {
-            // C'est ici qu'il manquait les guillemets autour de "loading" !
-            grid.innerHTML = '<div class="loading">Aucune semence trouvée.</div>';
-            return;
-        }
-    
-        data.forEach(s => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-                <div class="card-info">
-                    <h3>${s.identite.nom_commun}</h3>
-                    <p>${s.identite.variete}</p>
-                </div>
-                <span class="tag-provenance">${s.identite.provenance || 'N/C'}</span>
-            `;
-            grid.appendChild(card);
-        });
-    }
+            const grid = document.getElementById('seedGrid');
+            grid.innerHTML = "";
 
-        // Filtrage en temps réel
+            if (data.length === 0) {
+                grid.innerHTML = '<div class="loading">Aucune semence trouvée.</div>';
+                return;
+            }
+
+            data.forEach(s => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-info">
+                        <h3>${s.identite.nom_commun}</h3>
+                        <p>${s.identite.variete}</p>
+                    </div>
+                    <span class="tag-provenance">${s.identite.provenance || 'N/C'}</span>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const val = e.target.value.toLowerCase();
             const filtered = allSemences.filter(s => 
@@ -229,7 +208,6 @@
             renderSeeds(filtered);
         });
 
-        // Lancement au chargement
         window.onload = loadSeeds;
     </script>
 </body>
