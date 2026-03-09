@@ -19,7 +19,7 @@
             font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 20px;
-            padding-bottom: 100px;
+            padding-bottom: 120px;
         }
 
         header {
@@ -48,13 +48,13 @@
             border: 1px solid var(--border);
         }
 
-        h2 { font-size: 18px; color: var(--accent); margin-top: 0; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        h2 { font-size: 18px; color: var(--accent); margin-top: 0; margin-bottom: 20px; text-transform: uppercase; }
 
         .form-group { margin-bottom: 20px; }
 
-        label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 16px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 16px; color: #ffffff; }
 
-        input, select, textarea {
+        input, select {
             width: 100%;
             padding: 16px;
             background: #000;
@@ -68,9 +68,6 @@
 
         input:focus { border-color: var(--accent); }
 
-        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-
-        /* Style spécifique pour les mois (multi-sélection simplifiée) */
         .month-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -78,7 +75,7 @@
         }
 
         .month-btn {
-            padding: 10px;
+            padding: 12px;
             background: #000;
             border: 1px solid var(--border);
             border-radius: 8px;
@@ -102,11 +99,10 @@
             background: var(--accent);
             color: white;
             border: none;
-            padding: 20px;
+            padding: 22px;
             border-radius: 15px;
             font-size: 20px;
             font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             z-index: 100;
         }
 
@@ -125,11 +121,11 @@
             <h2>1. Identité</h2>
             <div class="form-group">
                 <label>Nom commun (ex: Tomate)</label>
-                <input type="text" id="nom_commun" required placeholder="Ex: Poivron">
+                <input type="text" id="nom_commun" required>
             </div>
             <div class="form-group">
                 <label>Variété</label>
-                <input type="text" id="variete" required placeholder="Ex: California Wonder">
+                <input type="text" id="variete" required>
             </div>
             <div class="form-group">
                 <label>Provenance</label>
@@ -138,98 +134,104 @@
                     <option value="Récolte personnelle">Récolte personnelle</option>
                     <option value="Autre">Ajout libre (préciser...)</option>
                 </select>
-                <input type="text" id="provenance_autre" class="hidden" style="margin-top:10px" placeholder="Précisez la provenance">
+                <input type="text" id="provenance_autre" class="hidden" style="margin-top:10px" placeholder="Ex: Don d'Anna">
             </div>
         </section>
 
         <section>
-            <h2>2. Culture</h2>
-            <div class="form-group">
-                <label>Style de semis</label>
-                <select id="style_semis">
-                    <option value="Graine à graine">Graine à graine</option>
-                    <option value="En poquet">En poquet</option>
-                    <option value="En ligne">En ligne</option>
-                    <option value="À la volée">À la volée</option>
-                </select>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label>Profondeur</label>
-                    <input type="text" id="profondeur" placeholder="ex: 5mm">
-                </div>
-                <div class="form-group">
-                    <label>T° Levée</label>
-                    <input type="text" id="temp_levee" placeholder="ex: 20°C">
-                </div>
-            </div>
-            <div class="form-group">
-                <label>Mois de semis</label>
-                <div class="month-grid" id="semisMonths">
-                    <div class="month-btn" onclick="toggleMonth(this)">Jan</div>
-                    <div class="month-btn" onclick="toggleMonth(this)">Fév</div>
-                    <div class="month-btn" onclick="toggleMonth(this)">Mar</div>
-                    <div class="month-btn" onclick="toggleMonth(this)">Avr</div>
-                    <div class="month-btn" onclick="toggleMonth(this)">Mai</div>
-                    <div class="month-btn" onclick="toggleMonth(this)">Juin</div>
-                    <div class="month-btn" onclick="toggleMonth(this)">Juil</div>
-                    <div class="month-btn" onclick="toggleMonth(this)">Août</div>
-                    <div class="month-btn" onclick="toggleMonth(this)">Sep</div>
-                    <div class="month-btn" onclick="toggleMonth(this)">Oct</div>
-                    <div class="month-btn" onclick="toggleMonth(this)">Nov</div>
-                    <div class="month-btn" onclick="toggleMonth(this)">Déc</div>
-                </div>
+            <h2>2. Période de semis</h2>
+            <div class="month-grid" id="semisMonths">
+                <div class="month-btn" onclick="toggleMonth(this)">Jan</div>
+                <div class="month-btn" onclick="toggleMonth(this)">Fév</div>
+                <div class="month-btn" onclick="toggleMonth(this)">Mar</div>
+                <div class="month-btn" onclick="toggleMonth(this)">Avr</div>
+                <div class="month-btn" onclick="toggleMonth(this)">Mai</div>
+                <div class="month-btn" onclick="toggleMonth(this)">Juin</div>
+                <div class="month-btn" onclick="toggleMonth(this)">Juil</div>
+                <div class="month-btn" onclick="toggleMonth(this)">Août</div>
+                <div class="month-btn" onclick="toggleMonth(this)">Sep</div>
+                <div class="month-btn" onclick="toggleMonth(this)">Oct</div>
+                <div class="month-btn" onclick="toggleMonth(this)">Nov</div>
+                <div class="month-btn" onclick="toggleMonth(this)">Déc</div>
             </div>
         </section>
 
-        <button type="button" class="save-btn" onclick="saveNewSeed()">ENREGISTRER LA FICHE</button>
+        <button type="button" class="save-btn" id="submitBtn" onclick="saveNewSeed()">ENREGISTRER SUR GITHUB</button>
     </form>
 
     <script>
-        // Gestion visuelle des boutons de mois
-        function toggleMonth(btn) {
-            btn.classList.toggle('active');
-        }
-
-        // Afficher le champ libre si "Autre" est choisi
+        function toggleMonth(btn) { btn.classList.toggle('active'); }
         function toggleAutre(select) {
-            const autreField = document.getElementById('provenance_autre');
-            autreField.className = (select.value === 'Autre') ? '' : 'hidden';
+            document.getElementById('provenance_autre').className = (select.value === 'Autre') ? '' : 'hidden';
         }
 
         async function saveNewSeed() {
-            // 1. Récupération des infos de connexion (stockées lors du test précédent)
-            // Note : Il faudra prévoir une page "Settings" pour les enregistrer proprement.
+            const btn = document.getElementById('submitBtn');
             const token = localStorage.getItem('gh_token');
             const user = localStorage.getItem('gh_user');
             const repo = localStorage.getItem('gh_repo');
 
-            if(!token) {
-                alert("Erreur : Aucun Token trouvé. Configurez d'abord la connexion.");
+            if(!token || !user || !repo) {
+                alert("⚠️ Erreur : Identifiants absents. Va dans la page Paramètres !");
                 return;
             }
 
-            // 2. Construction de l'objet Semence
+            btn.innerText = "⏳ ENREGISTREMENT...";
+            btn.disabled = true;
+
             const selectedMonths = Array.from(document.querySelectorAll('#semisMonths .month-btn.active')).map(b => b.innerText);
             
             const newSeed = {
-                id: Date.now().toString(), // ID unique basé sur le timestamp
+                id: "seed-" + Date.now(),
                 identite: {
                     nom_commun: document.getElementById('nom_commun').value,
                     variete: document.getElementById('variete').value,
                     provenance: document.getElementById('provenance').value === 'Autre' ? document.getElementById('provenance_autre').value : document.getElementById('provenance').value
                 },
                 culture: {
-                    style_semis: document.getElementById('style_semis').value,
-                    profondeur_semis: document.getElementById('profondeur').value,
                     periode_semis: selectedMonths
                 }
             };
 
-            // 3. Logique API GitHub pour ajouter au JSON existant
-            // (Nous détaillerons cette fonction complexe de récupération/push juste après)
-            console.log("Données prêtes :", newSeed);
-            alert("Fiche prête ! (En attente du script de liaison JSON)");
+            const path = "semences.json";
+            const url = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
+
+            try {
+                // 1. Lire le fichier actuel
+                const getRes = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
+                if (!getRes.ok) throw new Error("Fichier semences.json introuvable sur GitHub.");
+                
+                const fileData = await getRes.json();
+                const sha = fileData.sha;
+                const currentData = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
+
+                // 2. Ajouter la nouvelle donnée
+                currentData.push(newSeed);
+
+                // 3. Renvoyer vers GitHub
+                const updatedContent = btoa(unescape(encodeURIComponent(JSON.stringify(currentData, null, 2))));
+                
+                const putRes = await fetch(url, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: `Ajout de ${newSeed.identite.variete}`,
+                        content: updatedContent,
+                        sha: sha
+                    })
+                });
+
+                if (putRes.ok) {
+                    alert("✅ Enregistré avec succès !");
+                    window.location.href = 'index.html';
+                } else {
+                    throw new Error("Erreur GitHub lors de l'écriture.");
+                }
+            } catch (e) {
+                alert("❌ Erreur : " + e.message);
+                btn.innerText = "ENREGISTRER SUR GITHUB";
+                btn.disabled = false;
+            }
         }
     </script>
 </body>
