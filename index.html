@@ -74,6 +74,20 @@
         </div>
     </section>
 
+    <section style="padding: 20px;">
+    <h2>📅 Agenda (7 prochains jours)</h2>
+    <div id="agenda-mini" style="background: #111; border-radius: 12px; padding: 15px; border: 1px solid #333; font-size: 14px;">
+        <p style="color:#666; margin:0;">Vérification des semis en cours...</p>
+    </div>
+    </section>
+    
+    <section style="padding: 0 20px 20px;">
+        <h2>📝 Dernières Notes</h2>
+        <div id="last-notes" class="grid" style="padding:0;">
+            <p style="color:#666;">Chargement des notes...</p>
+        </div>
+    </section>
+
     <div class="header">
         <input type="text" class="search-bar" placeholder="Rechercher dans mes graines..." id="searchInput">
     </div>
@@ -186,6 +200,24 @@
             const val = e.target.value.toLowerCase();
             renderSeeds(allSemences.filter(s => s.identite.nom_commun.toLowerCase().includes(val) || s.identite.variete.toLowerCase().includes(val)));
         });
+
+        async function loadWidgets() {
+        // 1. Widget Notes (Journal)
+        const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+        const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
+        const last3 = journal.reverse().slice(0, 3);
+        
+        document.getElementById('last-notes').innerHTML = last3.map(n => `
+            <div class="card" style="padding:10px; margin-bottom:8px; font-size:13px;">
+                <div><b>${n.date}</b> - ${n.action} de ${n.seedId}</div>
+            </div>
+        `).join('');
+    
+        // 2. Widget Agenda (Logique simplifiée pour 2026)
+        // Ici on pourrait comparer la date actuelle avec les periode_semis de semences.json
+        document.getElementById('agenda-mini').innerHTML = `Semaine du ${new Date().toLocaleDateString('fr-FR')}: Préparez vos semis de tomates et poivrons ! [cite: 14]`;
+    }
+    // Appelle loadWidgets() à la fin de ton window.onload
 
         window.onload = init;
     </script>
