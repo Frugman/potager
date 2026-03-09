@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Détails Semence</title>
+    <style>
+        :root {
+            --bg: #000000;
+            --card-bg: #1a1a1a;
+            --text: #ffffff;
+            --accent: #4CAF50;
+            --border: #333;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            padding-bottom: 40px;
+        }
+
+        header { display: flex; align-items: center; margin-bottom: 25px; }
+        .back-btn { background: none; border: none; color: var(--text); font-size: 30px; margin-right: 15px; cursor: pointer; }
+        h1 { font-size: 24px; margin: 0; }
+
+        section {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+
+        h2 { font-size: 14px; color: var(--accent); margin-top: 0; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1.5px; }
+
+        .info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #222; }
+        .info-row:last-child { border-bottom: none; }
+        .label { font-weight: bold; color: #ffffff; }
+        .value { color: #ffffff; text-align: right; }
+
+        /* Grille Calendrier */
+        .month-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 10px; }
+        .month { 
+            padding: 8px; border: 1px solid var(--border); border-radius: 6px; 
+            text-align: center; font-size: 12px; color: #555; 
+        }
+        .month.active { background: var(--accent); color: white; border-color: var(--accent); font-weight: bold; }
+
+        .description { line-height: 1.6; margin-top: 10px; }
+
+        .loading { text-align: center; padding: 50px; font-size: 18px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="back-btn" onclick="window.location.href='index.html'">←</button>
+        <h1 id="seedTitle">Chargement...</h1>
+    </header>
+
+    <div id="content" class="loading">Recherche de la fiche...</div>
+
+    <script>
+        async function loadSeedDetails() {
+            const params = new URLSearchParams(window.location.search);
+            const seedId = params.get('id');
+            const user = localStorage.getItem('gh_user');
+            const repo = localStorage.getItem('gh_repo');
+            const token = localStorage.getItem('gh_token');
+
+            if (!seedId) { window.location.href = 'index.html'; return; }
+
+            try {
+                const url = `https://api.github.com/repos/${user}/${repo}/contents/semences.json`;
+                const res = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await res.json();
+                const semences = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+                
+                const s = semences.find(item => item.id === seedId);
+                if (!s) throw new Error("Semence introuvable");
+
+                renderFiche(s);
+            } catch (e) {
+                document.getElementById('content').innerHTML = `❌ Erreur : ${e.message}`;
+            }
+        }
+
+        function renderFiche(s) {
+            document.getElementById('seedTitle').innerText = s.identite.nom_commun;
+            
+            const months = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"];
+            let monthHtml = months.map(m => {
+                const isActive = (s.culture?.periode_semis || []).includes(m);
+                return `<div class="month ${isActive ? 'active' : ''}">${m}</div>`;
+            }).join('');
+
+            document.getElementById('content').className = "";
+            document.getElementById('content').innerHTML = `
+                <section>
+                    <h2>Identité</h2>
+                    <div class="info-row"><span class="label">Variété</span><span class="value">${s.identite.variete}</span></div>
+                    <div class="info-row"><span class="label">Provenance</span><span class="value">${s.identite.provenance}</span></div>
+                    ${s.identite.description ? `<div class="description">${s.identite.description}</div>` : ''}
+                </section>
+
+                <section>
+                    <h2>Calendrier de Semis</h2>
+                    <div class="month-grid">${monthHtml}</div>
+                </section>
+
+                <section>
+                    <h2>Paramètres de Culture</h2>
+                    <div class="info-row"><span class="label">Style</span><span class="value">${s.culture?.style_semis || '-'}</span></div>
+                    <div class="info-row"><span class="label">Profondeur</span><span class="value">${s.culture?.profondeur_semis || '-'}</span></div>
+                    <div class="info-row"><span class="label">T° Levée</span><span class="value">${s.culture?.temp_levee || '-'}</span></div>
+                    <div class="info-row"><span class="label">Exposition</span><span class="value">${s.culture?.exposition || '-'}</span></div>
+                    <div class="info-row"><span class="label">Eau</span><span class="value">${s.culture?.besoins_eau || '-'}</span></div>
+                </section>
+
+                <section>
+                    <h2>Historique Récoltes</h2>
+                    <div class="info-row"><span class="label">Saison 2026</span><span class="value">${s.recolte?.historique?.["2026"] || '—'}</span></div>
+                </section>
+            `;
+        }
+
+        window.onload = loadSeedDetails;
+    </script>
+</body>
+</html>
