@@ -196,27 +196,28 @@
         }
 
         function renderSeeds(data) {
-            const grid = document.getElementById('seedGrid');
-            grid.innerHTML = "";
-
-            if (data.length === 0) {
-                grid.innerHTML = "<div class="loading">Aucune semence trouvée.</div>";
-                return;
-            }
-
-            data.forEach(s => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <div class="card-info">
-                        <h3>${s.identite.nom_commun}</h3>
-                        <p>${s.identite.variete}</p>
-                    </div>
-                    <span class="tag-provenance">${s.identite.provenance || 'N/C'}</span>
-                `;
-                grid.appendChild(card);
-            });
+        const grid = document.getElementById('seedGrid');
+        grid.innerHTML = "";
+    
+        if (data.length === 0) {
+            // C'est ici qu'il manquait les guillemets autour de "loading" !
+            grid.innerHTML = '<div class="loading">Aucune semence trouvée.</div>';
+            return;
         }
+    
+        data.forEach(s => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="card-info">
+                    <h3>${s.identite.nom_commun}</h3>
+                    <p>${s.identite.variete}</p>
+                </div>
+                <span class="tag-provenance">${s.identite.provenance || 'N/C'}</span>
+            `;
+            grid.appendChild(card);
+        });
+    }
 
         // Filtrage en temps réel
         document.getElementById('searchInput').addEventListener('input', (e) => {
