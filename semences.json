@@ -1,16 +1,34 @@
 [
-  {
-    "id": "seed-1773065986288",
-    "identite": {
-      "nom_commun": "Poivron",
-      "variete": "Yag Bibberi",
-      "provenance": "Kokopelli"
-    },
-    "culture": {
-      "periode_semis": [
-        "Fév",
-        "Mar"
-      ]
-    }
-  }
+  { "id": "basilic-genovese", "identite": { "nom_commun": "Basilic", "variete": "Bio Genovese", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Avril", "Mai"] } },
+  { "id": "basilic-grand-vert", "identite": { "nom_commun": "Basilic", "variete": "Grand Vert", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Avril", "Mai"] } },
+  { "id": "bourrache-bleue", "identite": { "nom_commun": "Bourrache", "variete": "À fleurs bleues", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Mars", "Avril", "Mai"] } },
+  { "id": "camomille-zloty", "identite": { "nom_commun": "Camomille", "variete": "Zloty Lan", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Mars", "Avril"] } },
+  { "id": "capucine-empress", "identite": { "nom_commun": "Capucine", "variete": "Empress of India", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Avril", "Mai"] } },
+  { "id": "ciboule-tokyo", "identite": { "nom_commun": "Ciboule", "variete": "Long White Tokyo", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Mars", "Avril", "Mai"] } },
+  { "id": "ciboulette-commune", "identite": { "nom_commun": "Ciboulette", "variete": "Commune", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Mars", "Avril", "Mai"] } },
+  { "id": "concombre-bushy", "identite": { "nom_commun": "Concombre", "variete": "Bushy", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Avril", "Mai"] } },
+  { "id": "cornichon-paris", "identite": { "nom_commun": "Cornichon", "variete": "Vert petit de Paris", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Avril", "Mai"] } },
+  { "id": "cosmos-capriola", "identite": { "nom_commun": "Cosmos", "variete": "Capriola", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Avril", "Mai"] } },
+  { "id": "courgette-alberello", "identite": { "nom_commun": "Courgette", "variete": "Alberello di Sarzana", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Avril", "Mai"] } },
+  { "id": "courgette-rheinau", "identite": { "nom_commun": "Courgette", "variete": "Rheinau Gold", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Avril", "Mai"] } },
+  { "id": "epinard-matador", "identite": { "nom_commun": "Epinard", "variete": "Matador Viking", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Mars", "Avril", "Août", "Septembre"] } },
+  { "id": "feves-karmazyn", "identite": { "nom_commun": "Fèves", "variete": "Karmazyn", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Février", "Mars"] } },
+  { "id": "laitue-bowl", "identite": { "nom_commun": "Laitue", "variete": "Salad Bowl", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Mars", "Avril", "Mai", "Juin"] } },
+  { "id": "laitue-sucrine", "identite": { "nom_commun": "Laitue", "variete": "Sucrine", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Mars", "Avril", "Mai", "Juin"] } },
+  { "id": "oeillets-inde", "identite": { "nom_commun": "Oeillets d'Inde", "variete": "Mai", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Mars", "Avril", "Mai"] } },
+  { "id": "oignon-jaune", "identite": { "nom_commun": "Oignon", "variete": "Densité jaune", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Février", "Mars"] } },
+  { "id": "oignon-rose", "identite": { "nom_commun": "Oignon", "variete": "Rosé d'Armorique", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Février", "Mars"] } },
+  { "id": "persil-bio", "identite": { "nom_commun": "Persil", "variete": "Bio", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Mars", "Avril", "Mai"] } },
+  { "id": "piment-ordono", "identite": { "nom_commun": "Piment", "variete": "Ordono", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Février", "Mars"] } },
+  { "id": "poireau-victor", "identite": { "nom_commun": "Poireau", "variete": "De Saint Victor", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Mars", "Avril", "Mai"] } },
+  { "id": "poivron-yag", "identite": { "nom_commun": "Poivron", "variete": "Yag Biberi", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Février", "Mars"] } },
+  { "id": "poivron-marconi", "identite": { "nom_commun": "Poivron", "variete": "Red Marconi", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Février", "Mars"] } },
+  { "id": "roquette-sauvage", "identite": { "nom_commun": "Roquette", "variete": "Sauvage", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Mars", "Avril", "Mai", "Août", "Septembre"] } },
+  { "id": "serpolet-bleu", "identite": { "nom_commun": "Serpolet", "variete": "Bleu", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Avril", "Mai"] } },
+  { "id": "souci-orange", "identite": { "nom_commun": "Souci", "variete": "Orange", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Mars", "Avril", "Mai"] } },
+  { "id": "tagete-mexique", "identite": { "nom_commun": "Tagète", "variete": "Estragon du Mexique", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Mars", "Avril", "Mai"] } },
+  { "id": "tomate-dream", "identite": { "nom_commun": "Tomate", "variete": "Amateur's Dream", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Mars", "Avril"] } },
+  { "id": "tomate-akers", "identite": { "nom_commun": "Tomate", "variete": "Coeur de boeuf Akers", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Mars", "Avril"] } },
+  { "id": "tomate-cerise", "identite": { "nom_commun": "Tomate cerise", "variete": "Cherry Chadwick", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Mars", "Avril"] } },
+  { "id": "zinnia-mix", "identite": { "nom_commun": "Zinnia", "variete": "Jim Baggett Choice Mix", "provenance": "Kokopelli" }, "culture": { "periode_semis": ["Avril", "Mai"] } }
 ]
