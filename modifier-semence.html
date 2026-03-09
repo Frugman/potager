@@ -116,6 +116,26 @@
                 <label>Description</label>
                 <textarea id="description" rows="2"></textarea>
             </div>
+            <div class="form-group">
+    <label>Famille Botanique</label>
+    <input type="text" id="famille" placeholder="ex: Solanacées">
+</div>
+
+<div class="row">
+    <div class="form-group"><label>Cycle Maturité (jours)</label><input type="number" id="cycle_maturite"></div>
+    <div class="form-group"><label>Durée Germinative (ans)</label><input type="number" id="duree_germ"></div>
+</div>
+
+<section>
+    <h2>Particularités & Soins</h2>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+        <label><input type="checkbox" class="soins-check" value="Besoin de tuteur"> Tuteur</label>
+        <label><input type="checkbox" class="soins-check" value="Sensible mildiou"> Mildiou</label>
+        <label><input type="checkbox" class="soins-check" value="Pincement requis"> Pincement</label>
+    </div>
+    <label style="margin-top:15px;">Cultures associées (Tags)</label>
+    <input type="text" id="assoc" placeholder="ex: Basilic, Oeillet">
+</section>
         </section>
 
         <section>
