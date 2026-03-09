@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier Action</title>
+    <style>
+        :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #444; }
+        body { background: var(--bg); color: var(--text); font-family: sans-serif; padding: 20px; }
+        section { background: var(--card-bg); padding: 20px; border-radius: 15px; border: 1px solid var(--border); margin-bottom: 20px; }
+        label { display: block; margin: 15px 0 5px; font-weight: bold; }
+        input, select { width: 100%; padding: 15px; background: #000; color: #fff; border: 1px solid var(--border); border-radius: 10px; box-sizing: border-box; }
+        .save-btn { width: 100%; padding: 20px; background: var(--accent); color: #fff; border: none; border-radius: 15px; font-weight: bold; font-size: 18px; margin-top: 10px; }
+        .del-btn { width: 100%; padding: 15px; background: #600; color: #fff; border: none; border-radius: 15px; font-weight: bold; margin-top: 20px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <button onclick="window.location.href='journal.html'" style="background:none; border:none; color:#fff; font-size:30px; cursor:pointer;">←</button>
+    <h1>Modifier l'action</h1>
+
+    <section id="form-container">
+        <label>Date</label>
+        <input type="date" id="edit-date">
+
+        <label>Quantité / Poids</label>
+        <input type="text" id="edit-qte">
+
+        <div id="fields-sup"></div>
+
+        <button class="save-btn" onclick="updateJournal()">ENREGISTRER</button>
+        <button class="del-btn" onclick="deleteEntry()">SUPPRIMER L'ENTRÉE</button>
+    </section>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const entryId = params.get('id');
+        const user = localStorage.getItem('gh_user');
+        const repo = localStorage.getItem('gh_repo');
+        const token = localStorage.getItem('gh_token');
+
+        let journal = [];
+        let entryIndex = -1;
+
+        async function loadEntry() {
+            const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await res.json();
+            journal = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+            sha = data.sha;
+
+            entryIndex = journal.findIndex(e => e.id == entryId);
+            const e = journal[entryIndex];
+
+            if (e) {
+                document.getElementById('edit-date').value = e.date;
+                document.getElementById('edit-qte').value = e.quantite || '';
+                
+                let sup = document.getElementById('fields-sup');
+                if (e.contenant) sup.innerHTML += `<label>Contenant</label><input type="text" id="edit-cont" value="${e.contenant}">`;
+                if (e.bac) sup.innerHTML += `<label>Bac</label><input type="text" id="edit-bac" value="${e.bac}">`;
+            }
+        }
+
+        async function updateJournal() {
+            journal[entryIndex].date = document.getElementById('edit-date').value;
+            journal[entryIndex].quantite = document.getElementById('edit-qte').value;
+            if (document.getElementById('edit-cont')) journal[entryIndex].contenant = document.getElementById('edit-cont').value;
+            if (document.getElementById('edit-bac')) journal[entryIndex].bac = document.getElementById('edit-bac').value;
+
+            await saveToGithub("Mise à jour journal");
+        }
+
+        async function deleteEntry() {
+            if(confirm("Supprimer définitivement cette action ?")) {
+                journal.splice(entryIndex, 1);
+                await saveToGithub("Suppression entrée journal");
+            }
+        }
+
+        async function saveToGithub(msg) {
+            const content = btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2))));
+            const url = `https://api.github.com/repos/${user}/${repo}/contents/journal.json`;
+            const res = await fetch(url, {
+                method: 'PUT',
+                headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: msg, content: content, sha: sha })
+            });
+            if (res.ok) window.location.href = 'journal.html';
+        }
+
+        window.onload = loadEntry;
+    </script>
+</body>
+</html>
