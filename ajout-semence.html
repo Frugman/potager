@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ajouter une Semence</title>
+    <title>Nouvelle Semence</title>
     <style>
         :root {
             --bg: #000000;
@@ -22,22 +22,8 @@
             padding-bottom: 120px;
         }
 
-        header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        .back-btn {
-            background: none;
-            border: none;
-            color: var(--text);
-            font-size: 30px;
-            cursor: pointer;
-            margin-right: 15px;
-            padding: 0;
-        }
-
+        header { display: flex; align-items: center; margin-bottom: 25px; }
+        .back-btn { background: none; border: none; color: var(--text); font-size: 30px; margin-right: 15px; cursor: pointer; }
         h1 { font-size: 22px; margin: 0; }
 
         section {
@@ -48,13 +34,12 @@
             border: 1px solid var(--border);
         }
 
-        h2 { font-size: 18px; color: var(--accent); margin-top: 0; margin-bottom: 20px; text-transform: uppercase; }
+        h2 { font-size: 16px; color: var(--accent); margin-top: 0; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
 
         .form-group { margin-bottom: 20px; }
-
         label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 16px; color: #ffffff; }
 
-        input, select {
+        input, select, textarea {
             width: 100%;
             padding: 16px;
             background: #000;
@@ -68,34 +53,25 @@
 
         input:focus { border-color: var(--accent); }
 
-        .month-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
+        /* Mois de semis/récolte */
+        .month-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
         .month-btn {
-            padding: 12px;
+            padding: 10px 2px;
             background: #000;
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 6px;
             color: #fff;
             text-align: center;
-            font-size: 14px;
+            font-size: 12px;
             cursor: pointer;
         }
-
-        .month-btn.active {
-            background: var(--accent);
-            border-color: var(--accent);
-            font-weight: bold;
-        }
+        .month-btn.active { background: var(--accent); border-color: var(--accent); font-weight: bold; }
 
         .save-btn {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
+            bottom: 20px; left: 20px; right: 20px;
             background: var(--accent);
             color: white;
             border: none;
@@ -104,6 +80,7 @@
             font-size: 20px;
             font-weight: bold;
             z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
         }
 
         .hidden { display: none; }
@@ -113,19 +90,19 @@
 
     <header>
         <button class="back-btn" onclick="window.location.href='index.html'">←</button>
-        <h1>Nouvelle Semence</h1>
+        <h1>Fiche Semence</h1>
     </header>
 
     <form id="seedForm">
         <section>
-            <h2>1. Identité</h2>
+            <h2>1. Identité & Origine</h2>
             <div class="form-group">
                 <label>Nom commun (ex: Tomate)</label>
-                <input type="text" id="nom_commun" required>
+                <input type="text" id="nom_commun" required placeholder="Légume">
             </div>
             <div class="form-group">
                 <label>Variété</label>
-                <input type="text" id="variete" required>
+                <input type="text" id="variete" required placeholder="Nom précis">
             </div>
             <div class="form-group">
                 <label>Provenance</label>
@@ -134,12 +111,57 @@
                     <option value="Récolte personnelle">Récolte personnelle</option>
                     <option value="Autre">Ajout libre (préciser...)</option>
                 </select>
-                <input type="text" id="provenance_autre" class="hidden" style="margin-top:10px" placeholder="Ex: Don d'Anna">
+                <input type="text" id="provenance_autre" class="hidden" style="margin-top:10px" placeholder="Don d'Anna, etc.">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="description" rows="2" placeholder="Goût, histoire..."></textarea>
             </div>
         </section>
 
         <section>
-            <h2>2. Période de semis</h2>
+            <h2>2. Culture</h2>
+            <div class="form-group">
+                <label>Style de semis</label>
+                <select id="style_semis">
+                    <option value="Graine à graine">Graine à graine</option>
+                    <option value="En poquet">En poquet</option>
+                    <option value="En ligne">En ligne</option>
+                    <option value="À la volée">À la volée</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label>Profondeur</label>
+                    <input type="text" id="profondeur" placeholder="ex: 1cm">
+                </div>
+                <div class="form-group">
+                    <label>T° Levée</label>
+                    <input type="text" id="temp_levee" placeholder="ex: 20°C">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label>Exposition</label>
+                    <select id="exposition">
+                        <option value="Plein soleil">Plein soleil</option>
+                        <option value="Mi-ombre">Mi-ombre</option>
+                        <option value="Ombre">Ombre</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Eau</label>
+                    <select id="besoins_eau">
+                        <option value="Moyen">Moyen</option>
+                        <option value="Faible">Faible</option>
+                        <option value="Fort">Fort</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>3. Calendrier (Semis)</h2>
             <div class="month-grid" id="semisMonths">
                 <div class="month-btn" onclick="toggleMonth(this)">Jan</div>
                 <div class="month-btn" onclick="toggleMonth(this)">Fév</div>
@@ -156,7 +178,7 @@
             </div>
         </section>
 
-        <button type="button" class="save-btn" id="submitBtn" onclick="saveNewSeed()">ENREGISTRER SUR GITHUB</button>
+        <button type="button" class="save-btn" id="submitBtn" onclick="saveNewSeed()">ENREGISTRER LA FICHE</button>
     </form>
 
     <script>
@@ -172,7 +194,7 @@
             const repo = localStorage.getItem('gh_repo');
 
             if(!token || !user || !repo) {
-                alert("⚠️ Erreur : Identifiants absents. Va dans la page Paramètres !");
+                alert("⚠️ Erreur : Identifiants absents.");
                 return;
             }
 
@@ -186,29 +208,31 @@
                 identite: {
                     nom_commun: document.getElementById('nom_commun').value,
                     variete: document.getElementById('variete').value,
-                    provenance: document.getElementById('provenance').value === 'Autre' ? document.getElementById('provenance_autre').value : document.getElementById('provenance').value
+                    provenance: document.getElementById('provenance').value === 'Autre' ? document.getElementById('provenance_autre').value : document.getElementById('provenance').value,
+                    description: document.getElementById('description').value
                 },
                 culture: {
+                    style_semis: document.getElementById('style_semis').value,
+                    profondeur_semis: document.getElementById('profondeur').value,
+                    temp_levee: document.getElementById('temp_levee').value,
+                    exposition: document.getElementById('exposition').value,
+                    besoins_eau: document.getElementById('besoins_eau').value,
                     periode_semis: selectedMonths
-                }
+                },
+                recolte: { historique: { "2026": null } }
             };
 
             const path = "semences.json";
             const url = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
 
             try {
-                // 1. Lire le fichier actuel
                 const getRes = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-                if (!getRes.ok) throw new Error("Fichier semences.json introuvable sur GitHub.");
-                
                 const fileData = await getRes.json();
                 const sha = fileData.sha;
                 const currentData = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
 
-                // 2. Ajouter la nouvelle donnée
                 currentData.push(newSeed);
 
-                // 3. Renvoyer vers GitHub
                 const updatedContent = btoa(unescape(encodeURIComponent(JSON.stringify(currentData, null, 2))));
                 
                 const putRes = await fetch(url, {
@@ -222,14 +246,14 @@
                 });
 
                 if (putRes.ok) {
-                    alert("✅ Enregistré avec succès !");
+                    alert("✅ Fiche créée !");
                     window.location.href = 'index.html';
                 } else {
-                    throw new Error("Erreur GitHub lors de l'écriture.");
+                    throw new Error("Erreur GitHub");
                 }
             } catch (e) {
-                alert("❌ Erreur : " + e.message);
-                btn.innerText = "ENREGISTRER SUR GITHUB";
+                alert("❌ " + e.message);
+                btn.innerText = "ENREGISTRER LA FICHE";
                 btn.disabled = false;
             }
         }
