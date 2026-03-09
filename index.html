@@ -6,10 +6,10 @@
     <title>Mon Potager - Répertoire</title>
     <style>
         :root {
-            --bg: #121212;
+            --bg: #000000; /* Noir pur pour encore plus de contraste */
             --card-bg: #1e1e1e;
-            --text: #e0e0e0;
-            --text-dim: #a0a0a0;
+            --text: #ffffff;
+            --text-dim: #ffffff; /* Tout en blanc comme demandé */
             --accent: #4CAF50;
             --border: #333;
         }
@@ -19,10 +19,9 @@
             color: var(--text);
             font-family: 'Inter', sans-serif;
             margin: 0;
-            padding-bottom: 80px; /* Espace pour la nav mobile */
+            padding-bottom: 90px;
         }
 
-        /* Barre de recherche */
         .header {
             padding: 20px;
             position: sticky;
@@ -33,17 +32,16 @@
 
         .search-bar {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             background: var(--card-bg);
-            border: 1px solid var(--border);
+            border: 2px solid var(--border); /* Bordure un peu plus épaisse */
             border-radius: 12px;
             color: white;
-            font-size: 16px;
+            font-size: 18px; /* Texte plus grand pour la saisie */
             outline: none;
             box-sizing: border-box;
         }
 
-        /* Grille de cartes */
         .grid {
             padding: 10px 20px;
             display: grid;
@@ -53,80 +51,82 @@
         .card {
             background: var(--card-bg);
             border-radius: 16px;
-            padding: 16px;
+            padding: 20px;
             border: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: pointer;
-            transition: transform 0.1s;
         }
 
-        .card:active { transform: scale(0.98); }
-
-        .card-info h3 { margin: 0; font-size: 18px; }
-        .card-info p { margin: 4px 0 0; font-size: 14px; color: var(--text-dim); }
+        .card-info h3 { margin: 0; font-size: 20px; font-weight: bold; }
+        .card-info p { margin: 6px 0 0; font-size: 16px; color: var(--text); }
 
         .tag-famille {
-            font-size: 12px;
-            padding: 4px 8px;
+            font-size: 14px;
+            padding: 6px 10px;
             background: #333;
-            border-radius: 6px;
+            border-radius: 8px;
             color: var(--accent);
+            font-weight: bold;
         }
 
-        /* Navigation Basse */
+        /* Navigation Basse Corrigée */
         .nav-bar {
             position: fixed;
             bottom: 0;
             width: 100%;
-            height: 65px;
-            background: #181818;
-            border-top: 1px solid var(--border);
+            height: 80px; /* Plus haute pour plus de confort */
+            background: #111;
+            border-top: 2px solid var(--border);
             display: flex;
             justify-content: space-around;
             align-items: center;
         }
 
         .nav-item {
-            color: var(--text-dim);
+            color: var(--text);
             text-decoration: none;
-            font-size: 11px;
+            font-size: 14px; /* Libellé plus grand */
+            font-weight: bold;
             display: flex;
             flex-direction: column;
             align-items: center;
+            flex: 1;
         }
 
         .nav-item.active { color: var(--accent); }
 
         .nav-icon {
-            width: 24px;
-            height: 24px;
+            font-size: 30px; /* Icônes nettement plus grandes */
             margin-bottom: 4px;
-            background: currentColor;
-            mask-size: contain;
-            -webkit-mask-repeat: no-repeat;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <input type="text" class="search-bar" placeholder="Rechercher une semence..." id="searchInput">
+        <input type="text" class="search-bar" placeholder="Rechercher..." id="searchInput">
     </div>
 
-    <div class="grid" id="seedGrid">
+    <div id="seedGrid" class="grid">
         </div>
 
     <nav class="nav-bar">
-        <a href="#" class="nav-item"><span>🏠</span>Accueil</a>
-        <a href="#" class="nav-item active"><span>🌱</span>Semences</a>
-        <a href="#" class="nav-item"><span>📖</span>Journal</a>
-        <a href="#" class="nav-item"><span>📦</span>Bacs</a>
+        <a href="#" class="nav-item">
+            <span class="nav-icon">🏠</span>Accueil
+        </a>
+        <a href="#" class="nav-item active">
+            <span class="nav-icon">🌱</span>Semences
+        </a>
+        <a href="#" class="nav-item">
+            <span class="nav-icon">📖</span>Journal
+        </a>
+        <a href="#" class="nav-item">
+            <span class="nav-icon">📦</span>Bacs
+        </a>
     </nav>
 
     <script>
-        // Données fictives pour le rendu visuel
         const semences = [
             { id: 1, nom: "Rose de Berne", type: "Tomate", famille: "Solanacées" },
             { id: 2, nom: "Nantaise améliorée", type: "Carotte", famille: "Apiacées" },
@@ -136,12 +136,10 @@
         function renderSeeds(filter = "") {
             const grid = document.getElementById('seedGrid');
             grid.innerHTML = "";
-
             const filtered = semences.filter(s => 
                 s.nom.toLowerCase().includes(filter.toLowerCase()) || 
                 s.type.toLowerCase().includes(filter.toLowerCase())
             );
-
             filtered.forEach(s => {
                 const card = document.createElement('div');
                 card.className = 'card';
@@ -156,11 +154,7 @@
             });
         }
 
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            renderSeeds(e.target.value);
-        });
-
-        // Premier rendu
+        document.getElementById('searchInput').addEventListener('input', (e) => renderSeeds(e.target.value));
         renderSeeds();
     </script>
 </body>
