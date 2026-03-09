@@ -19,13 +19,17 @@
         .save-action-btn { width: 100%; padding: 20px; background: var(--accent); color: #fff; border: none; border-radius: 15px; font-weight: bold; font-size: 18px; cursor: pointer; }
 
         .widget { padding: 20px 20px 0; }
-        .card { background: var(--card-bg); border-radius: 16px; padding: 15px; border: 1px solid var(--border); margin-bottom: 10px; }
+        .card { background: var(--card-bg); border-radius: 16px; padding: 15px; border: 1px solid var(--border); margin-bottom: 10px; min-height: 44px; }
         
         .nav-bar { position: fixed; bottom: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
         .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
         .nav-icon { font-size: 26px; margin-bottom: 2px; }
         .active-nav { color: var(--accent); }
         .hidden { display: none; }
+
+        .urgent-tag { color: var(--accent); font-weight: bold; font-size: 12px; margin-bottom: 4px; display: block; }
+        .urgent-title { font-size: 15px; font-weight: bold; display: block; }
+        .urgent-subtitle { font-size: 13px; color: #888; }
     </style>
 </head>
 <body>
@@ -84,18 +88,20 @@
             <input type="number" id="val-qte" placeholder="Nombre">
 
             <label>Notes / Observations</label>
-            <textarea id="val-note" rows="2" placeholder="Un commentaire libre ?"></textarea>
+            <textarea id="val-note" rows="2" placeholder="Commentaire libre..."></textarea>
             
-            <button class="save-action-btn" id="btnSaveAction" onclick="saveJournalAction()">ENREGISTRER AU JOURNAL</button>
+            <button class="save-action-btn" id="btnSaveAction" onclick="saveJournalAction()">ENREGISTRER</button>
         </div>
     </section>
 
     <div class="widget">
-        <h2 style="font-size:14px; color:var(--accent); text-transform:uppercase;">📅 Agenda (7j)</h2>
-        <div id="agenda-mini" class="card" style="font-size:14px; color:#aaa;">Chargement...</div>
+        <h2 style="font-size:14px; color:var(--accent); text-transform:uppercase;">📅 À faire (7 prochains jours)</h2>
+        <div id="agenda-mini">
+            <p style="font-size:14px; color:#666; padding: 10px;">Calcul des priorités...</p>
+        </div>
     </div>
 
-    <div class="widget">
+    <div class="widget" style="padding-bottom: 20px;">
         <h2 style="font-size:14px; color:var(--accent); text-transform:uppercase;">📝 Dernières Notes</h2>
         <div id="last-notes"></div>
     </div>
@@ -109,9 +115,9 @@
     </nav>
 
     <script>
+        const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
         let allSemences = [];
         let currentAction = "";
-        const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
 
         async function init() {
             if (!token) return;
@@ -121,7 +127,7 @@
                 allSemences = JSON.parse(decodeURIComponent(escape(atob((await res.json()).content))));
                 const select = document.getElementById('select-seed');
                 allSemences.sort((a,b) => a.identite.nom_commun.localeCompare(b.identite.nom_commun)).forEach(s => {
-                    select.innerHTML += `<option value="${s.id}">${s.identite.nom_commun} (${s.identite.variete})</option>`;
+                    select.innerHTML += `<option value="${s.id}">${s.identite.nom_commun} - ${s.identite.variete}</option>`;
                 });
                 loadWidgets();
             } catch (e) { console.error(e); }
@@ -132,18 +138,15 @@
             btn.classList.add('active');
             currentAction = type;
             document.getElementById('dynamic-fields').classList.remove('hidden');
-            
-            const isSemis = (type === 'Semis' || type === 'Repiquage');
-            document.getElementById('fields-semis').classList.toggle('hidden', !isSemis);
+            document.getElementById('fields-semis').classList.toggle('hidden', !['Semis', 'Repiquage'].includes(type));
             document.getElementById('fields-plantation').classList.toggle('hidden', type !== 'Plantation');
-            document.getElementById('label-qte').innerText = (type === 'Récolte') ? 'Poids / Quantité' : 'Nombre de plants/graines';
         }
 
         async function saveJournalAction() {
             const seedId = document.getElementById('select-seed').value;
-            if (!seedId || !currentAction) { alert("Sélectionne une plante et une action !"); return; }
+            if (!seedId || !currentAction) return;
             const btn = document.getElementById('btnSaveAction');
-            btn.innerText = "⏳ ENREGISTREMENT..."; btn.disabled = true;
+            btn.innerText = "⏳..."; btn.disabled = true;
 
             const entry = {
                 id: Date.now(),
@@ -153,7 +156,6 @@
                 quantite: document.getElementById('val-qte').value,
                 note: document.getElementById('val-note').value
             };
-
             if (currentAction === 'Semis' || currentAction === 'Repiquage') {
                 entry.emplacement = document.getElementById('val-emplacement').value;
                 entry.contenant = document.getElementById('val-contenant').value;
@@ -171,21 +173,72 @@
                 journal.push(entry);
                 await fetch(url, {
                     method: 'PUT', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: `Journal : ${currentAction} ${seedId}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: fileData.sha })
+                    body: JSON.stringify({ message: `Note ${currentAction}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: fileData.sha })
                 });
                 location.reload();
             } catch (e) { alert(e.message); btn.disabled = false; }
         }
 
-        async function loadWidgets() {
-            const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
-            const journal = JSON.parse(decodeURIComponent(escape(atob((await res.json()).content))));
-            document.getElementById('last-notes').innerHTML = journal.slice(-3).reverse().map(n => `
-                <div class="card" onclick="window.location.href='modifier-journal.html?id=${n.id}'">
-                    <b style="color:var(--accent)">${n.date}</b> - ${n.action} : ${n.seedId}
-                </div>`).join('');
-            document.getElementById('agenda-mini').innerText = "Vérifiez vos semis dans l'onglet Agenda !";
+        function addDays(date, days) {
+            const result = new Date(date);
+            result.setDate(result.getDate() + parseInt(days));
+            return result;
         }
+
+        async function loadWidgets() {
+            try {
+                const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
+                
+                // 1. Widget Notes
+                document.getElementById('last-notes').innerHTML = journal.slice(-3).reverse().map(n => `
+                    <div class="card" onclick="window.location.href='modifier-journal.html?id=${n.id}'">
+                        <b style="color:var(--accent)">${n.date}</b> - ${n.action} : ${n.seedId}
+                    </div>`).join('');
+
+                // 2. Widget Agenda 7 jours
+                const today = new Date();
+                today.setHours(0,0,0,0);
+                const limit = addDays(today, 7);
+                let urgentTasks = [];
+
+                journal.forEach(entry => {
+                    if (entry.action === 'Semis') {
+                        const seed = allSemences.find(s => s.id === entry.seedId);
+                        if (!seed || !seed.delais) return;
+
+                        const dSemis = new Date(entry.date);
+                        const steps = [
+                            { date: addDays(dSemis, seed.delais.levee), task: "🌱 Levée attendue" },
+                            { date: addDays(addDays(dSemis, seed.delais.levee), seed.delais.repiquage), task: "🪴 Repiquage" },
+                            { date: addDays(addDays(addDays(dSemis, seed.delais.levee), seed.delais.repiquage), seed.delais.plantation), task: "🚜 Plantation" },
+                            { date: addDays(addDays(addDays(addDays(dSemis, seed.delais.levee), seed.delais.repiquage), seed.delais.plantation), seed.delais.maturite), task: "🧺 Récolte" }
+                        ];
+
+                        steps.forEach(s => {
+                            if (s.date >= today && s.date <= limit) {
+                                urgentTasks.push({ ...s, plant: `${seed.identite.nom_commun} - ${seed.identite.variete}` });
+                            }
+                        });
+                    }
+                });
+
+                const agendaMini = document.getElementById('agenda-mini');
+                if (urgentTasks.length === 0) {
+                    agendaMini.innerHTML = `<div class="card" style="color:#666; font-style:italic;">Aucune tâche urgente cette semaine.</div>`;
+                } else {
+                    urgentTasks.sort((a, b) => a.date - b.date);
+                    agendaMini.innerHTML = urgentTasks.map(u => `
+                        <div class="card">
+                            <span class="urgent-tag">${u.date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}</span>
+                            <span class="urgent-title">${u.task}</span>
+                            <span class="urgent-subtitle">${u.plant}</span>
+                        </div>
+                    `).join('');
+                }
+            } catch (e) { console.error(e); }
+        }
+
         window.onload = init;
     </script>
 </body>
