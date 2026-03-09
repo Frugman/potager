@@ -6,29 +6,44 @@
     <title>Détails Semence</title>
     <style>
         :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #333; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; padding-bottom: 100px; font-size: 16px; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; padding-bottom: 110px; font-size: 16px; }
+        
         header { display: flex; align-items: center; margin-bottom: 25px; }
         .back-btn { background: none; border: none; color: #fff; font-size: 35px; margin-right: 15px; cursor: pointer; min-width: 44px; }
-        section { background: var(--card-bg); padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 1px solid var(--border); }
-        h2 { font-size: 14px; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; }
-        .info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #222; }
-        .label { font-weight: bold; color: #aaa; font-size: 14px; }
-        .value { color: #fff; text-align: right; }
-        #editBtn { margin-left: auto; background: var(--accent); color: white; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; min-height: 44px; }
+        h1 { font-size: 22px; margin: 0; flex: 1; }
         
+        #editBtn { background: var(--accent); color: white; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; min-height: 44px; }
+        
+        section { background: var(--card-bg); padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 1px solid var(--border); }
+        h2 { font-size: 13px; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 8px; }
+        
+        .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #222; font-size: 15px; }
+        .info-row:last-child { border-bottom: none; }
+        .label { color: #888; font-weight: 500; }
+        .value { color: #fff; text-align: right; font-weight: bold; }
+        
+        .description { font-size: 14px; color: #aaa; line-height: 1.5; margin-top: 10px; font-style: italic; }
+        
+        .badge-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .badge { background: #222; color: var(--accent); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; border: 1px solid var(--accent); }
+        .badge.companion { color: #3498db; border-color: #3498db; }
+
+        /* Nav Bar */
         .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
         .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
-        .nav-icon { font-size: 26px; }
+        .nav-icon { font-size: 26px; margin-bottom: 2px; }
     </style>
 </head>
 <body>
     <header>
         <button class="back-btn" onclick="window.location.href='repertoire.html'">←</button>
-        <h1 id="seedTitle">Chargement...</h1>
-        <button id="editBtn" style="display:none">MODIFIER</button>
+        <h1 id="seedTitle">...</h1>
+        <button id="editBtn">MODIFIER</button>
     </header>
 
-    <div id="content"></div>
+    <div id="content">
+        <p style="text-align:center; padding:40px; color:#666;">Chargement des données...</p>
+    </div>
 
     <nav class="nav-bar">
         <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Accueil</a>
@@ -52,29 +67,53 @@
 
         function render(s) {
             document.getElementById('seedTitle').innerText = s.identite.nom_commun;
-            document.getElementById('content').innerHTML = `
+            document.getElementById('editBtn').onclick = () => window.location.href = `modifier-semence.html?id=${s.id}`;
+
+            let html = `
                 <section>
-                    <h2>Identité</h2>
+                    <h2>Identité & Origine</h2>
                     <div class="info-row"><span class="label">Variété</span><span class="value">${s.identite.variete}</span></div>
                     <div class="info-row"><span class="label">Famille</span><span class="value">${s.identite.famille || '-'}</span></div>
-                    <div class="info-row"><span class="label">Durée Germ.</span><span class="value">${s.identite.duree_germ ? s.identite.duree_germ + ' ans' : '-'}</span></div>
+                    <div class="info-row"><span class="label">Provenance</span><span class="value">${s.identite.provenance || '-'}</span></div>
+                    <div class="info-row"><span class="label">Vie des graines</span><span class="value">${s.identite.duree_germ || '-'} ans</span></div>
+                    ${s.identite.description ? `<div class="description">"${s.identite.description}"</div>` : ''}
                 </section>
+
                 <section>
-                    <h2>Délais de culture</h2>
-                    <div class="info-row"><span class="label">Levée</span><span class="value">${s.delais?.levee || 0} jours</span></div>
-                    <div class="info-row"><span class="label">Repiquage</span><span class="value">${s.delais?.repiquage || 0} jours</span></div>
-                    <div class="info-row"><span class="label">Plantation</span><span class="value">${s.delais?.plantation || 0} jours</span></div>
-                    <div class="info-row"><span class="label">Maturité</span><span class="value">${s.delais?.maturite || 0} jours</span></div>
+                    <h2>Moteur Agenda (Délais)</h2>
+                    <div class="info-row"><span class="label">Temps de levée</span><span class="value">${s.delais?.levee || 0} jours</span></div>
+                    <div class="info-row"><span class="label">Levée → Repiquage</span><span class="value">${s.delais?.repiquage || 0} jours</span></div>
+                    <div class="info-row"><span class="label">Repiquage → Plant.</span><span class="value">${s.delais?.plantation || 0} jours</span></div>
+                    <div class="info-row"><span class="label">Cycle maturité</span><span class="value">${s.delais?.maturite || 0} jours</span></div>
                 </section>
+
                 <section>
-                    <h2>Paramètres</h2>
+                    <h2>Conseils de Culture</h2>
                     <div class="info-row"><span class="label">Exposition</span><span class="value">${s.culture?.exposition}</span></div>
-                    <div class="info-row"><span class="label">Besoins Eau</span><span class="value">${s.culture?.eau}</span></div>
+                    <div class="info-row"><span class="label">Besoins en eau</span><span class="value">${s.culture?.eau}</span></div>
+                    <div class="info-row"><span class="label">Style de semis</span><span class="value">${s.culture?.style_semis || '-'}</span></div>
+                    <div class="info-row"><span class="label">Profondeur</span><span class="value">${s.culture?.profondeur || '-'}</span></div>
+                    <div class="info-row"><span class="label">Température levée</span><span class="value">${s.culture?.temp_levee || '-'}</span></div>
+                    <div class="info-row"><span class="label">Distance rang / inter</span><span class="value">${s.culture?.dist_rang || '-'} / ${s.culture?.dist_inter || '-'} cm</span></div>
+                </section>
+
+                <section>
+                    <h2>Particularités</h2>
+                    <label style="font-size:12px; color:#666;">SOINS SPÉCIFIQUES</label>
+                    <div class="badge-container">
+                        ${(s.particularites?.soins || []).length > 0 
+                            ? s.particularites.soins.map(soin => `<span class="badge">🛡️ ${soin}</span>`).join('') 
+                            : '<span style="font-size:13px; color:#555;">Aucun soin particulier</span>'}
+                    </div>
+                    <label style="font-size:12px; color:#666; display:block; margin-top:15px;">PLANTES COMPAGNES</label>
+                    <div class="badge-container">
+                        ${s.particularites?.associes 
+                            ? s.particularites.associes.split(',').map(p => `<span class="badge companion">🌿 ${p.trim()}</span>`).join('') 
+                            : '<span style="font-size:13px; color:#555;">Non renseigné</span>'}
+                    </div>
                 </section>
             `;
-            const btn = document.getElementById('editBtn');
-            btn.style.display = 'block'; 
-            btn.onclick = () => window.location.href = `modifier-semence.html?id=${s.id}`;
+            document.getElementById('content').innerHTML = html;
         }
         window.onload = load;
     </script>
