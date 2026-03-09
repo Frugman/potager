@@ -6,29 +6,37 @@
     <title>Détails Semence</title>
     <style>
         :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #333; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; font-size: 16px; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; padding-bottom: 100px; font-size: 16px; }
         header { display: flex; align-items: center; margin-bottom: 25px; }
-        .back-btn { background: none; border: none; color: #fff; font-size: 30px; margin-right: 15px; cursor: pointer; }
+        .back-btn { background: none; border: none; color: #fff; font-size: 35px; margin-right: 15px; cursor: pointer; min-width: 44px; }
         section { background: var(--card-bg); padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 1px solid var(--border); }
         h2 { font-size: 14px; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; }
         .info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #222; }
         .label { font-weight: bold; color: #aaa; font-size: 14px; }
         .value { color: #fff; text-align: right; }
-        .month-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 10px; }
-        .month { padding: 8px; border: 1px solid var(--border); border-radius: 6px; text-align: center; font-size: 12px; color: #555; }
-        .month.active { background: var(--accent); color: white; border-color: var(--accent); font-weight: bold; }
-        .badge { background: #333; padding: 5px 10px; border-radius: 8px; font-size: 12px; color: var(--accent); font-weight: bold; margin-right: 5px; }
-        #editBtn { margin-left: auto; background: var(--accent); color: white; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        #editBtn { margin-left: auto; background: var(--accent); color: white; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; min-height: 44px; }
+        
+        .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
+        .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
+        .nav-icon { font-size: 26px; }
     </style>
 </head>
 <body>
     <header>
-        <button class="back-btn" onclick="window.location.href='index.html'">←</button>
+        <button class="back-btn" onclick="window.location.href='repertoire.html'">←</button>
         <h1 id="seedTitle">Chargement...</h1>
         <button id="editBtn" style="display:none">MODIFIER</button>
     </header>
 
     <div id="content"></div>
+
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Accueil</a>
+        <a href="repertoire.html" class="nav-item"><span class="nav-icon">📚</span>Semences</a>
+        <a href="bacs.html" class="nav-item"><span class="nav-icon">🍱</span>Bacs</a>
+        <a href="agenda.html" class="nav-item"><span class="nav-icon">📅</span>Agenda</a>
+        <a href="journal.html" class="nav-item"><span class="nav-icon">📖</span>Journal</a>
+    </nav>
 
     <script>
         async function load() {
@@ -44,41 +52,29 @@
 
         function render(s) {
             document.getElementById('seedTitle').innerText = s.identite.nom_commun;
-            const months = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"];
-            let mHtml = months.map(m => `<div class="month ${(s.culture?.periode_semis || []).includes(m) ? 'active' : ''}">${m}</div>`).join('');
-
             document.getElementById('content').innerHTML = `
                 <section>
                     <h2>Identité</h2>
                     <div class="info-row"><span class="label">Variété</span><span class="value">${s.identite.variete}</span></div>
                     <div class="info-row"><span class="label">Famille</span><span class="value">${s.identite.famille || '-'}</span></div>
-                    <div class="info-row"><span class="label">Provenance</span><span class="value">${s.identite.provenance}</span></div>
                     <div class="info-row"><span class="label">Durée Germ.</span><span class="value">${s.identite.duree_germ ? s.identite.duree_germ + ' ans' : '-'}</span></div>
-                    ${s.identite.description ? `<p style="font-size:14px; margin-top:15px; line-height:1.5">${s.identite.description}</p>` : ''}
                 </section>
                 <section>
-                    <h2>Culture</h2>
-                    <div class="info-row"><span class="label">Profondeur</span><span class="value">${s.culture?.profondeur || '-'}</span></div>
-                    <div class="info-row"><span class="label">T° Levée</span><span class="value">${s.culture?.temp_levee || '-'}</span></div>
-                    <div class="info-row"><span class="label">Espacement</span><span class="value">${s.culture?.dist_rang}x${s.culture?.dist_inter} cm</span></div>
-                    <div class="info-row"><span class="label">Exposition / Eau</span><span class="value">${s.culture?.exposition} / ${s.culture?.eau}</span></div>
-                    <div class="month-grid">${mHtml}</div>
+                    <h2>Délais de culture</h2>
+                    <div class="info-row"><span class="label">Levée</span><span class="value">${s.delais?.levee || 0} jours</span></div>
+                    <div class="info-row"><span class="label">Repiquage</span><span class="value">${s.delais?.repiquage || 0} jours</span></div>
+                    <div class="info-row"><span class="label">Plantation</span><span class="value">${s.delais?.plantation || 0} jours</span></div>
+                    <div class="info-row"><span class="label">Maturité</span><span class="value">${s.delais?.maturite || 0} jours</span></div>
                 </section>
                 <section>
-                    <h2>Particularités</h2>
-                    <div class="info-row"><span class="label">Cycle maturité</span><span class="value">${s.particularites?.cycle_mat ? s.particularites.cycle_mat + ' jours' : '-'}</span></div>
-                    <div style="margin-top:15px">
-                        ${(s.particularites?.soins || []).map(soin => `<span class="badge">${soin}</span>`).join('')}
-                    </div>
-                    ${s.particularites?.associes ? `<p style="font-size:14px; color:#aaa; margin-top:10px"><b>Amis :</b> ${s.particularites.associes}</p>` : ''}
-                </section>
-                <section>
-                    <h2>Historique Récoltes</h2>
-                    <div class="info-row"><span class="label">Saison 2026</span><span class="value">${s.recolte?.historique?.["2026"] || '-'}</span></div>
+                    <h2>Paramètres</h2>
+                    <div class="info-row"><span class="label">Exposition</span><span class="value">${s.culture?.exposition}</span></div>
+                    <div class="info-row"><span class="label">Besoins Eau</span><span class="value">${s.culture?.eau}</span></div>
                 </section>
             `;
             const btn = document.getElementById('editBtn');
-            btn.style.display = 'block'; btn.onclick = () => window.location.href = `modifier-semence.html?id=${s.id}`;
+            btn.style.display = 'block'; 
+            btn.onclick = () => window.location.href = `modifier-semence.html?id=${s.id}`;
         }
         window.onload = load;
     </script>
