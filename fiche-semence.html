@@ -5,145 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Détails Semence</title>
     <style>
-        :root {
-            --bg: #000000;
-            --card-bg: #1a1a1a;
-            --text: #ffffff;
-            --accent: #4CAF50;
-            --border: #333;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 20px;
-            padding-bottom: 40px;
-        }
-
+        :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #333; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; font-size: 16px; }
         header { display: flex; align-items: center; margin-bottom: 25px; }
-        .back-btn { background: none; border: none; color: var(--text); font-size: 30px; margin-right: 15px; cursor: pointer; }
-        h1 { font-size: 24px; margin: 0; }
-
-        section {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border);
-        }
-
-        h2 { font-size: 14px; color: var(--accent); margin-top: 0; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1.5px; }
-
+        .back-btn { background: none; border: none; color: #fff; font-size: 30px; margin-right: 15px; cursor: pointer; }
+        section { background: var(--card-bg); padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 1px solid var(--border); }
+        h2 { font-size: 14px; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; }
         .info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #222; }
-        .info-row:last-child { border-bottom: none; }
-        .label { font-weight: bold; color: #ffffff; }
-        .value { color: #ffffff; text-align: right; }
-
-        /* Grille Calendrier */
+        .label { font-weight: bold; color: #aaa; font-size: 14px; }
+        .value { color: #fff; text-align: right; }
         .month-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 10px; }
-        .month { 
-            padding: 8px; border: 1px solid var(--border); border-radius: 6px; 
-            text-align: center; font-size: 12px; color: #555; 
-        }
+        .month { padding: 8px; border: 1px solid var(--border); border-radius: 6px; text-align: center; font-size: 12px; color: #555; }
         .month.active { background: var(--accent); color: white; border-color: var(--accent); font-weight: bold; }
-
-        .description { line-height: 1.6; margin-top: 10px; }
-
-        .loading { text-align: center; padding: 50px; font-size: 18px; }
+        .badge { background: #333; padding: 5px 10px; border-radius: 8px; font-size: 12px; color: var(--accent); font-weight: bold; margin-right: 5px; }
+        #editBtn { margin-left: auto; background: var(--accent); color: white; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
-
     <header>
         <button class="back-btn" onclick="window.location.href='index.html'">←</button>
         <h1 id="seedTitle">Chargement...</h1>
-        <button id="editBtn" style="margin-left: auto; background: var(--accent); color: white; border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; font-size: 14px; display: none;">MODIFIER</button>
+        <button id="editBtn" style="display:none">MODIFIER</button>
     </header>
 
-    <div id="content" class="loading">Recherche de la fiche...</div>
+    <div id="content"></div>
 
     <script>
-        async function loadSeedDetails() {
-            const params = new URLSearchParams(window.location.search);
-            const seedId = params.get('id');
-            const user = localStorage.getItem('gh_user');
-            const repo = localStorage.getItem('gh_repo');
-            const token = localStorage.getItem('gh_token');
-
-            if (!seedId) { window.location.href = 'index.html'; return; }
-
+        async function load() {
+            const id = new URLSearchParams(window.location.search).get('id');
+            const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
             try {
-                const url = `https://api.github.com/repos/${user}/${repo}/contents/semences.json`;
-                const res = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-                const data = await res.json();
-                const semences = JSON.parse(decodeURIComponent(escape(atob(data.content))));
-                
-                const s = semences.find(item => item.id === seedId);
-                if (!s) throw new Error("Semence introuvable");
-
-                renderFiche(s);
-            } catch (e) {
-                document.getElementById('content').innerHTML = `❌ Erreur : ${e.message}`;
-            }
+                const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const semences = JSON.parse(decodeURIComponent(escape(atob((await res.json()).content))));
+                const s = semences.find(item => item.id === id);
+                if (s) render(s);
+            } catch (e) { console.error(e); }
         }
 
-        function renderFiche(s) {
-            // 1. Titre
+        function render(s) {
             document.getElementById('seedTitle').innerText = s.identite.nom_commun;
-            
-            // 2. Calendrier de semis
             const months = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"];
-            let monthHtml = months.map(m => {
-                const isActive = (s.culture?.periode_semis || []).includes(m);
-                return `<div class="month ${isActive ? 'active' : ''}">${m}</div>`;
-            }).join('');
+            let mHtml = months.map(m => `<div class="month ${(s.culture?.periode_semis || []).includes(m) ? 'active' : ''}">${m}</div>`).join('');
 
-            // 3. Injection du contenu
-            document.getElementById('content').className = "";
             document.getElementById('content').innerHTML = `
                 <section>
                     <h2>Identité</h2>
                     <div class="info-row"><span class="label">Variété</span><span class="value">${s.identite.variete}</span></div>
+                    <div class="info-row"><span class="label">Famille</span><span class="value">${s.identite.famille || '-'}</span></div>
                     <div class="info-row"><span class="label">Provenance</span><span class="value">${s.identite.provenance}</span></div>
-                    ${s.identite.description ? `<div class="description">${s.identite.description}</div>` : ''}
+                    <div class="info-row"><span class="label">Durée Germ.</span><span class="value">${s.identite.duree_germ ? s.identite.duree_germ + ' ans' : '-'}</span></div>
+                    ${s.identite.description ? `<p style="font-size:14px; margin-top:15px; line-height:1.5">${s.identite.description}</p>` : ''}
                 </section>
-
                 <section>
-                    <h2>Calendrier de Semis</h2>
-                    <div class="month-grid">${monthHtml}</div>
-                </section>
-
-                <section>
-                    <h2>Paramètres de Culture</h2>
-                    <div class="info-row"><span class="label">Style</span><span class="value">${s.culture?.style_semis || '-'}</span></div>
-                    <div class="info-row"><span class="label">Profondeur</span><span class="value">${s.culture?.profondeur_semis || '-'}</span></div>
+                    <h2>Culture</h2>
+                    <div class="info-row"><span class="label">Profondeur</span><span class="value">${s.culture?.profondeur || '-'}</span></div>
                     <div class="info-row"><span class="label">T° Levée</span><span class="value">${s.culture?.temp_levee || '-'}</span></div>
-                    <div class="info-row"><span class="label">Exposition</span><span class="value">${s.culture?.exposition || '-'}</span></div>
-                    <div class="info-row"><span class="label">Eau</span><span class="value">${s.culture?.besoins_eau || '-'}</span></div>
+                    <div class="info-row"><span class="label">Espacement</span><span class="value">${s.culture?.dist_rang}x${s.culture?.dist_inter} cm</span></div>
+                    <div class="info-row"><span class="label">Exposition / Eau</span><span class="value">${s.culture?.exposition} / ${s.culture?.eau}</span></div>
+                    <div class="month-grid">${mHtml}</div>
                 </section>
-
+                <section>
+                    <h2>Particularités</h2>
+                    <div class="info-row"><span class="label">Cycle maturité</span><span class="value">${s.particularites?.cycle_mat ? s.particularites.cycle_mat + ' jours' : '-'}</span></div>
+                    <div style="margin-top:15px">
+                        ${(s.particularites?.soins || []).map(soin => `<span class="badge">${soin}</span>`).join('')}
+                    </div>
+                    ${s.particularites?.associes ? `<p style="font-size:14px; color:#aaa; margin-top:10px"><b>Amis :</b> ${s.particularites.associes}</p>` : ''}
+                </section>
                 <section>
                     <h2>Historique Récoltes</h2>
-                    <div class="info-row">
-                        <span class="label">Saison 2026</span>
-                        <span class="value">${s.recolte?.historique?.["2026"] || '—'}</span>
-                    </div>
+                    <div class="info-row"><span class="label">Saison 2026</span><span class="value">${s.recolte?.historique?.["2026"] || '-'}</span></div>
                 </section>
             `;
-
-            // 4. Bouton Modifier
-            const editBtn = document.getElementById('editBtn');
-            if (editBtn) {
-                editBtn.style.display = 'block';
-                editBtn.onclick = () => {
-                    window.location.href = `modifier-semence.html?id=${s.id}`;
-                };
-            }
+            const btn = document.getElementById('editBtn');
+            btn.style.display = 'block'; btn.onclick = () => window.location.href = `modifier-semence.html?id=${s.id}`;
         }
-
-        window.onload = loadSeedDetails;
+        window.onload = load;
     </script>
 </body>
 </html>
