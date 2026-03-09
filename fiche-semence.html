@@ -90,14 +90,17 @@
         }
 
         function renderFiche(s) {
+            // 1. Titre
             document.getElementById('seedTitle').innerText = s.identite.nom_commun;
             
+            // 2. Calendrier de semis
             const months = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"];
             let monthHtml = months.map(m => {
                 const isActive = (s.culture?.periode_semis || []).includes(m);
                 return `<div class="month ${isActive ? 'active' : ''}">${m}</div>`;
             }).join('');
 
+            // 3. Injection du contenu
             document.getElementById('content').className = "";
             document.getElementById('content').innerHTML = `
                 <section>
@@ -123,9 +126,21 @@
 
                 <section>
                     <h2>Historique Récoltes</h2>
-                    <div class="info-row"><span class="label">Saison 2026</span><span class="value">${s.recolte?.historique?.["2026"] || '—'}</span></div>
+                    <div class="info-row">
+                        <span class="label">Saison 2026</span>
+                        <span class="value">${s.recolte?.historique?.["2026"] || '—'}</span>
+                    </div>
                 </section>
             `;
+
+            // 4. Bouton Modifier
+            const editBtn = document.getElementById('editBtn');
+            if (editBtn) {
+                editBtn.style.display = 'block';
+                editBtn.onclick = () => {
+                    window.location.href = `modifier-semence.html?id=${s.id}`;
+                };
+            }
         }
 
         window.onload = loadSeedDetails;
