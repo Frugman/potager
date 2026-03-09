@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ajouter une Semence</title>
+    <style>
+        :root {
+            --bg: #000000;
+            --card-bg: #1a1a1a;
+            --text: #ffffff;
+            --accent: #4CAF50;
+            --border: #444;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 30px;
+            cursor: pointer;
+            margin-right: 15px;
+            padding: 0;
+        }
+
+        h1 { font-size: 22px; margin: 0; }
+
+        section {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+
+        h2 { font-size: 18px; color: var(--accent); margin-top: 0; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .form-group { margin-bottom: 20px; }
+
+        label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 16px; }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 16px;
+            background: #000;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 18px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--accent); }
+
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        /* Style spécifique pour les mois (multi-sélection simplifiée) */
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .month-btn {
+            padding: 10px;
+            background: #000;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: #fff;
+            text-align: center;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .month-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            font-weight: bold;
+        }
+
+        .save-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 100;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="back-btn" onclick="window.location.href='index.html'">←</button>
+        <h1>Nouvelle Semence</h1>
+    </header>
+
+    <form id="seedForm">
+        <section>
+            <h2>1. Identité</h2>
+            <div class="form-group">
+                <label>Nom commun (ex: Tomate)</label>
+                <input type="text" id="nom_commun" required placeholder="Ex: Poivron">
+            </div>
+            <div class="form-group">
+                <label>Variété</label>
+                <input type="text" id="variete" required placeholder="Ex: California Wonder">
+            </div>
+            <div class="form-group">
+                <label>Provenance</label>
+                <select id="provenance" onchange="toggleAutre(this)">
+                    <option value="Kokopelli">Kokopelli</option>
+                    <option value="Récolte personnelle">Récolte personnelle</option>
+                    <option value="Autre">Ajout libre (préciser...)</option>
+                </select>
+                <input type="text" id="provenance_autre" class="hidden" style="margin-top:10px" placeholder="Précisez la provenance">
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Culture</h2>
+            <div class="form-group">
+                <label>Style de semis</label>
+                <select id="style_semis">
+                    <option value="Graine à graine">Graine à graine</option>
+                    <option value="En poquet">En poquet</option>
+                    <option value="En ligne">En ligne</option>
+                    <option value="À la volée">À la volée</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label>Profondeur</label>
+                    <input type="text" id="profondeur" placeholder="ex: 5mm">
+                </div>
+                <div class="form-group">
+                    <label>T° Levée</label>
+                    <input type="text" id="temp_levee" placeholder="ex: 20°C">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Mois de semis</label>
+                <div class="month-grid" id="semisMonths">
+                    <div class="month-btn" onclick="toggleMonth(this)">Jan</div>
+                    <div class="month-btn" onclick="toggleMonth(this)">Fév</div>
+                    <div class="month-btn" onclick="toggleMonth(this)">Mar</div>
+                    <div class="month-btn" onclick="toggleMonth(this)">Avr</div>
+                    <div class="month-btn" onclick="toggleMonth(this)">Mai</div>
+                    <div class="month-btn" onclick="toggleMonth(this)">Juin</div>
+                    <div class="month-btn" onclick="toggleMonth(this)">Juil</div>
+                    <div class="month-btn" onclick="toggleMonth(this)">Août</div>
+                    <div class="month-btn" onclick="toggleMonth(this)">Sep</div>
+                    <div class="month-btn" onclick="toggleMonth(this)">Oct</div>
+                    <div class="month-btn" onclick="toggleMonth(this)">Nov</div>
+                    <div class="month-btn" onclick="toggleMonth(this)">Déc</div>
+                </div>
+            </div>
+        </section>
+
+        <button type="button" class="save-btn" onclick="saveNewSeed()">ENREGISTRER LA FICHE</button>
+    </form>
+
+    <script>
+        // Gestion visuelle des boutons de mois
+        function toggleMonth(btn) {
+            btn.classList.toggle('active');
+        }
+
+        // Afficher le champ libre si "Autre" est choisi
+        function toggleAutre(select) {
+            const autreField = document.getElementById('provenance_autre');
+            autreField.className = (select.value === 'Autre') ? '' : 'hidden';
+        }
+
+        async function saveNewSeed() {
+            // 1. Récupération des infos de connexion (stockées lors du test précédent)
+            // Note : Il faudra prévoir une page "Settings" pour les enregistrer proprement.
+            const token = localStorage.getItem('gh_token');
+            const user = localStorage.getItem('gh_user');
+            const repo = localStorage.getItem('gh_repo');
+
+            if(!token) {
+                alert("Erreur : Aucun Token trouvé. Configurez d'abord la connexion.");
+                return;
+            }
+
+            // 2. Construction de l'objet Semence
+            const selectedMonths = Array.from(document.querySelectorAll('#semisMonths .month-btn.active')).map(b => b.innerText);
+            
+            const newSeed = {
+                id: Date.now().toString(), // ID unique basé sur le timestamp
+                identite: {
+                    nom_commun: document.getElementById('nom_commun').value,
+                    variete: document.getElementById('variete').value,
+                    provenance: document.getElementById('provenance').value === 'Autre' ? document.getElementById('provenance_autre').value : document.getElementById('provenance').value
+                },
+                culture: {
+                    style_semis: document.getElementById('style_semis').value,
+                    profondeur_semis: document.getElementById('profondeur').value,
+                    periode_semis: selectedMonths
+                }
+            };
+
+            // 3. Logique API GitHub pour ajouter au JSON existant
+            // (Nous détaillerons cette fonction complexe de récupération/push juste après)
+            console.log("Données prêtes :", newSeed);
+            alert("Fiche prête ! (En attente du script de liaison JSON)");
+        }
+    </script>
+</body>
+</html>
