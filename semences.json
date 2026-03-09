@@ -9,7 +9,12 @@
       "duree_germ": "5",
       "description": "Grandes feuilles très parfumées, idéal pour le pesto."
     },
-    "delais": { "levee": 7, "repiquage": 25, "plantation": 15, "maturite": 60 },
+    "delais": {
+      "levee": 7,
+      "repiquage": 25,
+      "plantation": 15,
+      "maturite": 60
+    },
     "culture": {
       "exposition": "Plein soleil",
       "eau": "Fort",
@@ -18,10 +23,22 @@
       "temp_levee": "20°C",
       "dist_rang": 25,
       "dist_inter": 30,
-      "periode_semis": ["Avr", "Mai"]
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
     },
-    "particularites": { "soins": ["Pincement"], "associes": "Tomate, Poivron" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [
+        "Pincement"
+      ],
+      "associes": "Tomate, Poivron"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "basilic-grand-vert",
@@ -33,7 +50,12 @@
       "duree_germ": "5",
       "description": "Classique du potager, feuilles moyennes très odorantes."
     },
-    "delais": { "levee": 7, "repiquage": 25, "plantation": 15, "maturite": 60 },
+    "delais": {
+      "levee": 7,
+      "repiquage": 25,
+      "plantation": 15,
+      "maturite": 60
+    },
     "culture": {
       "exposition": "Plein soleil",
       "eau": "Fort",
@@ -42,10 +64,22 @@
       "temp_levee": "20°C",
       "dist_rang": 25,
       "dist_inter": 30,
-      "periode_semis": ["Avr", "Mai"]
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
     },
-    "particularites": { "soins": ["Pincement"], "associes": "Tomate, Concombre" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [
+        "Pincement"
+      ],
+      "associes": "Tomate, Concombre"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "bourrache-bleue",
@@ -57,7 +91,12 @@
       "duree_germ": "3",
       "description": "Fleurs comestibles au goût iodé, excellente mellifère."
     },
-    "delais": { "levee": 10, "repiquage": 0, "plantation": 0, "maturite": 60 },
+    "delais": {
+      "levee": 10,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 60
+    },
     "culture": {
       "exposition": "Plein soleil",
       "eau": "Moyen",
@@ -66,10 +105,21 @@
       "temp_levee": "15°C",
       "dist_rang": 40,
       "dist_inter": 40,
-      "periode_semis": ["Mar", "Avr", "Mai"]
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ]
     },
-    "particularites": { "soins": [], "associes": "Fèves, Courgette" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [],
+      "associes": "Fèves, Courgette"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "camomille-zloty",
@@ -81,7 +131,12 @@
       "duree_germ": "4",
       "description": "Variété riche en principes actifs, fleurs très odorantes."
     },
-    "delais": { "levee": 14, "repiquage": 20, "plantation": 10, "maturite": 90 },
+    "delais": {
+      "levee": 14,
+      "repiquage": 20,
+      "plantation": 10,
+      "maturite": 90
+    },
     "culture": {
       "exposition": "Plein soleil",
       "eau": "Faible",
@@ -90,10 +145,20 @@
       "temp_levee": "18°C",
       "dist_rang": 20,
       "dist_inter": 25,
-      "periode_semis": ["Mar", "Avr"]
+      "periode_semis": [
+        "Mar",
+        "Avr"
+      ]
     },
-    "particularites": { "soins": [], "associes": "Chou, Oignon" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [],
+      "associes": "Chou, Oignon"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "capucine-empress",
@@ -105,7 +170,12 @@
       "duree_germ": "3",
       "description": "Fleurs rouge cramoisi, feuillage sombre, comestible."
     },
-    "delais": { "levee": 12, "repiquage": 0, "plantation": 0, "maturite": 70 },
+    "delais": {
+      "levee": 12,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 70
+    },
     "culture": {
       "exposition": "Plein soleil",
       "eau": "Moyen",
@@ -114,10 +184,20 @@
       "temp_levee": "15°C",
       "dist_rang": 30,
       "dist_inter": 30,
-      "periode_semis": ["Avr", "Mai"]
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
     },
-    "particularites": { "soins": [], "associes": "Tomate, Chou" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [],
+      "associes": "Tomate, Chou"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "ciboule-tokyo",
@@ -129,7 +209,12 @@
       "duree_germ": "2",
       "description": "Ressemble à un petit poireau tendre, goût d'oignon frais."
     },
-    "delais": { "levee": 15, "repiquage": 30, "plantation": 10, "maturite": 70 },
+    "delais": {
+      "levee": 15,
+      "repiquage": 30,
+      "plantation": 10,
+      "maturite": 70
+    },
     "culture": {
       "exposition": "Soleil",
       "eau": "Moyen",
@@ -138,10 +223,21 @@
       "temp_levee": "18°C",
       "dist_rang": 10,
       "dist_inter": 20,
-      "periode_semis": ["Mar", "Avr", "Mai"]
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ]
     },
-    "particularites": { "soins": [], "associes": "Carotte, Laitue" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [],
+      "associes": "Carotte, Laitue"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "ciboulette-commune",
@@ -153,7 +249,12 @@
       "duree_germ": "2",
       "description": "Vivace indispensable, fleurs violettes comestibles."
     },
-    "delais": { "levee": 15, "repiquage": 30, "plantation": 10, "maturite": 80 },
+    "delais": {
+      "levee": 15,
+      "repiquage": 30,
+      "plantation": 10,
+      "maturite": 80
+    },
     "culture": {
       "exposition": "Soleil/Mi-ombre",
       "eau": "Moyen",
@@ -162,10 +263,21 @@
       "temp_levee": "18°C",
       "dist_rang": 20,
       "dist_inter": 20,
-      "periode_semis": ["Mar", "Avr", "Mai"]
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ]
     },
-    "particularites": { "soins": [], "associes": "Tomate, Carotte" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [],
+      "associes": "Tomate, Carotte"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "concombre-bushy",
@@ -177,7 +289,12 @@
       "duree_germ": "5",
       "description": "Variété compacte idéale pour les petits espaces."
     },
-    "delais": { "levee": 7, "repiquage": 15, "plantation": 10, "maturite": 60 },
+    "delais": {
+      "levee": 7,
+      "repiquage": 15,
+      "plantation": 10,
+      "maturite": 60
+    },
     "culture": {
       "exposition": "Plein soleil",
       "eau": "Fort",
@@ -186,10 +303,22 @@
       "temp_levee": "22°C",
       "dist_rang": 40,
       "dist_inter": 40,
-      "periode_semis": ["Avr", "Mai"]
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
     },
-    "particularites": { "soins": ["Tuteur"], "associes": "Aneth, Maïs" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [
+        "Tuteur"
+      ],
+      "associes": "Aneth, Maïs"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "cornichon-paris",
@@ -201,7 +330,12 @@
       "duree_germ": "5",
       "description": "Variété très productive, fruits à récolter jeunes."
     },
-    "delais": { "levee": 7, "repiquage": 15, "plantation": 10, "maturite": 55 },
+    "delais": {
+      "levee": 7,
+      "repiquage": 15,
+      "plantation": 10,
+      "maturite": 55
+    },
     "culture": {
       "exposition": "Plein soleil",
       "eau": "Fort",
@@ -210,10 +344,22 @@
       "temp_levee": "22°C",
       "dist_rang": 40,
       "dist_inter": 40,
-      "periode_semis": ["Avr", "Mai"]
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
     },
-    "particularites": { "soins": ["Tuteur"], "associes": "Chou, Oignon" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [
+        "Tuteur"
+      ],
+      "associes": "Chou, Oignon"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "cosmos-capriola",
@@ -225,7 +371,12 @@
       "duree_germ": "3",
       "description": "Fleurs blanches cerclées de rose pourpre, très élégant."
     },
-    "delais": { "levee": 10, "repiquage": 15, "plantation": 10, "maturite": 90 },
+    "delais": {
+      "levee": 10,
+      "repiquage": 15,
+      "plantation": 10,
+      "maturite": 90
+    },
     "culture": {
       "exposition": "Soleil",
       "eau": "Faible",
@@ -234,10 +385,22 @@
       "temp_levee": "20°C",
       "dist_rang": 30,
       "dist_inter": 30,
-      "periode_semis": ["Avr", "Mai"]
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
     },
-    "particularites": { "soins": ["Tuteur"], "associes": "Tomate, Potiron" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [
+        "Tuteur"
+      ],
+      "associes": "Tomate, Potiron"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "courgette-alberello",
@@ -249,7 +412,12 @@
       "duree_germ": "6",
       "description": "Variété italienne vert clair, très productive, fruits longs."
     },
-    "delais": { "levee": 6, "repiquage": 15, "plantation": 10, "maturite": 55 },
+    "delais": {
+      "levee": 6,
+      "repiquage": 15,
+      "plantation": 10,
+      "maturite": 55
+    },
     "culture": {
       "exposition": "Soleil",
       "eau": "Fort",
@@ -258,10 +426,20 @@
       "temp_levee": "22°C",
       "dist_rang": 80,
       "dist_inter": 100,
-      "periode_semis": ["Avr", "Mai"]
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
     },
-    "particularites": { "soins": [], "associes": "Haricot, Maïs" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [],
+      "associes": "Haricot, Maïs"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "courgette-rheinau",
@@ -273,7 +451,12 @@
       "duree_germ": "6",
       "description": "Superbe courgette jaune d'or, saveur délicate."
     },
-    "delais": { "levee": 6, "repiquage": 15, "plantation": 10, "maturite": 55 },
+    "delais": {
+      "levee": 6,
+      "repiquage": 15,
+      "plantation": 10,
+      "maturite": 55
+    },
     "culture": {
       "exposition": "Soleil",
       "eau": "Fort",
@@ -282,10 +465,20 @@
       "temp_levee": "22°C",
       "dist_rang": 80,
       "dist_inter": 100,
-      "periode_semis": ["Avr", "Mai"]
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
     },
-    "particularites": { "soins": [], "associes": "Fèves, Souci" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [],
+      "associes": "Fèves, Souci"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "epinard-matador",
@@ -297,7 +490,12 @@
       "duree_germ": "4",
       "description": "Grandes feuilles charnues, résistant à la montée en graine."
     },
-    "delais": { "levee": 10, "repiquage": 0, "plantation": 0, "maturite": 50 },
+    "delais": {
+      "levee": 10,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 50
+    },
     "culture": {
       "exposition": "Mi-ombre",
       "eau": "Fort",
@@ -306,10 +504,22 @@
       "temp_levee": "15°C",
       "dist_rang": 10,
       "dist_inter": 25,
-      "periode_semis": ["Mar", "Avr", "Août", "Sep"]
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Août",
+        "Sep"
+      ]
     },
-    "particularites": { "soins": [], "associes": "Fraise, Pois" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [],
+      "associes": "Fraise, Pois"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "feves-karmazyn",
@@ -321,7 +531,12 @@
       "duree_germ": "5",
       "description": "Exceptionnelle variété à grains roses, peau fine et tendre."
     },
-    "delais": { "levee": 12, "repiquage": 0, "plantation": 0, "maturite": 90 },
+    "delais": {
+      "levee": 12,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 90
+    },
     "culture": {
       "exposition": "Soleil",
       "eau": "Moyen",
@@ -330,10 +545,22 @@
       "temp_levee": "10°C",
       "dist_rang": 15,
       "dist_inter": 40,
-      "periode_semis": ["Fév", "Mar"]
+      "periode_semis": [
+        "Fév",
+        "Mar"
+      ]
     },
-    "particularites": { "soins": ["Pincement"], "associes": "Laitue, Chou" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [
+        "Pincement"
+      ],
+      "associes": "Laitue, Chou"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "laitue-bowl",
@@ -345,7 +572,12 @@
       "duree_germ": "4",
       "description": "Laitue à couper, feuilles tendres, résiste bien à la chaleur."
     },
-    "delais": { "levee": 6, "repiquage": 20, "plantation": 10, "maturite": 50 },
+    "delais": {
+      "levee": 6,
+      "repiquage": 20,
+      "plantation": 10,
+      "maturite": 50
+    },
     "culture": {
       "exposition": "Soleil/Mi-ombre",
       "eau": "Fort",
@@ -354,10 +586,22 @@
       "temp_levee": "18°C",
       "dist_rang": 20,
       "dist_inter": 25,
-      "periode_semis": ["Mar", "Avr", "Mai", "Juin"]
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Juin"
+      ]
     },
-    "particularites": { "soins": [], "associes": "Carotte, Radis" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [],
+      "associes": "Carotte, Radis"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "laitue-sucrine",
@@ -369,7 +613,12 @@
       "duree_germ": "4",
       "description": "Petite pomme croquante et sucrée, excellente saveur."
     },
-    "delais": { "levee": 6, "repiquage": 20, "plantation": 10, "maturite": 60 },
+    "delais": {
+      "levee": 6,
+      "repiquage": 20,
+      "plantation": 10,
+      "maturite": 60
+    },
     "culture": {
       "exposition": "Soleil/Mi-ombre",
       "eau": "Fort",
@@ -378,10 +627,22 @@
       "temp_levee": "18°C",
       "dist_rang": 25,
       "dist_inter": 30,
-      "periode_semis": ["Mar", "Avr", "Mai", "Juin"]
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Juin"
+      ]
     },
-    "particularites": { "soins": [], "associes": "Fèves, Oignon" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [],
+      "associes": "Fèves, Oignon"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "oeillets-inde",
@@ -393,7 +654,12 @@
       "duree_germ": "3",
       "description": "Indispensable pour protéger les tomates des nématodes."
     },
-    "delais": { "levee": 10, "repiquage": 20, "plantation": 10, "maturite": 70 },
+    "delais": {
+      "levee": 10,
+      "repiquage": 20,
+      "plantation": 10,
+      "maturite": 70
+    },
     "culture": {
       "exposition": "Soleil",
       "eau": "Moyen",
@@ -402,10 +668,21 @@
       "temp_levee": "20°C",
       "dist_rang": 25,
       "dist_inter": 25,
-      "periode_semis": ["Mar", "Avr", "Mai"]
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ]
     },
-    "particularites": { "soins": [], "associes": "Tomate, Poivron" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [],
+      "associes": "Tomate, Poivron"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "oignon-jaune",
@@ -417,7 +694,12 @@
       "duree_germ": "2",
       "description": "Bulbe rond, jaune cuivré, très bonne conservation."
     },
-    "delais": { "levee": 15, "repiquage": 35, "plantation": 10, "maturite": 120 },
+    "delais": {
+      "levee": 15,
+      "repiquage": 35,
+      "plantation": 10,
+      "maturite": 120
+    },
     "culture": {
       "exposition": "Soleil",
       "eau": "Faible",
@@ -426,10 +708,20 @@
       "temp_levee": "18°C",
       "dist_rang": 10,
       "dist_inter": 25,
-      "periode_semis": ["Fév", "Mar"]
+      "periode_semis": [
+        "Fév",
+        "Mar"
+      ]
     },
-    "particularites": { "soins": [], "associes": "Carotte, Fraise" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [],
+      "associes": "Carotte, Fraise"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "oignon-rose",
@@ -441,7 +733,12 @@
       "duree_germ": "2",
       "description": "Oignon doux de type échalote, saveur remarquable."
     },
-    "delais": { "levee": 15, "repiquage": 35, "plantation": 10, "maturite": 120 },
+    "delais": {
+      "levee": 15,
+      "repiquage": 35,
+      "plantation": 10,
+      "maturite": 120
+    },
     "culture": {
       "exposition": "Soleil",
       "eau": "Faible",
@@ -450,10 +747,20 @@
       "temp_levee": "18°C",
       "dist_rang": 10,
       "dist_inter": 25,
-      "periode_semis": ["Fév", "Mar"]
+      "periode_semis": [
+        "Fév",
+        "Mar"
+      ]
     },
-    "particularites": { "soins": [], "associes": "Betterave, Laitue" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [],
+      "associes": "Betterave, Laitue"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "persil-bio",
@@ -465,7 +772,12 @@
       "duree_germ": "3",
       "description": "Feuillage plat très aromatique, levée longue."
     },
-    "delais": { "levee": 25, "repiquage": 20, "plantation": 10, "maturite": 80 },
+    "delais": {
+      "levee": 25,
+      "repiquage": 20,
+      "plantation": 10,
+      "maturite": 80
+    },
     "culture": {
       "exposition": "Soleil/Mi-ombre",
       "eau": "Fort",
@@ -474,10 +786,21 @@
       "temp_levee": "18°C",
       "dist_rang": 15,
       "dist_inter": 25,
-      "periode_semis": ["Mar", "Avr", "Mai"]
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ]
     },
-    "particularites": { "soins": [], "associes": "Tomate, Asperge" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [],
+      "associes": "Tomate, Asperge"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "piment-ordono",
@@ -489,7 +812,12 @@
       "duree_germ": "4",
       "description": "Piment ornemental et piquant, fruits changeant de couleur."
     },
-    "delais": { "levee": 15, "repiquage": 45, "plantation": 15, "maturite": 100 },
+    "delais": {
+      "levee": 15,
+      "repiquage": 45,
+      "plantation": 15,
+      "maturite": 100
+    },
     "culture": {
       "exposition": "Plein soleil",
       "eau": "Moyen",
@@ -498,10 +826,22 @@
       "temp_levee": "25°C",
       "dist_rang": 40,
       "dist_inter": 50,
-      "periode_semis": ["Fév", "Mar"]
+      "periode_semis": [
+        "Fév",
+        "Mar"
+      ]
     },
-    "particularites": { "soins": ["Tuteur"], "associes": "Basilic, Souci" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [
+        "Tuteur"
+      ],
+      "associes": "Basilic, Souci"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "poireau-victor",
@@ -513,7 +853,12 @@
       "duree_germ": "2",
       "description": "Variété rustique à feuillage bleuté-violet, très résistant au froid."
     },
-    "delais": { "levee": 15, "repiquage": 60, "plantation": 10, "maturite": 150 },
+    "delais": {
+      "levee": 15,
+      "repiquage": 60,
+      "plantation": 10,
+      "maturite": 150
+    },
     "culture": {
       "exposition": "Soleil",
       "eau": "Moyen",
@@ -522,10 +867,21 @@
       "temp_levee": "18°C",
       "dist_rang": 15,
       "dist_inter": 30,
-      "periode_semis": ["Mar", "Avr", "Mai"]
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ]
     },
-    "particularites": { "soins": [], "associes": "Carotte, Fraise" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [],
+      "associes": "Carotte, Fraise"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "poivron-yag",
@@ -537,7 +893,12 @@
       "duree_germ": "4",
       "description": "Poivron charnu de type 'Kapiya', chair épaisse et sucrée."
     },
-    "delais": { "levee": 15, "repiquage": 45, "plantation": 15, "maturite": 100 },
+    "delais": {
+      "levee": 15,
+      "repiquage": 45,
+      "plantation": 15,
+      "maturite": 100
+    },
     "culture": {
       "exposition": "Plein soleil",
       "eau": "Moyen",
@@ -546,10 +907,22 @@
       "temp_levee": "25°C",
       "dist_rang": 40,
       "dist_inter": 50,
-      "periode_semis": ["Fév", "Mar"]
+      "periode_semis": [
+        "Fév",
+        "Mar"
+      ]
     },
-    "particularites": { "soins": ["Tuteur"], "associes": "Basilic, Oeillet" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [
+        "Tuteur"
+      ],
+      "associes": "Basilic, Oeillet"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "poivron-marconi",
@@ -561,7 +934,12 @@
       "duree_germ": "4",
       "description": "Longs fruits rouges très doux et sucrés."
     },
-    "delais": { "levee": 15, "repiquage": 45, "plantation": 15, "maturite": 100 },
+    "delais": {
+      "levee": 15,
+      "repiquage": 45,
+      "plantation": 15,
+      "maturite": 100
+    },
     "culture": {
       "exposition": "Plein soleil",
       "eau": "Moyen",
@@ -570,10 +948,22 @@
       "temp_levee": "25°C",
       "dist_rang": 40,
       "dist_inter": 50,
-      "periode_semis": ["Fév", "Mar"]
+      "periode_semis": [
+        "Fév",
+        "Mar"
+      ]
     },
-    "particularites": { "soins": ["Tuteur"], "associes": "Souci, Basilic" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [
+        "Tuteur"
+      ],
+      "associes": "Souci, Basilic"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "roquette-sauvage",
@@ -585,7 +975,12 @@
       "duree_germ": "4",
       "description": "Goût beaucoup plus prononcé que la roquette annuelle."
     },
-    "delais": { "levee": 7, "repiquage": 0, "plantation": 0, "maturite": 40 },
+    "delais": {
+      "levee": 7,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 40
+    },
     "culture": {
       "exposition": "Soleil/Mi-ombre",
       "eau": "Fort",
@@ -594,10 +989,23 @@
       "temp_levee": "18°C",
       "dist_rang": 5,
       "dist_inter": 20,
-      "periode_semis": ["Mar", "Avr", "Mai", "Août", "Sep"]
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Août",
+        "Sep"
+      ]
     },
-    "particularites": { "soins": [], "associes": "Laitue, Betterave" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [],
+      "associes": "Laitue, Betterave"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "serpolet-bleu",
@@ -609,7 +1017,12 @@
       "duree_germ": "3",
       "description": "Thym rampant très odorant, fleurs bleues."
     },
-    "delais": { "levee": 20, "repiquage": 30, "plantation": 15, "maturite": 120 },
+    "delais": {
+      "levee": 20,
+      "repiquage": 30,
+      "plantation": 15,
+      "maturite": 120
+    },
     "culture": {
       "exposition": "Plein soleil",
       "eau": "Faible",
@@ -618,10 +1031,20 @@
       "temp_levee": "18°C",
       "dist_rang": 25,
       "dist_inter": 25,
-      "periode_semis": ["Avr", "Mai"]
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
     },
-    "particularites": { "soins": [], "associes": "Chou, Chou-fleur" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [],
+      "associes": "Chou, Chou-fleur"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "souci-orange",
@@ -633,7 +1056,12 @@
       "duree_germ": "3",
       "description": "Fleurs médicinales orange vif, protège le jardin."
     },
-    "delais": { "levee": 10, "repiquage": 15, "plantation": 10, "maturite": 70 },
+    "delais": {
+      "levee": 10,
+      "repiquage": 15,
+      "plantation": 10,
+      "maturite": 70
+    },
     "culture": {
       "exposition": "Soleil",
       "eau": "Moyen",
@@ -642,10 +1070,21 @@
       "temp_levee": "18°C",
       "dist_rang": 25,
       "dist_inter": 25,
-      "periode_semis": ["Mar", "Avr", "Mai"]
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ]
     },
-    "particularites": { "soins": [], "associes": "Tomate, Pomme de terre" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [],
+      "associes": "Tomate, Pomme de terre"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "tagete-mexique",
@@ -657,7 +1096,12 @@
       "duree_germ": "3",
       "description": "Saveur proche de l'estragon, fleurs jaunes lumineuses."
     },
-    "delais": { "levee": 12, "repiquage": 20, "plantation": 10, "maturite": 90 },
+    "delais": {
+      "levee": 12,
+      "repiquage": 20,
+      "plantation": 10,
+      "maturite": 90
+    },
     "culture": {
       "exposition": "Soleil",
       "eau": "Moyen",
@@ -666,10 +1110,21 @@
       "temp_levee": "20°C",
       "dist_rang": 30,
       "dist_inter": 30,
-      "periode_semis": ["Mar", "Avr", "Mai"]
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ]
     },
-    "particularites": { "soins": [], "associes": "Tomate, Courge" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [],
+      "associes": "Tomate, Courge"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "tomate-dream",
@@ -681,7 +1136,12 @@
       "duree_germ": "5",
       "description": "Fruits ronds très savoureux, productive et résistante."
     },
-    "delais": { "levee": 8, "repiquage": 45, "plantation": 15, "maturite": 80 },
+    "delais": {
+      "levee": 8,
+      "repiquage": 45,
+      "plantation": 15,
+      "maturite": 80
+    },
     "culture": {
       "exposition": "Plein soleil",
       "eau": "Fort",
@@ -690,10 +1150,23 @@
       "temp_levee": "22°C",
       "dist_rang": 50,
       "dist_inter": 80,
-      "periode_semis": ["Mar", "Avr"]
+      "periode_semis": [
+        "Mar",
+        "Avr"
+      ]
     },
-    "particularites": { "soins": ["Tuteur", "Mildiou"], "associes": "Basilic, Persil" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [
+        "Tuteur",
+        "Mildiou"
+      ],
+      "associes": "Basilic, Persil"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "tomate-akers",
@@ -705,7 +1178,12 @@
       "duree_germ": "5",
       "description": "Enorme fruit de type coeur de boeuf, chair dense."
     },
-    "delais": { "levee": 8, "repiquage": 45, "plantation": 15, "maturite": 85 },
+    "delais": {
+      "levee": 8,
+      "repiquage": 45,
+      "plantation": 15,
+      "maturite": 85
+    },
     "culture": {
       "exposition": "Plein soleil",
       "eau": "Fort",
@@ -714,10 +1192,24 @@
       "temp_levee": "22°C",
       "dist_rang": 50,
       "dist_inter": 80,
-      "periode_semis": ["Mar", "Avr"]
+      "periode_semis": [
+        "Mar",
+        "Avr"
+      ]
     },
-    "particularites": { "soins": ["Tuteur", "Pincement", "Mildiou"], "associes": "Souci, Basilic" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [
+        "Tuteur",
+        "Pincement",
+        "Mildiou"
+      ],
+      "associes": "Souci, Basilic"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "tomate-cerise",
@@ -729,7 +1221,12 @@
       "duree_germ": "5",
       "description": "Variété très résistante, fruits sucrés et juteux."
     },
-    "delais": { "levee": 8, "repiquage": 45, "plantation": 15, "maturite": 75 },
+    "delais": {
+      "levee": 8,
+      "repiquage": 45,
+      "plantation": 15,
+      "maturite": 75
+    },
     "culture": {
       "exposition": "Plein soleil",
       "eau": "Fort",
@@ -738,10 +1235,23 @@
       "temp_levee": "22°C",
       "dist_rang": 50,
       "dist_inter": 80,
-      "periode_semis": ["Mar", "Avr"]
+      "periode_semis": [
+        "Mar",
+        "Avr"
+      ]
     },
-    "particularites": { "soins": ["Tuteur", "Mildiou"], "associes": "Persil, Oignon" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [
+        "Tuteur",
+        "Mildiou"
+      ],
+      "associes": "Persil, Oignon"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "zinnia-mix",
@@ -753,7 +1263,12 @@
       "duree_germ": "4",
       "description": "Mélange de couleurs éclatantes, fleurs très robustes."
     },
-    "delais": { "levee": 7, "repiquage": 15, "plantation": 10, "maturite": 70 },
+    "delais": {
+      "levee": 7,
+      "repiquage": 15,
+      "plantation": 10,
+      "maturite": 70
+    },
     "culture": {
       "exposition": "Plein soleil",
       "eau": "Moyen",
@@ -762,9 +1277,40 @@
       "temp_levee": "20°C",
       "dist_rang": 30,
       "dist_inter": 30,
-      "periode_semis": ["Avr", "Mai"]
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
     },
-    "particularites": { "soins": ["Tuteur"], "associes": "Tomate, Concombre" },
-    "recolte": { "historique": { "2026": "-" } }
+    "particularites": {
+      "soins": [
+        "Tuteur"
+      ],
+      "associes": "Tomate, Concombre"
+    },
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
+  },
+  {
+    "id": "seed-1773075252130",
+    "identite": {
+      "nom_commun": "Raisin",
+      "variete": "Chasselas",
+      "famille": "",
+      "description": "2 plants donnés par Mathieu Fétiveau et plantés à côté des piquets de linge derrière le 15 février 2026"
+    },
+    "delais": {
+      "levee": 0,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 900
+    },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Moyen"
+    }
   }
 ]
