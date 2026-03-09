@@ -193,14 +193,17 @@
             }
             container.innerHTML = entries.map(e => `
                 <div class="entry-card">
-                    <div class="entry-date">${new Date(e.date).toLocaleDateString('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'})}</div>
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                        <div class="entry-date">${new Date(e.date).toLocaleDateString('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'})}</div>
+                        <button onclick="window.location.href='modifier-journal.html?id=${e.id}'" style="background:#333; color:#fff; border:none; padding:5px 10px; border-radius:5px; font-size:11px; font-weight:bold; cursor:pointer;">MODIFIER</button>
+                    </div>
                     <div class="entry-info">
                         <h3>${e.action}</h3>
                         <p>${seedMap[e.seedId] || 'Plante inconnue'}</p>
                     </div>
                     <div class="entry-details">
                         ${e.quantite ? `<div class="badge">Qté : <b>${e.quantite}</b></div>` : ''}
-                        ${e.contenant ? `<div class="badge">📦 ${e.contenant}</div>` : ''}
+                        ${(e.contenant && (e.action === 'Semis' || e.action === 'Repiquage')) ? `<div class="badge">📦 ${e.contenant}</div>` : ''}
                         ${e.bac ? `<div class="badge">📍 ${e.bac}</div>` : ''}
                         ${e.filet ? `<div class="badge">🕸️ Filet</div>` : ''}
                     </div>
