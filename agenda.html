@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mon Agenda Potager</title>
+    <style>
+        :root {
+            --bg: #000000;
+            --card-bg: #1a1a1a;
+            --text: #ffffff;
+            --accent: #4CAF50;
+            --border: #333;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, sans-serif;
+            margin: 0;
+            padding: 20px;
+            padding-bottom: 100px;
+            font-size: 16px; /* CDC 5.0 */
+        }
+
+        header { margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
+        h1 { font-size: 24px; margin: 0; }
+
+        /* Sélecteur de mois */
+        .month-selector {
+            display: flex;
+            align-items: center;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 5px;
+            margin-bottom: 25px;
+        }
+
+        .month-selector select {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 12px;
+            outline: none;
+            text-align: center;
+        }
+
+        /* Sections de tâches */
+        section { margin-bottom: 30px; }
+        h2 { font-size: 14px; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; border-bottom: 1px solid #222; padding-bottom: 8px; margin-bottom: 15px; }
+
+        .task-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 15px;
+            border: 1px solid var(--border);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            min-height: 44px; /* CDC 5.0 */
+        }
+
+        .task-icon { font-size: 24px; width: 30px; text-align: center; }
+        .task-info b { display: block; font-size: 17px; }
+        .task-info span { font-size: 14px; color: #aaa; }
+
+        .empty-msg { color: #555; font-style: italic; font-size: 14px; text-align: center; padding: 20px; }
+
+        /* Navigation Basse */
+        .nav-bar {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 85px;
+            background: #111; border-top: 2px solid var(--border);
+            display: flex; justify-content: space-around; align-items: center; z-index: 100;
+        }
+        .nav-item { color: #fff; text-decoration: none; font-size: 12px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
+        .nav-icon { font-size: 30px; margin-bottom: 2px; }
+        .active-nav { color: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>📅 Agenda</h1>
+    </header>
+
+    <div class="month-selector">
+        <select id="selectMonth" onchange="updateAgenda()">
+            <option value="Jan">Janvier</option>
+            <option value="Fév">Février</option>
+            <option value="Mar">Mars</option>
+            <option value="Avr">Avril</option>
+            <option value="Mai">Mai</option>
+            <option value="Juin">Juin</option>
+            <option value="Juil">Juillet</option>
+            <option value="Août">Août</option>
+            <option value="Sep">Septembre</option>
+            <option value="Oct">Octobre</option>
+            <option value="Nov">Novembre</option>
+            <option value="Déc">Décembre</option>
+        </select>
+    </div>
+
+    <section id="sec-semis">
+        <h2>🌱 À Semer</h2>
+        <div class="list" id="list-semis"></div>
+    </section>
+
+    <section id="sec-plantation">
+        <h2>🚜 À Planter</h2>
+        <div class="list" id="list-plantation"></div>
+    </section>
+
+    <section id="sec-recolte">
+        <h2>🧺 À Récolter</h2>
+        <div class="list" id="list-recolte"></div>
+    </section>
+
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Accueil</a>
+        <a href="bacs.html" class="nav-item"><span class="nav-icon">🍱</span>Bacs</a>
+        <a href="agenda.html" class="nav-item active-nav"><span class="nav-icon">📅</span>Agenda</a>
+        <a href="journal.html" class="nav-item"><span class="nav-icon">📖</span>Journal</a>
+    </nav>
+
+    <script>
+        const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
+        let allSeeds = [];
+        const monthShortNames = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"];
+
+        async function init() {
+            if (!token) return;
+            // Sélection automatique du mois actuel
+            const currentMonthIdx = new Date().getMonth();
+            document.getElementById('selectMonth').value = monthShortNames[currentMonthIdx];
+
+            try {
+                const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+                allSeeds = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+                updateAgenda();
+            } catch (e) { console.error(e); }
+        }
+
+        function updateAgenda() {
+            const selectedMonth = document.getElementById('selectMonth').value;
+            
+            const tasks = {
+                semis: allSeeds.filter(s => (s.culture?.periode_semis || []).includes(selectedMonth)),
+                plantation: allSeeds.filter(s => (s.culture?.periode_plantation || []).includes(selectedMonth)),
+                recolte: allSeeds.filter(s => (s.recolte?.periode_recolte || []).includes(selectedMonth))
+            };
+
+            renderList('list-semis', tasks.semis, '🌱');
+            renderList('list-plantation', tasks.plantation, '🚜');
+            renderList('list-recolte', tasks.recolte, '🧺');
+        }
+
+        function renderList(elementId, plants, icon) {
+            const container = document.getElementById(elementId);
+            if (plants.length === 0) {
+                container.innerHTML = `<p class="empty-msg">Aucune action prévue ce mois-ci.</p>`;
+                return;
+            }
+            container.innerHTML = plants.map(p => `
+                <div class="task-card" onclick="window.location.href='fiche-semence.html?id=${p.id}'">
+                    <div class="task-icon">${icon}</div>
+                    <div class="task-info">
+                        <b>${p.identite.nom_commun}</b>
+                        <span>${p.identite.variete}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
