@@ -6,10 +6,9 @@
     <title>Mon Potager - Répertoire</title>
     <style>
         :root {
-            --bg: #000000; /* Noir pur pour encore plus de contraste */
-            --card-bg: #1e1e1e;
+            --bg: #000000;
+            --card-bg: #1a1a1a;
             --text: #ffffff;
-            --text-dim: #ffffff; /* Tout en blanc comme demandé */
             --accent: #4CAF50;
             --border: #333;
         }
@@ -17,11 +16,12 @@
         body {
             background-color: var(--bg);
             color: var(--text);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             margin: 0;
-            padding-bottom: 90px;
+            padding-bottom: 100px; /* Espace pour la nav large */
         }
 
+        /* En-tête avec recherche */
         .header {
             padding: 20px;
             position: sticky;
@@ -32,18 +32,21 @@
 
         .search-bar {
             width: 100%;
-            padding: 16px;
+            padding: 18px;
             background: var(--card-bg);
-            border: 2px solid var(--border); /* Bordure un peu plus épaisse */
+            border: 2px solid var(--border);
             border-radius: 12px;
-            color: white;
-            font-size: 18px; /* Texte plus grand pour la saisie */
+            color: #ffffff;
+            font-size: 18px;
             outline: none;
             box-sizing: border-box;
         }
 
+        .search-bar:focus { border-color: var(--accent); }
+
+        /* Grille des semences */
         .grid {
-            padding: 10px 20px;
+            padding: 0 20px;
             display: grid;
             gap: 15px;
         }
@@ -56,37 +59,63 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            text-decoration: none;
+            color: inherit;
         }
 
-        .card-info h3 { margin: 0; font-size: 20px; font-weight: bold; }
-        .card-info p { margin: 6px 0 0; font-size: 16px; color: var(--text); }
+        .card-info h3 { margin: 0; font-size: 20px; font-weight: bold; color: #ffffff; }
+        .card-info p { margin: 6px 0 0; font-size: 16px; color: #ffffff; }
 
-        .tag-famille {
-            font-size: 14px;
+        .tag-provenance {
+            font-size: 13px;
             padding: 6px 10px;
             background: #333;
             border-radius: 8px;
             color: var(--accent);
             font-weight: bold;
+            white-space: nowrap;
         }
 
-        /* Navigation Basse Corrigée */
+        /* Bouton flottant Ajouter */
+        .fab {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 65px;
+            height: 65px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            border: none;
+            cursor: pointer;
+            z-index: 99;
+            text-decoration: none;
+        }
+
+        /* Barre de navigation basse */
         .nav-bar {
             position: fixed;
             bottom: 0;
             width: 100%;
-            height: 80px; /* Plus haute pour plus de confort */
+            height: 85px;
             background: #111;
             border-top: 2px solid var(--border);
             display: flex;
             justify-content: space-around;
             align-items: center;
+            z-index: 100;
         }
 
         .nav-item {
-            color: var(--text);
+            color: #ffffff;
             text-decoration: none;
-            font-size: 14px; /* Libellé plus grand */
+            font-size: 14px;
             font-weight: bold;
             display: flex;
             flex-direction: column;
@@ -97,59 +126,85 @@
         .nav-item.active { color: var(--accent); }
 
         .nav-icon {
-            font-size: 30px; /* Icônes nettement plus grandes */
+            font-size: 32px; /* Icônes agrandies */
             margin-bottom: 4px;
         }
+
+        .loading { padding: 40px; text-align: center; font-size: 18px; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <input type="text" class="search-bar" placeholder="Rechercher..." id="searchInput">
+        <input type="text" class="search-bar" placeholder="Rechercher une variété..." id="searchInput">
     </div>
 
     <div id="seedGrid" class="grid">
-        </div>
+        <div class="loading">Chargement du potager...</div>
+    </div>
+
+    <a href="ajout-semence.html" class="fab">+</a>
 
     <nav class="nav-bar">
-        <a href="#" class="nav-item">
+        <a href="index.html" class="nav-item">
             <span class="nav-icon">🏠</span>Accueil
         </a>
-        <a href="#" class="nav-item active">
+        <a href="index.html" class="nav-item active">
             <span class="nav-icon">🌱</span>Semences
         </a>
         <a href="#" class="nav-item">
             <span class="nav-icon">📖</span>Journal
         </a>
-        <a href="#" class="nav-item">
-            <span class="nav-icon">📦</span>Bacs
+        <a href="parametres.html" class="nav-item">
+            <span class="nav-icon">⚙️</span>Réglages
         </a>
     </nav>
 
     <script>
-        async function loadAndRenderSeeds() {
-        const grid = document.getElementById('seedGrid');
-        const user = localStorage.getItem('gh_user');
-        const repo = localStorage.getItem('gh_repo');
-        const token = localStorage.getItem('gh_token');
-    
-        if (!user || !repo) {
-            grid.innerHTML = "<p style='padding:20px;'>⚠️ Configurez les paramètres pour voir vos semences.</p>";
-            return;
+        let allSemences = [];
+
+        async function loadSeeds() {
+            const grid = document.getElementById('seedGrid');
+            const user = localStorage.getItem('gh_user');
+            const repo = localStorage.getItem('gh_repo');
+            const token = localStorage.getItem('gh_token');
+
+            if (!user || !repo || !token) {
+                grid.innerHTML = `
+                    <div class="loading">
+                        <p>Configuration manquante</p>
+                        <a href="parametres.html" style="color:var(--accent); text-decoration:none; font-weight:bold;">Aller aux réglages →</a>
+                    </div>`;
+                return;
+            }
+
+            try {
+                const url = `https://api.github.com/repos/${user}/${repo}/contents/semences.json`;
+                const res = await fetch(url, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (!res.ok) throw new Error("Fichier semences.json introuvable");
+
+                const data = await res.json();
+                allSemences = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+                renderSeeds(allSemences);
+
+            } catch (e) {
+                grid.innerHTML = `<div class="loading" style="color:#ff4444;">❌ Erreur : ${e.message}</div>`;
+            }
         }
-    
-        try {
-            const url = `https://api.github.com/repos/${user}/${repo}/contents/semences.json`;
-            const res = await fetch(url, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            
-            const data = await res.json();
-            // Décodage du contenu GitHub
-            const semences = JSON.parse(decodeURIComponent(escape(atob(data.content))));
-    
+
+        function renderSeeds(data) {
+            const grid = document.getElementById('seedGrid');
             grid.innerHTML = "";
-            semences.forEach(s => {
+
+            if (data.length === 0) {
+                grid.innerHTML = "<div class="loading">Aucune semence trouvée.</div>";
+                return;
+            }
+
+            data.forEach(s => {
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.innerHTML = `
@@ -157,17 +212,24 @@
                         <h3>${s.identite.nom_commun}</h3>
                         <p>${s.identite.variete}</p>
                     </div>
-                    <span class="tag-famille">${s.identite.provenance}</span>
+                    <span class="tag-provenance">${s.identite.provenance || 'N/C'}</span>
                 `;
                 grid.appendChild(card);
             });
-        } catch (e) {
-            grid.innerHTML = "<p style='padding:20px;'>❌ Erreur de chargement : " + e.message + "</p>";
         }
-    }
-    
-    // Lancer le chargement
-    loadAndRenderSeeds();
+
+        // Filtrage en temps réel
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase();
+            const filtered = allSemences.filter(s => 
+                s.identite.nom_commun.toLowerCase().includes(val) || 
+                s.identite.variete.toLowerCase().includes(val)
+            );
+            renderSeeds(filtered);
+        });
+
+        // Lancement au chargement
+        window.onload = loadSeeds;
     </script>
 </body>
 </html>
