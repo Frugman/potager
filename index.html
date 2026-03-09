@@ -8,53 +8,80 @@
         :root { --bg: #000000; --card-bg: #1a1a1a; --text: #ffffff; --accent: #4CAF50; --border: #333; }
         body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 110px; font-size: 16px; }
         
+        /* En-tête */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: #000; }
+        header h1 { margin: 0; font-size: 22px; }
+        .settings-link { text-decoration: none; font-size: 24px; padding: 5px; }
+
+        /* Formulaires Action Express */
+        #action-express { background: #111; padding: 20px; border-bottom: 2px solid var(--border); }
         select, input, textarea { width: 100%; padding: 15px; background: #000; color: #fff; border: 1px solid var(--border); border-radius: 10px; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; outline: none; }
         input[type="date"] { font-weight: bold; border-color: var(--accent); }
         label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 13px; color: var(--accent); text-transform: uppercase; }
-
-        #action-express { background: #111; padding: 20px; border-bottom: 2px solid var(--border); }
         .type-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; }
         .type-btn { padding: 15px; background: #222; border: 1px solid var(--border); border-radius: 12px; color: #fff; font-weight: bold; text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
         .type-btn.active { background: var(--accent); border-color: var(--accent); }
         .save-action-btn { width: 100%; padding: 20px; background: var(--accent); color: #fff; border: none; border-radius: 15px; font-weight: bold; font-size: 18px; cursor: pointer; }
 
+        /* Widgets */
         .widget { padding: 20px 20px 0; }
-        .card { background: var(--card-bg); border-radius: 16px; padding: 15px; border: 1px solid var(--border); margin-bottom: 10px; min-height: 44px; }
-        
+        .widget h2 { font-size: 14px; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px; }
+        .card { background: var(--card-bg); border-radius: 16px; padding: 15px; border: 1px solid var(--border); margin-bottom: 10px; }
+
+        /* Widget Météo Spécifique */
+        .weather-scroll { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px; scrollbar-width: none; }
+        .weather-scroll::-webkit-scrollbar { display: none; }
+        .weather-day { min-width: 80px; background: #111; padding: 12px; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
+        .weather-day b { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; }
+        .weather-icon { font-size: 24px; margin: 8px 0; display: block; }
+        .weather-temp { font-size: 14px; font-weight: bold; }
+
+        /* Agenda & Notes */
+        .urgent-tag { color: var(--accent); font-weight: bold; font-size: 12px; margin-bottom: 4px; display: block; }
+        .urgent-title { font-size: 15px; font-weight: bold; display: block; }
+        .urgent-subtitle { font-size: 13px; color: #888; }
+
+        /* Nav Bar */
         .nav-bar { position: fixed; bottom: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
         .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
         .nav-icon { font-size: 26px; margin-bottom: 2px; }
         .active-nav { color: var(--accent); }
         .hidden { display: none; }
-
-        .urgent-tag { color: var(--accent); font-weight: bold; font-size: 12px; margin-bottom: 4px; display: block; }
-        .urgent-title { font-size: 15px; font-weight: bold; display: block; }
-        .urgent-subtitle { font-size: 13px; color: #888; }
     </style>
 </head>
 <body>
 
-    <header style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background: #000;">
-        <h1 style="margin: 0; font-size: 22px;">Mon Potager 2026</h1>
-        <a href="parametres.html" style="text-decoration: none; font-size: 24px;">⚙️</a>
+    <header>
+        <h1>Mon Potager 2026</h1>
+        <a href="parametres.html" class="settings-link">⚙️</a>
     </header>
 
-    <section id="action-express">
+    <section class="widget">
+        <h2>🌤️ Météo (La Roche-sur-Yon)</h2>
+        <div class="weather-scroll" id="weather-container">
+            <p style="font-size:14px; color:#666;">Chargement du ciel...</p>
+        </div>
+    </section>
+
+    <section class="widget">
+        <h2>📅 À faire (7 prochains jours)</h2>
+        <div id="agenda-mini">
+            <p style="font-size:14px; color:#666;">Analyse du calendrier...</p>
+        </div>
+    </section>
+
+    <section id="action-express" style="margin-top: 20px;">
         <h2>🌱 Action Express</h2>
-        
         <label>Semence</label>
         <select id="select-seed"><option value="">Choisir...</option></select>
-
         <label>Date</label>
         <input type="date" id="val-date">
-
         <div class="type-grid">
             <div class="type-btn" onclick="selectAction(this, 'Semis')">Semis</div>
             <div class="type-btn" onclick="selectAction(this, 'Repiquage')">Repiquage</div>
             <div class="type-btn" onclick="selectAction(this, 'Plantation')">Plantation</div>
             <div class="type-btn" onclick="selectAction(this, 'Récolte')">Récolte</div>
         </div>
-
         <div id="dynamic-fields" class="hidden">
             <div id="fields-semis" class="hidden">
                 <label>Emplacement</label>
@@ -64,45 +91,30 @@
                 </select>
                 <label>Contenant</label>
                 <select id="val-contenant">
-                    <option>Plaque 40 alvéoles</option>
-                    <option>Godet 7cm</option>
-                    <option>Godet 9cm</option>
-                    <option>Sac 5cm</option>
-                    <option>Sac 10cm</option>
+                    <option>Plaque 40 alvéoles</option><option>Godet 7cm</option><option>Godet 9cm</option><option>Sac 5cm</option><option>Sac 10cm</option>
                 </select>
             </div>
-
             <div id="fields-plantation" class="hidden">
                 <label>Destination</label>
                 <select id="val-bac" onchange="document.getElementById('val-bac-autre').classList.toggle('hidden', this.value !== 'Autre')">
                     <option>Bac A</option><option>Bac B</option><option>Bac C</option><option>Bac D</option><option>Bac E</option>
                     <option value="Autre">Autre (préciser...)</option>
                 </select>
-                <input type="text" id="val-bac-autre" class="hidden" placeholder="Ex: Bordure Sud, Grand Pot...">
-                <label style="display:flex; align-items:center; margin-top:10px; color:#fff; text-transform:none;">
+                <input type="text" id="val-bac-autre" class="hidden" placeholder="Ex: Bordure Sud...">
+                <label style="display:flex; align-items:center; margin-top:10px; text-transform:none; color:#fff;">
                     <input type="checkbox" id="val-filet" style="width:25px; height:25px; margin-right:15px;"> Sous filet ?
                 </label>
             </div>
-
             <label id="label-qte">Quantité / Nombre</label>
-            <input type="number" id="val-qte" placeholder="Nombre">
-
-            <label>Notes / Observations</label>
-            <textarea id="val-note" rows="2" placeholder="Commentaire libre..."></textarea>
-            
+            <input type="number" id="val-qte">
+            <label>Notes</label>
+            <textarea id="val-note" rows="2"></textarea>
             <button class="save-action-btn" id="btnSaveAction" onclick="saveJournalAction()">ENREGISTRER</button>
         </div>
     </section>
 
-    <div class="widget">
-        <h2 style="font-size:14px; color:var(--accent); text-transform:uppercase;">📅 À faire (7 prochains jours)</h2>
-        <div id="agenda-mini">
-            <p style="font-size:14px; color:#666; padding: 10px;">Calcul des priorités...</p>
-        </div>
-    </div>
-
-    <div class="widget" style="padding-bottom: 20px;">
-        <h2 style="font-size:14px; color:var(--accent); text-transform:uppercase;">📝 Dernières Notes</h2>
+    <div class="widget" style="padding-bottom:20px;">
+        <h2>📝 Dernières Notes</h2>
         <div id="last-notes"></div>
     </div>
 
@@ -122,6 +134,7 @@
         async function init() {
             if (!token) return;
             document.getElementById('val-date').valueAsDate = new Date();
+            loadWeather(); // Lancer la météo
             try {
                 const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
                 allSemences = JSON.parse(decodeURIComponent(escape(atob((await res.json()).content))));
@@ -133,6 +146,38 @@
             } catch (e) { console.error(e); }
         }
 
+        // --- MOTEUR MÉTÉO ---
+        async function loadWeather() {
+            try {
+                // Coordonnées La Roche-sur-Yon : Lat 46.67, Lon -1.43
+                const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=46.6705&longitude=-1.426&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=Europe%2FParis");
+                const data = await res.json();
+                const container = document.getElementById('weather-container');
+                
+                const weatherIcons = {
+                    0: "☀️", 1: "🌤️", 2: "⛅", 3: "☁️", 45: "🌫️", 51: "🌦️", 61: "🌧️", 71: "❄️", 80: "⛈️", 95: "⚡"
+                };
+
+                let html = "";
+                for (let i = 0; i < 7; i++) {
+                    const date = new Date(data.daily.time[i]);
+                    const dayName = i === 0 ? "Auj." : date.toLocaleDateString('fr-FR', { weekday: 'short' });
+                    const code = data.daily.weathercode[i];
+                    const icon = weatherIcons[code] || (code > 60 ? "🌧️" : "☀️");
+                    
+                    html += `
+                        <div class="weather-day">
+                            <b>${dayName}</b>
+                            <span class="weather-icon">${icon}</span>
+                            <div class="weather-temp">${Math.round(data.daily.temperature_2m_max[i])}°</div>
+                            <div style="font-size:10px; color:#666">${Math.round(data.daily.temperature_2m_min[i])}°</div>
+                        </div>`;
+                }
+                container.innerHTML = html;
+            } catch (e) { document.getElementById('weather-container').innerHTML = "Météo indisponible"; }
+        }
+
+        // --- LOGIQUE DASHBOARD ---
         function selectAction(btn, type) {
             document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
@@ -156,7 +201,7 @@
                 quantite: document.getElementById('val-qte').value,
                 note: document.getElementById('val-note').value
             };
-            if (currentAction === 'Semis' || currentAction === 'Repiquage') {
+            if (['Semis', 'Repiquage'].includes(currentAction)) {
                 entry.emplacement = document.getElementById('val-emplacement').value;
                 entry.contenant = document.getElementById('val-contenant').value;
             } else if (currentAction === 'Plantation') {
@@ -165,76 +210,53 @@
                 entry.filet = document.getElementById('val-filet').checked;
             }
 
-            try {
-                const url = `https://api.github.com/repos/${user}/${repo}/contents/journal.json`;
-                const getRes = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-                const fileData = await getRes.json();
-                let journal = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
-                journal.push(entry);
-                await fetch(url, {
-                    method: 'PUT', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: `Note ${currentAction}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: fileData.sha })
-                });
-                location.reload();
-            } catch (e) { alert(e.message); btn.disabled = false; }
-        }
-
-        function addDays(date, days) {
-            const result = new Date(date);
-            result.setDate(result.getDate() + parseInt(days));
-            return result;
+            const url = `https://api.github.com/repos/${user}/${repo}/contents/journal.json`;
+            const getRes = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
+            const fileData = await getRes.json();
+            let journal = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
+            journal.push(entry);
+            await fetch(url, {
+                method: 'PUT', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: `Note ${currentAction}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: fileData.sha })
+            });
+            location.reload();
         }
 
         async function loadWidgets() {
             try {
                 const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
                 const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
-                
-                // 1. Widget Notes
                 document.getElementById('last-notes').innerHTML = journal.slice(-3).reverse().map(n => `
                     <div class="card" onclick="window.location.href='modifier-journal.html?id=${n.id}'">
                         <b style="color:var(--accent)">${n.date}</b> - ${n.action} : ${n.seedId}
                     </div>`).join('');
 
-                // 2. Widget Agenda 7 jours
-                const today = new Date();
-                today.setHours(0,0,0,0);
-                const limit = addDays(today, 7);
-                let urgentTasks = [];
+                const today = new Date(); today.setHours(0,0,0,0);
+                const limit = new Date(today); limit.setDate(today.getDate() + 7);
+                let urgent = [];
 
                 journal.forEach(entry => {
                     if (entry.action === 'Semis') {
                         const seed = allSemences.find(s => s.id === entry.seedId);
                         if (!seed || !seed.delais) return;
-
                         const dSemis = new Date(entry.date);
+                        const addDays = (d, n) => { let r = new Date(d); r.setDate(r.getDate() + n); return r; };
                         const steps = [
-                            { date: addDays(dSemis, seed.delais.levee), task: "🌱 Levée attendue" },
-                            { date: addDays(addDays(dSemis, seed.delais.levee), seed.delais.repiquage), task: "🪴 Repiquage" },
-                            { date: addDays(addDays(addDays(dSemis, seed.delais.levee), seed.delais.repiquage), seed.delais.plantation), task: "🚜 Plantation" },
-                            { date: addDays(addDays(addDays(addDays(dSemis, seed.delais.levee), seed.delais.repiquage), seed.delais.plantation), seed.delais.maturite), task: "🧺 Récolte" }
+                            { d: addDays(dSemis, seed.delais.levee), t: "🌱 Levée attendue" },
+                            { d: addDays(addDays(dSemis, seed.delais.levee), seed.delais.repiquage), t: "🪴 Repiquage" },
+                            { d: addDays(addDays(addDays(dSemis, seed.delais.levee), seed.delais.repiquage), seed.delais.plantation), t: "🚜 Plantation" },
+                            { d: addDays(addDays(addDays(addDays(dSemis, seed.delais.levee), seed.delais.repiquage), seed.delais.plantation), seed.delais.maturite), t: "🧺 Récolte" }
                         ];
-
-                        steps.forEach(s => {
-                            if (s.date >= today && s.date <= limit) {
-                                urgentTasks.push({ ...s, plant: `${seed.identite.nom_commun} - ${seed.identite.variete}` });
-                            }
-                        });
+                        steps.forEach(s => { if (s.d >= today && s.d <= limit) urgent.push({ ...s, p: `${seed.identite.nom_commun} - ${seed.identite.variete}` }); });
                     }
                 });
 
                 const agendaMini = document.getElementById('agenda-mini');
-                if (urgentTasks.length === 0) {
-                    agendaMini.innerHTML = `<div class="card" style="color:#666; font-style:italic;">Aucune tâche urgente cette semaine.</div>`;
+                if (urgent.length === 0) {
+                    agendaMini.innerHTML = `<div class="card" style="color:#666; font-style:italic;">Rien d'urgent cette semaine.</div>`;
                 } else {
-                    urgentTasks.sort((a, b) => a.date - b.date);
-                    agendaMini.innerHTML = urgentTasks.map(u => `
-                        <div class="card">
-                            <span class="urgent-tag">${u.date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}</span>
-                            <span class="urgent-title">${u.task}</span>
-                            <span class="urgent-subtitle">${u.plant}</span>
-                        </div>
-                    `).join('');
+                    urgent.sort((a,b) => a.d - b.d);
+                    agendaMini.innerHTML = urgent.map(u => `<div class="card"><span class="urgent-tag">${u.d.toLocaleDateString('fr-FR', {day:'numeric', month:'long'})}</span><span class="urgent-title">${u.t}</span><span class="urgent-subtitle">${u.p}</span></div>`).join('');
                 }
             } catch (e) { console.error(e); }
         }
