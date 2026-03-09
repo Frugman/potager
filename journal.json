@@ -158,5 +158,15 @@
     "note": "",
     "emplacement": "Serre intérieure",
     "contenant": "Plaque 40 alvéoles"
+  },
+  {
+    "id": 1773085158657,
+    "date": "2026-02-05",
+    "seedId": "feves-karmazyn",
+    "action": "Plantation",
+    "quantite": "10",
+    "note": "A gauche et à droite du bac, le but étant de les récolter pendant que les futurs concombres buissonnant poussent au milieu",
+    "bac": "Bac D",
+    "filet": false
   }
 ]
