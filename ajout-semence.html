@@ -3,62 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nouvelle Semence - Calculateur</title>
+    <title>Nouvelle Semence - Expert</title>
     <style>
-        :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #444; }
+        :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #333; }
         body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; padding-bottom: 120px; font-size: 16px; }
+        
         header { display: flex; align-items: center; margin-bottom: 25px; }
-        .back-btn { background: none; border: none; color: #fff; font-size: 30px; margin-right: 15px; cursor: pointer; }
+        .back-btn { background: none; border: none; color: #fff; font-size: 35px; margin-right: 15px; cursor: pointer; min-width: 44px; }
+        
         section { background: var(--card-bg); padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 1px solid var(--border); }
-        h2 { font-size: 14px; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 14px; color: #aaa; }
-        input, select, textarea { width: 100%; padding: 15px; background: #000; border: 2px solid var(--border); border-radius: 10px; color: #fff; font-size: 16px; box-sizing: border-box; outline: none; }
+        h2 { font-size: 13px; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 8px; }
+        
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 13px; color: #888; text-transform: uppercase; }
+        
+        input, select, textarea { 
+            width: 100%; padding: 15px; background: #000; border: 2px solid var(--border); 
+            border-radius: 12px; color: #fff; font-size: 16px; box-sizing: border-box; outline: none; 
+        }
         input:focus { border-color: var(--accent); }
         .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .save-btn { position: fixed; bottom: 20px; left: 20px; right: 20px; background: var(--accent); color: white; border: none; padding: 20px; border-radius: 15px; font-size: 18px; font-weight: bold; z-index: 100; cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.8); }
+
+        .check-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .check-item { display: flex; align-items: center; gap: 12px; font-size: 15px; min-height: 44px; }
+        .check-item input { width: 24px; height: 24px; accent-color: var(--accent); }
+
+        .save-btn { 
+            position: fixed; bottom: 20px; left: 20px; right: 20px; 
+            background: var(--accent); color: white; border: none; padding: 20px; 
+            border-radius: 15px; font-size: 18px; font-weight: bold; z-index: 100; 
+            cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.8); 
+        }
     </style>
 </head>
 <body>
     <header>
-        <button class="back-btn" onclick="window.location.href='index.html'">←</button>
-        <h1>Paramétrage Semence</h1>
+        <button class="back-btn" onclick="window.location.href='repertoire.html'">←</button>
+        <h1>Nouvelle Semence</h1>
     </header>
 
     <form id="seedForm">
         <section>
-            <h2>1. Identité</h2>
-            <div class="form-group"><label>Nom commun</label><input type="text" id="nom_commun" required></div>
-            <div class="form-group"><label>Variété</label><input type="text" id="variete" required></div>
-            <div class="form-group"><label>Famille Botanique</label><input type="text" id="famille"></div>
+            <h2>1. Identité & Origine</h2>
+            <div class="form-group"><label>Nom commun</label><input type="text" id="nom_commun" placeholder="Ex: Tomate" required></div>
+            <div class="form-group"><label>Variété</label><input type="text" id="variete" placeholder="Ex: Rose de Berne" required></div>
+            <div class="row">
+                <div class="form-group"><label>Famille</label><input type="text" id="famille" placeholder="Solanacées"></div>
+                <div class="form-group"><label>Provenance</label><input type="text" id="provenance" placeholder="Kokopelli"></div>
+            </div>
+            <div class="form-group"><label>Durée de vie graines (années)</label><input type="number" id="duree_germ" placeholder="Ex: 5"></div>
+            <div class="form-group"><label>Description courte</label><textarea id="description" rows="2"></textarea></div>
         </section>
 
         <section>
-            <h2>2. Délais de Culture (en jours)</h2>
-            <p style="font-size:12px; color:#888; margin-bottom:15px;">Ces délais servent à calculer ton agenda automatiquement.</p>
+            <h2>2. Moteur de l'Agenda (Jours)</h2>
             <div class="row">
-                <div class="form-group"><label>Semis → Levée</label><input type="number" id="d_levee" placeholder="ex: 7"></div>
-                <div class="form-group"><label>Levée → Repiquage</label><input type="number" id="d_repiquage" placeholder="ex: 21"></div>
+                <div class="form-group"><label>Semis → Levée</label><input type="number" id="d_levee" value="0"></div>
+                <div class="form-group"><label>Levée → Repiq.</label><input type="number" id="d_repiquage" value="0"></div>
             </div>
             <div class="row">
-                <div class="form-group"><label>Repiquage → Plant.</label><input type="number" id="d_plantation" placeholder="ex: 14"></div>
-                <div class="form-group"><label>Plant. → Récolte</label><input type="number" id="d_maturite" placeholder="ex: 60"></div>
+                <div class="form-group"><label>Repiq. → Plant.</label><input type="number" id="d_plantation" value="0"></div>
+                <div class="form-group"><label>Plant. → Récolte</label><input type="number" id="d_maturite" value="0"></div>
             </div>
         </section>
 
         <section>
-            <h2>3. Paramètres Statiques</h2>
+            <h2>3. Conseils de culture</h2>
             <div class="row">
-                <div class="form-group">
-                    <label>Exposition</label>
+                <div class="form-group"><label>Exposition</label>
                     <select id="exposition"><option>Plein soleil</option><option>Mi-ombre</option><option>Ombre</option></select>
                 </div>
-                <div class="form-group">
-                    <label>Besoins Eau</label>
+                <div class="form-group"><label>Besoins Eau</label>
                     <select id="eau"><option>Moyen</option><option>Faible</option><option>Fort</option></select>
                 </div>
             </div>
-            <div class="form-group"><label>Description / Notes</label><textarea id="description" rows="2"></textarea></div>
+            <div class="form-group"><label>Style de semis</label><input type="text" id="style_semis" placeholder="En poquet, à la volée..."></div>
+            <div class="row">
+                <div class="form-group"><label>Profondeur</label><input type="text" id="profondeur" placeholder="5mm"></div>
+                <div class="form-group"><label>Temp. Levée</label><input type="text" id="temp_levee" placeholder="20°C"></div>
+            </div>
+            <div class="row">
+                <div class="form-group"><label>Dist. rang (cm)</label><input type="number" id="dist_rang"></div>
+                <div class="form-group"><label>Inter-rang (cm)</label><input type="number" id="dist_inter"></div>
+            </div>
+        </section>
+
+        <section>
+            <h2>4. Particularités</h2>
+            <label>Soins spécifiques</label>
+            <div class="check-group">
+                <label class="check-item"><input type="checkbox" class="soins-cb" value="Tuteur"> Tuteurage</label>
+                <label class="check-item"><input type="checkbox" class="soins-cb" value="Mildiou"> Sensible Mildiou</label>
+                <label class="check-item"><input type="checkbox" class="soins-cb" value="Pincement"> Pincement</label>
+            </div>
+            <div class="form-group" style="margin-top:20px;">
+                <label>Plantes compagnes</label>
+                <input type="text" id="associes" placeholder="Basilic, Souci...">
+            </div>
         </section>
 
         <button type="button" class="save-btn" id="btnSave" onclick="save()">CRÉER LA FICHE</button>
@@ -71,12 +112,18 @@
             const btn = document.getElementById('btnSave');
             btn.innerText = "⏳ ENREGISTREMENT..."; btn.disabled = true;
 
+            const nom = document.getElementById('nom_commun').value;
+            const varName = document.getElementById('variete').value;
+            const seedId = (nom + "-" + varName).toLowerCase().replace(/\s+/g, '-');
+
             const newSeed = {
-                id: "seed-" + Date.now(),
+                id: seedId,
                 identite: {
-                    nom_commun: document.getElementById('nom_commun').value,
-                    variete: document.getElementById('variete').value,
+                    nom_commun: nom,
+                    variete: varName,
                     famille: document.getElementById('famille').value,
+                    provenance: document.getElementById('provenance').value,
+                    duree_germ: document.getElementById('duree_germ').value,
                     description: document.getElementById('description').value
                 },
                 delais: {
@@ -87,8 +134,18 @@
                 },
                 culture: {
                     exposition: document.getElementById('exposition').value,
-                    eau: document.getElementById('eau').value
-                }
+                    eau: document.getElementById('eau').value,
+                    style_semis: document.getElementById('style_semis').value,
+                    profondeur: document.getElementById('profondeur').value,
+                    temp_levee: document.getElementById('temp_levee').value,
+                    dist_rang: parseInt(document.getElementById('dist_rang').value) || 0,
+                    dist_inter: parseInt(document.getElementById('dist_inter').value) || 0
+                },
+                particularites: {
+                    soins: Array.from(document.querySelectorAll('.soins-cb:checked')).map(cb => cb.value),
+                    associes: document.getElementById('associes').value
+                },
+                recolte: { historique: { "2026": "-" } }
             };
 
             try {
@@ -99,9 +156,9 @@
                 semences.push(newSeed);
                 await fetch(url, {
                     method: 'PUT', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: `Fiche ${newSeed.identite.variete}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(semences, null, 2)))), sha: data.sha })
+                    body: JSON.stringify({ message: `Ajout ${varName}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(semences, null, 2)))), sha: data.sha })
                 });
-                window.location.href = 'index.html';
+                window.location.href = 'repertoire.html';
             } catch (e) { alert(e.message); btn.disabled = false; }
         }
     </script>
