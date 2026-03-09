@@ -98,5 +98,15 @@
     "note": "",
     "bac": "Bac E",
     "filet": true
+  },
+  {
+    "id": 1773077051138,
+    "date": "2026-03-06",
+    "seedId": "piment-ordono",
+    "action": "Semis",
+    "quantite": "5",
+    "note": "",
+    "emplacement": "Serre intérieure",
+    "contenant": "Plaque 40 alvéoles"
   }
 ]
