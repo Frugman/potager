@@ -57,7 +57,7 @@
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            min-height: 44px; /* Touch UI */
+            min-height: 44px;
         }
 
         .card:active { background: #222; }
@@ -75,7 +75,6 @@
             text-transform: uppercase;
         }
 
-        /* Bouton Ajouter Flottant (FAB) */
         .fab {
             position: fixed;
             bottom: 105px;
@@ -95,7 +94,6 @@
             z-index: 99;
         }
 
-        /* Navigation Basse */
         .nav-bar {
             position: fixed; bottom: 0; left: 0; width: 100%; height: 85px;
             background: #111; border-top: 2px solid var(--border);
@@ -123,8 +121,8 @@
     <a href="ajout-semence.html" class="fab">+</a>
 
     <nav class="nav-bar">
-        <a href="index.html" class="nav-item active-nav"><span class="nav-icon">🏠</span>Accueil</a>
-        <a href="repertoire.html" class="nav-item"><span class="nav-icon">📚</span>Semences</a>
+        <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Accueil</a>
+        <a href="repertoire.html" class="nav-item active-nav"><span class="nav-icon">📚</span>Semences</a>
         <a href="bacs.html" class="nav-item"><span class="nav-icon">🍱</span>Bacs</a>
         <a href="agenda.html" class="nav-item"><span class="nav-icon">📅</span>Agenda</a>
         <a href="journal.html" class="nav-item"><span class="nav-icon">📖</span>Journal</a>
@@ -132,43 +130,70 @@
 
     <script>
         let allSemences = [];
-        const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
+        const user = localStorage.getItem('gh_user'), 
+              repo = localStorage.getItem('gh_repo'), 
+              token = localStorage.getItem('gh_token');
 
         async function loadSeeds() {
-            if (!token) return;
+            if (!token) {
+                document.getElementById('seedGrid').innerHTML = '<p style="text-align:center; padding:40px;">Session expirée. Reconnectez-vous sur l\'accueil.</p>';
+                return;
+            }
             try {
-                const url = `https://api.github.com/repos/${user}/${repo}/contents/semences.json`;
-                const res = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-                const data = await res.json();
-                allSemences = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+                // Ajout d'un paramètre timestamp pour éviter le cache GitHub
+                const url = `https://api.github.com/repos/${user}/${repo}/contents/semences.json?t=${Date.now()}`;
+                const res = await fetch(url, { 
+                    headers: { 'Authorization': `Bearer ${token}` } 
+                });
                 
-                // Trier par nom commun
-                allSemences.sort((a, b) => a.identite.nom_commun.localeCompare(b.identite.nom_commun));
+                if (!res.ok) throw new Error("Impossible de charger le fichier JSON");
+                
+                const data = await res.json();
+                const content = decodeURIComponent(escape(atob(data.content)));
+                allSemences = JSON.parse(content);
+                
+                // Tri alphabétique
+                allSemences.sort((a, b) => {
+                    const nomA = a.identite?.nom_commun || "";
+                    const nomB = b.identite?.nom_commun || "";
+                    return nomA.localeCompare(nomB);
+                });
                 
                 renderSeeds(allSemences);
             } catch (e) {
-                document.getElementById('seedGrid').innerHTML = `<p style="color:red; text-align:center;">Erreur : ${e.message}</p>`;
+                console.error(e);
+                document.getElementById('seedGrid').innerHTML = `<p style="color:red; text-align:center; padding:20px;">Erreur : ${e.message}</p>`;
             }
         }
 
         function renderSeeds(data) {
             const grid = document.getElementById('seedGrid');
-            grid.innerHTML = data.map(s => `
-                <div class="card" onclick="window.location.href='fiche-semence.html?id=${s.id}'">
-                    <div class="card-info">
-                        <h3>${s.identite.nom_commun}</h3>
-                        <p>${s.identite.variete}</p>
+            if (data.length === 0) {
+                grid.innerHTML = '<p style="text-align:center; padding:40px; color:#666;">Aucune semence trouvée.</p>';
+                return;
+            }
+
+            grid.innerHTML = data.map(s => {
+                // Utilise s.id ou un fallback si l'ID est ailleurs
+                const seedId = s.id || (s.identite && s.identite.id);
+                
+                return `
+                    <div class="card" onclick="window.location.href='fiche-semence.html?id=${seedId}'">
+                        <div class="card-info">
+                            <h3>${s.identite?.nom_commun || 'Nom inconnu'}</h3>
+                            <p>${s.identite?.variete || ''}</p>
+                        </div>
+                        <span class="tag-provenance">${s.identite?.provenance || 'N/C'}</span>
                     </div>
-                    <span class="tag-provenance">${s.identite.provenance || 'N/C'}</span>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const val = e.target.value.toLowerCase();
             const filtered = allSemences.filter(s => 
-                s.identite.nom_commun.toLowerCase().includes(val) || 
-                s.identite.variete.toLowerCase().includes(val)
+                (s.identite?.nom_commun || "").toLowerCase().includes(val) || 
+                (s.identite?.variete || "").toLowerCase().includes(val)
             );
             renderSeeds(filtered);
         });
