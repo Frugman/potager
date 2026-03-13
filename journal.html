@@ -14,20 +14,23 @@
         /* Formulaire Note Rapide */
         .quick-note { background: #111; padding: 15px; border-radius: 16px; border: 1px solid var(--border); margin-bottom: 25px; }
         .quick-note h3 { font-size: 14px; color: var(--accent); margin: 0 0 12px 0; text-transform: uppercase; }
-        input, textarea { width: 100%; padding: 12px; background: #000; color: #fff; border: 1px solid var(--border); border-radius: 10px; font-size: 15px; margin-bottom: 10px; box-sizing: border-box; outline: none; }
-        .btn-add { width: 100%; padding: 12px; background: var(--accent); color: #fff; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; min-height: 44px; }
+        
+        select, input, textarea { width: 100%; padding: 12px; background: #000; color: #fff; border: 1px solid var(--border); border-radius: 10px; font-size: 15px; margin-bottom: 10px; box-sizing: border-box; outline: none; }
+        label { display: block; margin-bottom: 5px; font-size: 11px; color: #888; text-transform: uppercase; font-weight: bold; }
+        
+        .btn-add { width: 100%; padding: 12px; background: var(--accent); color: #fff; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; min-height: 44px; margin-top: 5px; }
 
         /* Liste des entrées */
-        .entry-card { background: var(--card-bg); border-radius: 16px; padding: 15px; border: 1px solid var(--border); margin-bottom: 15px; position: relative; }
+        .entry-card { background: var(--card-bg); border-radius: 16px; padding: 15px; border: 1px solid var(--border); margin-bottom: 15px; }
         .entry-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
         .entry-date { font-size: 12px; color: #777; font-weight: bold; }
-        .entry-type { font-size: 13px; color: var(--accent); font-weight: bold; text-transform: uppercase; }
+        .entry-type { font-size: 11px; color: var(--accent); font-weight: bold; text-transform: uppercase; border: 1px solid var(--accent); padding: 2px 6px; border-radius: 4px; }
         
         .entry-title { font-size: 16px; font-weight: bold; margin-bottom: 5px; display: block; }
         .entry-text { font-size: 14px; color: #aaa; line-height: 1.4; white-space: pre-wrap; }
         
         .entry-img { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-top: 12px; border: 1px solid #333; }
-        .badge { background: #222; padding: 4px 8px; border-radius: 6px; font-size: 11px; color: #888; border: 1px solid #333; margin-top: 8px; display: inline-block; }
+        .badge { background: #222; padding: 4px 8px; border-radius: 6px; font-size: 11px; color: #888; border: 1px solid #333; margin-top: 8px; display: inline-block; margin-right: 5px; }
 
         /* Nav */
         .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
@@ -44,13 +47,23 @@
 
     <div class="quick-note">
         <h3>📝 Note rapide</h3>
+        
+        <label>Plante concernée</label>
+        <select id="note-seed">
+            <option value="">📝 Note générale (sans plante)</option>
+        </select>
+
+        <label>Date</label>
         <input type="date" id="note-date">
-        <textarea id="note-text" rows="2" placeholder="Une observation, un événement..."></textarea>
-        <button class="btn-add" id="btnSaveNote" onclick="saveQuickNote()">AJOUTER AU JOURNAL</button>
+
+        <label>Observation</label>
+        <textarea id="note-text" rows="2" placeholder="Ce que j'ai remarqué..."></textarea>
+        
+        <button class="btn-add" id="btnSaveNote" onclick="saveQuickNote()">ENREGISTRER LA NOTE</button>
     </div>
 
     <div id="journal-list">
-        <p style="text-align:center; padding:40px; color:#666;">Chargement de vos souvenirs...</p>
+        <p style="text-align:center; padding:40px; color:#666;">Chargement du journal...</p>
     </div>
 
     <nav class="nav-bar">
@@ -70,10 +83,15 @@
             document.getElementById('note-date').valueAsDate = new Date();
             
             try {
-                // Charger semences pour les noms
+                // Charger semences pour le menu déroulant
                 const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
                 allSeeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
                 
+                const sel = document.getElementById('note-seed');
+                allSeeds.sort((a,b)=>a.identite.nom_commun.localeCompare(b.identite.nom_commun)).forEach(s => {
+                    sel.innerHTML += `<option value="${s.id}">${s.identite.nom_commun} - ${s.identite.variete}</option>`;
+                });
+
                 loadJournal();
             } catch (e) { console.error(e); }
         }
@@ -84,7 +102,7 @@
             
             const list = document.getElementById('journal-list');
             list.innerHTML = journal.reverse().map(n => {
-                const s = allSeeds.find(i => i.id === n.seedId) || { identite: { nom_commun: "Note Libre", variete: "" } };
+                const s = allSeeds.find(i => i.id === n.seedId) || { identite: { nom_commun: "Note Générale", variete: "" } };
                 const loc = n.bac || n.emplacement || "";
                 
                 return `
@@ -96,8 +114,10 @@
                     <span class="entry-title">${s.identite.nom_commun} ${s.identite.variete}</span>
                     ${n.note ? `<div class="entry-text">${n.note}</div>` : ''}
                     ${n.photo ? `<img src="${n.photo}" class="entry-img">` : ''}
-                    ${loc ? `<span class="badge">📍 ${loc}</span>` : ''}
-                    ${n.quantite ? `<span class="badge">🔢 Qté: ${n.quantite}</span>` : ''}
+                    <div style="margin-top:5px;">
+                        ${loc ? `<span class="badge">📍 ${loc}</span>` : ''}
+                        ${n.quantite ? `<span class="badge">🔢 Qté: ${n.quantite}</span>` : ''}
+                    </div>
                 </div>`;
             }).join('');
         }
@@ -116,7 +136,7 @@
                 id: Date.now(),
                 date: document.getElementById('note-date').value,
                 action: "Note",
-                seedId: "",
+                seedId: document.getElementById('note-seed').value, // On récupère l'ID sélectionné
                 note: text,
                 photo: ""
             };
