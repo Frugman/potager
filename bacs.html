@@ -5,23 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mes Bacs - Potager 2026</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/frugman/potager/main/favicon.png">
 </head>
 <body>
-    <h1>🍱 Espace Culture</h1>
+    <header>
+        <h1>🍱 Espace Culture</h1>
+    </header>
 
-    <div id="content-area">
-        <h2>🏠 Serres</h2>
+    <div class="container">
+        <div class="section-title">🏠 Serres de démarrage</div>
+        
         <div class="zone-card" id="card-serre-int">
-            <div class="zone-header"><span>Serre Intérieure</span><span class="badge" id="badge-serre-int">0</span></div>
+            <div class="zone-header">
+                <span>Serre Intérieure</span>
+                <span class="badge" id="badge-serre-int">0</span>
+            </div>
             <div class="zone-content" id="serre-int"></div>
         </div>
+
         <div class="zone-card" id="card-serre-ext">
-            <div class="zone-header"><span>Serre Extérieure</span><span class="badge" id="badge-serre-ext">0</span></div>
+            <div class="zone-header">
+                <span>Serre Extérieure</span>
+                <span class="badge" id="badge-serre-ext">0</span>
+            </div>
             <div class="zone-content" id="serre-ext"></div>
         </div>
 
-        <h2>🌳 Pleine Terre / Bacs</h2>
-        <div id="bacs-container"></div>
+        <div class="section-title">🌳 Bacs & Pleine Terre</div>
+        <div id="bacs-container">
+            <div class="empty-msg">Analyse des bacs en cours...</div>
+        </div>
     </div>
 
     <nav class="nav-bar">
@@ -36,12 +49,11 @@
         const user = localStorage.getItem('gh_user'), 
               repo = localStorage.getItem('gh_repo'), 
               token = localStorage.getItem('gh_token');
-        const bacsList = ["Bac A", "Bac B", "Bac C", "Bac D", "Bac E"];
+        const bacsReference = ["Bac A", "Bac B", "Bac C", "Bac D", "Bac E"];
 
         async function init() {
             if(!token) return;
             try {
-                // Fetch avec timestamp pour éviter le cache
                 const [resS, resJ] = await Promise.all([
                     fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } }),
                     fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } })
@@ -51,16 +63,19 @@
                 const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
                 
                 renderBacs(seeds, journal);
-            } catch (e) { console.error(e); }
+            } catch (e) { 
+                console.error(e);
+                document.getElementById('bacs-container').innerHTML = `<div class="empty-msg">Erreur de chargement.</div>`;
+            }
         }
 
         function renderBacs(seeds, journal) {
-            // 1. Serres
+            // 1. Filtrage pour les Serres (Semis et Repiquage)
             const semis = journal.filter(n => n.action === 'Semis' || n.action === 'Repiquage');
             fillZone('serre-int', semis.filter(s => s.emplacement === 'Serre intérieure'), seeds, 'badge-serre-int');
             fillZone('serre-ext', semis.filter(s => s.emplacement === 'Serre extérieure'), seeds, 'badge-serre-ext');
 
-            // 2. Bacs
+            // 2. Gestion des Bacs
             const plantations = journal.filter(n => n.action === 'Plantation');
             const groups = {};
             plantations.forEach(p => { 
@@ -69,11 +84,11 @@
             });
 
             const container = document.getElementById('bacs-container');
-            const allBacs = [...bacsList, ...Object.keys(groups).filter(b => !bacsList.includes(b))];
+            const activeBacs = [...bacsReference, ...Object.keys(groups).filter(b => !bacsReference.includes(b))];
             
-            container.innerHTML = allBacs.map(bacName => {
+            container.innerHTML = activeBacs.map(bacName => {
                 const items = groups[bacName] || [];
-                if(items.length === 0 && !bacsList.includes(bacName)) return "";
+                if(items.length === 0 && !bacsReference.includes(bacName)) return "";
 
                 let html = `
                     <div class="zone-card">
@@ -84,23 +99,23 @@
                         <div class="zone-content">`;
 
                 if(items.length === 0) {
-                    html += `<p class="empty-msg">Bac vide</p>`;
+                    html += `<p class="empty-msg">Aucune culture enregistrée</p>`;
                 } else {
                     items.forEach((p, idx) => {
-                        const s = seeds.find(i => String(i.id) === String(p.seedId)) || { id: p.seedId, identite: { nom_commun: "Plante inconnue", variete: "" } };
+                        const s = seeds.find(i => String(i.id) === String(p.seedId)) || { id: p.seedId, identite: { nom_commun: "Inconnu", variete: "" } };
                         const extraClass = idx >= 3 ? 'extra-item' : '';
                         html += `
                             <div class="item ${extraClass}" onclick="window.location.href='fiche-semence.html?id=${s.id}'">
                                 <div class="item-info">
-                                    <h4>${s.identite.nom_commun}</h4>
-                                    <p>${s.identite.variete} ${p.filet ? '• 🕸️ Filet' : ''}</p>
+                                    <div class="item-name">${s.identite.nom_commun}</div>
+                                    <div class="item-variety">${s.identite.variete} ${p.filet ? '• 🕸️ Filet' : ''}</div>
                                 </div>
-                                <div class="item-meta">x${p.quantite || 0}</div>
+                                <div class="item-qty">x${p.quantite || 0}</div>
                             </div>`;
                     });
 
                     if(items.length > 3) {
-                        html += `<button class="expand-btn" onclick="toggleZone(this, ${items.length - 3})">Afficher plus ↓</button>`;
+                        html += `<button class="toggle-btn" onclick="toggleZone(this, ${items.length - 3})">Afficher plus (${items.length - 3}) ↓</button>`;
                     }
                 }
                 return html + `</div></div>`;
@@ -110,11 +125,10 @@
         function fillZone(id, items, seeds, badgeId) {
             const el = document.getElementById(id);
             const badge = document.getElementById(badgeId);
-            
             if(badge) badge.innerText = items.length;
             
             if(items.length === 0) { 
-                el.innerHTML = `<p class="empty-msg">Aucun semis</p>`; 
+                el.innerHTML = `<p class="empty-msg">Serre vide</p>`; 
                 return; 
             }
             
@@ -124,22 +138,22 @@
                 return `
                     <div class="item ${extraClass}" onclick="window.location.href='fiche-semence.html?id=${s.id}'">
                         <div class="item-info">
-                            <h4>${s.identite.nom_commun}</h4>
-                            <p>${s.identite.variete} • ${p.contenant || '-'}</p>
+                            <div class="item-name">${s.identite.nom_commun}</div>
+                            <div class="item-variety">${s.identite.variete} • ${p.contenant || '-'}</div>
                         </div>
-                        <div class="item-meta">x${p.quantite || 0}</div>
+                        <div class="item-qty">x${p.quantite || 0}</div>
                     </div>`;
             }).join('');
 
             if(items.length > 3) {
-                el.innerHTML += `<button class="expand-btn" onclick="toggleZone(this, ${items.length - 3})">Voir les ${items.length - 3} autres ↓</button>`;
+                el.innerHTML += `<button class="toggle-btn" onclick="toggleZone(this, ${items.length - 3})">Afficher plus (${items.length - 3}) ↓</button>`;
             }
         }
 
         function toggleZone(btn, count) {
             const card = btn.closest('.zone-card');
             const isExpanded = card.classList.toggle('is-expanded');
-            btn.innerText = isExpanded ? "Replier ↑" : `Voir les ${count} autres ↓`;
+            btn.innerText = isExpanded ? "Replier ↑" : `Afficher plus (${count}) ↓`;
         }
 
         window.onload = init;
