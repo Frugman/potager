@@ -10,10 +10,10 @@
         
         header { display: flex; align-items: center; margin-bottom: 25px; }
         .back-btn { text-decoration: none; font-size: 24px; margin-right: 15px; color: var(--text); }
-        h1 { font-size: 22px; margin: 0; }
+        h1 { font-size: 20px; margin: 0; }
 
         .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-size: 12px; color: var(--accent); text-transform: uppercase; font-weight: bold; }
+        label { display: block; margin-bottom: 8px; font-size: 11px; color: var(--accent); text-transform: uppercase; font-weight: bold; }
         
         input, select, textarea { 
             width: 100%; padding: 15px; background: var(--card-bg); color: #fff; 
@@ -21,7 +21,8 @@
             box-sizing: border-box; outline: none;
         }
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         
         .save-btn { 
             width: 100%; padding: 20px; background: var(--accent); color: #fff; 
@@ -30,7 +31,6 @@
         }
 
         .save-btn:disabled { background: #333; color: #666; cursor: not-allowed; }
-
         #status-msg { text-align: center; margin-top: 15px; font-size: 14px; color: #888; }
     </style>
 </head>
@@ -43,44 +43,60 @@
 
     <div class="form-container">
         <div class="form-group">
-            <label>Nom Commun (ex: Tomate)</label>
-            <input type="text" id="nom_commun" placeholder="Ex: Tomate, Poivron...">
+            <label>Plante (Nom commun)</label>
+            <input type="text" id="nom_commun" placeholder="Ex: Bourrache, Tomate...">
         </div>
 
         <div class="form-group">
             <label>Variété</label>
-            <input type="text" id="variete" placeholder="Ex: Cœur de Bœuf">
+            <input type="text" id="variete" placeholder="Ex: À fleurs bleues">
         </div>
 
-        <div class="form-group">
-            <label>Provenance / Marque</label>
-            <input type="text" id="provenance" placeholder="Ex: Kokopelli, Récolte perso...">
-        </div>
-
-        <div class="form-group">
-            <label>Rôle / Type (Optionnel)</label>
-            <input type="text" id="role" placeholder="Ex: Grimpante, Déterminée...">
-        </div>
-
-        <label>Délais de croissance (en jours)</label>
         <div class="grid-2">
+            <div class="form-group">
+                <label>Provenance</label>
+                <input type="text" id="provenance" placeholder="Kokopelli...">
+            </div>
+            <div class="form-group">
+                <label>Type / Rôle</label>
+                <input type="text" id="role" placeholder="Grimpante...">
+            </div>
+        </div>
+
+        <label>Infos Techniques</label>
+        <div class="grid-3" style="margin-bottom: 20px;">
+            <select id="exposition">
+                <option value="Soleil">☀️ Soleil</option>
+                <option value="Mi-ombre">⛅ Mi-ombre</option>
+                <option value="Ombre">☁️ Ombre</option>
+            </select>
+            <select id="eau">
+                <option value="Normal">💧 Normal</option>
+                <option value="Faible">💧 Faible</option>
+                <option value="Important">💧💧💧 Élevé</option>
+            </select>
+            <input type="number" id="distance" placeholder="Dist. (cm)">
+        </div>
+
+        <label>Délais de croissance (jours)</label>
+        <div class="grid-3" style="grid-template-columns: 1fr 1fr 1fr 1fr; margin-bottom: 20px;">
             <div class="form-group">
                 <input type="number" id="levee" placeholder="Levée">
             </div>
             <div class="form-group">
-                <input type="number" id="repiquage" placeholder="Repiquage">
+                <input type="number" id="repiquage" placeholder="Repiq.">
             </div>
             <div class="form-group">
-                <input type="number" id="plantation" placeholder="Plantation">
+                <input type="number" id="plantation" placeholder="Plant.">
             </div>
             <div class="form-group">
-                <input type="number" id="maturite" placeholder="Maturité">
+                <input type="number" id="maturite" placeholder="Matur.">
             </div>
         </div>
 
         <div class="form-group">
-            <label>Notes complémentaires</label>
-            <textarea id="notes" rows="4" placeholder="Conseils de culture, besoins en eau..."></textarea>
+            <label>Notes Culture & Entretien</label>
+            <textarea id="notes" rows="4" placeholder="Conseils spécifiques..."></textarea>
         </div>
 
         <button class="save-btn" id="btnSave" onclick="handleSave()">ENREGISTRER</button>
@@ -100,9 +116,9 @@
         async function init() {
             if (!token) { window.location.href = 'parametres.html'; return; }
 
-            // Chargement des données existantes
             try {
-                const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, {
+                // Forcer le no-cache pour être sûr d'avoir le dernier JSON avant modif
+                const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json?t=${Date.now()}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await res.json();
@@ -110,26 +126,34 @@
                 allSemences = JSON.parse(decodeURIComponent(escape(atob(data.content))));
 
                 if (editId) {
-                    document.getElementById('form-title').innerText = "Modifier la semence";
+                    document.getElementById('form-title').innerText = "Modifier la fiche";
                     loadSeedToEdit(editId);
                 }
             } catch (e) {
-                console.error("Erreur init:", e);
-                document.getElementById('status-msg').innerText = "Erreur de connexion au dépôt.";
+                console.error(e);
+                document.getElementById('status-msg').innerText = "Erreur de chargement des données.";
             }
         }
 
         function loadSeedToEdit(id) {
             const seed = allSemences.find(s => String(s.id) === String(id));
             if (seed) {
-                document.getElementById('nom_commun').value = seed.identite.nom_commun;
-                document.getElementById('variete').value = seed.identite.variete;
-                document.getElementById('provenance').value = seed.identite.provenance;
+                document.getElementById('nom_commun').value = seed.identite.nom_commun || "";
+                document.getElementById('variete').value = seed.identite.variete || "";
+                document.getElementById('provenance').value = seed.identite.provenance || "";
                 document.getElementById('role').value = seed.identite.role || "";
-                document.getElementById('levee').value = seed.delais.levee;
-                document.getElementById('repiquage').value = seed.delais.repiquage;
-                document.getElementById('plantation').value = seed.delais.plantation;
-                document.getElementById('maturite').value = seed.delais.maturite;
+                
+                // Champs techniques
+                document.getElementById('exposition').value = seed.technique?.exposition || "Soleil";
+                document.getElementById('eau').value = seed.technique?.eau || "Normal";
+                document.getElementById('distance').value = seed.technique?.distance || "";
+
+                // Délais
+                document.getElementById('levee').value = seed.delais?.levee || "";
+                document.getElementById('repiquage').value = seed.delais?.repiquage || "";
+                document.getElementById('plantation').value = seed.delais?.plantation || "";
+                document.getElementById('maturite').value = seed.delais?.maturite || "";
+                
                 document.getElementById('notes').value = seed.notes || "";
             }
         }
@@ -146,6 +170,11 @@
                     provenance: document.getElementById('provenance').value,
                     role: document.getElementById('role').value.trim()
                 },
+                technique: {
+                    exposition: document.getElementById('exposition').value,
+                    eau: document.getElementById('eau').value,
+                    distance: parseInt(document.getElementById('distance').value) || 0
+                },
                 delais: {
                     levee: parseInt(document.getElementById('levee').value) || 0,
                     repiquage: parseInt(document.getElementById('repiquage').value) || 0,
@@ -156,7 +185,7 @@
             };
 
             btn.disabled = true;
-            btn.innerText = "Sauvegarde...";
+            btn.innerText = "Synchronisation...";
 
             if (editId) {
                 const index = allSemences.findIndex(s => String(s.id) === String(editId));
@@ -166,22 +195,25 @@
             }
 
             try {
-                const contentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(allSemences, null, 2))));
+                // Encodage robuste avec gestion des accents (UTF-8)
+                const contentJSON = JSON.stringify(allSemences, null, 2);
+                const contentBase64 = btoa(unescape(encodeURIComponent(contentJSON)));
+
                 const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, {
                     method: 'PUT',
                     headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        message: editId ? `Mise à jour semence ${editId}` : "Ajout nouvelle semence",
+                        message: editId ? `Maj semence : ${newSeed.identite.nom_commun}` : `Ajout semence : ${newSeed.identite.nom_commun}`,
                         content: contentBase64,
                         sha: currentSha
                     })
                 });
 
                 if (res.ok) {
-                    status.innerHTML = "✅ Enregistré ! Redirection...";
+                    status.innerHTML = "✅ Enregistré avec succès !";
                     setTimeout(() => { 
                         window.location.href = editId ? `fiche-semence.html?id=${editId}` : 'repertoire.html'; 
-                    }, 1000);
+                    }, 800);
                 } else {
                     throw new Error("Erreur GitHub API");
                 }
