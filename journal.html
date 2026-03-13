@@ -5,14 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mon Journal - Potager 2026</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/frugman/potager/main/favicon.png">
 </head>
 <body>
 
-    <header><h1>📖 Journal de bord</h1></header>
+    <header>
+        <h1>📖 Journal de bord</h1>
+    </header>
 
     <div class="container">
         <div class="journal-card">
-            <div class="note-meta">📝 Nouvelle note</div>
+            <div class="note-meta">📝 Nouvelle observation</div>
+            
             <label>Plante concernée</label>
             <select id="note-seed">
                 <option value="">📝 Note générale</option>
@@ -21,19 +25,21 @@
             <label>Date de l'observation</label>
             <input type="date" id="note-date">
 
-            <label>Observation</label>
-            <textarea id="note-text" rows="3" placeholder="Ce que j'ai remarqué..."></textarea>
+            <label>Observation détaillée</label>
+            <textarea id="note-text" rows="3" placeholder="Décrivez ce que vous remarquez (croissance, parasites, fleurs...)"></textarea>
 
             <div onclick="document.getElementById('file-input').click()" class="photo-btn">📸 Ajouter une photo</div>
             <input type="file" id="file-input" class="hidden" accept="image/*" onchange="processPhoto(this)">
             
             <img id="preview-img" style="display:none;">
             
-            <button class="save-btn" id="btnSaveNote" onclick="saveQuickNote()">ENREGISTRER</button>
+            <button class="save-btn" id="btnSaveNote" onclick="saveQuickNote()">ENREGISTRER LA NOTE</button>
         </div>
 
         <div class="section-title">Chronologie des notes</div>
-        <div id="journal-list"></div>
+        <div id="journal-list">
+            <div class="empty-msg">Chargement du journal...</div>
+        </div>
     </div>
 
     <nav class="nav-bar">
@@ -45,7 +51,9 @@
     </nav>
 
     <script>
-        const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
+        const user = localStorage.getItem('gh_user'), 
+              repo = localStorage.getItem('gh_repo'), 
+              token = localStorage.getItem('gh_token');
         let allSeeds = [], base64Photo = "", photoName = "";
 
         async function init() {
@@ -53,18 +61,22 @@
             document.getElementById('note-date').valueAsDate = new Date();
             
             try {
-                const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+                // Chargement des semences pour le menu déroulant
+                const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json?t=${Date.now()}`, { 
+                    headers: { 'Authorization': `Bearer ${token}` } 
+                });
                 allSeeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
                 
                 const sel = document.getElementById('note-seed');
                 allSeeds.sort((a,b)=>a.identite.nom_commun.localeCompare(b.identite.nom_commun)).forEach(s => {
                     sel.innerHTML += `<option value="${s.id}">${s.identite.nom_commun} - ${s.identite.variete}</option>`;
                 });
+                
                 loadJournal();
-            } catch(e) { console.error("Erreur init:", e); }
+            } catch(e) { console.error("Erreur lors de l'initialisation :", e); }
         }
 
-        // Réduction d'image à 500px max (Largeur ou Hauteur)
+        // Gestion et compression de la photo (500px max pour économiser le stockage GitHub)
         function processPhoto(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
@@ -98,27 +110,32 @@
         }
 
         async function loadJournal() {
-            const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } });
-            const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
-            
-            document.getElementById('journal-list').innerHTML = journal.reverse().map(n => {
-                const s = allSeeds.find(i => String(i.id) === String(n.seedId)) || { identite: { nom_commun: "Note Générale", variete: "" } };
+            try {
+                const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json?t=${Date.now()}`, { 
+                    headers: { 'Authorization': `Bearer ${token}` } 
+                });
+                const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
                 
-                // On utilise ici les classes du style.css (journal-card, note-meta, etc.)
-                return `
-                <div class="journal-card" onclick="window.location.href='modifier-journal.html?id=${n.id}'">
-                    <div class="note-meta">${n.date} • ${n.action} ${n.action==='Récolte'?'🧺':''}</div>
-                    <div class="note-title">${s.identite.nom_commun} <span style="font-weight:400; font-size:14px; color:var(--text-secondary);">${s.identite.variete}</span></div>
+                document.getElementById('journal-list').innerHTML = journal.reverse().map(n => {
+                    const s = allSeeds.find(i => String(i.id) === String(n.seedId)) || { identite: { nom_commun: "Note Générale", variete: "" } };
                     
-                    ${n.quantite ? `<div style="margin: 8px 0;"><span class="badge">+ ${n.quantite} récolté(s)</span></div>` : ''}
-                    
-                    ${n.note ? `<div class="note-content">${n.note}</div>` : ''}
-                    
-                    ${n.photo ? `<img src="${n.photo}" class="journal-img">` : ''}
-                    
-                    ${n.bac || n.emplacement ? `<div style="margin-top:10px;"><span style="font-size:12px; opacity:0.6;">📍 ${n.bac || n.emplacement}</span></div>` : ''}
-                </div>`;
-            }).join('');
+                    return `
+                    <div class="journal-card" onclick="window.location.href='modifier-journal.html?id=${n.id}'">
+                        <div class="note-meta">${n.date} • ${n.action} ${n.action==='Récolte'?'🧺':''}</div>
+                        <div class="note-title">${s.identite.nom_commun} <span style="font-weight:400; font-size:14px; color:var(--text-secondary);">${s.identite.variete}</span></div>
+                        
+                        ${n.quantite ? `<div style="margin: 8px 0;"><span class="badge">+ ${n.quantite} récolté(s)</span></div>` : ''}
+                        
+                        ${n.note ? `<div class="note-content">${n.note}</div>` : ''}
+                        
+                        ${n.photo ? `<img src="${n.photo}" class="journal-img">` : ''}
+                        
+                        ${n.bac || n.emplacement ? `<div style="margin-top:10px;"><span style="font-size:12px; opacity:0.6;">📍 ${n.bac || n.emplacement}</span></div>` : ''}
+                    </div>`;
+                }).join('');
+            } catch (e) {
+                document.getElementById('journal-list').innerHTML = `<div class="empty-msg">Aucune note trouvée.</div>`;
+            }
         }
 
         async function saveQuickNote() {
@@ -127,7 +144,7 @@
             
             const btn = document.getElementById('btnSaveNote');
             const originalText = btn.innerText;
-            btn.innerText = "⏳ ENREGISTREMENT..."; btn.disabled = true;
+            btn.innerText = "⏳ SYNCHRONISATION..."; btn.disabled = true;
 
             try {
                 let photoUrl = "";
@@ -141,7 +158,9 @@
                     photoUrl = `https://raw.githubusercontent.com/${user}/${repo}/master/${path}`;
                 }
 
-                const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { 
+                    headers: { 'Authorization': `Bearer ${token}` } 
+                });
                 const dataJ = await resJ.json();
                 let journal = JSON.parse(decodeURIComponent(escape(atob(dataJ.content))));
                 
@@ -166,7 +185,7 @@
                 
                 location.reload();
             } catch(e) { 
-                alert("Erreur lors de l'enregistrement");
+                alert("Erreur lors de l'enregistrement sur GitHub");
                 btn.innerText = originalText; btn.disabled = false;
             }
         }
