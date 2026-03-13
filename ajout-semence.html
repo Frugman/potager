@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ajouter / Modifier - Potager 2026</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/frugman/potager/main/favicon.png">
 </head>
 <body>
 
@@ -13,67 +14,94 @@
         <h1 id="form-title">Nouvelle Semence</h1>
     </header>
 
-    <div class="form-container">
-        <div class="form-group">
+    <div class="container">
+        <div class="card">
+            <div class="note-meta">1. Identité de la plante</div>
+            
             <label>Plante (Nom commun)</label>
             <input type="text" id="nom_commun" placeholder="Ex: Bourrache, Tomate...">
-        </div>
 
-        <div class="form-group">
             <label>Variété</label>
             <input type="text" id="variete" placeholder="Ex: À fleurs bleues">
+
+            <div class="grid-2">
+                <div>
+                    <label>Provenance</label>
+                    <input type="text" id="provenance" placeholder="Kokopelli...">
+                </div>
+                <div>
+                    <label>Type / Rôle</label>
+                    <input type="text" id="role" placeholder="Grimpante...">
+                </div>
+            </div>
         </div>
 
-        <div class="grid-2">
-            <div class="form-group">
-                <label>Provenance</label>
-                <input type="text" id="provenance" placeholder="Kokopelli...">
-            </div>
-            <div class="form-group">
-                <label>Type / Rôle</label>
-                <input type="text" id="role" placeholder="Grimpante...">
-            </div>
-        </div>
-
-        <label>Infos Techniques</label>
-        <div class="grid-3" style="margin-bottom: 20px;">
+        <div class="card">
+            <div class="note-meta">2. Conseils de culture</div>
+            
+            <label>Exposition</label>
             <select id="exposition">
-                <option value="Soleil">☀️ Soleil</option>
+                <option value="Soleil">☀️ Plein Soleil</option>
                 <option value="Mi-ombre">⛅ Mi-ombre</option>
                 <option value="Ombre">☁️ Ombre</option>
             </select>
+
+            <label>Besoin en eau</label>
             <select id="eau">
                 <option value="Normal">💧 Normal</option>
-                <option value="Faible">💧 Faible</option>
-                <option value="Important">💧💧💧 Élevé</option>
+                <option value="Faible">🌵 Faible</option>
+                <option value="Important">💧💧 Élevé</option>
             </select>
-            <input type="number" id="distance" placeholder="Dist. (cm)">
+
+            <label>Distance entre plants (cm)</label>
+            <input type="number" id="distance" placeholder="Ex: 30">
         </div>
 
-        <label>Délais de croissance (jours)</label>
-        <div class="grid-3" style="grid-template-columns: 1fr 1fr 1fr 1fr; margin-bottom: 20px;">
-            <div class="form-group">
-                <input type="number" id="levee" placeholder="Levée">
+        <div class="card">
+            <div class="note-meta">3. Délais de croissance (jours)</div>
+            <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 15px;">
+                Ces valeurs calculent automatiquement vos tâches dans l'agenda.
+            </p>
+            
+            <div class="grid-2">
+                <div>
+                    <label>Levée</label>
+                    <input type="number" id="levee" placeholder="Jours">
+                </div>
+                <div>
+                    <label>Repiquage</label>
+                    <input type="number" id="repiquage" placeholder="Jours">
+                </div>
             </div>
-            <div class="form-group">
-                <input type="number" id="repiquage" placeholder="Repiq.">
-            </div>
-            <div class="form-group">
-                <input type="number" id="plantation" placeholder="Plant.">
-            </div>
-            <div class="form-group">
-                <input type="number" id="maturite" placeholder="Matur.">
+            <div class="grid-2">
+                <div>
+                    <label>Plantation</label>
+                    <input type="number" id="plantation" placeholder="Jours">
+                </div>
+                <div>
+                    <label>Maturité</label>
+                    <input type="number" id="maturite" placeholder="Jours">
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <label>Notes Culture & Entretien</label>
-            <textarea id="notes" rows="4" placeholder="Conseils spécifiques..."></textarea>
+        <div class="card">
+            <div class="note-meta">4. Observations & Notes</div>
+            <label>Notes spécifiques</label>
+            <textarea id="notes" rows="4" placeholder="Conseils particuliers pour cette variété..."></textarea>
         </div>
 
-        <button class="save-btn" id="btnSave" onclick="handleSave()">ENREGISTRER</button>
-        <div id="status-msg"></div>
+        <button class="save-btn" id="btnSave" onclick="handleSave()">ENREGISTRER LA FICHE</button>
+        <div id="status-msg" style="text-align: center; margin-top: 15px; font-weight: bold;"></div>
     </div>
+
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Accueil</a>
+        <a href="repertoire.html" class="nav-item active-nav"><span class="nav-icon">📚</span>Semences</a>
+        <a href="bacs.html" class="nav-item"><span class="nav-icon">🍱</span>Bacs</a>
+        <a href="agenda.html" class="nav-item"><span class="nav-icon">📅</span>Agenda</a>
+        <a href="journal.html" class="nav-item"><span class="nav-icon">📖</span>Journal</a>
+    </nav>
 
     <script>
         const user = localStorage.getItem('gh_user'), 
@@ -89,7 +117,6 @@
             if (!token) { window.location.href = 'parametres.html'; return; }
 
             try {
-                // Forcer le no-cache pour être sûr d'avoir le dernier JSON avant modif
                 const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json?t=${Date.now()}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
@@ -103,7 +130,7 @@
                 }
             } catch (e) {
                 console.error(e);
-                document.getElementById('status-msg').innerText = "Erreur de chargement des données.";
+                document.getElementById('status-msg').innerText = "❌ Erreur de connexion au dépôt.";
             }
         }
 
@@ -115,12 +142,10 @@
                 document.getElementById('provenance').value = seed.identite.provenance || "";
                 document.getElementById('role').value = seed.identite.role || "";
                 
-                // Champs techniques
                 document.getElementById('exposition').value = seed.technique?.exposition || "Soleil";
                 document.getElementById('eau').value = seed.technique?.eau || "Normal";
                 document.getElementById('distance').value = seed.technique?.distance || "";
 
-                // Délais
                 document.getElementById('levee').value = seed.delais?.levee || "";
                 document.getElementById('repiquage').value = seed.delais?.repiquage || "";
                 document.getElementById('plantation').value = seed.delais?.plantation || "";
@@ -156,8 +181,13 @@
                 notes: document.getElementById('notes').value
             };
 
+            if (!newSeed.identite.nom_commun) {
+                status.innerText = "⚠️ Le nom de la plante est requis.";
+                return;
+            }
+
             btn.disabled = true;
-            btn.innerText = "Synchronisation...";
+            btn.innerText = "⏳ SYNCHRONISATION...";
 
             if (editId) {
                 const index = allSemences.findIndex(s => String(s.id) === String(editId));
@@ -167,7 +197,6 @@
             }
 
             try {
-                // Encodage robuste avec gestion des accents (UTF-8)
                 const contentJSON = JSON.stringify(allSemences, null, 2);
                 const contentBase64 = btoa(unescape(encodeURIComponent(contentJSON)));
 
@@ -182,9 +211,10 @@
                 });
 
                 if (res.ok) {
+                    status.style.color = "var(--accent-green)";
                     status.innerHTML = "✅ Enregistré avec succès !";
                     setTimeout(() => { 
-                        window.location.href = editId ? `fiche-semence.html?id=${editId}` : 'repertoire.html'; 
+                        window.location.href = 'repertoire.html'; 
                     }, 800);
                 } else {
                     throw new Error("Erreur GitHub API");
@@ -192,6 +222,7 @@
             } catch (e) {
                 btn.disabled = false;
                 btn.innerText = "RÉESSAYER";
+                status.style.color = "var(--danger-red)";
                 status.innerText = "❌ Erreur : " + e.message;
             }
         }
