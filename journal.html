@@ -3,216 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mon Journal de Culture</title>
+    <title>Mon Journal - Potager 2026</title>
     <style>
-        :root {
-            --bg: #000000;
-            --card-bg: #1a1a1a;
-            --text: #ffffff;
-            --accent: #4CAF50;
-            --border: #333;
-        }
+        :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #333; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; padding-bottom: 110px; font-size: 16px; }
+        
+        header { margin-bottom: 20px; }
+        h1 { font-size: 24px; margin: 0; }
 
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 20px;
-            padding-bottom: 100px;
-        }
+        /* Formulaire Note Rapide */
+        .quick-note { background: #111; padding: 15px; border-radius: 16px; border: 1px solid var(--border); margin-bottom: 25px; }
+        .quick-note h3 { font-size: 14px; color: var(--accent); margin: 0 0 12px 0; text-transform: uppercase; }
+        input, textarea { width: 100%; padding: 12px; background: #000; color: #fff; border: 1px solid var(--border); border-radius: 10px; font-size: 15px; margin-bottom: 10px; box-sizing: border-box; outline: none; }
+        .btn-add { width: 100%; padding: 12px; background: var(--accent); color: #fff; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; min-height: 44px; }
 
-        header { margin-bottom: 25px; }
-        h1 { font-size: 24px; margin: 0; color: var(--text); }
+        /* Liste des entrées */
+        .entry-card { background: var(--card-bg); border-radius: 16px; padding: 15px; border: 1px solid var(--border); margin-bottom: 15px; position: relative; }
+        .entry-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+        .entry-date { font-size: 12px; color: #777; font-weight: bold; }
+        .entry-type { font-size: 13px; color: var(--accent); font-weight: bold; text-transform: uppercase; }
+        
+        .entry-title { font-size: 16px; font-weight: bold; margin-bottom: 5px; display: block; }
+        .entry-text { font-size: 14px; color: #aaa; line-height: 1.4; white-space: pre-wrap; }
+        
+        .entry-img { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-top: 12px; border: 1px solid #333; }
+        .badge { background: #222; padding: 4px 8px; border-radius: 6px; font-size: 11px; color: #888; border: 1px solid #333; margin-top: 8px; display: inline-block; }
 
-        .filter-section {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            margin-bottom: 20px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        select {
-            width: 100%;
-            padding: 12px;
-            background: #000;
-            color: #fff;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .entry-list { display: flex; flex-direction: column; gap: 15px; }
-
-        .entry-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 18px;
-            border: 1px solid var(--border);
-        }
-
-        .entry-date {
-            font-size: 12px;
-            color: var(--accent);
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-
-        .entry-info h3 { margin: 0; font-size: 18px; }
-        .entry-info p { margin: 4px 0 0; font-size: 15px; font-weight: bold; }
-
-        .entry-details {
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px dashed #333;
-            font-size: 14px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .badge {
-            background: #222;
-            padding: 4px 8px;
-            border-radius: 6px;
-            border: 1px solid #444;
-        }
-
-        .nav-bar {
-            position: fixed;
-            bottom: 0; left: 0; width: 100%; height: 85px;
-            background: #111; border-top: 2px solid var(--border);
-            display: flex; justify-content: space-around; align-items: center; z-index: 100;
-        }
-        .nav-item { color: #fff; text-decoration: none; font-size: 12px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
-        .nav-icon { font-size: 30px; margin-bottom: 2px; }
+        /* Nav */
+        .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
+        .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
+        .nav-icon { font-size: 26px; }
         .active-nav { color: var(--accent); }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>📖 Journal de Bord</h1>
+        <h1>📖 Journal de bord</h1>
     </header>
 
-    <div class="filter-section">
-        <select id="filterMonth" onchange="applyFilters()">
-            <option value="">Tous les mois</option>
-            <option value="01">Janvier</option>
-            <option value="02">Février</option>
-            <option value="03">Mars</option>
-            <option value="04">Avril</option>
-            <option value="05">Mai</option>
-            <option value="06">Juin</option>
-            <option value="07">Juillet</option>
-            <option value="08">Août</option>
-            <option value="09">Septembre</option>
-            <option value="10">Octobre</option>
-            <option value="11">Novembre</option>
-            <option value="12">Décembre</option>
-        </select>
-        <select id="filterSeed" onchange="applyFilters()">
-            <option value="">Toutes les semences</option>
-        </select>
+    <div class="quick-note">
+        <h3>📝 Note rapide</h3>
+        <input type="date" id="note-date">
+        <textarea id="note-text" rows="2" placeholder="Une observation, un événement..."></textarea>
+        <button class="btn-add" id="btnSaveNote" onclick="saveQuickNote()">AJOUTER AU JOURNAL</button>
     </div>
 
-    <div id="journalContent" class="entry-list">
-        <p style="text-align:center; padding:40px;">Chargement du journal...</p>
+    <div id="journal-list">
+        <p style="text-align:center; padding:40px; color:#666;">Chargement de vos souvenirs...</p>
     </div>
 
     <nav class="nav-bar">
-        <a href="index.html" class="nav-item active-nav"><span class="nav-icon">🏠</span>Accueil</a>
+        <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Accueil</a>
         <a href="repertoire.html" class="nav-item"><span class="nav-icon">📚</span>Semences</a>
         <a href="bacs.html" class="nav-item"><span class="nav-icon">🍱</span>Bacs</a>
         <a href="agenda.html" class="nav-item"><span class="nav-icon">📅</span>Agenda</a>
-        <a href="journal.html" class="nav-item"><span class="nav-icon">📖</span>Journal</a>
+        <a href="journal.html" class="nav-item active-nav"><span class="nav-icon">📖</span>Journal</a>
     </nav>
 
     <script>
-        let allEntries = [];
-        let seedMap = {};
+        const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
+        let allSeeds = [];
 
-        const user = localStorage.getItem('gh_user');
-        const repo = localStorage.getItem('gh_repo');
-        const token = localStorage.getItem('gh_token');
+        async function init() {
+            if(!token) return;
+            document.getElementById('note-date').valueAsDate = new Date();
+            
+            try {
+                // Charger semences pour les noms
+                const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+                allSeeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
+                
+                loadJournal();
+            } catch (e) { console.error(e); }
+        }
 
         async function loadJournal() {
-            if (!token || !user || !repo) {
-                document.getElementById('journalContent').innerHTML = "⚠️ Paramètres manquants.";
-                return;
-            }
-            try {
-                // 1. Charger les semences
-                const resSeeds = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                const seedsData = await resSeeds.json();
-                const semences = JSON.parse(decodeURIComponent(escape(atob(seedsData.content))));
+            const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
+            
+            const list = document.getElementById('journal-list');
+            list.innerHTML = journal.reverse().map(n => {
+                const s = allSeeds.find(i => i.id === n.seedId) || { identite: { nom_commun: "Note Libre", variete: "" } };
+                const loc = n.bac || n.emplacement || "";
                 
-                const filterSeedSelect = document.getElementById('filterSeed');
-                semences.forEach(s => {
-                    seedMap[s.id] = `${s.identite.nom_commun} (${s.identite.variete})`;
-                    filterSeedSelect.innerHTML += `<option value="${s.id}">${seedMap[s.id]}</option>`;
-                });
-
-                // 2. Charger le journal (SANS Cache-Control pour éviter le bug CORS)
-                const resJournal = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                const journalData = await resJournal.json();
-                allEntries = JSON.parse(decodeURIComponent(escape(atob(journalData.content))));
-                
-                allEntries.reverse();
-                applyFilters();
-            } catch (e) {
-                document.getElementById('journalContent').innerHTML = `<p style="color:red; text-align:center;">Erreur : ${e.message}</p>`;
-            }
+                return `
+                <div class="entry-card" onclick="window.location.href='modifier-journal.html?id=${n.id}'">
+                    <div class="entry-header">
+                        <span class="entry-type">${n.action}</span>
+                        <span class="entry-date">${n.date}</span>
+                    </div>
+                    <span class="entry-title">${s.identite.nom_commun} ${s.identite.variete}</span>
+                    ${n.note ? `<div class="entry-text">${n.note}</div>` : ''}
+                    ${n.photo ? `<img src="${n.photo}" class="entry-img">` : ''}
+                    ${loc ? `<span class="badge">📍 ${loc}</span>` : ''}
+                    ${n.quantite ? `<span class="badge">🔢 Qté: ${n.quantite}</span>` : ''}
+                </div>`;
+            }).join('');
         }
 
-        function applyFilters() {
-            const month = document.getElementById('filterMonth').value;
-            const seedId = document.getElementById('filterSeed').value;
-            const filtered = allEntries.filter(entry => {
-                const matchMonth = month === "" || entry.date.split('-')[1] === month;
-                const matchSeed = seedId === "" || entry.seedId === seedId;
-                return matchMonth && matchSeed;
+        async function saveQuickNote() {
+            const text = document.getElementById('note-text').value;
+            if(!text) return;
+            const btn = document.getElementById('btnSaveNote');
+            btn.innerText = "⏳..."; btn.disabled = true;
+
+            const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const dataJ = await resJ.json();
+            let journal = JSON.parse(decodeURIComponent(escape(atob(dataJ.content))));
+
+            const newEntry = {
+                id: Date.now(),
+                date: document.getElementById('note-date').value,
+                action: "Note",
+                seedId: "",
+                note: text,
+                photo: ""
+            };
+
+            journal.push(newEntry);
+            await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, {
+                method: 'PUT', headers: { 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ message: "Note rapide", content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: dataJ.sha })
             });
-            renderJournal(filtered);
+            
+            document.getElementById('note-text').value = "";
+            btn.innerText = "AJOUTER AU JOURNAL"; btn.disabled = false;
+            loadJournal();
         }
 
-        function renderJournal(entries) {
-            const container = document.getElementById('journalContent');
-            if (entries.length === 0) {
-                container.innerHTML = `<p style="text-align:center; padding:40px; color:#666;">Aucune action trouvée.</p>`;
-                return;
-            }
-            container.innerHTML = entries.map(e => `
-                <div class="entry-card">
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                        <div class="entry-date">${new Date(e.date).toLocaleDateString('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'})}</div>
-                        <button onclick="window.location.href='modifier-journal.html?id=${e.id}'" style="background:#333; color:#fff; border:none; padding:5px 10px; border-radius:5px; font-size:11px; font-weight:bold; cursor:pointer;">MODIFIER</button>
-                    </div>
-                    <div class="entry-info">
-                        <h3>${e.action}</h3>
-                        <p>${seedMap[e.seedId] || 'Plante inconnue'}</p>
-                    </div>
-                    <div class="entry-details">
-                        ${e.quantite ? `<div class="badge">Qté : <b>${e.quantite}</b></div>` : ''}
-                        ${(e.contenant && (e.action === 'Semis' || e.action === 'Repiquage')) ? `<div class="badge">📦 ${e.contenant}</div>` : ''}
-                        ${e.bac ? `<div class="badge">📍 ${e.bac}</div>` : ''}
-                        ${e.filet ? `<div class="badge">🕸️ Filet</div>` : ''}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        window.onload = loadJournal;
+        window.onload = init;
     </script>
 </body>
 </html>
