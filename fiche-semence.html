@@ -21,13 +21,18 @@
         .label { color: #888; }
         .value { color: #fff; text-align: right; font-weight: bold; }
         
+        /* Tâches entretien style */
+        .task-row { background: #000; padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px solid #222; display: flex; align-items: flex-start; gap: 10px; }
+        .task-icon { font-size: 18px; }
+        .task-text { font-size: 13px; color: #ccc; }
+        .task-meta { font-size: 11px; color: var(--accent); font-weight: bold; display: block; margin-top: 3px; }
+
         /* Historique Style */
         .hist-card { background: #080808; border-radius: 12px; padding: 12px; margin-bottom: 10px; border: 1px solid #222; }
         .hist-header { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 5px; color: var(--accent); font-weight: bold; }
         .hist-note { font-size: 13px; color: #aaa; font-style: italic; line-height: 1.4; white-space: pre-wrap; }
         .hist-img { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-top: 8px; }
 
-        /* Nav Bar */
         .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
         .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
         .nav-icon { font-size: 26px; }
@@ -58,12 +63,10 @@
         async function load() {
             if(!token) return;
             try {
-                // Charger la semence spécifique
                 const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
                 const seeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
                 const s = seeds.find(item => item.id === id);
 
-                // Charger tout le journal pour extraire l'historique
                 const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
                 const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
 
@@ -75,8 +78,6 @@
             document.getElementById('seedTitle').innerText = s.identite.nom_commun;
             document.getElementById('editBtn').onclick = () => window.location.href = `modifier-semence.html?id=${s.id}`;
 
-            // Filtrage : On récupère toutes les entrées du journal liées à cet ID
-            // (Actions classiques + Notes libres liées à cette plante)
             const history = journal.filter(n => n.seedId === id).reverse();
 
             let html = `
@@ -85,20 +86,30 @@
                     <div class="info-row"><span class="label">Variété</span><span class="value">${s.identite.variete}</span></div>
                     <div class="info-row"><span class="label">Famille</span><span class="value">${s.identite.famille || '-'}</span></div>
                     <div class="info-row"><span class="label">Provenance</span><span class="value">${s.identite.provenance || '-'}</span></div>
-                    <div class="info-row"><span class="label">Durée de vie</span><span class="value">${s.identite.duree_germ || '-'} ans</span></div>
                 </section>
 
                 <section>
                     <h2>Conseils de Culture</h2>
                     <div class="info-row"><span class="label">Exposition</span><span class="value">${s.culture?.exposition || '-'}</span></div>
-                    <div class="info-row"><span class="label">Besoin Eau</span><span class="value">${s.culture?.eau || '-'}</span></div>
                     <div class="info-row"><span class="label">Profondeur</span><span class="value">${s.culture?.profondeur || '-'}</span></div>
                     <div class="info-row"><span class="label">Distances</span><span class="value">${s.culture?.dist_rang || '-'} / ${s.culture?.dist_inter || '-'} cm</span></div>
+                    
+                    ${s.taches_entretien && s.taches_entretien.length > 0 ? `
+                        <div style="margin-top:20px; font-size:11px; color:#555; text-transform:uppercase; font-weight:bold;">🛠️ Tâches programmées</div>
+                        ${s.taches_entretien.map(te => `
+                            <div class="task-row">
+                                <div class="task-text">
+                                    ${te.label}
+                                    <span class="task-meta">A faire à J+${te.delai} du ${te.base}</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    ` : ''}
                 </section>
 
                 <section>
                     <h2>📜 Historique & Notes</h2>
-                    ${history.length === 0 ? '<p style="font-size:13px; color:#555; text-align:center; padding:10px;">Aucune donnée enregistrée pour cette plante.</p>' : ''}
+                    ${history.length === 0 ? '<p style="font-size:13px; color:#555; text-align:center;">Aucune donnée enregistrée.</p>' : ''}
                     ${history.map(n => `
                         <div class="hist-card">
                             <div class="hist-header">
