@@ -7,19 +7,45 @@
     <style>
         :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #333; }
         body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; padding-bottom: 110px; font-size: 16px; }
+        
         h1 { font-size: 24px; margin: 0 0 20px 0; }
         h2 { font-size: 13px; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; margin: 25px 0 12px; border-bottom: 1px solid #222; padding-bottom: 8px; }
+        
         .zone-card { background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
-        .zone-header { background: #222; padding: 15px 20px; font-weight: bold; font-size: 16px; }
+        
+        /* Header avec badge */
+        .zone-header { 
+            background: #222; padding: 15px 20px; font-weight: bold; font-size: 16px; 
+            display: flex; justify-content: space-between; align-items: center; 
+        }
+        .badge { 
+            background: var(--accent); color: #fff; font-size: 12px; 
+            padding: 2px 10px; border-radius: 20px; font-weight: 900; 
+        }
+
         .zone-content { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+        
         .item { background: #080808; padding: 12px; border-radius: 12px; border: 1px solid #222; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .item:active { background: #151515; }
         .item-info h4 { margin: 0; font-size: 15px; color: #fff; }
         .item-info p { margin: 2px 0 0; font-size: 12px; color: #888; }
         .item-meta { text-align: right; font-size: 13px; font-weight: bold; color: var(--accent); }
-        .items-hidden { display: none; }
-        .expand-btn { width: 100%; padding: 10px; background: none; border: none; color: var(--accent); font-size: 13px; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 5px; min-height: 44px; }
+
+        /* Gestion du masquage intelligent */
+        .extra-item { display: none; }
+        .zone-card.is-expanded .extra-item { display: flex; animation: fadeIn 0.3s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .expand-btn { 
+            width: 100%; padding: 12px; background: none; border: none; 
+            color: var(--accent); font-size: 13px; font-weight: bold; 
+            cursor: pointer; text-transform: uppercase; margin-top: 5px; 
+        }
+
         .empty-msg { color: #555; font-style: italic; font-size: 13px; text-align: center; padding: 10px; }
+
+        /* Navigation */
         .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
         .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
         .nav-icon { font-size: 26px; }
@@ -28,19 +54,22 @@
 </head>
 <body>
     <h1>🍱 Espace Culture</h1>
+
     <div id="content-area">
         <h2>🏠 Serres</h2>
-        <div class="zone-card">
-            <div class="zone-header">Serre Intérieure</div>
+        <div class="zone-card" id="card-serre-int">
+            <div class="zone-header"><span>Serre Intérieure</span><span class="badge" id="badge-serre-int">0</span></div>
             <div class="zone-content" id="serre-int"></div>
         </div>
-        <div class="zone-card">
-            <div class="zone-header">Serre Extérieure</div>
+        <div class="zone-card" id="card-serre-ext">
+            <div class="zone-header"><span>Serre Extérieure</span><span class="badge" id="badge-serre-ext">0</span></div>
             <div class="zone-content" id="serre-ext"></div>
         </div>
+
         <h2>🌳 Pleine Terre / Bacs</h2>
         <div id="bacs-container"></div>
     </div>
+
     <nav class="nav-bar">
         <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Accueil</a>
         <a href="repertoire.html" class="nav-item"><span class="nav-icon">📚</span>Semences</a>
@@ -50,28 +79,40 @@
     </nav>
 
     <script>
-        const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
+        const user = localStorage.getItem('gh_user'), 
+              repo = localStorage.getItem('gh_repo'), 
+              token = localStorage.getItem('gh_token');
         const bacsList = ["Bac A", "Bac B", "Bac C", "Bac D", "Bac E"];
 
         async function init() {
             if(!token) return;
             try {
-                const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+                // Fetch avec timestamp pour éviter le cache
+                const [resS, resJ] = await Promise.all([
+                    fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } }),
+                    fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } })
+                ]);
+                
                 const seeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
-                const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
                 const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
+                
                 renderBacs(seeds, journal);
             } catch (e) { console.error(e); }
         }
 
         function renderBacs(seeds, journal) {
+            // 1. Serres
             const semis = journal.filter(n => n.action === 'Semis' || n.action === 'Repiquage');
-            fillZone('serre-int', semis.filter(s => s.emplacement === 'Serre intérieure'), seeds);
-            fillZone('serre-ext', semis.filter(s => s.emplacement === 'Serre extérieure'), seeds);
+            fillZone('serre-int', semis.filter(s => s.emplacement === 'Serre intérieure'), seeds, 'badge-serre-int');
+            fillZone('serre-ext', semis.filter(s => s.emplacement === 'Serre extérieure'), seeds, 'badge-serre-ext');
 
+            // 2. Bacs
             const plantations = journal.filter(n => n.action === 'Plantation');
             const groups = {};
-            plantations.forEach(p => { if(!groups[p.bac]) groups[p.bac] = []; groups[p.bac].push(p); });
+            plantations.forEach(p => { 
+                if(!groups[p.bac]) groups[p.bac] = []; 
+                groups[p.bac].push(p); 
+            });
 
             const container = document.getElementById('bacs-container');
             const allBacs = [...bacsList, ...Object.keys(groups).filter(b => !bacsList.includes(b))];
@@ -79,14 +120,23 @@
             container.innerHTML = allBacs.map(bacName => {
                 const items = groups[bacName] || [];
                 if(items.length === 0 && !bacsList.includes(bacName)) return "";
-                let html = `<div class="zone-card"><div class="zone-header">${bacName}</div><div class="zone-content">`;
-                if(items.length === 0) { html += `<p class="empty-msg">Bac vide</p>`; } 
-                else {
+
+                let html = `
+                    <div class="zone-card">
+                        <div class="zone-header">
+                            <span>${bacName}</span>
+                            <span class="badge">${items.length}</span>
+                        </div>
+                        <div class="zone-content">`;
+
+                if(items.length === 0) {
+                    html += `<p class="empty-msg">Bac vide</p>`;
+                } else {
                     items.forEach((p, idx) => {
-                        const s = seeds.find(i => i.id === p.seedId) || { id: p.seedId, identite: { nom_commun: p.seedId, variete: "" } };
-                        const isHidden = idx >= 2 ? 'items-hidden' : '';
+                        const s = seeds.find(i => String(i.id) === String(p.seedId)) || { id: p.seedId, identite: { nom_commun: "Plante inconnue", variete: "" } };
+                        const extraClass = idx >= 3 ? 'extra-item' : '';
                         html += `
-                            <div class="item ${isHidden}" data-bac="${bacName}" onclick="window.location.href='fiche-semence.html?id=${s.id}'">
+                            <div class="item ${extraClass}" onclick="window.location.href='fiche-semence.html?id=${s.id}'">
                                 <div class="item-info">
                                     <h4>${s.identite.nom_commun}</h4>
                                     <p>${s.identite.variete} ${p.filet ? '• 🕸️ Filet' : ''}</p>
@@ -94,25 +144,50 @@
                                 <div class="item-meta">x${p.quantite || 0}</div>
                             </div>`;
                     });
-                    if(items.length > 2) html += `<button class="expand-btn" onclick="event.stopPropagation(); expandBac(this, '${bacName}')">Voir les ${items.length - 2} autres culture(s) ↓</button>`;
+
+                    if(items.length > 3) {
+                        html += `<button class="expand-btn" onclick="toggleZone(this, ${items.length - 3})">Voir les ${items.length - 3} autres ↓</button>`;
+                    }
                 }
                 return html + `</div></div>`;
             }).join('');
         }
 
-        function fillZone(id, items, seeds) {
+        function fillZone(id, items, seeds, badgeId) {
             const el = document.getElementById(id);
-            if(items.length === 0) { el.innerHTML = `<p class="empty-msg">Aucun semis</p>`; return; }
-            el.innerHTML = items.map(p => {
-                const s = seeds.find(i => i.id === p.seedId) || { id: p.seedId, identite: { nom_commun: p.seedId, variete: "" } };
-                return `<div class="item" onclick="window.location.href='fiche-semence.html?id=${s.id}'"><div class="item-info"><h4>${s.identite.nom_commun}</h4><p>${s.identite.variete} • ${p.contenant || '-'}</p></div><div class="item-meta">x${p.quantite || 0}</div></div>`;
+            const badge = document.getElementById(badgeId);
+            
+            if(badge) badge.innerText = items.length;
+            
+            if(items.length === 0) { 
+                el.innerHTML = `<p class="empty-msg">Aucun semis</p>`; 
+                return; 
+            }
+            
+            el.innerHTML = items.map((p, idx) => {
+                const s = seeds.find(i => String(i.id) === String(p.seedId)) || { id: p.seedId, identite: { nom_commun: "Inconnu", variete: "" } };
+                const extraClass = idx >= 3 ? 'extra-item' : '';
+                return `
+                    <div class="item ${extraClass}" onclick="window.location.href='fiche-semence.html?id=${s.id}'">
+                        <div class="item-info">
+                            <h4>${s.identite.nom_commun}</h4>
+                            <p>${s.identite.variete} • ${p.contenant || '-'}</p>
+                        </div>
+                        <div class="item-meta">x${p.quantite || 0}</div>
+                    </div>`;
             }).join('');
+
+            if(items.length > 3) {
+                el.innerHTML += `<button class="expand-btn" onclick="toggleZone(this, ${items.length - 3})">Voir les ${items.length - 3} autres ↓</button>`;
+            }
         }
 
-        function expandBac(btn, bacName) {
-            document.querySelectorAll(`.item.items-hidden[data-bac="${bacName}"]`).forEach(item => item.classList.remove('items-hidden'));
-            btn.style.display = 'none';
+        function toggleZone(btn, count) {
+            const card = btn.closest('.zone-card');
+            const isExpanded = card.classList.toggle('is-expanded');
+            btn.innerText = isExpanded ? "Replier ↑" : `Voir les ${count} autres ↓`;
         }
+
         window.onload = init;
     </script>
 </body>
