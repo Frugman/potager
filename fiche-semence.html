@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Détails Semence</title>
+    <title>Détails Semence - Potager 2026</title>
     <style>
         :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #333; }
         body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; padding-bottom: 110px; font-size: 16px; }
         
         header { display: flex; align-items: center; margin-bottom: 25px; }
         .back-btn { background: none; border: none; color: #fff; font-size: 35px; margin-right: 15px; cursor: pointer; min-width: 44px; }
-        h1 { font-size: 22px; margin: 0; flex: 1; }
+        h1 { font-size: 20px; margin: 0; flex: 1; }
         
         #editBtn { background: var(--accent); color: white; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; min-height: 44px; }
         
@@ -18,56 +18,66 @@
         h2 { font-size: 13px; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 8px; }
         
         .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #222; font-size: 15px; }
-        .info-row:last-child { border-bottom: none; }
-        .label { color: #888; font-weight: 500; }
+        .label { color: #888; }
         .value { color: #fff; text-align: right; font-weight: bold; }
         
-        .description { font-size: 14px; color: #aaa; line-height: 1.5; margin-top: 10px; font-style: italic; }
-        
-        .badge-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-        .badge { background: #222; color: var(--accent); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; border: 1px solid var(--accent); }
-        .badge.companion { color: #3498db; border-color: #3498db; }
+        /* Historique Style */
+        .hist-card { background: #080808; border-radius: 12px; padding: 12px; margin-bottom: 10px; border: 1px solid #222; }
+        .hist-header { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 5px; color: var(--accent); font-weight: bold; }
+        .hist-note { font-size: 13px; color: #aaa; font-style: italic; line-height: 1.4; white-space: pre-wrap; }
+        .hist-img { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-top: 8px; }
 
         /* Nav Bar */
         .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
         .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
-        .nav-icon { font-size: 26px; margin-bottom: 2px; }
+        .nav-icon { font-size: 26px; }
+        .active-nav { color: var(--accent); }
     </style>
 </head>
 <body>
     <header>
         <button class="back-btn" onclick="window.location.href='repertoire.html'">←</button>
-        <h1 id="seedTitle">...</h1>
+        <h1 id="seedTitle">Chargement...</h1>
         <button id="editBtn">MODIFIER</button>
     </header>
 
-    <div id="content">
-        <p style="text-align:center; padding:40px; color:#666;">Chargement des données...</p>
-    </div>
+    <div id="content"></div>
 
     <nav class="nav-bar">
         <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Accueil</a>
-        <a href="repertoire.html" class="nav-item"><span class="nav-icon">📚</span>Semences</a>
+        <a href="repertoire.html" class="nav-item active-nav"><span class="nav-icon">📚</span>Semences</a>
         <a href="bacs.html" class="nav-item"><span class="nav-icon">🍱</span>Bacs</a>
         <a href="agenda.html" class="nav-item"><span class="nav-icon">📅</span>Agenda</a>
         <a href="journal.html" class="nav-item"><span class="nav-icon">📖</span>Journal</a>
     </nav>
 
     <script>
+        const id = new URLSearchParams(window.location.search).get('id');
+        const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
+
         async function load() {
-            const id = new URLSearchParams(window.location.search).get('id');
-            const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
+            if(!token) return;
             try {
-                const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
-                const semences = JSON.parse(decodeURIComponent(escape(atob((await res.json()).content))));
-                const s = semences.find(item => item.id === id);
-                if (s) render(s);
+                // Charger la semence spécifique
+                const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const seeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
+                const s = seeds.find(item => item.id === id);
+
+                // Charger tout le journal pour extraire l'historique
+                const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
+
+                if (s) render(s, journal);
             } catch (e) { console.error(e); }
         }
 
-        function render(s) {
+        function render(s, journal) {
             document.getElementById('seedTitle').innerText = s.identite.nom_commun;
             document.getElementById('editBtn').onclick = () => window.location.href = `modifier-semence.html?id=${s.id}`;
+
+            // Filtrage : On récupère toutes les entrées du journal liées à cet ID
+            // (Actions classiques + Notes libres liées à cette plante)
+            const history = journal.filter(n => n.seedId === id).reverse();
 
             let html = `
                 <section>
@@ -75,46 +85,39 @@
                     <div class="info-row"><span class="label">Variété</span><span class="value">${s.identite.variete}</span></div>
                     <div class="info-row"><span class="label">Famille</span><span class="value">${s.identite.famille || '-'}</span></div>
                     <div class="info-row"><span class="label">Provenance</span><span class="value">${s.identite.provenance || '-'}</span></div>
-                    <div class="info-row"><span class="label">Vie des graines</span><span class="value">${s.identite.duree_germ || '-'} ans</span></div>
-                    ${s.identite.description ? `<div class="description">"${s.identite.description}"</div>` : ''}
-                </section>
-
-                <section>
-                    <h2>Moteur Agenda (Délais)</h2>
-                    <div class="info-row"><span class="label">Temps de levée</span><span class="value">${s.delais?.levee || 0} jours</span></div>
-                    <div class="info-row"><span class="label">Levée → Repiquage</span><span class="value">${s.delais?.repiquage || 0} jours</span></div>
-                    <div class="info-row"><span class="label">Repiquage → Plant.</span><span class="value">${s.delais?.plantation || 0} jours</span></div>
-                    <div class="info-row"><span class="label">Cycle maturité</span><span class="value">${s.delais?.maturite || 0} jours</span></div>
+                    <div class="info-row"><span class="label">Durée de vie</span><span class="value">${s.identite.duree_germ || '-'} ans</span></div>
                 </section>
 
                 <section>
                     <h2>Conseils de Culture</h2>
-                    <div class="info-row"><span class="label">Exposition</span><span class="value">${s.culture?.exposition}</span></div>
-                    <div class="info-row"><span class="label">Besoins en eau</span><span class="value">${s.culture?.eau}</span></div>
-                    <div class="info-row"><span class="label">Style de semis</span><span class="value">${s.culture?.style_semis || '-'}</span></div>
+                    <div class="info-row"><span class="label">Exposition</span><span class="value">${s.culture?.exposition || '-'}</span></div>
+                    <div class="info-row"><span class="label">Besoin Eau</span><span class="value">${s.culture?.eau || '-'}</span></div>
                     <div class="info-row"><span class="label">Profondeur</span><span class="value">${s.culture?.profondeur || '-'}</span></div>
-                    <div class="info-row"><span class="label">Température levée</span><span class="value">${s.culture?.temp_levee || '-'}</span></div>
-                    <div class="info-row"><span class="label">Distance rang / inter</span><span class="value">${s.culture?.dist_rang || '-'} / ${s.culture?.dist_inter || '-'} cm</span></div>
+                    <div class="info-row"><span class="label">Distances</span><span class="value">${s.culture?.dist_rang || '-'} / ${s.culture?.dist_inter || '-'} cm</span></div>
                 </section>
 
                 <section>
-                    <h2>Particularités</h2>
-                    <label style="font-size:12px; color:#666;">SOINS SPÉCIFIQUES</label>
-                    <div class="badge-container">
-                        ${(s.particularites?.soins || []).length > 0 
-                            ? s.particularites.soins.map(soin => `<span class="badge">🛡️ ${soin}</span>`).join('') 
-                            : '<span style="font-size:13px; color:#555;">Aucun soin particulier</span>'}
-                    </div>
-                    <label style="font-size:12px; color:#666; display:block; margin-top:15px;">PLANTES COMPAGNES</label>
-                    <div class="badge-container">
-                        ${s.particularites?.associes 
-                            ? s.particularites.associes.split(',').map(p => `<span class="badge companion">🌿 ${p.trim()}</span>`).join('') 
-                            : '<span style="font-size:13px; color:#555;">Non renseigné</span>'}
-                    </div>
+                    <h2>📜 Historique & Notes</h2>
+                    ${history.length === 0 ? '<p style="font-size:13px; color:#555; text-align:center; padding:10px;">Aucune donnée enregistrée pour cette plante.</p>' : ''}
+                    ${history.map(n => `
+                        <div class="hist-card">
+                            <div class="hist-header">
+                                <span>${n.action.toUpperCase()}</span>
+                                <span>${n.date}</span>
+                            </div>
+                            ${n.note ? `<div class="hist-note">"${n.note}"</div>` : ''}
+                            ${n.photo ? `<img src="${n.photo}" class="hist-img">` : ''}
+                            <div style="margin-top:8px;">
+                                ${n.emplacement || n.bac ? `<span style="font-size:10px; color:#666; background:#111; padding:2px 6px; border-radius:4px; margin-right:5px;">📍 ${n.emplacement || n.bac}</span>` : ''}
+                                ${n.quantite ? `<span style="font-size:10px; color:#666; background:#111; padding:2px 6px; border-radius:4px;">🔢 Qté: ${n.quantite}</span>` : ''}
+                            </div>
+                        </div>
+                    `).join('')}
                 </section>
             `;
             document.getElementById('content').innerHTML = html;
         }
+
         window.onload = load;
     </script>
 </body>
