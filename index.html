@@ -29,7 +29,6 @@
         .note-card { border-left: 4px solid var(--accent); cursor: pointer; }
         .note-img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-top: 10px; }
         .agenda-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #222; }
-        .agenda-item:last-child { border-bottom: none; }
         .nav-bar { position: fixed; bottom: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
         .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
         .nav-icon { font-size: 26px; }
@@ -123,6 +122,7 @@
             let html = "";
             if(type === 'Semis' || type === 'Repiquage') html = `<label>Lieu</label><select id="val-loc"><option>Serre intérieure</option><option>Serre extérieure</option></select><label>Contenant</label><input type="text" id="val-cont" placeholder="Godet, plaque...">`;
             else if(type === 'Plantation') html = `<label>Bac</label><select id="val-bac"><option>Bac A</option><option>Bac B</option><option>Bac C</option><option>Bac D</option><option>Bac E</option><option>Autre</option></select>`;
+            else if(type === 'Récolte') html = `<label>Quantité récoltée (nombre/poids)</label><input type="number" id="val-qty" placeholder="Ex: 5" required>`;
             document.getElementById('extra-fields').innerHTML = html;
         }
 
@@ -137,8 +137,21 @@
             const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
             const dataJ = await resJ.json();
             let journal = JSON.parse(decodeURIComponent(escape(atob(dataJ.content))));
-            journal.push({ id: Date.now(), date: document.getElementById('val-date').value, action: currentType, seedId: document.getElementById('val-seed').value, note: document.getElementById('val-note').value, photo: photoUrl, bac: document.getElementById('val-bac')?.value, emplacement: document.getElementById('val-loc')?.value });
-            await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { method: 'PUT', headers: { 'Authorization': `Bearer ${token}` }, body: JSON.stringify({ message: "Update", content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: dataJ.sha }) });
+            
+            const newEntry = { 
+                id: Date.now(), 
+                date: document.getElementById('val-date').value, 
+                action: currentType, 
+                seedId: document.getElementById('val-seed').value, 
+                note: document.getElementById('val-note').value, 
+                photo: photoUrl, 
+                quantite: parseInt(document.getElementById('val-qty')?.value) || 0,
+                bac: document.getElementById('val-bac')?.value, 
+                emplacement: document.getElementById('val-loc')?.value 
+            };
+            
+            journal.push(newEntry);
+            await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { method: 'PUT', headers: { 'Authorization': `Bearer ${token}` }, body: JSON.stringify({ message: "Récolte", content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: dataJ.sha }) });
             location.reload();
         }
 
@@ -155,33 +168,10 @@
         async function loadWidgets(seeds) {
             const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
             const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
-            
-            // Notes
             document.getElementById('notes-box').innerHTML = journal.slice(-3).reverse().map(n => {
                 const s = seeds.find(i=>i.id===n.seedId) || {identite:{nom_commun:"Note", variete:""}};
-                return `<div class="card note-card" onclick="window.location.href='journal.html'"><b>${n.date}</b> - ${s.identite.nom_commun}<br>${n.photo?`<img src="${n.photo}" class="note-img">`:''}<p style="font-size:12px;color:#888;">${n.note||''}</p></div>`;
+                return `<div class="card note-card" onclick="window.location.href='journal.html'"><b>${n.date}</b> - ${s.identite.nom_commun} ${n.quantite ? `(x${n.quantite})` : ''}<br>${n.photo?`<img src="${n.photo}" class="note-img">`:''}<p style="font-size:12px;color:#888;">${n.note||''}</p></div>`;
             }).join('');
-
-            // Agenda Urgent 7J
-            const today = new Date(); today.setHours(0,0,0,0);
-            const in7Days = new Date(); in7Days.setDate(today.getDate() + 7);
-            let urgentHtml = "";
-            journal.filter(j => j.action === 'Semis').forEach(entry => {
-                const s = seeds.find(i => i.id === entry.seedId);
-                if(!s) return;
-                const dSemis = new Date(entry.date);
-                const tasks = [
-                    { d: s.delais.levee, t: "🌱 Levée" },
-                    { d: s.delais.levee + s.delais.repiquage, t: "🪴 Repiquage" }
-                ];
-                tasks.forEach(task => {
-                    const target = new Date(dSemis); target.setDate(target.getDate() + task.d);
-                    if(target >= today && target <= in7Days) {
-                        urgentHtml += `<div class="agenda-item"><span>${task.t} : <b>${s.identite.nom_commun}</b></span><span style="font-size:11px;color:var(--accent);">${target.toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}</span></div>`;
-                    }
-                });
-            });
-            if(urgentHtml) document.getElementById('agenda-box').innerHTML = urgentHtml;
         }
         window.onload = init;
     </script>
