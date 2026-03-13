@@ -3,241 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mon Potager 2026</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" href="icon.png">
-    <meta name="theme-color" content="#4CAF50">
+    <title>Détail Semence - Potager 2026</title>
     <style>
         :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #333; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 110px; font-size: 16px; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: #000; }
-        header h1 { margin: 0; font-size: 22px; }
-        #action-express { background: #111; padding: 20px; border-bottom: 2px solid var(--border); }
-        select, input, textarea { width: 100%; padding: 15px; background: #000; color: #fff; border: 1px solid var(--border); border-radius: 10px; font-size: 16px; margin-bottom: 12px; box-sizing: border-box; outline: none; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 12px; color: var(--accent); text-transform: uppercase; }
-        .type-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
-        .type-btn { padding: 12px; background: #222; border: 1px solid var(--border); border-radius: 12px; color: #fff; font-size: 13px; font-weight: bold; text-align: center; cursor: pointer; }
-        .type-btn.active { background: var(--accent); border-color: var(--accent); }
-        .photo-btn { width: 100%; padding: 15px; background: #333; border: 2px dashed #555; border-radius: 10px; color: #aaa; font-weight: bold; text-align: center; cursor: pointer; margin-bottom: 15px; }
-        #preview-img { width: 100%; border-radius: 10px; margin-top: 10px; display: none; margin-bottom: 15px; border: 1px solid #333; }
-        .save-btn { width: 100%; padding: 20px; background: var(--accent); color: #fff; border: none; border-radius: 15px; font-weight: bold; font-size: 18px; cursor: pointer; }
-        .widget { padding: 20px 20px 0; }
-        .widget h2 { font-size: 14px; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
-        .card { background: var(--card-bg); border-radius: 16px; padding: 15px; border: 1px solid var(--border); margin-bottom: 10px; }
-        .weather-scroll { display: flex; overflow-x: auto; gap: 10px; scrollbar-width: none; }
-        .weather-day { min-width: 80px; background: #111; padding: 12px; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
-        .note-card { border-left: 4px solid var(--accent); cursor: pointer; }
-        .note-img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-top: 10px; }
-        .agenda-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #222; }
-        .agenda-item:last-child { border-bottom: none; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 110px; }
+        
+        /* Header avec bouton retour */
+        header { display: flex; align-items: center; padding: 20px; background: #000; border-bottom: 1px solid var(--border); }
+        .back-btn { text-decoration: none; font-size: 24px; margin-right: 15px; color: var(--text); }
+        header h1 { margin: 0; font-size: 20px; flex: 1; }
+
+        .container { padding: 20px; }
+        
+        /* Fiche Look */
+        .info-card { background: var(--card-bg); border-radius: 16px; padding: 20px; border: 1px solid var(--border); margin-bottom: 20px; }
+        .info-group { margin-bottom: 15px; }
+        .info-label { font-size: 11px; color: var(--accent); text-transform: uppercase; font-weight: bold; display: block; margin-bottom: 4px; }
+        .info-value { font-size: 18px; color: #fff; }
+        .info-sub { font-size: 14px; color: #aaa; font-style: italic; }
+
+        /* Grid pour les délais */
+        .delais-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
+        .delai-item { background: #111; padding: 12px; border-radius: 10px; text-align: center; border: 1px solid #222; }
+        .delai-days { display: block; font-size: 20px; font-weight: bold; color: var(--accent); }
+        .delai-label { font-size: 10px; color: #888; text-transform: uppercase; }
+
+        /* Navigation Basse */
         .nav-bar { position: fixed; bottom: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
         .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
         .nav-icon { font-size: 26px; }
         .active-nav { color: var(--accent); }
-        .hidden { display: none; }
     </style>
 </head>
 <body>
-    <header><h1>Potager 2026</h1><a href="parametres.html" style="text-decoration:none; font-size:24px;">⚙️</a></header>
 
-    <section id="action-express">
-        <div class="type-grid">
-            <div class="type-btn" onclick="selectAction(this, 'Semis')">Semis</div>
-            <div class="type-btn" onclick="selectAction(this, 'Repiquage')">Repiq.</div>
-            <div class="type-btn" onclick="selectAction(this, 'Plantation')">Plant.</div>
-            <div class="type-btn" onclick="selectAction(this, 'Récolte')">Récolte</div>
-            <div class="type-btn" onclick="selectAction(this, 'Note')" style="grid-column: span 2;">📝 Note Libre</div>
+    <header>
+        <a href="repertoire.html" class="back-btn">←</a>
+        <h1 id="page-title">Chargement...</h1>
+    </header>
+
+    <div class="container" id="main-content">
+        <div class="info-card">
+            <div class="info-group">
+                <span class="info-label">Variété</span>
+                <div class="info-value" id="view-variete">-</div>
+            </div>
+            <div id="role-container" class="info-group">
+                <span class="info-label">Rôle / Type</span>
+                <div class="info-value" id="view-role">-</div>
+            </div>
+            <div class="info-group">
+                <span class="info-label">Provenance</span>
+                <div class="info-value" id="view-provenance">-</div>
+            </div>
         </div>
-        <div id="express-form" class="hidden">
-            <label>Plante concernée</label>
-            <select id="val-seed"><option value="">📝 Note générale</option></select>
-            <label>Date</label><input type="date" id="val-date">
-            <div id="extra-fields"></div>
-            <label>Commentaire</label><textarea id="val-note" rows="2"></textarea>
-            <div onclick="document.getElementById('file-input').click()" class="photo-btn">📸 Prendre une photo</div>
-            <input type="file" id="file-input" class="hidden" accept="image/*" onchange="processPhoto(this)">
-            <img id="preview-img" src="">
-            <button class="save-btn" id="btnSave" onclick="saveEntry()">ENREGISTRER</button>
+
+        <h2 style="font-size: 14px; color: var(--accent); text-transform: uppercase;">⏱️ Délais (Jours)</h2>
+        <div class="delais-grid">
+            <div class="delai-item"><span class="delai-days" id="d-levee">-</span><span class="delai-label">Levée</span></div>
+            <div class="delai-item"><span class="delai-days" id="d-repiquage">-</span><span class="delai-label">Repiquage</span></div>
+            <div class="delai-item"><span class="delai-days" id="d-plantation">-</span><span class="delai-label">Plantation</span></div>
+            <div class="delai-item"><span class="delai-days" id="d-maturite">-</span><span class="delai-label">Maturité</span></div>
         </div>
-    </section>
 
-    <section class="widget">
-        <h2>🌤️ MÉTÉO <a href="https://meteofrance.com/previsions-meteo-france/la-roche-sur-yon/85000" target="_blank" style="font-size:10px; color:#666; text-decoration:none; margin-left:10px; font-weight:normal;">(La Roche-sur-Yon ↗)</a></h2>
-        <div class="weather-scroll" id="weather-box">Chargement...</div>
-    </section>
-
-    <section class="widget">
-        <h2>📅 URGENT (7 JOURS)</h2>
-        <div id="agenda-box" class="card">Calcul en cours...</div>
-    </section>
-
-    <section class="widget" style="padding-bottom:20px;">
-        <h2>📝 DERNIÈRES NOTES</h2>
-        <div id="notes-box"></div>
-    </section>
+        <div class="info-card" style="margin-top:20px;">
+            <span class="info-label">Description / Notes</span>
+            <div id="view-notes" style="font-size: 14px; line-height: 1.5; color: #ccc; margin-top:10px;">-</div>
+        </div>
+    </div>
 
     <nav class="nav-bar">
-        <a href="index.html" class="nav-item active-nav"><span class="nav-icon">🏠</span>Accueil</a>
-        <a href="repertoire.html" class="nav-item"><span class="nav-icon">📚</span>Semences</a>
+        <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Accueil</a>
+        <a href="repertoire.html" class="nav-item active-nav"><span class="nav-icon">📚</span>Semences</a>
         <a href="bacs.html" class="nav-item"><span class="nav-icon">🍱</span>Bacs</a>
         <a href="agenda.html" class="nav-item"><span class="nav-icon">📅</span>Agenda</a>
         <a href="journal.html" class="nav-item"><span class="nav-icon">📖</span>Journal</a>
     </nav>
 
     <script>
-        const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
-        let currentType = "", base64Photo = "", photoName = "";
+        const user = localStorage.getItem('gh_user'), 
+              repo = localStorage.getItem('gh_repo'), 
+              token = localStorage.getItem('gh_token');
 
-        async function init() {
-            if(!token) { window.location.href = 'parametres.html'; return; }
-            document.getElementById('val-date').valueAsDate = new Date();
-            loadWeather();
+        // Récupérer l'ID dans l'URL (?id=...)
+        const params = new URLSearchParams(window.location.search);
+        const seedId = params.get('id');
+
+        async function loadSeedDetails() {
+            if(!token || !seedId) { window.location.href = 'repertoire.html'; return; }
+
             try {
-                const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
-                const seeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
-                const sel = document.getElementById('val-seed');
-                seeds.sort((a,b)=>a.identite.nom_commun.localeCompare(b.identite.nom_commun)).forEach(s => {
-                    sel.innerHTML += `<option value="${s.id}">${s.identite.nom_commun} - ${s.identite.variete}</option>`;
+                const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { 
+                    headers: { 'Authorization': `Bearer ${token}` } 
                 });
-                loadWidgets(seeds);
-            } catch(e) { console.error(e); }
-        }
-
-        function processPhoto(input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = new Image();
-                    img.onload = function() {
-                        const canvas = document.createElement('canvas');
-                        let width = img.width, height = img.height, max = 1024;
-                        if (width > max) { height *= max / width; width = max; }
-                        canvas.width = width; canvas.height = height;
-                        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-                        const data = canvas.toDataURL('image/jpeg', 0.7);
-                        document.getElementById('preview-img').src = data;
-                        document.getElementById('preview-img').style.display = 'block';
-                        base64Photo = data.split(',')[1];
-                        photoName = `IMG_${Date.now()}.jpg`;
-                    };
-                    img.src = e.target.result;
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function selectAction(btn, type) {
-            document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentType = type;
-            document.getElementById('express-form').classList.remove('hidden');
-            let html = "";
-            if(type === 'Semis' || type === 'Repiquage') html = `<label>Lieu</label><select id="val-loc"><option>Serre intérieure</option><option>Serre extérieure</option></select><label>Contenant</label><input type="text" id="val-cont" placeholder="Godet, plaque...">`;
-            else if(type === 'Plantation') html = `<label>Bac</label><select id="val-bac"><option>Bac A</option><option>Bac B</option><option>Bac C</option><option>Bac D</option><option>Bac E</option><option>Autre</option></select>`;
-            else if(type === 'Récolte') html = `<label>Quantité récoltée</label><input type="number" id="val-qty" placeholder="Nombre/Poids">`;
-            document.getElementById('extra-fields').innerHTML = html;
-        }
-
-        async function saveEntry() {
-            const btn = document.getElementById('btnSave'); btn.innerText = "⏳..."; btn.disabled = true;
-            let photoUrl = "";
-            if(base64Photo) {
-                const path = `photos/${photoName}`;
-                await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`, { method: 'PUT', headers: { 'Authorization': `Bearer ${token}` }, body: JSON.stringify({ message: "Photo", content: base64Photo }) });
-                photoUrl = `https://raw.githubusercontent.com/${user}/${repo}/master/${path}`;
-            }
-            const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
-            const dataJ = await resJ.json();
-            let journal = JSON.parse(decodeURIComponent(escape(atob(dataJ.content))));
-            journal.push({ id: Date.now(), date: document.getElementById('val-date').value, action: currentType, seedId: document.getElementById('val-seed').value, note: document.getElementById('val-note').value, photo: photoUrl, quantite: parseInt(document.getElementById('val-qty')?.value) || 0, bac: document.getElementById('val-bac')?.value, emplacement: document.getElementById('val-loc')?.value });
-            await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { method: 'PUT', headers: { 'Authorization': `Bearer ${token}` }, body: JSON.stringify({ message: "Update", content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: dataJ.sha }) });
-            location.reload();
-        }
-
-        async function loadWeather() {
-            try {
-                const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=46.67&longitude=-1.43&daily=weathercode,temperature_2m_max&timezone=Europe%2FParis");
                 const data = await res.json();
-                const getWeatherIcon = (code) => {
-                    if (code === 0) return "☀️"; if (code <= 3) return "🌤️";
-                    if (code >= 51 && code <= 67) return "🌧️";
-                    if (code >= 80 && code <= 82) return "🌦️";
-                    if (code >= 95) return "⛈️"; return "☁️";
-                };
-                document.getElementById('weather-box').innerHTML = data.daily.time.map((t, i) => `
-                    <div class="weather-day"><b>${i===0?"Auj.":new Date(t).toLocaleDateString('fr-FR',{weekday:'short'})}</b><br>${getWeatherIcon(data.daily.weathercode[i])}<br><b>${Math.round(data.daily.temperature_2m_max[i])}°</b></div>
-                `).join('');
-            } catch(e) { document.getElementById('weather-box').innerText = "Erreur météo"; }
-        }
+                const seeds = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+                
+                // Trouver la bonne semence
+                const seed = seeds.find(s => String(s.id) === String(seedId));
 
-        function addDays(date, days) {
-            let res = new Date(date);
-            res.setDate(res.getDate() + parseInt(days));
-            return res;
-        }
+                if(seed) {
+                    // Remplissage des champs
+                    document.getElementById('page-title').innerText = seed.identite.nom_commun;
+                    document.getElementById('view-variete').innerText = seed.identite.variete || 'N/C';
+                    document.getElementById('view-provenance').innerText = seed.identite.provenance || 'N/C';
+                    document.getElementById('view-notes').innerText = seed.notes || 'Aucune note particulière.';
 
-        async function loadWidgets(seeds) {
-            const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
-            const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
-            
-            // 1. Notes
-            document.getElementById('notes-box').innerHTML = journal.slice(-3).reverse().map(n => {
-                const s = seeds.find(i=>i.id===n.seedId) || {identite:{nom_commun:"Note", variete:""}};
-                return `<div class="card note-card" onclick="window.location.href='journal.html'"><b>${n.date}</b> - ${s.identite.nom_commun}<br>${n.photo?`<img src="${n.photo}" class="note-img">`:''}<p style="font-size:12px;color:#888;">${n.note||''}</p></div>`;
-            }).join('');
-
-            // 2. Agenda Urgent complet (Synchronisé avec agenda.html)
-            const today = new Date(); today.setHours(0,0,0,0);
-            const in7Days = new Date(); in7Days.setDate(today.getDate() + 7);
-            let urgentTasks = [];
-
-            journal.forEach(entry => {
-                if(entry.action === 'Semis') {
-                    const s = seeds.find(i => i.id === entry.seedId);
-                    if(!s) return;
-                    const dSemis = new Date(entry.date);
-                    
-                    // Étapes classiques
-                    const steps = [
-                        { d: s.delais.levee, t: "🌱 Levée" },
-                        { d: s.delais.levee + s.delais.repiquage, t: "🪴 Repiquage" },
-                        { d: s.delais.levee + s.delais.repiquage + s.delais.plantation, t: "🚜 Plantation" },
-                        { d: s.delais.levee + s.delais.repiquage + s.delais.plantation + s.delais.maturite, t: "🧺 Récolte" }
-                    ];
-
-                    steps.forEach(st => {
-                        const target = addDays(dSemis, st.d);
-                        if(target >= today && target <= in7Days) {
-                            urgentTasks.push({ date: target, title: st.t, plant: s.identite.nom_commun });
-                        }
-                    });
-
-                    // Tâches d'entretien (C'est ici que se trouvaient tes tâches du 17 mars !)
-                    if(s.taches_entretien) {
-                        s.taches_entretien.forEach(te => {
-                            const target = addDays(dSemis, te.delai);
-                            if(target >= today && target <= in7Days) {
-                                urgentTasks.push({ date: target, title: te.label, plant: s.identite.nom_commun });
-                            }
-                        });
+                    // Gestion du rôle (caché si vide comme demandé)
+                    if(seed.identite.role && seed.identite.role.trim() !== "") {
+                        document.getElementById('view-role').innerText = seed.identite.role;
+                    } else {
+                        document.getElementById('role-container').style.display = 'none';
                     }
+
+                    // Délais
+                    document.getElementById('d-levee').innerText = seed.delais.levee || 0;
+                    document.getElementById('d-repiquage').innerText = seed.delais.repiquage || 0;
+                    document.getElementById('d-plantation').innerText = seed.delais.plantation || 0;
+                    document.getElementById('d-maturite').innerText = seed.delais.maturite || 0;
+
+                } else {
+                    document.getElementById('main-content').innerHTML = "<p style='text-align:center;'>Semence introuvable.</p>";
                 }
-            });
 
-            // Tri et affichage
-            urgentTasks.sort((a,b) => a.date - b.date);
-            const urgentHtml = urgentTasks.map(task => `
-                <div class="agenda-item">
-                    <span>${task.title} : <b>${task.plant}</b></span>
-                    <span style="font-size:11px;color:var(--accent); font-weight:bold;">
-                        ${task.date.toLocaleDateString('fr-FR', {day:'numeric', month:'short'})}
-                    </span>
-                </div>
-            `).join('');
-
-            document.getElementById('agenda-box').innerHTML = urgentHtml || "Aucune tâche urgente ces 7 prochains jours.";
+            } catch(e) {
+                console.error(e);
+                alert("Erreur lors du chargement des données.");
+            }
         }
-        window.onload = init;
+
+        window.onload = loadSeedDetails;
     </script>
 </body>
 </html>
