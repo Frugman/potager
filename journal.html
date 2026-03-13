@@ -18,13 +18,17 @@
         select, input, textarea { width: 100%; padding: 12px; background: #000; color: #fff; border: 1px solid var(--border); border-radius: 10px; font-size: 15px; margin-bottom: 10px; box-sizing: border-box; outline: none; }
         label { display: block; margin-bottom: 5px; font-size: 11px; color: #888; text-transform: uppercase; font-weight: bold; }
         
-        .btn-add { width: 100%; padding: 12px; background: var(--accent); color: #fff; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; min-height: 44px; margin-top: 5px; }
+        /* Module Photo */
+        .photo-btn { width: 100%; padding: 12px; background: #333; border: 2px dashed #555; border-radius: 10px; color: #aaa; font-weight: bold; text-align: center; cursor: pointer; margin-bottom: 10px; font-size: 14px; }
+        #preview-img { width: 100%; border-radius: 10px; margin-bottom: 10px; display: none; border: 1px solid #333; }
+
+        .btn-add { width: 100%; padding: 15px; background: var(--accent); color: #fff; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; min-height: 44px; margin-top: 5px; font-size: 16px; }
 
         /* Liste des entrées */
         .entry-card { background: var(--card-bg); border-radius: 16px; padding: 15px; border: 1px solid var(--border); margin-bottom: 15px; }
         .entry-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
         .entry-date { font-size: 12px; color: #777; font-weight: bold; }
-        .entry-type { font-size: 11px; color: var(--accent); font-weight: bold; text-transform: uppercase; border: 1px solid var(--accent); padding: 2px 6px; border-radius: 4px; }
+        .entry-type { font-size: 10px; color: var(--accent); font-weight: bold; text-transform: uppercase; border: 1px solid var(--accent); padding: 2px 6px; border-radius: 4px; }
         
         .entry-title { font-size: 16px; font-weight: bold; margin-bottom: 5px; display: block; }
         .entry-text { font-size: 14px; color: #aaa; line-height: 1.4; white-space: pre-wrap; }
@@ -37,6 +41,7 @@
         .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
         .nav-icon { font-size: 26px; }
         .active-nav { color: var(--accent); }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
@@ -58,6 +63,10 @@
 
         <label>Observation</label>
         <textarea id="note-text" rows="2" placeholder="Ce que j'ai remarqué..."></textarea>
+
+        <div onclick="document.getElementById('file-input').click()" class="photo-btn">📸 Ajouter une photo</div>
+        <input type="file" id="file-input" class="hidden" accept="image/*" onchange="previewPhoto(this)">
+        <img id="preview-img" src="">
         
         <button class="btn-add" id="btnSaveNote" onclick="saveQuickNote()">ENREGISTRER LA NOTE</button>
     </div>
@@ -76,14 +85,13 @@
 
     <script>
         const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
-        let allSeeds = [];
+        let allSeeds = [], base64Photo = "", photoName = "";
 
         async function init() {
             if(!token) return;
             document.getElementById('note-date').valueAsDate = new Date();
             
             try {
-                // Charger semences pour le menu déroulant
                 const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
                 allSeeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
                 
@@ -94,6 +102,19 @@
 
                 loadJournal();
             } catch (e) { console.error(e); }
+        }
+
+        function previewPhoto(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById('preview-img').src = e.target.result;
+                    document.getElementById('preview-img').style.display = 'block';
+                    base64Photo = e.target.result.split(',')[1];
+                    photoName = `IMG_${Date.now()}.png`;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
         }
 
         async function loadJournal() {
@@ -124,9 +145,19 @@
 
         async function saveQuickNote() {
             const text = document.getElementById('note-text').value;
-            if(!text) return;
+            if(!text && !base64Photo) return;
             const btn = document.getElementById('btnSaveNote');
-            btn.innerText = "⏳..."; btn.disabled = true;
+            btn.innerText = "⏳ ENVOI..."; btn.disabled = true;
+
+            let photoUrl = "";
+            if(base64Photo) {
+                const path = `photos/${photoName}`;
+                await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`, {
+                    method: 'PUT', headers: { 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ message: "Photo journal", content: base64Photo })
+                });
+                photoUrl = `https://raw.githubusercontent.com/${user}/${repo}/master/${path}`;
+            }
 
             const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
             const dataJ = await resJ.json();
@@ -136,19 +167,22 @@
                 id: Date.now(),
                 date: document.getElementById('note-date').value,
                 action: "Note",
-                seedId: document.getElementById('note-seed').value, // On récupère l'ID sélectionné
+                seedId: document.getElementById('note-seed').value,
                 note: text,
-                photo: ""
+                photo: photoUrl
             };
 
             journal.push(newEntry);
             await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, {
                 method: 'PUT', headers: { 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ message: "Note rapide", content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: dataJ.sha })
+                body: JSON.stringify({ message: "Note rapide photo", content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: dataJ.sha })
             });
             
+            // Reset formulaire
             document.getElementById('note-text').value = "";
-            btn.innerText = "AJOUTER AU JOURNAL"; btn.disabled = false;
+            document.getElementById('preview-img').style.display = 'none';
+            base64Photo = "";
+            btn.innerText = "ENREGISTRER LA NOTE"; btn.disabled = false;
             loadJournal();
         }
 
