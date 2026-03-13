@@ -225,6 +225,9 @@
             document.getElementById('journal-history').innerHTML = history.length > 0 ? history.map(e => `
                 <div class="journal-card" style="margin-bottom:12px;">
                     <div class="note-meta">${e.date} • ${e.action}</div>
+                    
+                    ${e.quantite ? `<div style="margin: 8px 0;"><span class="badge">+ ${e.quantite} ${e.unite || 'unité(s)'}</span></div>` : ''}
+                    
                     <div class="note-content">${e.note || 'Aucun commentaire.'}</div>
                     ${e.photo ? `<img src="${e.photo}" class="journal-img">` : ''}
                 </div>
