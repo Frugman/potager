@@ -168,5 +168,13 @@
     "note": "A gauche et à droite du bac, le but étant de les récolter pendant que les futurs concombres buissonnant poussent au milieu",
     "bac": "Bac D",
     "filet": false
+  },
+  {
+    "id": 1773409693032,
+    "date": "2026-03-13",
+    "action": "Note",
+    "seedId": "bourrache-bleue",
+    "note": "Test",
+    "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1773409687200.jpg"
   }
 ]
