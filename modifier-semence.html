@@ -3,174 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Modifier Semence - Expert</title>
+    <title>Modifier Semence - Potager 2026</title>
     <style>
-        :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #444; }
+        :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #333; }
         body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; padding-bottom: 120px; font-size: 16px; }
+        
         header { display: flex; align-items: center; margin-bottom: 25px; }
         .back-btn { background: none; border: none; color: #fff; font-size: 35px; margin-right: 15px; cursor: pointer; min-width: 44px; }
         
         section { background: var(--card-bg); padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 1px solid var(--border); }
-        h2 { font-size: 14px; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+        h2 { font-size: 13px; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 8px; }
         
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 14px; color: #aaa; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 13px; color: #888; text-transform: uppercase; }
         
         input, select, textarea { 
-            width: 100%; padding: 16px; background: #000; border: 2px solid var(--border); 
+            width: 100%; padding: 15px; background: #000; border: 2px solid var(--border); 
             border-radius: 12px; color: #fff; font-size: 16px; box-sizing: border-box; outline: none; 
         }
-        input:focus { border-color: var(--accent); }
         .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
-        .check-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
-        .check-item { display: flex; align-items: center; gap: 12px; font-size: 15px; color: #fff; min-height: 44px; }
-        .check-item input { width: 28px; height: 28px; cursor: pointer; }
+        /* Style des tâches d'entretien */
+        .task-item { background: #000; padding: 15px; border-radius: 12px; border: 1px solid #333; margin-bottom: 10px; position: relative; }
+        .remove-task { position: absolute; top: 10px; right: 10px; color: #ff4444; font-weight: bold; cursor: pointer; padding: 5px; }
+        .add-task-btn { width: 100%; padding: 12px; background: #222; color: var(--accent); border: 1px dashed var(--accent); border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; }
 
         .save-btn { 
             position: fixed; bottom: 20px; left: 20px; right: 20px; 
-            background: var(--accent); color: white; border: none; padding: 22px; 
-            border-radius: 15px; font-size: 18px; font-weight: bold; z-index: 100; 
-            cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.9); 
+            background: var(--accent); color: white; border: none; padding: 20px; 
+            border-radius: 15px; font-size: 18px; font-weight: bold; z-index: 100; cursor: pointer;
         }
-
-        .nav-bar { 
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 85px; 
-            background: #111; border-top: 2px solid var(--border); 
-            display: flex; justify-content: space-around; align-items: center; z-index: 90; 
-        }
-        .nav-item { color: #fff; text-decoration: none; font-size: 12px; display: flex; flex-direction: column; align-items: center; flex: 1; }
-        .nav-icon { font-size: 28px; }
     </style>
 </head>
 <body>
     <header>
-        <button id="btnBack" class="back-btn">←</button>
-        <h1>Modifier la Fiche</h1>
+        <button class="back-btn" onclick="window.history.back()">←</button>
+        <h1>Modifier la fiche</h1>
     </header>
 
     <form id="editForm">
         <section>
-            <h2>1. Identité & Origine</h2>
-            <div class="form-group"><label>Nom commun</label><input type="text" id="nom_commun"></div>
-            <div class="form-group"><label>Variété</label><input type="text" id="variete"></div>
+            <h2>1. Identité</h2>
+            <div class="form-group"><label>Nom commun</label><input type="text" id="nom_commun" required></div>
+            <div class="form-group"><label>Variété</label><input type="text" id="variete" required></div>
             <div class="row">
-                <div class="form-group"><label>Famille Botanique</label><input type="text" id="famille"></div>
-                <div class="form-group"><label>Durée Germ. (ans)</label><input type="number" id="duree_germ"></div>
-            </div>
-            <div class="form-group"><label>Description</label><textarea id="description" rows="2"></textarea></div>
-        </section>
-
-        <section style="border: 1px solid var(--accent);">
-            <h2>2. Délais de calcul (jours)</h2>
-            <div class="row">
-                <div class="form-group"><label>Semis → Levée</label><input type="number" id="delai_levee"></div>
-                <div class="form-group"><label>Levée → Repiq.</label><input type="number" id="delai_repiquage"></div>
-            </div>
-            <div class="row">
-                <div class="form-group"><label>Repiq. → Plant.</label><input type="number" id="delai_plantation"></div>
-                <div class="form-group"><label>Plant. → Récolte</label><input type="number" id="delai_maturite"></div>
+                <div class="form-group"><label>Famille</label><input type="text" id="famille"></div>
+                <div class="form-group"><label>Provenance</label><input type="text" id="provenance"></div>
             </div>
         </section>
 
         <section>
-            <h2>3. Culture & Soins</h2>
+            <h2>2. Moteur Agenda (Délais en jours)</h2>
             <div class="row">
-                <div class="form-group">
-                    <label>Exposition</label>
-                    <select id="exposition"><option>Plein soleil</option><option>Mi-ombre</option><option>Ombre</option></select>
-                </div>
-                <div class="form-group">
-                    <label>Eau</label>
-                    <select id="eau"><option>Moyen</option><option>Faible</option><option>Fort</option></select>
-                </div>
+                <div class="form-group"><label>Levée</label><input type="number" id="d_levee"></div>
+                <div class="form-group"><label>Repiquage</label><input type="number" id="d_repiquage"></div>
             </div>
-            <label>Soins spécifiques (CDC 4.3)</label>
-            <div class="check-group">
-                <label class="check-item"><input type="checkbox" class="soins-cb" value="Tuteur"> Tuteurage</label>
-                <label class="check-item"><input type="checkbox" class="soins-cb" value="Mildiou"> Sensible Mildiou</label>
-                <label class="check-item"><input type="checkbox" class="soins-cb" value="Pincement"> Pincement</label>
-            </div>
-            <div class="form-group" style="margin-top:15px">
-                <label>Cultures associées</label>
-                <input type="text" id="associes" placeholder="ex: Basilic, Souci">
+            <div class="row">
+                <div class="form-group"><label>Plantation</label><input type="number" id="d_plantation"></div>
+                <div class="form-group"><label>Maturité</label><input type="number" id="d_maturite"></div>
             </div>
         </section>
 
-        <button type="button" class="save-btn" id="btnUpdate" onclick="update()">ENREGISTRER LES MODIFICATIONS</button>
-    </form>
+        <section>
+            <h2>3. Tâches d'Entretien Spécifiques</h2>
+            <div id="tasks-container"></div>
+            <button type="button" class="add-task-btn" onclick="addTask()">+ AJOUTER UNE TÂCHE</button>
+        </section>
 
-    <nav class="nav-bar">
-        <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Accueil</a>
-        <a href="bacs.html" class="nav-item"><span class="nav-icon">🍱</span>Bacs</a>
-        <a href="agenda.html" class="nav-item"><span class="nav-icon">📅</span>Agenda</a>
-        <a href="journal.html" class="nav-item"><span class="nav-icon">📖</span>Journal</a>
-    </nav>
+        <button type="button" class="save-btn" id="btnSave" onclick="save()">METTRE À JOUR LA FICHE</button>
+    </form>
 
     <script>
         const id = new URLSearchParams(window.location.search).get('id');
         const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
-        let semences = [], sha = "";
-
-        document.getElementById('btnBack').onclick = () => window.location.href = `fiche-semence.html?id=${id}`;
+        let currentSha = "";
 
         async function load() {
             const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
-            const data = await res.json(); sha = data.sha;
-            semences = JSON.parse(decodeURIComponent(escape(atob(data.content))));
-            const s = semences.find(i => i.id === id);
-            
-            if (s) {
+            const data = await res.json();
+            currentSha = data.sha;
+            const seeds = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+            const s = seeds.find(item => item.id === id);
+
+            if(s) {
                 document.getElementById('nom_commun').value = s.identite.nom_commun;
                 document.getElementById('variete').value = s.identite.variete;
-                document.getElementById('famille').value = s.identite.famille || '';
-                document.getElementById('duree_germ').value = s.identite.duree_germ || '';
-                document.getElementById('description').value = s.identite.description || '';
-                
-                // Délais
-                document.getElementById('delai_levee').value = s.delais?.levee || 0;
-                document.getElementById('delai_repiquage').value = s.delais?.repiquage || 0;
-                document.getElementById('delai_plantation').value = s.delais?.plantation || 0;
-                document.getElementById('delai_maturite').value = s.delais?.maturite || 0;
+                document.getElementById('famille').value = s.identite.famille || "";
+                document.getElementById('provenance').value = s.identite.provenance || "";
+                document.getElementById('d_levee').value = s.delais.levee;
+                document.getElementById('d_repiquage').value = s.delais.repiquage;
+                document.getElementById('d_plantation').value = s.delais.plantation;
+                document.getElementById('d_maturite').value = s.delais.maturite;
 
-                document.getElementById('exposition').value = s.culture?.exposition || 'Plein soleil';
-                document.getElementById('eau').value = s.culture?.eau || 'Moyen';
-                
-                document.querySelectorAll('.soins-cb').forEach(cb => {
-                    if((s.particularites?.soins || []).includes(cb.value)) cb.checked = true;
-                });
-                document.getElementById('associes').value = s.particularites?.associes || '';
+                if(s.taches_entretien) {
+                    s.taches_entretien.forEach(t => addTask(t.label, t.delai, t.base));
+                }
             }
         }
 
-        async function update() {
-            const btn = document.getElementById('btnUpdate'); btn.innerText = "⏳ MISE À JOUR..."; btn.disabled = true;
-            const idx = semences.findIndex(i => i.id === id);
+        function addTask(label = "", delai = 0, base = "semis") {
+            const container = document.getElementById('tasks-container');
+            const div = document.createElement('div');
+            div.className = "task-item";
+            div.innerHTML = `
+                <span class="remove-task" onclick="this.parentElement.remove()">✕</span>
+                <div class="form-group"><label>Libellé</label><input type="text" class="t-label" value="${label}" placeholder="Ex: Taille..."></div>
+                <div class="row">
+                    <div class="form-group"><label>Délai (jours)</label><input type="number" class="t-delai" value="${delai}"></div>
+                    <div class="form-group"><label>Référence</label>
+                        <select class="t-base">
+                            <option value="semis" ${base==='semis'?'selected':''}>Après semis</option>
+                            <option value="plantation" ${base==='plantation'?'selected':''}>Après plant.</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+        }
 
-            semences[idx].identite = {
-                nom_commun: document.getElementById('nom_commun').value,
-                variete: document.getElementById('variete').value,
-                famille: document.getElementById('famille').value,
-                duree_germ: document.getElementById('duree_germ').value,
-                description: document.getElementById('description').value
-            };
-            semences[idx].delais = {
-                levee: parseInt(document.getElementById('delai_levee').value) || 0,
-                repiquage: parseInt(document.getElementById('delai_repiquage').value) || 0,
-                plantation: parseInt(document.getElementById('delai_plantation').value) || 0,
-                maturite: parseInt(document.getElementById('delai_maturite').value) || 0
-            };
-            semences[idx].culture.exposition = document.getElementById('exposition').value;
-            semences[idx].culture.eau = document.getElementById('eau').value;
-            semences[idx].particularites = {
-                soins: Array.from(document.querySelectorAll('.soins-cb:checked')).map(cb => cb.value),
-                associes: document.getElementById('associes').value
-            };
+        async function save() {
+            const btn = document.getElementById('btnSave'); btn.innerText = "⏳ ENREGISTREMENT..."; btn.disabled = true;
 
-            const content = btoa(unescape(encodeURIComponent(JSON.stringify(semences, null, 2))));
+            const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const data = await res.json();
+            let seeds = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+
+            const tasks = [];
+            document.querySelectorAll('.task-item').forEach(el => {
+                tasks.push({
+                    label: el.querySelector('.t-label').value,
+                    delai: parseInt(el.querySelector('.t-delai').value) || 0,
+                    base: el.querySelector('.t-base').value
+                });
+            });
+
+            const index = seeds.findIndex(s => s.id === id);
+            if(index !== -1) {
+                seeds[index].identite.nom_commun = document.getElementById('nom_commun').value;
+                seeds[index].identite.variete = document.getElementById('variete').value;
+                seeds[index].identite.famille = document.getElementById('famille').value;
+                seeds[index].identite.provenance = document.getElementById('provenance').value;
+                seeds[index].delais = {
+                    levee: parseInt(document.getElementById('d_levee').value) || 0,
+                    repiquage: parseInt(document.getElementById('d_repiquage').value) || 0,
+                    plantation: parseInt(document.getElementById('d_plantation').value) || 0,
+                    maturite: parseInt(document.getElementById('d_maturite').value) || 0
+                };
+                seeds[index].taches_entretien = tasks;
+            }
+
             await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, {
                 method: 'PUT', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: `Maj délais ${id}`, content: content, sha: sha })
+                body: JSON.stringify({ message: `Update ${id}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(seeds, null, 2)))), sha: data.sha })
             });
             window.location.href = `fiche-semence.html?id=${id}`;
         }
