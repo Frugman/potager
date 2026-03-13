@@ -124,7 +124,7 @@
                         <div class="note-meta">${n.date} • ${n.action} ${n.action==='Récolte'?'🧺':''}</div>
                         <div class="note-title">${s.identite.nom_commun} <span style="font-weight:400; font-size:14px; color:var(--text-secondary);">${s.identite.variete}</span></div>
                         
-                        ${n.quantite ? `<div style="margin: 8px 0;"><span class="badge">+ ${n.quantite} récolté(s)</span></div>` : ''}
+                        ${n.quantite ? `<div style="margin: 8px 0;"><span class="badge">+ ${n.quantite} ${n.unite || 'unité(s)'}</span></div>` : ''}
                         
                         ${n.note ? `<div class="note-content">${n.note}</div>` : ''}
                         
