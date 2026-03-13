@@ -189,6 +189,9 @@
                 <div class="journal-card" onclick="window.location.href='journal.html'">
                     <div class="note-meta">${n.date} • ${n.action}</div>
                     <div class="note-title">${s.identite.nom_commun}</div>
+                    
+                    ${n.quantite ? `<div style="margin: 8px 0;"><span class="badge">+ ${n.quantite} ${n.unite || 'unité(s)'}</span></div>` : ''}
+                    
                     <p class="note-content">${n.note || ''}</p>
                     ${n.photo ? `<img src="${n.photo}" class="journal-img">` : ''}
                 </div>`;
