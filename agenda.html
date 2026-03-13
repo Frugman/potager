@@ -4,46 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Agenda & Soins - Potager 2026</title>
-    <style>
-        :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #333; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; padding-bottom: 110px; font-size: 16px; }
-        
-        header { display: flex; align-items: center; margin-bottom: 25px; }
-        header h1 { font-size: 24px; margin: 0; }
-
-        .filters { display: flex; gap: 10px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
-        .filter-btn, select { 
-            background: #222; color: #fff; border: 1px solid var(--border); 
-            padding: 10px 15px; border-radius: 12px; font-size: 13px; font-weight: bold; outline: none;
-        }
-        select { appearance: none; padding-right: 30px; }
-
-        .month-title { color: var(--accent); font-size: 18px; text-transform: uppercase; letter-spacing: 2px; margin: 40px 0 20px; font-weight: 900; }
-        
-        .timeline { position: relative; padding-left: 20px; border-left: 2px solid #222; margin-left: 10px; }
-        
-        .task-card { 
-            background: var(--card-bg); border-radius: 16px; padding: 15px; 
-            margin-bottom: 15px; border: 1px solid var(--border); position: relative;
-            cursor: pointer; transition: transform 0.1s;
-        }
-        .task-card:active { transform: scale(0.98); }
-        .task-card::before { 
-            content: ''; position: absolute; left: -31px; top: 22px; 
-            width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 4px solid var(--bg);
-        }
-
-        .task-date { font-size: 12px; color: var(--accent); margin-bottom: 5px; font-weight: bold; }
-        .task-title { font-size: 16px; font-weight: bold; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
-        .task-plant { font-size: 13px; color: #888; }
-        .past-task { opacity: 0.5; filter: grayscale(1); }
-        .past-task::before { background: #555; }
-
-        .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
-        .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
-        .nav-icon { font-size: 26px; }
-        .active-nav { color: var(--accent); }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
