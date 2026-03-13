@@ -178,49 +178,66 @@
             } catch(e) { document.getElementById('weather-box').innerText = "Erreur météo"; }
         }
 
-        async function loadWidgets(seeds) {
-            const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+async function loadWidgets(seeds) {
+            const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } });
             const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
             
-            // Dernières Notes stylisées
+            // 1. Dernières Notes (Journal-style)
             document.getElementById('notes-box').innerHTML = journal.slice(-3).reverse().map(n => {
-                const s = seeds.find(i=>String(i.id) === String(n.seedId)) || {identite:{nom_commun:"Note Générale", variete:""}};
+                const s = seeds.find(i => String(i.id) === String(n.seedId)) || {identite:{nom_commun:"Note Générale", variete:""}};
                 return `
                 <div class="journal-card" onclick="window.location.href='journal.html'">
                     <div class="note-meta">${n.date} • ${n.action}</div>
                     <div class="note-title">${s.identite.nom_commun}</div>
-                    
                     ${n.quantite ? `<div style="margin: 8px 0;"><span class="badge">+ ${n.quantite} ${n.unite || 'unité(s)'}</span></div>` : ''}
-                    
                     <p class="note-content">${n.note || ''}</p>
                     ${n.photo ? `<img src="${n.photo}" class="journal-img">` : ''}
                 </div>`;
             }).join('');
 
-            // Agenda Urgent (7 jours)
+            // 2. Agenda Urgent (7 jours)
             const today = new Date(); today.setHours(0,0,0,0);
             const in7Days = new Date(); in7Days.setDate(today.getDate() + 7);
             let urgentTasks = [];
 
-            journal.filter(j => j.action === 'Semis').forEach(entry => {
-                const s = seeds.find(i => String(i.id) === String(entry.seedId));
-                if(!s) return;
-                const dSemis = entry.date;
-                const tasks = [
-                    { d: s.delais.levee, t: "🌱 Levée" },
-                    { d: s.delais.levee + s.delais.repiquage, t: "🪴 Repiquage" },
-                    { d: s.delais.levee + s.delais.repiquage + s.delais.plantation, t: "🚜 Plantation" }
-                ];
-                tasks.forEach(st => {
-                    const target = addDays(dSemis, st.d);
-                    if(target >= today && target <= in7Days) urgentTasks.push({ date: target, title: st.t, plant: s.identite.nom_commun });
-                });
+            journal.forEach(entry => {
+                if(entry.action === 'Semis') {
+                    const s = seeds.find(i => String(i.id) === String(entry.seedId));
+                    if(!s) return;
+                    
+                    // Sécurité sur la date pour éviter les décalages de fuseau horaire
+                    const dSemis = entry.date; 
+                    
+                    // Étapes classiques
+                    const stages = [
+                        { d: s.delais?.levee, t: "🌱 Levée" },
+                        { d: (s.delais?.levee || 0) + (s.delais?.repiquage || 0), t: "🪴 Repiquage" },
+                        { d: (s.delais?.levee || 0) + (s.delais?.repiquage || 0) + (s.delais?.plantation || 0), t: "🚜 Plantation" }
+                    ];
+
+                    stages.forEach(st => {
+                        const target = addDays(dSemis, st.d);
+                        if(target >= today && target <= in7Days) {
+                            urgentTasks.push({ date: target, title: st.t, plant: s.identite.nom_commun });
+                        }
+                    });
+
+                    // AJOUT : Tâches d'entretien spécifiques (si elles existent dans ta fiche)
+                    if(s.taches_entretien) {
+                        s.taches_entretien.forEach(te => {
+                            const target = addDays(dSemis, te.delai);
+                            if(target >= today && target <= in7Days) {
+                                urgentTasks.push({ date: target, title: te.label, plant: s.identite.nom_commun });
+                            }
+                        });
+                    }
+                }
             });
 
             urgentTasks.sort((a,b) => a.date - b.date);
             document.getElementById('agenda-box').innerHTML = urgentTasks.map(t => `
                 <div class="item">
-                    <div class="item-name">${t.title} : ${t.plant}</div>
+                    <div class="item-name"><b>${t.title}</b> : ${t.plant}</div>
                     <div class="item-qty">${t.date.toLocaleDateString('fr-FR', {day:'numeric', month:'short'})}</div>
                 </div>
             `).join('') || `<div class="empty-msg">Aucune urgence cette semaine.</div>`;
