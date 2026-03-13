@@ -10,30 +10,37 @@
         
         header { display: flex; align-items: center; padding: 20px; background: #000; border-bottom: 1px solid var(--border); position: sticky; top:0; z-index:10; }
         .back-btn { text-decoration: none; font-size: 24px; margin-right: 15px; color: var(--text); }
-        header h1 { margin: 0; font-size: 18px; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        header h1 { margin: 0; font-size: 18px; flex: 1; }
         
-        .edit-btn { 
-            text-decoration: none; 
-            background: rgba(255, 193, 7, 0.15); 
-            color: var(--edit); 
-            padding: 8px 15px; 
-            border-radius: 8px; 
-            font-size: 13px; 
-            font-weight: bold; 
-            border: 1px solid var(--edit);
-        }
+        .edit-btn { text-decoration: none; background: rgba(255, 193, 7, 0.15); color: var(--edit); padding: 8px 15px; border-radius: 8px; font-size: 13px; font-weight: bold; border: 1px solid var(--edit); }
 
-        .container { padding: 20px; }
+        .container { padding: 15px; }
         
-        .info-card { background: var(--card-bg); border-radius: 16px; padding: 20px; border: 1px solid var(--border); margin-bottom: 20px; }
+        /* Section Caractéristiques */
+        .info-card { background: var(--card-bg); border-radius: 16px; padding: 20px; border: 1px solid var(--border); margin-bottom: 15px; }
         .info-group { margin-bottom: 15px; }
         .info-label { font-size: 11px; color: var(--accent); text-transform: uppercase; font-weight: bold; display: block; margin-bottom: 4px; }
-        .info-value { font-size: 18px; color: #fff; }
+        .info-value { font-size: 17px; color: #fff; }
 
-        .delais-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
-        .delai-item { background: #111; padding: 12px; border-radius: 10px; text-align: center; border: 1px solid #222; }
-        .delai-days { display: block; font-size: 20px; font-weight: bold; color: var(--accent); }
-        .delai-label { font-size: 10px; color: #888; text-transform: uppercase; }
+        /* Grid Technique (Eau, Soleil, Distance) */
+        .tech-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .tech-item { background: var(--card-bg); padding: 12px; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
+        .tech-icon { font-size: 20px; display: block; margin-bottom: 5px; }
+        .tech-val { font-size: 12px; font-weight: bold; color: #ccc; }
+
+        /* Délais */
+        .delais-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 25px; }
+        .delai-item { background: #111; padding: 10px 5px; border-radius: 10px; text-align: center; border: 1px solid #222; }
+        .delai-days { display: block; font-size: 18px; font-weight: bold; color: var(--accent); }
+        .delai-label { font-size: 9px; color: #777; text-transform: uppercase; }
+
+        /* Historique / Journal */
+        .history-section h2 { font-size: 14px; color: var(--accent); text-transform: uppercase; margin: 25px 0 15px; letter-spacing: 1px; }
+        .journal-card { background: #111; border-left: 4px solid var(--accent); border-radius: 8px; padding: 15px; margin-bottom: 12px; position: relative; }
+        .journal-date { font-size: 11px; color: #777; margin-bottom: 5px; }
+        .journal-action { font-weight: bold; font-size: 14px; color: var(--accent); margin-bottom: 8px; display: block; }
+        .journal-note { font-size: 14px; color: #ccc; line-height: 1.4; }
+        .journal-img { width: 100%; border-radius: 10px; margin-top: 10px; border: 1px solid #333; }
 
         .nav-bar { position: fixed; bottom: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
         .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
@@ -49,33 +56,39 @@
         <a href="#" id="link-edit" class="edit-btn">MODIFIER</a>
     </header>
 
-    <div class="container" id="main-content">
+    <div class="container">
         <div class="info-card">
             <div class="info-group">
                 <span class="info-label">Variété</span>
                 <div class="info-value" id="view-variete">-</div>
             </div>
-            <div id="role-container" class="info-group">
-                <span class="info-label">Rôle / Type</span>
+            <div class="info-group" id="role-container">
+                <span class="info-label">Type / Port</span>
                 <div class="info-value" id="view-role">-</div>
             </div>
-            <div class="info-group">
-                <span class="info-label">Provenance</span>
-                <div class="info-value" id="view-provenance">-</div>
-            </div>
         </div>
 
-        <h2 style="font-size: 12px; color: var(--accent); text-transform: uppercase; letter-spacing: 1px;">⏱️ Délais de croissance (Jours)</h2>
+        <div class="tech-grid">
+            <div class="tech-item"><span class="tech-icon">☀️</span><span class="tech-val" id="view-soleil">Soleil</span></div>
+            <div class="tech-item"><span class="tech-icon">💧</span><span class="tech-val" id="view-eau">Normal</span></div>
+            <div class="tech-item"><span class="tech-icon">📏</span><span class="tech-val" id="view-dist">30 cm</span></div>
+        </div>
+
         <div class="delais-grid">
             <div class="delai-item"><span class="delai-days" id="d-levee">-</span><span class="delai-label">Levée</span></div>
-            <div class="delai-item"><span class="delai-days" id="d-repiquage">-</span><span class="delai-label">Repiquage</span></div>
-            <div class="delai-item"><span class="delai-days" id="d-plantation">-</span><span class="delai-label">Plantation</span></div>
-            <div class="delai-item"><span class="delai-days" id="d-maturite">-</span><span class="delai-label">Maturité</span></div>
+            <div class="delai-item"><span class="delai-days" id="d-repiquage">-</span><span class="delai-label">Repiq.</span></div>
+            <div class="delai-item"><span class="delai-days" id="d-plantation">-</span><span class="delai-label">Plant.</span></div>
+            <div class="delai-item"><span class="delai-days" id="d-maturite">-</span><span class="delai-label">Récolte</span></div>
         </div>
 
-        <div class="info-card" style="margin-top:20px;">
-            <span class="info-label">Description / Notes</span>
-            <div id="view-notes" style="font-size: 14px; line-height: 1.5; color: #ccc; margin-top:10px;">-</div>
+        <div class="info-card">
+            <span class="info-label">Culture & Entretien</span>
+            <div id="view-notes" style="font-size: 14px; color: #ccc; margin-top:8px;">-</div>
+        </div>
+
+        <div class="history-section">
+            <h2>📜 Historique & Photos</h2>
+            <div id="journal-history">Chargement de l'historique...</div>
         </div>
     </div>
 
@@ -95,48 +108,65 @@
         const params = new URLSearchParams(window.location.search);
         const seedId = params.get('id');
 
-        async function loadSeedDetails() {
-            if(!token || !seedId) { window.location.href = 'repertoire.html'; return; }
-
-            // Configurer le lien de modification immédiatement
+        async function loadAllData() {
+            if(!token || !seedId) return;
             document.getElementById('link-edit').href = `ajout-semence.html?edit=${seedId}`;
 
             try {
-                const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json?t=${Date.now()}`, { 
-                    headers: { 'Authorization': `Bearer ${token}` } 
-                });
-                const data = await res.json();
-                const seeds = JSON.parse(decodeURIComponent(escape(atob(data.content))));
-                
+                // 1. Charger les données de la semence
+                const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const seeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
                 const seed = seeds.find(s => String(s.id) === String(seedId));
 
                 if(seed) {
                     document.getElementById('page-title').innerText = seed.identite.nom_commun;
                     document.getElementById('view-variete').innerText = seed.identite.variete || 'N/C';
                     document.getElementById('view-provenance').innerText = seed.identite.provenance || 'N/C';
-                    document.getElementById('view-notes').innerText = seed.notes || 'Aucune note particulière.';
-
-                    // Règle : Cacher le rôle s'il est vide
-                    if(seed.identite.role && seed.identite.role.trim() !== "") {
+                    document.getElementById('view-notes').innerText = seed.notes || 'Aucune consigne spécifique.';
+                    
+                    // Règle spécifique : cacher rôle si vide
+                    if(seed.identite.role) {
                         document.getElementById('view-role').innerText = seed.identite.role;
-                        document.getElementById('role-container').style.display = 'block';
                     } else {
                         document.getElementById('role-container').style.display = 'none';
                     }
+
+                    // Champs techniques (avec fallback)
+                    document.getElementById('view-soleil').innerText = seed.technique?.exposition || "N/C";
+                    document.getElementById('view-eau').innerText = seed.technique?.eau || "N/C";
+                    document.getElementById('view-dist').innerText = seed.technique?.distance ? seed.technique.distance + " cm" : "N/C";
 
                     document.getElementById('d-levee').innerText = seed.delais.levee || 0;
                     document.getElementById('d-repiquage').innerText = seed.delais.repiquage || 0;
                     document.getElementById('d-plantation').innerText = seed.delais.plantation || 0;
                     document.getElementById('d-maturite').innerText = seed.delais.maturite || 0;
-                } else {
-                    document.getElementById('main-content').innerHTML = "<p style='text-align:center; padding-top:50px;'>Semence introuvable.</p>";
                 }
-            } catch(e) {
-                console.error(e);
-            }
+
+                // 2. Charger l'historique du Journal
+                const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
+                
+                // Filtrer les entrées pour CETTE semence uniquement
+                const filteredJournal = journal.filter(entry => String(entry.seedId) === String(seedId)).reverse();
+
+                const historyBox = document.getElementById('journal-history');
+                if(filteredJournal.length === 0) {
+                    historyBox.innerHTML = "<p style='color:#666; font-size:14px;'>Aucune note ou photo pour le moment.</p>";
+                } else {
+                    historyBox.innerHTML = filteredJournal.map(entry => `
+                        <div class="journal-card">
+                            <div class="journal-date">${new Date(entry.date).toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'})}</div>
+                            <span class="journal-action">${entry.action}</span>
+                            <div class="journal-note">${entry.note || ''}</div>
+                            ${entry.photo ? `<img src="${entry.photo}" class="journal-img" onclick="window.open(this.src)">` : ''}
+                        </div>
+                    `).join('');
+                }
+
+            } catch(e) { console.error(e); }
         }
 
-        window.onload = loadSeedDetails;
+        window.onload = loadAllData;
     </script>
 </body>
 </html>
