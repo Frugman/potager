@@ -3,34 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Détail Semence - Potager 2026</title>
+    <title>Fiche détaillée - Potager 2026</title>
     <style>
         :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #333; --edit: #FFC107; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 110px; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 110px; font-size: 15px; }
+        
         header { display: flex; align-items: center; padding: 20px; background: #000; border-bottom: 1px solid var(--border); position: sticky; top:0; z-index:10; }
         .back-btn { text-decoration: none; font-size: 24px; margin-right: 15px; color: var(--text); }
         header h1 { margin: 0; font-size: 18px; flex: 1; }
         .edit-btn { text-decoration: none; background: rgba(255, 193, 7, 0.15); color: var(--edit); padding: 8px 15px; border-radius: 8px; font-size: 13px; font-weight: bold; border: 1px solid var(--edit); }
+
         .container { padding: 15px; }
         .info-card { background: var(--card-bg); border-radius: 16px; padding: 20px; border: 1px solid var(--border); margin-bottom: 15px; }
         .info-label { font-size: 11px; color: var(--accent); text-transform: uppercase; font-weight: bold; display: block; margin-bottom: 4px; }
-        .info-value { font-size: 17px; color: #fff; }
-        .tech-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
-        .tech-item { background: var(--card-bg); padding: 12px; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
-        .tech-icon { font-size: 20px; display: block; margin-bottom: 5px; }
-        .tech-val { font-size: 12px; font-weight: bold; color: #ccc; }
+        .info-value { font-size: 16px; color: #fff; margin-bottom: 12px; }
         
-        /* Styles Récoltes */
-        .recolte-year { background: #111; border-radius: 12px; padding: 15px; margin-bottom: 10px; border: 1px solid #222; }
-        .year-label { color: var(--accent); font-weight: bold; font-size: 14px; margin-bottom: 8px; display: block; }
-        .stat-row { display: flex; justify-content: space-between; font-size: 15px; padding: 4px 0; border-bottom: 1px solid #222; }
-        .stat-row:last-child { border-bottom: none; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 
-        .history-section h2 { font-size: 14px; color: var(--accent); text-transform: uppercase; margin: 25px 0 15px; letter-spacing: 1px; }
-        .journal-card { background: #111; border-left: 4px solid var(--accent); border-radius: 8px; padding: 15px; margin-bottom: 12px; }
+        /* Sections */
+        .section-title { font-size: 13px; color: var(--accent); text-transform: uppercase; margin: 25px 0 12px; letter-spacing: 1px; font-weight: bold; border-left: 3px solid var(--accent); padding-left: 10px; }
+        
+        /* Badges & Tags */
+        .tag-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 5px; }
+        .tag { background: #222; padding: 5px 12px; border-radius: 8px; font-size: 12px; border: 1px solid var(--border); color: #ccc; }
+        .tag-period { background: rgba(76, 175, 80, 0.1); color: var(--accent); border-color: var(--accent); }
+
+        /* Icon Grid */
+        .icon-item { background: var(--card-bg); padding: 12px 5px; border-radius: 12px; text-align: center; border: 1px solid var(--border); margin-bottom: 10px; }
+        .icon-svg { font-size: 18px; display: block; margin-bottom: 3px; }
+        .icon-val { font-size: 13px; font-weight: bold; color: #fff; }
+        .icon-sub { font-size: 9px; color: #777; text-transform: uppercase; }
+
+        /* Tâches entretien */
+        .task-line { padding: 10px; background: #111; border-radius: 8px; margin-bottom: 8px; font-size: 13px; display: flex; justify-content: space-between; }
+
         .nav-bar { position: fixed; bottom: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
         .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
-        .active-nav { color: var(--accent); }
     </style>
 </head>
 <body>
@@ -43,36 +52,65 @@
 
     <div class="container">
         <div class="info-card">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div class="info-group"><span class="info-label">Variété</span><div class="info-value" id="view-variete">N/C</div></div>
-                <div class="info-group"><span class="info-label">Famille</span><div class="info-value" id="view-famille">N/C</div></div>
+            <div class="grid-2">
+                <div><span class="info-label">Variété</span><div class="info-value" id="v-variete">-</div></div>
+                <div><span class="info-label">Famille</span><div class="info-value" id="v-famille">-</div></div>
             </div>
-            <div class="info-group"><span class="info-label">Description</span><div class="info-value" id="view-desc" style="font-size: 14px; color: #ccc;">-</div></div>
+            <div class="grid-2">
+                <div><span class="info-label">Provenance</span><div class="info-value" id="v-prov">-</div></div>
+                <div><span class="info-label">Germination</span><div class="info-value" id="v-germ">-</div></div>
+            </div>
+            <span class="info-label">Description Kokopelli</span>
+            <div id="v-desc" style="font-size: 14px; color: #bbb; line-height: 1.5; margin-bottom: 15px;">-</div>
+            <span class="info-label">Associations favorables</span>
+            <div id="v-assoc" style="color: #FFC107; font-weight: bold;">-</div>
         </div>
 
-        <div class="tech-grid">
-            <div class="tech-item"><span class="tech-icon">☀️</span><span class="tech-val" id="view-soleil">-</span></div>
-            <div class="tech-item"><span class="tech-icon">💧</span><span class="tech-val" id="view-eau">-</span></div>
-            <div class="tech-item"><span class="tech-icon">📏</span><span class="tech-val" id="view-dist">-</span></div>
+        <div class="section-title">🌱 Conseils de culture</div>
+        <div class="grid-3">
+            <div class="icon-item"><span class="icon-svg">☀️</span><span class="icon-val" id="c-expo">-</span><span class="icon-sub">Exposition</span></div>
+            <div class="icon-item"><span class="icon-svg">💧</span><span class="icon-val" id="c-eau">-</span><span class="icon-sub">Arrosage</span></div>
+            <div class="icon-item"><span class="icon-svg">🌡️</span><span class="icon-val" id="c-temp">-</span><span class="icon-sub">Temp. Levée</span></div>
+            <div class="icon-item"><span class="icon-svg">📥</span><span class="icon-val" id="c-prof">-</span><span class="icon-sub">Profondeur</span></div>
+            <div class="icon-item"><span class="icon-svg">↔️</span><span class="icon-val" id="c-dist-r">-</span><span class="icon-sub">Dist. Rang</span></div>
+            <div class="icon-item"><span class="icon-svg">↕️</span><span class="icon-val" id="c-dist-i">-</span><span class="icon-sub">Inter-rang</span></div>
+        </div>
+        <div class="info-card" style="padding: 15px; margin-top: -5px;">
+            <span class="info-label">Style de semis</span>
+            <div class="info-value" id="c-style">-</div>
+            <span class="info-label">Période de semis idéale</span>
+            <div class="tag-container" id="c-periodes"></div>
         </div>
 
-        <div class="history-section">
-            <h2>🧺 BILAN DES RÉCOLTES</h2>
-            <div id="stats-recoltes">Aucune récolte enregistrée.</div>
+        <div class="section-title">⏱️ Calendrier théorique</div>
+        <div class="grid-3" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
+            <div class="icon-item"><span class="icon-val" id="d-levee" style="color:var(--accent);">-</span><span class="icon-sub">Levée</span></div>
+            <div class="icon-item"><span class="icon-val" id="d-repiq" style="color:var(--accent);">-</span><span class="icon-sub">Repiq.</span></div>
+            <div class="icon-item"><span class="icon-val" id="d-plant" style="color:var(--accent);">-</span><span class="icon-sub">Plant.</span></div>
+            <div class="icon-item"><span class="icon-val" id="d-matur" style="color:var(--accent);">-</span><span class="icon-sub">Récolte</span></div>
         </div>
 
-        <div class="history-section">
-            <h2>📜 DERNIÈRES NOTES & PHOTOS</h2>
-            <div id="journal-history">Chargement...</div>
+        <div class="section-title">✂️ Soins & Entretien</div>
+        <div class="info-card">
+            <span class="info-label">Actions spécifiques</span>
+            <div class="tag-container" id="s-soins" style="margin-bottom:15px;"></div>
+            <span class="info-label">Tâches programmées</span>
+            <div id="s-tasks"></div>
         </div>
+
+        <div class="section-title">🧺 Bilan des récoltes</div>
+        <div id="stats-recoltes" class="info-card">Aucune récolte.</div>
+
+        <div class="section-title">📖 Journal de bord</div>
+        <div id="journal-history">Chargement...</div>
     </div>
 
     <nav class="nav-bar">
-        <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Accueil</a>
-        <a href="repertoire.html" class="nav-item active-nav"><span class="nav-icon">📚</span>Semences</a>
-        <a href="bacs.html" class="nav-item"><span class="nav-icon">🍱</span>Bacs</a>
-        <a href="agenda.html" class="nav-item"><span class="nav-icon">📅</span>Agenda</a>
-        <a href="journal.html" class="nav-item"><span class="nav-icon">📖</span>Journal</a>
+        <a href="index.html" class="nav-item">🏠 Accueil</a>
+        <a href="repertoire.html" class="nav-item" style="color:var(--accent);">📚 Semences</a>
+        <a href="bacs.html" class="nav-item">🍱 Bacs</a>
+        <a href="agenda.html" class="nav-item">📅 Agenda</a>
+        <a href="journal.html" class="nav-item">📖 Journal</a>
     </nav>
 
     <script>
@@ -85,73 +123,89 @@
             document.getElementById('link-edit').href = `ajout-semence.html?edit=${seedId}`;
 
             try {
-                // 1. Infos Semence
                 const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } });
                 const seeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
-                const seed = seeds.find(s => String(s.id) === String(seedId));
+                const s = seeds.find(item => String(item.id) === String(seedId));
 
-                if(seed) {
-                    document.getElementById('page-title').innerText = seed.identite.nom_commun;
-                    document.getElementById('view-variete').innerText = seed.identite.variete || 'N/C';
-                    document.getElementById('view-famille').innerText = seed.identite.famille || 'N/C';
-                    document.getElementById('view-desc').innerText = seed.identite.description || '-';
-                    document.getElementById('view-soleil').innerText = seed.culture?.exposition || "N/C";
-                    document.getElementById('view-eau').innerText = seed.culture?.eau || "N/C";
-                    document.getElementById('view-dist').innerText = seed.culture?.dist_rang ? seed.culture.dist_rang + "cm" : "N/C";
-                }
+                if(s) {
+                    // Identité
+                    document.getElementById('page-title').innerText = s.identite.nom_commun;
+                    document.getElementById('v-variete').innerText = s.identite.variete || '-';
+                    document.getElementById('v-famille').innerText = s.identite.famille || '-';
+                    document.getElementById('v-prov').innerText = s.identite.provenance || '-';
+                    document.getElementById('v-germ').innerText = s.identite.duree_germ ? s.identite.duree_germ + ' jours' : '-';
+                    document.getElementById('v-desc').innerText = s.identite.description || '-';
+                    document.getElementById('v-assoc').innerText = s.particularites?.associes || 'N/C';
 
-                // 2. Journal & Statistiques Récoltes
-                const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } });
-                if(resJ.ok) {
-                    const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
-                    const entries = journal.filter(e => String(e.seedId) === String(seedId));
+                    // Culture
+                    document.getElementById('c-expo').innerText = s.culture?.exposition || '-';
+                    document.getElementById('c-eau').innerText = s.culture?.eau || '-';
+                    document.getElementById('c-temp').innerText = s.culture?.temp_levee || '-';
+                    document.getElementById('c-prof').innerText = s.culture?.profondeur || '-';
+                    document.getElementById('c-dist-r').innerText = s.culture?.dist_rang ? s.culture.dist_rang + 'cm' : '-';
+                    document.getElementById('c-dist-i').innerText = s.culture?.dist_inter ? s.culture.dist_inter + 'cm' : '-';
+                    document.getElementById('c-style').innerText = s.culture?.style_semis || '-';
+                    
+                    if(s.culture?.periode_semis) {
+                        document.getElementById('c-periodes').innerHTML = s.culture.periode_semis.map(p => `<span class="tag tag-period">${p}</span>`).join('');
+                    }
 
-                    renderStats(entries);
-                    renderJournal(entries);
+                    // Délais
+                    document.getElementById('d-levee').innerText = s.delais?.levee || 0;
+                    document.getElementById('d-repiq').innerText = s.delais?.repiquage || 0;
+                    document.getElementById('d-plant').innerText = s.delais?.plantation || 0;
+                    document.getElementById('d-matur').innerText = s.delais?.maturite || 0;
+
+                    // Soins & Tâches
+                    if(s.particularites?.soins) {
+                        document.getElementById('s-soins').innerHTML = s.particularites.soins.map(soin => `<span class="tag">${soin}</span>`).join('');
+                    }
+                    if(s.taches_entretien) {
+                        document.getElementById('s-tasks').innerHTML = s.taches_entretien.map(t => `
+                            <div class="task-line"><span>${t.label}</span><span style="color:#777;">+${t.delai}j (${t.base})</span></div>
+                        `).join('');
+                    }
+
+                    // Journal & Stats
+                    const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } });
+                    if(resJ.ok) {
+                        const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
+                        const entries = journal.filter(e => String(e.seedId) === String(seedId));
+                        renderStats(entries);
+                        renderJournal(entries);
+                    }
                 }
             } catch(e) { console.error(e); }
         }
 
         function renderStats(entries) {
-            const harvestEntries = entries.filter(e => e.action === 'Récolte');
-            if(harvestEntries.length === 0) return;
-
-            const stats = {}; // { 2026: { 'kg': 5, 'unités': 12 } }
-
-            harvestEntries.forEach(e => {
+            const harvest = entries.filter(e => e.action === 'Récolte');
+            if(harvest.length === 0) return;
+            const stats = {};
+            harvest.forEach(e => {
                 const year = new Date(e.date).getFullYear();
-                const unit = e.unite || 'unités'; // Fallback pour les anciennes notes
-                const qty = parseFloat(e.quantite) || 0;
-
+                const unit = e.unite || 'unités';
                 if(!stats[year]) stats[year] = {};
-                if(!stats[year][unit]) stats[year][unit] = 0;
-                stats[year][unit] += qty;
+                stats[year][unit] = (stats[year][unit] || 0) + (parseFloat(e.quantite) || 0);
             });
-
-            const statsBox = document.getElementById('stats-recoltes');
-            statsBox.innerHTML = Object.keys(stats).sort().reverse().map(year => `
-                <div class="recolte-year">
-                    <span class="year-label">Saison ${year}</span>
-                    ${Object.keys(stats[year]).map(u => `
-                        <div class="stat-row">
-                            <span>Total ${u}</span>
-                            <span style="font-weight:900; color:var(--accent);">${stats[year][u]} ${u}</span>
-                        </div>
-                    `).join('')}
+            document.getElementById('stats-recoltes').innerHTML = Object.keys(stats).reverse().map(y => `
+                <div style="margin-bottom:10px; border-bottom:1px solid #222; padding-bottom:5px;">
+                    <div style="color:var(--accent); font-weight:bold; font-size:12px;">SAISON ${y}</div>
+                    ${Object.keys(stats[y]).map(u => `<div style="display:flex; justify-content:space-between;"><span>Total</span><strong>${stats[y][u]} ${u}</strong></div>`).join('')}
                 </div>
             `).join('');
         }
 
         function renderJournal(entries) {
-            const history = entries.reverse().slice(0, 10);
-            document.getElementById('journal-history').innerHTML = history.map(entry => `
-                <div class="journal-card">
-                    <div style="font-size:11px; color:#777;">${entry.date}</div>
-                    <div style="font-weight:bold; color:var(--accent); margin:4px 0;">${entry.action} ${entry.quantite ? `(${entry.quantite} ${entry.unite || ''})` : ''}</div>
-                    <div style="font-size:14px; color:#ccc;">${entry.note || ''}</div>
-                    ${entry.photo ? `<img src="${entry.photo}" style="width:100%; border-radius:10px; margin-top:10px;">` : ''}
+            const history = entries.reverse().slice(0, 5);
+            document.getElementById('journal-history').innerHTML = history.length > 0 ? history.map(e => `
+                <div class="info-card" style="padding:12px; margin-bottom:10px; border-left:3px solid var(--accent);">
+                    <div style="font-size:10px; color:#666;">${e.date}</div>
+                    <div style="color:var(--accent); font-weight:bold;">${e.action}</div>
+                    <div style="font-size:13px; color:#bbb;">${e.note || ''}</div>
+                    ${e.photo ? `<img src="${e.photo}" style="width:100%; border-radius:8px; margin-top:10px;">` : ''}
                 </div>
-            `).join('');
+            `).join('') : "Aucune note.";
         }
 
         window.onload = init;
