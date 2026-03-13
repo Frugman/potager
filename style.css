@@ -1,5 +1,5 @@
 /* ==========================================================================
-   1. VARIABLES & RESET
+   1. VARIABLES & ADN VISUEL (Thème Stitch)
    ========================================================================== */
 :root {
     --bg-main: #0c1015;
@@ -10,138 +10,434 @@
     --border-color: #2b3540;
     --edit-yellow: #f1c40f;
     --danger-red: #da373c;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+/* Reset & Comportement Global */
+* { 
+    box-sizing: border-box; 
+    -webkit-tap-highlight-color: transparent; 
+}
 
 body {
     background-color: var(--bg-main);
     color: var(--text-primary);
-    font-family: 'Inter', -apple-system, sans-serif;
-    margin: 0; padding: 20px; padding-bottom: 110px;
-    font-size: 15px; line-height: 1.5;
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    margin: 0; 
+    padding: 20px; 
+    padding-bottom: 110px; /* Espace pour la barre de navigation */
+    font-size: 15px; 
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 /* ==========================================================================
-   2. EN-TÊTE (Header)
+   2. EN-TÊTE & TITRES
    ========================================================================== */
-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-header h1 { flex: 1; text-align: center; font-size: 20px; font-weight: 800; margin: 0; }
+header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 25px; 
+}
 
-header a.back-btn { text-decoration: none; color: #fff; font-size: 28px; display: flex; align-items: center; width: 40px; }
-header .edit-btn { 
-    text-decoration: none; background: rgba(241, 196, 15, 0.1); 
-    color: var(--edit-yellow); padding: 8px 14px; border-radius: 10px; 
-    font-size: 11px; font-weight: 800; text-transform: uppercase; border: 1px solid var(--edit-yellow); 
+header h1 { 
+    flex: 1; 
+    text-align: center; 
+    font-size: 20px; 
+    font-weight: 800; 
+    margin: 0 10px; 
+}
+
+.section-title { 
+    font-size: 12px; 
+    color: var(--accent-green); 
+    text-transform: uppercase; 
+    margin: 25px 0 12px; 
+    letter-spacing: 1.2px; 
+    font-weight: 800; 
+    border-left: 3px solid var(--accent-green); 
+    padding-left: 10px; 
+}
+
+.month-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 30px 0 15px 10px;
+    text-transform: capitalize;
 }
 
 /* ==========================================================================
-   3. STRUCTURE DES CARTES (Cards)
+   3. COMPOSANTS DE CARTES (Cards)
    ========================================================================== */
 .card, .info-card, .zone-card, .journal-card, .task-card {
     background: var(--card-bg); 
-    border-radius: 18px; 
+    border-radius: 20px; 
     padding: 18px;
     border: 1px solid var(--border-color); 
     margin-bottom: 16px; 
     width: 100%;
+    box-shadow: var(--shadow);
 }
 
-/* Spécifique Journal : Liseré vert et texte */
+/* Style spécifique Journal (Liseré) */
 .journal-card {
     border-left: 4px solid var(--accent-green);
+    cursor: pointer;
 }
-.note-meta { font-size: 11px; color: var(--accent-green); font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
-.note-title { font-size: 17px; font-weight: 800; margin-bottom: 8px; color: #fff; }
-.note-content { color: var(--text-secondary); font-size: 14px; }
 
-/* Spécifique Agenda : Timeline */
-.timeline { position: relative; padding-left: 25px; border-left: 2px solid #222; margin-left: 10px; }
-.task-card::before { 
-    content: ''; position: absolute; left: -33px; top: 24px; 
-    width: 14px; height: 14px; background: var(--accent-green); 
-    border-radius: 50%; border: 3px solid var(--bg-main);
+.note-meta { 
+    font-size: 11px; 
+    color: var(--accent-green); 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    margin-bottom: 6px; 
+}
+
+.note-title { 
+    font-size: 17px; 
+    font-weight: 800; 
+    margin-bottom: 8px; 
+    color: #fff; 
+}
+
+.note-content { 
+    color: var(--text-secondary); 
+    font-size: 14px; 
+    white-space: pre-wrap; /* Respecte les retours à la ligne */
 }
 
 /* ==========================================================================
-   4. BACS & SERRES (Gestion du "Voir plus")
+   4. FORMULAIRES & INPUTS (Correction Alignements)
    ========================================================================== */
-.zone-header { 
-    display: flex; justify-content: space-between; align-items: center;
-    padding-bottom: 12px; border-bottom: 1px solid var(--border-color); margin-bottom: 10px;
+label { 
+    display: block; 
+    margin-bottom: 8px; 
+    font-size: 12px; 
+    color: var(--accent-green); 
+    text-transform: uppercase; 
+    font-weight: 700; 
+    letter-spacing: 0.5px;
 }
-.item { 
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 10px 0; border-bottom: 1px dotted #222; 
-}
-.item:last-of-type { border-bottom: none; }
 
-/* Masquage des items en trop */
-.extra-item { display: none !important; }
-.is-expanded .extra-item { display: flex !important; animation: fadeIn 0.3s ease; }
-
-.toggle-btn {
-    width: 100%; margin-top: 10px; padding: 10px;
-    background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);
-    border-radius: 10px; color: var(--text-secondary); font-size: 12px;
-    font-weight: 700; cursor: pointer; text-transform: uppercase;
+input[type="text"], 
+input[type="number"], 
+input[type="date"], 
+input[type="password"], 
+select, 
+textarea { 
+    width: 100%; 
+    padding: 14px 16px; 
+    background-color: #080a0d; 
+    color: var(--text-primary); 
+    border: 1px solid var(--border-color); 
+    border-radius: 12px; 
+    font-size: 16px; 
+    margin-bottom: 20px; 
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.2s;
 }
+
+input:focus, select:focus, textarea:focus { 
+    border-color: var(--accent-green); 
+}
+
+/* Cas particulier : sélecteur et bouton côte à côte */
+.grid-2 select, .grid-2 input { margin-bottom: 0; }
 
 /* ==========================================================================
-   5. FICHES SEMENCES (Données techniques)
-   ========================================================================== */
-.info-label { font-size: 11px; color: var(--accent-green); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px; }
-.info-value { font-size: 15px; color: #fff; margin-bottom: 12px; font-weight: 600; }
-
-.icon-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
-.icon-box { 
-    background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);
-    padding: 12px 8px; border-radius: 12px; text-align: center;
-}
-.icon-box span { display: block; font-size: 13px; font-weight: 700; margin-top: 4px; }
-.icon-box small { font-size: 9px; color: var(--text-secondary); text-transform: uppercase; }
-
-/* ==========================================================================
-   6. BOUTONS & FORMULAIRES
+   5. BOUTONS (Stitch Style)
    ========================================================================== */
 .save-btn { 
-    width: 100%; padding: 18px; background-color: var(--accent-green); 
-    color: white; border: none; border-radius: 16px; font-weight: 800; 
-    font-size: 17px; cursor: pointer; margin-top: 15px;
+    width: 100%; 
+    padding: 18px; 
+    background-color: var(--accent-green); 
+    color: white; 
+    border: none; 
+    border-radius: 16px; 
+    font-weight: 800; 
+    font-size: 17px; 
+    cursor: pointer; 
+    box-shadow: 0 4px 10px rgba(53, 176, 91, 0.3);
 }
-.type-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+
+.save-btn:active { transform: scale(0.98); }
+.save-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Boutons secondaires (Historique, etc.) */
+.filter-btn, .toggle-btn, .expand-btn { 
+    width: 100%; 
+    padding: 12px; 
+    background: rgba(255, 255, 255, 0.05); 
+    border: 1px solid var(--border-color); 
+    color: var(--text-secondary); 
+    border-radius: 12px; 
+    font-size: 12px; 
+    font-weight: 700; 
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+/* Bouton Retour (Flèche) */
+.back-btn { 
+    text-decoration: none; 
+    color: #fff; 
+    font-size: 28px; 
+    display: flex; 
+    align-items: center; 
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+}
+
+/* Bouton Modifier (Badge) */
+.edit-btn { 
+    text-decoration: none; 
+    background: rgba(241, 196, 15, 0.1); 
+    color: var(--edit-yellow); 
+    padding: 8px 14px; 
+    border-radius: 10px; 
+    font-size: 11px; 
+    font-weight: 800; 
+    border: 1px solid var(--edit-yellow); 
+}
+
+/* Bouton Photo */
+.photo-btn { 
+    width: 100%; 
+    padding: 16px; 
+    background: rgba(255, 255, 255, 0.02); 
+    border: 2px dashed var(--border-color); 
+    border-radius: 14px; 
+    color: var(--text-secondary); 
+    text-align: center; 
+    cursor: pointer; 
+    margin-bottom: 20px;
+}
+
+/* Grille de types d'actions (Accueil/Modif) */
+.type-grid { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 10px; 
+    margin-bottom: 20px; 
+}
+
 .type-btn { 
-    padding: 15px 5px; background: var(--card-bg); border: 1px solid var(--border-color);
-    border-radius: 14px; color: #fff; font-size: 12px; font-weight: 700; text-align: center;
+    padding: 14px 5px; 
+    background: var(--card-bg); 
+    border: 1px solid var(--border-color); 
+    border-radius: 14px; 
+    color: #fff; 
+    font-size: 12px; 
+    font-weight: 700; 
+    text-align: center; 
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
 }
-.type-btn.active { background: var(--accent-green); border-color: var(--accent-green); }
+
+.type-btn span { font-size: 18px; }
+.type-btn.active { 
+    background: var(--accent-green); 
+    border-color: var(--accent-green); 
+    box-shadow: 0 0 15px rgba(53, 176, 91, 0.3);
+}
 
 /* ==========================================================================
-   7. IMAGES (Contrôle strict)
+   6. GESTION DES IMAGES
    ========================================================================== */
-img { max-width: 100%; border-radius: 12px; display: block; }
+img { 
+    max-width: 100%; 
+    height: auto; 
+    border-radius: 14px; 
+    display: block; 
+}
 
-/* Images dans le journal et les fiches */
-.journal-card img, .info-card img, #preview-img, .journal-img {
+/* Images dans le journal et les fiches détaillées */
+.journal-card img, 
+.info-card img, 
+#preview-img, 
+.journal-img {
     width: 100%; 
-    max-height: 300px; /* Limite demandée */
-    object-fit: cover; /* Recadre proprement pour remplir la largeur */
+    max-height: 300px; /* Limite de confort visuel */
+    object-fit: cover; /* Remplit le cadre proprement */
+    background: #000;
     border: 1px solid var(--border-color);
     margin: 15px 0;
 }
 
 /* ==========================================================================
-   8. NAVIGATION & GRILLES
+   7. ÉLÉMENTS SPÉCIFIQUES (Agenda, Bacs, Fiches)
    ========================================================================== */
-.nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 85px; background: #0c1015; border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
-.nav-item { color: #fff; text-decoration: none; font-size: 10px; display: flex; flex-direction: column; align-items: center; opacity: 0.4; font-weight: 700; }
-.active-nav { opacity: 1; color: var(--accent-green); }
+
+/* Timeline Agenda */
+.timeline { 
+    position: relative; 
+    padding-left: 25px; 
+    border-left: 2px solid #2b3540; 
+    margin-left: 15px; 
+}
+
+.task-card::before { 
+    content: ''; 
+    position: absolute; 
+    left: -33px; 
+    top: 24px; 
+    width: 14px; 
+    height: 14px; 
+    background: var(--accent-green); 
+    border-radius: 50%; 
+    border: 3px solid var(--bg-main);
+}
+
+.past-task { opacity: 0.4; filter: grayscale(0.8); }
+
+/* Bacs : Items */
+.item { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 12px 0; 
+    border-bottom: 1px dotted var(--border-color); 
+}
+.item:last-child { border-bottom: none; }
+.item-name { font-weight: 800; font-size: 15px; color: #fff; }
+.item-variety { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.item-qty { 
+    font-weight: 900; 
+    color: var(--accent-green); 
+    background: rgba(53, 176, 91, 0.1); 
+    padding: 2px 8px; 
+    border-radius: 6px; 
+    font-size: 13px; 
+}
+
+/* Masquage items supplém. (Bacs) */
+.extra-item { display: none !important; }
+.is-expanded .extra-item { display: flex !important; animation: fadeIn 0.3s ease; }
+
+/* Fiches : Icônes Grid */
+.icon-grid { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 10px; 
+    margin: 15px 0; 
+}
+
+.icon-box { 
+    background: var(--card-bg); 
+    border: 1px solid var(--border-color); 
+    padding: 12px 8px; 
+    border-radius: 16px; 
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.icon-box small { 
+    display: block; 
+    font-size: 9px; 
+    color: var(--accent-green); 
+    text-transform: uppercase; 
+    font-weight: 800; 
+    margin-bottom: 4px;
+}
+
+.icon-box span { 
+    display: block; 
+    font-size: 14px; 
+    font-weight: 700; 
+    color: #fff; 
+}
+
+/* ==========================================================================
+   8. NAVIGATION & WIDGETS
+   ========================================================================== */
+.nav-bar { 
+    position: fixed; 
+    bottom: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 85px; 
+    background: #0c1015; 
+    border-top: 1px solid var(--border-color); 
+    display: flex; 
+    justify-content: space-around; 
+    align-items: center; 
+    z-index: 100; 
+}
+
+.nav-item { 
+    color: #fff; 
+    text-decoration: none; 
+    font-size: 10px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    opacity: 0.4; 
+    font-weight: 700;
+    transition: opacity 0.2s;
+}
+
+.nav-item.active-nav { opacity: 1; color: var(--accent-green); }
 .nav-icon { font-size: 24px; margin-bottom: 4px; }
 
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.weather-scroll { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px; scrollbar-width: none; }
-.weather-day { min-width: 85px; background: #111; padding: 15px; border-radius: 16px; text-align: center; border: 1px solid var(--border-color); flex-shrink: 0; }
+/* Météo Scroll */
+.weather-scroll { 
+    display: flex; 
+    overflow-x: auto; 
+    gap: 12px; 
+    padding: 5px 0 15px 0; 
+    scrollbar-width: none; 
+}
+.weather-scroll::-webkit-scrollbar { display: none; }
 
-.hidden { display: none; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+.weather-day { 
+    min-width: 90px; 
+    background: #111; 
+    padding: 15px; 
+    border-radius: 18px; 
+    text-align: center; 
+    border: 1px solid var(--border-color); 
+    flex-shrink: 0; 
+}
+
+/* ==========================================================================
+   9. UTILITAIRES & ANIMATIONS
+   ========================================================================== */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+
+.badge { 
+    background: var(--accent-green); 
+    color: #fff; 
+    font-size: 11px; 
+    padding: 2px 10px; 
+    border-radius: 20px; 
+    font-weight: 900; 
+}
+
+.empty-msg { 
+    color: var(--text-secondary); 
+    font-style: italic; 
+    font-size: 13px; 
+    text-align: center; 
+    padding: 20px; 
+}
+
+.hidden { display: none !important; }
+
+@keyframes fadeIn { 
+    from { opacity: 0; transform: translateY(-5px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
