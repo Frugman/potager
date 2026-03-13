@@ -2,121 +2,247 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modifier l'Action</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Modifier Entrée - Potager 2026</title>
     <style>
-        :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #444; }
-        body { background: var(--bg); color: var(--text); font-family: sans-serif; padding: 20px; padding-bottom: 60px; font-size: 16px; }
-        section { background: var(--card-bg); padding: 20px; border-radius: 15px; border: 1px solid var(--border); margin-bottom: 20px; }
-        label { display: block; margin: 15px 0 8px; font-weight: bold; color: var(--accent); text-transform: uppercase; font-size: 13px;}
-        input[type="date"] { width: 100%; padding: 18px; background: #080808; color: #fff; border: 2px solid var(--border); border-radius: 12px; font-size: 18px; font-weight: bold; box-sizing: border-box; outline: none; }
-        input, select, textarea { width: 100%; padding: 15px; background: #000; color: #fff; border: 1px solid var(--border); border-radius: 10px; font-size: 16px; box-sizing: border-box; outline: none; }
-        .save-btn { width: 100%; padding: 22px; background: var(--accent); color: #fff; border: none; border-radius: 15px; font-weight: bold; font-size: 18px; cursor: pointer;}
-        .del-btn { width: 100%; padding: 15px; background: #400; color: #fff; border: none; border-radius: 15px; font-weight: bold; margin-top: 20px; cursor: pointer; font-size: 14px;}
+        :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #333; --danger: #ff4444; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; padding-bottom: 120px; font-size: 16px; }
+        
+        header { display: flex; align-items: center; margin-bottom: 25px; }
+        .back-btn { background: none; border: none; color: #fff; font-size: 35px; margin-right: 15px; cursor: pointer; min-width: 44px; }
+        
+        section { background: var(--card-bg); padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 1px solid var(--border); }
+        h2 { font-size: 13px; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 8px; }
+        
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 13px; color: #888; text-transform: uppercase; }
+        
+        input, select, textarea { 
+            width: 100%; padding: 15px; background: #000; border: 2px solid var(--border); 
+            border-radius: 12px; color: #fff; font-size: 16px; box-sizing: border-box; outline: none; 
+        }
+
+        .type-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
+        .type-btn { padding: 12px; background: #222; border: 1px solid var(--border); border-radius: 12px; color: #fff; font-size: 11px; font-weight: bold; text-align: center; cursor: pointer; }
+        .type-btn.active { background: var(--accent); border-color: var(--accent); }
+
+        /* Photo management */
+        .photo-zone { text-align: center; margin-top: 10px; }
+        #current-img { width: 100%; border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--border); display: none; }
+        .btn-photo-action { padding: 10px; font-size: 12px; font-weight: bold; border-radius: 8px; cursor: pointer; margin: 5px; border: none; }
+        .btn-delete-photo { background: var(--danger); color: white; }
+        .btn-change-photo { background: #333; color: white; }
+
+        .save-btn { position: fixed; bottom: 85px; left: 20px; right: 20px; background: var(--accent); color: white; border: none; padding: 18px; border-radius: 15px; font-size: 18px; font-weight: bold; z-index: 100; cursor: pointer; }
+        .delete-entry-btn { width: 100%; background: none; color: var(--danger); border: 1px solid var(--danger); padding: 15px; border-radius: 12px; font-weight: bold; margin-top: 10px; cursor: pointer; }
+
         .hidden { display: none; }
     </style>
 </head>
 <body>
-    <button onclick="window.location.href='journal.html'" style="background:none; border:none; color:#fff; font-size:40px; cursor:pointer;">←</button>
-    <h1>Modifier la saisie</h1>
 
-    <section>
-        <label>Date</label>
-        <input type="date" id="edit-date">
+    <header>
+        <button class="back-btn" onclick="window.location.href='journal.html'">←</button>
+        <h1>Modifier l'action</h1>
+    </header>
 
-        <div id="dynamic-area"></div>
+    <form id="modifyForm">
+        <section>
+            <h2>Type d'action</h2>
+            <div class="type-grid">
+                <div class="type-btn" data-type="Semis" onclick="changeType('Semis')">Semis</div>
+                <div class="type-btn" data-type="Repiquage" onclick="changeType('Repiquage')">Repiq.</div>
+                <div class="type-btn" data-type="Plantation" onclick="changeType('Plantation')">Plant.</div>
+                <div class="type-btn" data-type="Récolte" onclick="changeType('Récolte')">Récolte</div>
+                <div class="type-btn" data-type="Note" onclick="changeType('Note')" style="grid-column: span 2;">Note Libre</div>
+            </div>
+        </section>
 
-        <label>Quantité / Nombre</label>
-        <input type="number" id="edit-qte">
+        <section>
+            <h2>Informations</h2>
+            <div class="form-group" id="seed-group">
+                <label>Plante</label>
+                <select id="val-seed"><option value="">Note générale</option></select>
+            </div>
+            <div class="form-group"><label>Date</label><input type="date" id="val-date"></div>
+            
+            <div id="dynamic-fields"></div>
 
-        <label>Note libre / Observations</label>
-        <textarea id="edit-note" rows="4"></textarea>
+            <div class="form-group"><label>Commentaire</label><textarea id="val-note" rows="3"></textarea></div>
+        </section>
 
-        <button class="save-btn" onclick="updateJournal()">ENREGISTRER LES MODIFICATIONS</button>
-        <button class="del-btn" onclick="deleteEntry()">SUPPRIMER L'ENTRÉE</button>
-    </section>
+        <section>
+            <h2>Photo</h2>
+            <div class="photo-zone">
+                <img id="current-img" src="">
+                <div id="photo-controls">
+                    <button type="button" class="btn-photo-action btn-change-photo" onclick="document.getElementById('file-input').click()">📸 CHANGER LA PHOTO</button>
+                    <button type="button" id="del-photo-btn" class="btn-photo-action btn-delete-photo hidden" onclick="removePhoto()">SUPPRIMER</button>
+                </div>
+                <input type="file" id="file-input" class="hidden" accept="image/*" onchange="processNewPhoto(this)">
+            </div>
+        </section>
+
+        <button type="button" class="save-btn" id="btnSave" onclick="updateEntry()">ENREGISTRER LES MODIFICATIONS</button>
+        <button type="button" class="delete-entry-btn" onclick="deleteEntry()">SUPPRIMER CETTE ENTRÉE</button>
+    </form>
 
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const entryId = params.get('id');
+        const entryId = parseInt(new URLSearchParams(window.location.search).get('id'));
         const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
-        let journal = [], entryIndex = -1, sha = "";
+        let currentType = "", photoUrl = "", base64Photo = "", photoName = "";
 
-        async function load() {
-            const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
-            const data = await res.json(); sha = data.sha;
-            journal = JSON.parse(decodeURIComponent(escape(atob(data.content))));
-            entryIndex = journal.findIndex(e => e.id == entryId);
-            const e = journal[entryIndex];
-            if (!e) return;
-
-            document.getElementById('edit-date').value = e.date;
-            document.getElementById('edit-qte').value = e.quantite || '';
-            document.getElementById('edit-note').value = e.note || '';
+        async function init() {
+            if(!token) return;
             
+            // 1. Charger semences
+            const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const seeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
+            const sel = document.getElementById('val-seed');
+            seeds.sort((a,b)=>a.identite.nom_commun.localeCompare(b.identite.nom_commun)).forEach(s => {
+                sel.innerHTML += `<option value="${s.id}">${s.identite.nom_commun} - ${s.identite.variete}</option>`;
+            });
+
+            // 2. Charger l'entrée du journal
+            const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
+            const entry = journal.find(n => n.id === entryId);
+
+            if(entry) fillForm(entry);
+        }
+
+        function fillForm(e) {
+            document.getElementById('val-date').value = e.date;
+            document.getElementById('val-seed').value = e.seedId || "";
+            document.getElementById('val-note').value = e.note || "";
+            
+            if(e.photo) {
+                photoUrl = e.photo;
+                const img = document.getElementById('current-img');
+                img.src = e.photo;
+                img.style.display = 'block';
+                document.getElementById('del-photo-btn').classList.remove('hidden');
+            }
+
+            changeType(e.action, e);
+        }
+
+        function changeType(type, entry = null) {
+            currentType = type;
+            document.querySelectorAll('.type-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.type === type);
+            });
+
+            const dyn = document.getElementById('dynamic-fields');
             let html = "";
-            if (e.action === 'Semis' || e.action === 'Repiquage') {
-                html += `<label>Emplacement</label>
-                         <select id="edit-loc">
-                            <option value="Serre intérieure" ${e.emplacement==='Serre intérieure'?'selected':''}>Serre intérieure</option>
-                            <option value="Serre extérieure" ${e.emplacement==='Serre extérieure'?'selected':''}>Serre extérieure</option>
-                         </select>
-                         <label>Contenant</label>
-                         <select id="edit-cont">
-                            <option ${e.contenant==='Plaque 40 alvéoles'?'selected':''}>Plaque 40 alvéoles</option>
-                            <option ${e.contenant==='Godet 7cm'?'selected':''}>Godet 7cm</option>
-                            <option ${e.contenant==='Godet 9cm'?'selected':''}>Godet 9cm</option>
-                            <option ${e.contenant==='Sac 5cm'?'selected':''}>Sac 5cm</option>
-                            <option ${e.contenant==='Sac 10cm'?'selected':''}>Sac 10cm</option>
-                         </select>`;
-            } else if (e.action === 'Plantation') {
-                const stdBacs = ["Bac A", "Bac B", "Bac C", "Bac D", "Bac E"];
-                const isAutre = !stdBacs.includes(e.bac);
-                html += `<label>Destination</label>
-                         <select id="edit-bac" onchange="document.getElementById('edit-bac-autre').classList.toggle('hidden', this.value !== 'Autre')">
-                            <option value="Bac A" ${e.bac==='Bac A'?'selected':''}>Bac A</option>
-                            <option value="Bac B" ${e.bac==='Bac B'?'selected':''}>Bac B</option>
-                            <option value="Bac C" ${e.bac==='Bac C'?'selected':''}>Bac C</option>
-                            <option value="Bac D" ${e.bac==='Bac D'?'selected':''}>Bac D</option>
-                            <option value="Bac E" ${e.bac==='Bac E'?'selected':''}>Bac E</option>
-                            <option value="Autre" ${isAutre?'selected':''}>Autre (préciser...)</option>
-                         </select>
-                         <input type="text" id="edit-bac-autre" class="${isAutre?'':'hidden'}" value="${isAutre?e.bac:''}" placeholder="Où avez-vous planté ?">
-                         <label style="display:flex; align-items:center; margin-top:15px; color:#fff; text-transform:none;">
-                         <input type="checkbox" id="edit-filet" ${e.filet?'checked':''} style="width:25px; height:25px; margin-right:15px;"> Sous filet ?</label>`;
+
+            if(type === 'Semis' || type === 'Repiquage') {
+                html = `
+                    <div class="form-group"><label>Lieu</label><select id="val-loc"><option ${entry?.emplacement === 'Serre intérieure'?'selected':''}>Serre intérieure</option><option ${entry?.emplacement === 'Serre extérieure'?'selected':''}>Serre extérieure</option></select></div>
+                    <div class="form-group"><label>Contenant</label><input type="text" id="val-cont" value="${entry?.contenant || ''}" placeholder="Plaque, Godet..."></div>
+                `;
+            } else if(type === 'Plantation') {
+                html = `
+                    <div class="form-group"><label>Bac</label><select id="val-bac"><option ${entry?.bac === 'Bac A'?'selected':''}>Bac A</option><option ${entry?.bac === 'Bac B'?'selected':''}>Bac B</option><option ${entry?.bac === 'Bac C'?'selected':''}>Bac C</option><option ${entry?.bac === 'Bac D'?'selected':''}>Bac D</option><option ${entry?.bac === 'Bac E'?'selected':''}>Bac E</option><option ${entry?.bac === 'Autre'?'selected':''}>Autre</option></select></div>
+                `;
+            } else if(type === 'Récolte') {
+                html = `
+                    <div class="form-group"><label>Quantité récoltée</label><input type="number" id="val-qty" value="${entry?.quantite || ''}"></div>
+                `;
             }
-            document.getElementById('dynamic-area').innerHTML = html;
+            dyn.innerHTML = html;
         }
 
-        async function updateJournal() {
-            let e = journal[entryIndex];
-            e.date = document.getElementById('edit-date').value;
-            e.quantite = document.getElementById('edit-qte').value;
-            e.note = document.getElementById('edit-note').value;
-            
-            if (document.getElementById('edit-loc')) {
-                e.emplacement = document.getElementById('edit-loc').value;
-                e.contenant = document.getElementById('edit-cont').value;
+        function processNewPhoto(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width, height = img.height, max = 1024;
+                        if (width > max) { height *= max / width; width = max; }
+                        canvas.width = width; canvas.height = height;
+                        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+                        const data = canvas.toDataURL('image/jpeg', 0.7);
+                        document.getElementById('current-img').src = data;
+                        document.getElementById('current-img').style.display = 'block';
+                        document.getElementById('del-photo-btn').classList.remove('hidden');
+                        base64Photo = data.split(',')[1];
+                        photoName = `IMG_${Date.now()}.jpg`;
+                        photoUrl = ""; // On invalide l'ancienne URL
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
             }
-            if (document.getElementById('edit-bac')) {
-                const b = document.getElementById('edit-bac').value;
-                e.bac = (b === 'Autre') ? document.getElementById('edit-bac-autre').value : b;
-                e.filet = document.getElementById('edit-filet').checked;
-            }
-            
-            const content = btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2))));
-            const url = `https://api.github.com/repos/${user}/${repo}/contents/journal.json`;
-            try {
-                const res = await fetch(url, {
-                    method: 'PUT', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: `Maj journal ${e.id}`, content: content, sha: sha })
+        }
+
+        function removePhoto() {
+            photoUrl = "";
+            base64Photo = "";
+            document.getElementById('current-img').src = "";
+            document.getElementById('current-img').style.display = 'none';
+            document.getElementById('del-photo-btn').classList.add('hidden');
+        }
+
+        async function updateEntry() {
+            const btn = document.getElementById('btnSave'); btn.innerText = "⏳ ENREGISTREMENT..."; btn.disabled = true;
+
+            // 1. Gérer la nouvelle photo si présente
+            let finalPhotoUrl = photoUrl;
+            if(base64Photo) {
+                const path = `photos/${photoName}`;
+                await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`, {
+                    method: 'PUT', headers: { 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ message: "Photo mise à jour", content: base64Photo })
                 });
-                if (res.ok) window.location.href = 'journal.html';
-            } catch (e) { alert(e.message); }
+                finalPhotoUrl = `https://raw.githubusercontent.com/${user}/${repo}/master/${path}`;
+            }
+
+            // 2. Charger et modifier journal
+            const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const dataJ = await resJ.json();
+            let journal = JSON.parse(decodeURIComponent(escape(atob(dataJ.content))));
+            
+            const index = journal.findIndex(n => n.id === entryId);
+            if(index !== -1) {
+                journal[index] = {
+                    ...journal[index],
+                    date: document.getElementById('val-date').value,
+                    action: currentType,
+                    seedId: document.getElementById('val-seed').value,
+                    note: document.getElementById('val-note').value,
+                    photo: finalPhotoUrl,
+                    quantite: parseInt(document.getElementById('val-qty')?.value) || 0,
+                    bac: document.getElementById('val-bac')?.value,
+                    emplacement: document.getElementById('val-loc')?.value,
+                    contenant: document.getElementById('val-cont')?.value
+                };
+            }
+
+            await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, {
+                method: 'PUT', headers: { 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ message: `Update entry ${entryId}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: dataJ.sha })
+            });
+            window.location.href = 'journal.html';
         }
 
-        async function deleteEntry() { if(confirm("Supprimer définitivement cette action ?")) { journal.splice(entryIndex, 1); updateJournal(); } }
-        window.onload = load;
+        async function deleteEntry() {
+            if(!confirm("Supprimer définitivement cette entrée ?")) return;
+            const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const dataJ = await resJ.json();
+            let journal = JSON.parse(decodeURIComponent(escape(atob(dataJ.content))));
+            
+            const filtered = journal.filter(n => n.id !== entryId);
+            await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, {
+                method: 'PUT', headers: { 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ message: `Delete entry ${entryId}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(filtered, null, 2)))), sha: dataJ.sha })
+            });
+            window.location.href = 'journal.html';
+        }
+
+        window.onload = init;
     </script>
 </body>
 </html>
