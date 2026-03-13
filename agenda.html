@@ -3,35 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Agenda Intelligent - Potager 2026</title>
+    <title>Agenda & Soins - Potager 2026</title>
     <style>
         :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #333; }
         body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; padding-bottom: 110px; font-size: 16px; }
         
-        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        h1 { font-size: 22px; margin: 0; }
+        header { display: flex; align-items: center; margin-bottom: 25px; }
+        header h1 { font-size: 24px; margin: 0; }
 
-        /* Filtres et Boutons */
-        .controls { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
-        .btn-toggle { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; white-space: nowrap; cursor: pointer; }
-        .btn-toggle.active { background: var(--accent); border-color: var(--accent); }
+        .filters { display: flex; gap: 10px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
+        .filter-btn, select { 
+            background: #222; color: #fff; border: 1px solid var(--border); 
+            padding: 10px 15px; border-radius: 12px; font-size: 13px; font-weight: bold; outline: none;
+        }
+        select { appearance: none; padding-right: 30px; }
 
-        /* Séparateur Mois */
-        .month-separator { font-size: 18px; font-weight: bold; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin: 30px 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid #222; }
+        .month-title { color: var(--accent); font-size: 18px; text-transform: uppercase; letter-spacing: 2px; margin: 40px 0 20px; font-weight: 900; }
         
-        /* Timeline */
         .timeline { position: relative; padding-left: 20px; border-left: 2px solid #222; margin-left: 10px; }
-        .event-card { background: var(--card-bg); border-radius: 12px; padding: 15px; border: 1px solid var(--border); margin-bottom: 15px; position: relative; }
-        .event-card::before { content: ''; position: absolute; left: -27px; top: 20px; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 3px solid var(--bg); }
         
-        .past-event { opacity: 0.6; border-left: 4px solid #555; }
-        .past-event::before { background: #555; }
+        .task-card { 
+            background: var(--card-bg); border-radius: 16px; padding: 15px; 
+            margin-bottom: 15px; border: 1px solid var(--border); position: relative;
+            cursor: pointer; transition: transform 0.1s;
+        }
+        .task-card:active { transform: scale(0.98); }
+        .task-card::before { 
+            content: ''; position: absolute; left: -31px; top: 22px; 
+            width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 4px solid var(--bg);
+        }
 
-        .event-date { font-size: 12px; font-weight: bold; color: var(--accent); margin-bottom: 4px; }
-        .event-title { font-size: 16px; font-weight: bold; display: block; }
-        .event-subtitle { font-size: 13px; color: #888; margin-top: 2px; }
+        .task-date { font-size: 12px; color: var(--accent); margin-bottom: 5px; font-weight: bold; }
+        .task-title { font-size: 16px; font-weight: bold; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+        .task-plant { font-size: 13px; color: #888; }
+        .past-task { opacity: 0.5; filter: grayscale(1); }
+        .past-task::before { background: #555; }
 
-        /* Nav */
         .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
         .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
         .nav-icon { font-size: 26px; }
@@ -41,23 +48,22 @@
 <body>
 
     <header>
-        <h1>📅 Agenda & Soins</h1>
+        <h1>🗓️ Agenda & Soins</h1>
     </header>
 
-    <div class="controls">
-        <button id="toggleHistory" class="btn-toggle" onclick="toggleHistory()">VOIR L'HISTORIQUE</button>
-        <select id="filterType" class="btn-toggle" style="background:#222; border-radius:20px;" onchange="renderAgenda()">
+    <div class="filters">
+        <button class="filter-btn" onclick="toggleHistory()">VOIR L'HISTORIQUE</button>
+        <select id="actionFilter" onchange="renderAgenda()">
             <option value="all">Toutes les actions</option>
-            <option value="Semis">Semis</option>
-            <option value="Plantation">Plantations</option>
-            <option value="Entretien">Soins / Entretien</option>
-            <option value="Récolte">Récoltes</option>
-            <option value="Note">Notes libres</option>
+            <option value="Semis">🌱 Semis / Levée</option>
+            <option value="Entretien">✂️ Soins & Taille</option>
+            <option value="Plantation">🚜 Plantation</option>
+            <option value="Récolte">🧺 Récolte</option>
         </select>
     </div>
 
-    <div id="agenda-content">
-        <p style="text-align:center; padding:40px; color:#666;">Calcul du calendrier...</p>
+    <div id="agenda-container">
+        <p style="text-align:center; padding:40px; color:#666;">Calcul de votre calendrier...</p>
     </div>
 
     <nav class="nav-bar">
@@ -69,128 +75,147 @@
     </nav>
 
     <script>
-        const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
+        const user = localStorage.getItem('gh_user'), 
+              repo = localStorage.getItem('gh_repo'), 
+              token = localStorage.getItem('gh_token');
+        
+        let allTasks = [];
         let showHistory = false;
-        let fullAgenda = [];
 
-        function addDays(date, days) {
-            let res = new Date(date);
-            res.setDate(res.getDate() + parseInt(days));
-            return res;
-        }
-
-        async function init() {
-            if(!token) return;
-            try {
-                const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
-                const seeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
-                
-                const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
-                const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
-
-                calculateAgenda(seeds, journal);
-            } catch (e) { console.error(e); }
-        }
-
-        function calculateAgenda(seeds, journal) {
-            const today = new Date();
-            today.setHours(0,0,0,0);
-            fullAgenda = [];
-
-            // 1. Ajouter le Passé (Journal)
-            journal.forEach(entry => {
-                const s = seeds.find(i => i.id === entry.seedId) || { identite: { nom_commun: "Note Libre", variete: "" } };
-                fullAgenda.push({
-                    date: new Date(entry.date),
-                    title: `${entry.action}`,
-                    subtitle: `${s.identite.nom_commun} ${s.identite.variete}`,
-                    type: entry.action,
-                    isPast: true,
-                    note: entry.note
-                });
-            });
-
-            // 2. Calculer le Futur (Prévisions)
-            journal.forEach(entry => {
-                if(entry.action === 'Semis') {
-                    const s = seeds.find(i => i.id === entry.seedId);
-                    if(!s) return;
-                    const dSemis = new Date(entry.date);
-                    
-                    // Étapes classiques
-                    const steps = [
-                        { d: s.delais.levee, t: "🌱 Levée attendue", type: "Semis" },
-                        { d: s.delais.levee + s.delais.repiquage, t: "🪴 Repiquage à faire", type: "Repiquage" },
-                        { d: s.delais.levee + s.delais.repiquage + s.delais.plantation, t: "🚜 Plantation finale", type: "Plantation" },
-                        { d: s.delais.levee + s.delais.repiquage + s.delais.plantation + s.delais.maturite, t: "🧺 Récolte estimée", type: "Récolte" }
-                    ];
-
-                    steps.forEach(st => {
-                        const target = addDays(dSemis, st.d);
-                        if(target >= today) {
-                            fullAgenda.push({ date: target, title: st.t, subtitle: `${s.identite.nom_commun} - ${s.identite.variete}`, type: st.type, isPast: false });
-                        }
-                    });
-
-                    // Tâches d'entretien spécifiques (Nouveauté !)
-                    if(s.taches_entretien) {
-                        s.taches_entretien.forEach(te => {
-                            const target = addDays(dSemis, te.delai);
-                            if(target >= today) {
-                                fullAgenda.push({ date: target, title: te.label, subtitle: `${s.identite.nom_commun} - ${s.identite.variete}`, type: "Entretien", isPast: false });
-                            }
-                        });
-                    }
-                }
-            });
-
-            fullAgenda.sort((a,b) => a.date - b.date);
-            renderAgenda();
+        function addDays(dateStr, days) {
+            let d = new Date(dateStr);
+            d.setDate(d.getDate() + parseInt(days));
+            return d;
         }
 
         function toggleHistory() {
             showHistory = !showHistory;
-            document.getElementById('toggleHistory').classList.toggle('active', showHistory);
+            event.target.innerText = showHistory ? "MASQUER L'HISTORIQUE" : "VOIR L'HISTORIQUE";
+            renderAgenda();
+        }
+
+        async function loadData() {
+            if(!token) return;
+            try {
+                const [resS, resJ] = await Promise.all([
+                    fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } }),
+                    fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } })
+                ]);
+
+                const seeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
+                const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
+
+                calculateTasks(seeds, journal);
+            } catch (e) { console.error(e); }
+        }
+
+        function calculateTasks(seeds, journal) {
+            allTasks = [];
+            const today = new Date();
+            today.setHours(0,0,0,0);
+
+            // Pour chaque semis enregistré dans le journal
+            journal.filter(j => j.action === 'Semis').forEach(entry => {
+                const seed = seeds.find(s => String(s.id) === String(entry.seedId));
+                if (!seed) return;
+
+                const semisDate = entry.date;
+
+                // 1. Étapes de croissance théoriques
+                const etapes = [
+                    { d: seed.delais?.levee, t: "🌱 Levée attendue", cat: "Semis" },
+                    { d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0), t: "🪴 Repiquage", cat: "Semis" },
+                    { d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0) + (seed.delais?.plantation || 0), t: "🚜 Plantation", cat: "Plantation" },
+                    { d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0) + (seed.delais?.plantation || 0) + (seed.delais?.maturite || 0), t: "🧺 Récolte estimée", cat: "Récolte" }
+                ];
+
+                etapes.forEach(et => {
+                    if(et.d > 0) {
+                        allTasks.push({
+                            date: addDays(semisDate, et.d),
+                            title: et.t,
+                            plant: `${seed.identite.nom_commun} - ${seed.identite.variete}`,
+                            seedId: seed.id,
+                            category: et.cat
+                        });
+                    }
+                });
+
+                // 2. Tâches d'entretien spécifiques
+                if (seed.taches_entretien) {
+                    seed.taches_entretien.forEach(te => {
+                        let baseDate = semisDate;
+                        
+                        // Si la base est la plantation, on cherche si elle a déjà été faite
+                        if (te.base === 'plantation') {
+                            const realPlantation = journal.find(j => j.seedId === entry.seedId && j.action === 'Plantation');
+                            if (realPlantation) baseDate = realPlantation.date;
+                            else baseDate = addDays(semisDate, (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0) + (seed.delais?.plantation || 0));
+                        } 
+                        else if (te.base === 'levee') {
+                            baseDate = addDays(semisDate, seed.delais?.levee || 0);
+                        }
+
+                        allTasks.push({
+                            date: addDays(baseDate, te.delai),
+                            title: te.label,
+                            plant: `${seed.identite.nom_commun} - ${seed.identite.variete}`,
+                            seedId: seed.id,
+                            category: "Entretien"
+                        });
+                    });
+                }
+            });
+
             renderAgenda();
         }
 
         function renderAgenda() {
-            const filter = document.getElementById('filterType').value;
-            const today = new Date(); today.setHours(0,0,0,0);
-            const container = document.getElementById('agenda-content');
-            
-            let filtered = fullAgenda.filter(ev => {
-                const matchesType = filter === 'all' || ev.type === filter;
-                const matchesHistory = showHistory || !ev.isPast;
-                return matchesType && matchesHistory;
+            const container = document.getElementById('agenda-container');
+            const filter = document.getElementById('actionFilter').value;
+            const today = new Date();
+            today.setHours(0,0,0,0);
+
+            // Filtrage
+            let filtered = allTasks.filter(t => {
+                const isFuture = t.date >= today;
+                const matchCat = filter === 'all' || t.category === filter;
+                return (showHistory ? true : isFuture) && matchCat;
             });
 
-            if(filtered.length === 0) {
-                container.innerHTML = `<p style="text-align:center; padding:40px; color:#666;">Aucune action trouvée.</p>`;
+            // Tri chronologique
+            filtered.sort((a, b) => a.date - b.date);
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<p style="text-align:center; padding:40px; color:#666;">Aucune tâche programmée.</p>`;
                 return;
             }
 
-            let html = "", currentMonth = "";
-            filtered.forEach(ev => {
-                const month = ev.date.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }).toUpperCase();
-                if(month !== currentMonth) {
-                    if(currentMonth !== "") html += `</div>`;
-                    currentMonth = month;
-                    html += `<div class="month-separator">${currentMonth}</div><div class="timeline">`;
+            let html = "";
+            let currentMonth = "";
+
+            filtered.forEach(t => {
+                const taskMonth = t.date.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+                if (taskMonth !== currentMonth) {
+                    if (currentMonth !== "") html += `</div>`;
+                    html += `<div class="month-title">${taskMonth}</div><div class="timeline">`;
+                    currentMonth = taskMonth;
                 }
 
+                const isPast = t.date < today;
                 html += `
-                <div class="event-card ${ev.isPast ? 'past-event' : ''}">
-                    <div class="event-date">${ev.date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}</div>
-                    <span class="event-title">${ev.title}</span>
-                    <span class="event-subtitle">${ev.subtitle}</span>
-                    ${ev.note ? `<p style="font-size:12px; color:#666; font-style:italic; margin-top:8px;">"${ev.note}"</p>` : ''}
-                </div>`;
+                    <div class="task-card ${isPast ? 'past-task' : ''}" onclick="window.location.href='fiche-semence.html?id=${t.seedId}'">
+                        <div class="task-date">${t.date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}</div>
+                        <div class="task-title">${t.title}</div>
+                        <div class="task-plant">${t.plant}</div>
+                    </div>
+                `;
             });
+
             container.innerHTML = html + "</div>";
         }
 
-        window.onload = init;
+        window.onload = loadData;
     </script>
 </body>
 </html>
