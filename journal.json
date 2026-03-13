@@ -176,5 +176,14 @@
     "seedId": "bourrache-bleue",
     "note": "Test",
     "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1773409687200.jpg"
+  },
+  {
+    "id": 1773410895904,
+    "date": "2026-03-13",
+    "action": "Récolte",
+    "seedId": "bourrache-bleue",
+    "note": "test",
+    "photo": "",
+    "quantite": 5
   }
 ]
