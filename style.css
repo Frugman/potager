@@ -1,5 +1,5 @@
 /* ==========================================================================
-   1. VARIABLES & BASE (L'ADN de l'app)
+   1. VARIABLES & BASE (Design System Stitch)
    ========================================================================== */
 :root {
     --bg-main: #0c1015;
@@ -12,10 +12,7 @@
     --danger-red: #da373c;
 }
 
-* { 
-    box-sizing: border-box; 
-    -webkit-tap-highlight-color: transparent; 
-}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
 body {
     background-color: var(--bg-main);
@@ -26,7 +23,7 @@ body {
 }
 
 /* ==========================================================================
-   2. HEADER & NAVIGATION (Boutons et Titres)
+   2. HEADER & TITRES
    ========================================================================== */
 header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
 header h1 { flex: 1; text-align: center; font-size: 20px; font-weight: 800; margin: 0 10px; }
@@ -37,24 +34,48 @@ header h1 { flex: 1; text-align: center; font-size: 20px; font-weight: 800; marg
     border-left: 3px solid var(--accent-green); padding-left: 10px; 
 }
 
-header a.back-btn { text-decoration: none; color: var(--text-primary); font-size: 28px; font-weight: 300; display: flex; align-items: center; }
+header a.back-btn { text-decoration: none; color: var(--text-primary); font-size: 28px; display: flex; align-items: center; }
 header .edit-btn { text-decoration: none; background: rgba(241, 196, 15, 0.15); color: var(--edit-yellow); padding: 8px 16px; border-radius: 12px; font-size: 12px; font-weight: 800; border: 1px solid var(--edit-yellow); }
 
 /* ==========================================================================
-   3. CARTES (Bacs, Journal, Agenda)
+   3. GRILLES (Le moteur du layout)
+   ========================================================================== */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+
+/* Grille d'actions (Accueil) */
+.type-grid { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 12px; 
+    margin-bottom: 25px; 
+}
+
+/* Boutons d'action de l'accueil */
+.type-btn { 
+    padding: 15px 5px; background-color: var(--card-bg); 
+    border: 1px solid var(--border-color); border-radius: 16px; 
+    color: var(--text-primary); font-size: 13px; font-weight: 700; 
+    text-align: center; cursor: pointer; display: flex; 
+    flex-direction: column; align-items: center; gap: 5px;
+}
+.type-btn.active { background-color: var(--accent-green); border-color: var(--accent-green); }
+
+/* Cas particulier : Bouton Note Libre ou large */
+.type-btn.wide { grid-column: span 2; flex-direction: row; justify-content: center; gap: 10px; }
+
+/* ==========================================================================
+   4. CARTES (Journal, Agenda, Fiches)
    ========================================================================== */
 .card, .info-card, .zone-card, .journal-card, .task-card {
-    background: var(--card-bg); border-radius: 20px; padding: 20px;
+    background: var(--card-bg); border-radius: 20px; padding: 18px;
     border: 1px solid var(--border-color); margin-bottom: 15px; width: 100%;
+    position: relative; overflow: hidden;
 }
 
-/* Agenda : La Timeline */
-.timeline { 
-    position: relative; padding-left: 25px; 
-    border-left: 2px solid #222; margin-left: 10px; 
-}
-
-.task-card { position: relative; }
+/* Agenda : Timeline */
+.timeline { position: relative; padding-left: 25px; border-left: 2px solid #222; margin-left: 10px; }
 .task-card::before { 
     content: ''; position: absolute; left: -32px; top: 22px; 
     width: 12px; height: 12px; background: var(--accent-green); 
@@ -63,41 +84,37 @@ header .edit-btn { text-decoration: none; background: rgba(241, 196, 15, 0.15); 
 .task-date { font-size: 12px; color: var(--accent-green); margin-bottom: 4px; font-weight: bold; }
 .task-title { font-size: 16px; font-weight: bold; }
 .task-plant { font-size: 13px; color: var(--text-secondary); }
-.past-task { opacity: 0.4; filter: grayscale(1); }
 
-/* Bacs : Items */
+/* Bacs & Serres */
+.zone-header { padding: 15px 20px; background: rgba(255,255,255,0.03); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
 .item { padding: 12px 0; border-bottom: 1px solid #1c232b; display: flex; justify-content: space-between; align-items: center; }
 .item:last-child { border-bottom: none; }
-.item-qty { font-weight: 900; color: var(--accent-green); font-size: 13px; background: rgba(53, 176, 91, 0.1); padding: 2px 8px; border-radius: 6px; }
 
 /* ==========================================================================
-   4. FORMULAIRES & BOUTONS (Le "Look" Stitch)
+   5. FORMULAIRES & BOUTONS
    ========================================================================== */
 label { display: block; margin-bottom: 8px; font-size: 12px; color: var(--accent-green); text-transform: uppercase; font-weight: 700; }
-
-/* Inputs et Selects */
 input, select, textarea { 
     width: 100%; padding: 16px; background-color: #080a0d; 
     color: var(--text-primary); border: 1px solid var(--border-color); 
-    border-radius: 14px; font-size: 16px; margin-bottom: 15px; outline: none; appearance: none;
+    border-radius: 14px; font-size: 16px; margin-bottom: 15px; outline: none;
 }
+input:focus { border-color: var(--accent-green); }
 
-/* Bouton ENREGISTRER (Principal) */
+/* Bouton ENREGISTRER (Vert Stitch) */
 .save-btn { 
     width: 100%; padding: 18px; background-color: var(--accent-green); 
     color: white; border: none; border-radius: 16px; font-weight: 800; 
-    font-size: 18px; cursor: pointer; margin-top: 10px;
+    font-size: 18px; cursor: pointer; margin-top: 10px; display: block;
 }
-.save-btn:active { transform: scale(0.98); }
 
-/* Boutons secondaires (Historique, Filtres) */
-.filter-btn, .toggle-btn, button:not(.save-btn):not(.type-btn) { 
+/* Autres Boutons (Historique, etc.) */
+button:not(.save-btn):not(.type-btn) { 
     width: 100%; padding: 12px; background-color: #1a222c; 
     border: 1px solid var(--border-color); color: var(--text-primary); 
     border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; margin-bottom: 10px;
 }
 
-/* Boutons Photo */
 .photo-btn { 
     width: 100%; padding: 16px; background: rgba(255,255,255,0.02); 
     border: 2px dashed #333; border-radius: 14px; color: var(--text-secondary); 
@@ -105,33 +122,45 @@ input, select, textarea {
 }
 
 /* ==========================================================================
-   5. IMAGES (Contenues et cadrées)
+   6. IMAGES (Le point critique)
    ========================================================================== */
-img { 
-    max-width: 100%; height: auto; border-radius: 14px; display: block; 
-}
+img { max-width: 100%; height: auto; border-radius: 14px; display: block; }
 
-/* Images dans les notes et fiches */
-.journal-card img, .info-card img, #preview-img, .journal-img {
+/* Images dans les notes du Journal et fiches */
+.journal-card img, .info-card img, .journal-img, #preview-img {
     width: 100%; 
-    max-height: 350px; /* Taille contenue pour le journal */
-    object-fit: contain; /* L'image entière est visible */
-    background: #000;
-    border-radius: 12px; 
+    max-height: 380px; /* Limite la hauteur pour le confort de lecture */
+    object-fit: contain; /* Garde toute l'image sans déformer */
+    background: #000; /* Fond noir si l'image est plus étroite */
+    border-radius: 14px; 
     border: 1px solid var(--border-color); 
-    margin: 10px 0;
+    margin: 12px 0;
 }
 
 /* ==========================================================================
-   6. NAVIGATION BASSE & GRILLES
+   7. WIDGETS & NAV (Météo et Menu)
    ========================================================================== */
+/* Météo Horizontale (Fixé) */
+.weather-scroll { 
+    display: flex; 
+    overflow-x: auto; 
+    gap: 12px; 
+    padding-bottom: 15px; 
+    scrollbar-width: none; 
+}
+.weather-scroll::-webkit-scrollbar { display: none; }
+.weather-day { 
+    min-width: 90px; background: #111; padding: 15px; 
+    border-radius: 16px; text-align: center; border: 1px solid var(--border-color); 
+    flex-shrink: 0; 
+}
+
+/* Barre de navigation basse */
 .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 85px; background-color: #111; border-top: 2px solid var(--border-color); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
 .nav-item { color: var(--text-primary); text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: 700; opacity: 0.5; }
 .nav-icon { font-size: 26px; margin-bottom: 4px; }
 .active-nav { color: var(--accent-green); opacity: 1; }
 
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+/* Utilitaires */
 .hidden { display: none; }
-
 @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
