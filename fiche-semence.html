@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Fiche détaillée - Potager 2026</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/frugman/potager/main/favicon.png">
 </head>
 <body>
 
@@ -16,18 +17,32 @@
 
     <div class="container">
         <div class="info-card">
+            <div class="note-meta">Identité & Origine</div>
             <div class="grid-2">
-                <div><span class="info-label">Variété</span><div class="info-value" id="v-variete">-</div></div>
-                <div><span class="info-label">Famille</span><div class="info-value" id="v-famille">-</div></div>
+                <div>
+                    <span class="info-label">Variété</span>
+                    <div class="info-value" id="v-variete">-</div>
+                </div>
+                <div>
+                    <span class="info-label">Famille</span>
+                    <div class="info-value" id="v-famille">-</div>
+                </div>
             </div>
             <div class="grid-2">
-                <div><span class="info-label">Provenance</span><div class="info-value" id="v-prov">-</div></div>
-                <div><span class="info-label">Germination</span><div class="info-value" id="v-germ">-</div></div>
+                <div>
+                    <span class="info-label">Provenance</span>
+                    <div class="info-value" id="v-prov">-</div>
+                </div>
+                <div>
+                    <span class="info-label">Germination</span>
+                    <div class="info-value" id="v-germ">-</div>
+                </div>
             </div>
-            <span class="info-label">Description Kokopelli</span>
-            <div id="v-desc" style="font-size: 14px; color: #bbb; line-height: 1.5; margin-bottom: 15px;">-</div>
+            <span class="info-label">Description</span>
+            <div id="v-desc" class="note-content" style="margin-bottom: 15px;">-</div>
+            
             <span class="info-label">Associations favorables</span>
-            <div id="v-assoc" style="color: #FFC107; font-weight: bold;">-</div>
+            <div id="v-assoc" style="color: var(--edit-yellow); font-weight: bold; font-size: 14px;">-</div>
         </div>
 
         <div class="section-title">🌱 Conseils de culture</div>
@@ -57,42 +72,62 @@
                 <span>↕️ <span id="c-dist-i">-</span></span>
             </div>
         </div>
-        <div class="info-card" style="padding: 15px; margin-top: -5px;">
+
+        <div class="info-card" style="margin-top: -5px;">
             <span class="info-label">Style de semis</span>
             <div class="info-value" id="c-style">-</div>
-            <span class="info-label">Période de semis idéale</span>
-            <div class="tag-container" id="c-periodes"></div>
+            <span class="info-label">Période idéale</span>
+            <div id="c-periodes" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 5px;"></div>
         </div>
 
-        <div class="section-title">⏱️ Calendrier théorique</div>
-        <div class="grid-3" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
-            <div class="icon-item"><span class="icon-val" id="d-levee" style="color:var(--accent);">-</span><span class="icon-sub">Levée</span></div>
-            <div class="icon-item"><span class="icon-val" id="d-repiq" style="color:var(--accent);">-</span><span class="icon-sub">Repiq.</span></div>
-            <div class="icon-item"><span class="icon-val" id="d-plant" style="color:var(--accent);">-</span><span class="icon-sub">Plant.</span></div>
-            <div class="icon-item"><span class="icon-val" id="d-matur" style="color:var(--accent);">-</span><span class="icon-sub">Récolte</span></div>
+        <div class="section-title">⏱️ Calendrier (jours)</div>
+        <div class="info-card">
+            <div class="grid-4">
+                <div style="text-align:center;">
+                    <div class="info-value" id="d-levee" style="color:var(--accent-green); margin-bottom:0;">-</div>
+                    <small style="font-size:9px; color:var(--text-secondary); text-transform:uppercase;">Levée</small>
+                </div>
+                <div style="text-align:center;">
+                    <div class="info-value" id="d-repiq" style="color:var(--accent-green); margin-bottom:0;">-</div>
+                    <small style="font-size:9px; color:var(--text-secondary); text-transform:uppercase;">Repiq.</small>
+                </div>
+                <div style="text-align:center;">
+                    <div class="info-value" id="d-plant" style="color:var(--accent-green); margin-bottom:0;">-</div>
+                    <small style="font-size:9px; color:var(--text-secondary); text-transform:uppercase;">Plant.</small>
+                </div>
+                <div style="text-align:center;">
+                    <div class="info-value" id="d-matur" style="color:var(--accent-green); margin-bottom:0;">-</div>
+                    <small style="font-size:9px; color:var(--text-secondary); text-transform:uppercase;">Récolte</small>
+                </div>
+            </div>
         </div>
 
         <div class="section-title">✂️ Soins & Entretien</div>
         <div class="info-card">
             <span class="info-label">Actions spécifiques</span>
-            <div class="tag-container" id="s-soins" style="margin-bottom:15px;"></div>
-            <span class="info-label">Tâches programmées</span>
+            <div id="s-soins" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px;"></div>
+            
+            <span class="info-label">Tâches automatiques</span>
             <div id="s-tasks"></div>
         </div>
 
         <div class="section-title">🧺 Bilan des récoltes</div>
-        <div id="stats-recoltes" class="info-card">Aucune récolte.</div>
+        <div id="stats-recoltes" class="info-card">
+            <div class="empty-msg">Aucune récolte enregistrée pour le moment.</div>
+        </div>
 
-        <div class="section-title">📖 Journal de bord</div>
-        <div id="journal-history">Chargement...</div>
+        <div class="section-title">📖 Historique des notes</div>
+        <div id="journal-history">
+            <div class="empty-msg">Chargement des notes...</div>
+        </div>
     </div>
 
     <nav class="nav-bar">
-        <a href="index.html" class="nav-item">🏠 Accueil</a>
-        <a href="repertoire.html" class="nav-item" style="color:var(--accent);">📚 Semences</a>
-        <a href="bacs.html" class="nav-item">🍱 Bacs</a>
-        <a href="agenda.html" class="nav-item">📅 Agenda</a>
-        <a href="journal.html" class="nav-item">📖 Journal</a>
+        <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Accueil</a>
+        <a href="repertoire.html" class="nav-item active-nav"><span class="nav-icon">📚</span>Semences</a>
+        <a href="bacs.html" class="nav-item"><span class="nav-icon">🍱</span>Bacs</a>
+        <a href="agenda.html" class="nav-item"><span class="nav-icon">📅</span>Agenda</a>
+        <a href="journal.html" class="nav-item"><span class="nav-icon">📖</span>Journal</a>
     </nav>
 
     <script>
@@ -117,19 +152,19 @@
                     document.getElementById('v-prov').innerText = s.identite.provenance || '-';
                     document.getElementById('v-germ').innerText = s.identite.duree_germ ? s.identite.duree_germ + ' jours' : '-';
                     document.getElementById('v-desc').innerText = s.identite.description || '-';
-                    document.getElementById('v-assoc').innerText = s.particularites?.associes || 'N/C';
+                    document.getElementById('v-assoc').innerText = s.particularites?.associes || 'Aucune contre-indication';
 
                     // Culture
-                    document.getElementById('c-expo').innerText = s.culture?.exposition || '-';
-                    document.getElementById('c-eau').innerText = s.culture?.eau || '-';
+                    document.getElementById('c-expo').innerText = s.culture?.exposition || s.technique?.exposition || '-';
+                    document.getElementById('c-eau').innerText = s.culture?.eau || s.technique?.eau || '-';
                     document.getElementById('c-temp').innerText = s.culture?.temp_levee || '-';
                     document.getElementById('c-prof').innerText = s.culture?.profondeur || '-';
-                    document.getElementById('c-dist-r').innerText = s.culture?.dist_rang ? s.culture.dist_rang + 'cm' : '-';
-                    document.getElementById('c-dist-i').innerText = s.culture?.dist_inter ? s.culture.dist_inter + 'cm' : '-';
+                    document.getElementById('c-dist-r').innerText = (s.culture?.dist_rang || s.technique?.distance) ? (s.culture?.dist_rang || s.technique?.distance) + ' cm' : '-';
+                    document.getElementById('c-dist-i').innerText = s.culture?.dist_inter ? s.culture.dist_inter + ' cm' : '-';
                     document.getElementById('c-style').innerText = s.culture?.style_semis || '-';
                     
                     if(s.culture?.periode_semis) {
-                        document.getElementById('c-periodes').innerHTML = s.culture.periode_semis.map(p => `<span class="tag tag-period">${p}</span>`).join('');
+                        document.getElementById('c-periodes').innerHTML = s.culture.periode_semis.map(p => `<span class="badge" style="background:rgba(53,176,91,0.1); color:var(--accent-green);">${p}</span>`).join('');
                     }
 
                     // Délais
@@ -140,21 +175,24 @@
 
                     // Soins & Tâches
                     if(s.particularites?.soins) {
-                        document.getElementById('s-soins').innerHTML = s.particularites.soins.map(soin => `<span class="tag">${soin}</span>`).join('');
+                        document.getElementById('s-soins').innerHTML = s.particularites.soins.map(soin => `<span class="badge">${soin}</span>`).join('');
                     }
                     if(s.taches_entretien) {
                         document.getElementById('s-tasks').innerHTML = s.taches_entretien.map(t => `
-                            <div class="task-line"><span>${t.label}</span><span style="color:#777;">+${t.delai}j (${t.base})</span></div>
+                            <div class="item">
+                                <div class="item-name" style="font-size:13px;">${t.label}</div>
+                                <div class="item-qty" style="font-size:11px;">+${t.delai}j (${t.base})</div>
+                            </div>
                         `).join('');
                     }
 
-                    // Journal & Stats
+                    // Historique & Stats
                     const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } });
                     if(resJ.ok) {
                         const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
                         const entries = journal.filter(e => String(e.seedId) === String(seedId));
                         renderStats(entries);
-                        renderJournal(entries);
+                        renderHistory(entries);
                     }
                 }
             } catch(e) { console.error(e); }
@@ -171,23 +209,26 @@
                 stats[year][unit] = (stats[year][unit] || 0) + (parseFloat(e.quantite) || 0);
             });
             document.getElementById('stats-recoltes').innerHTML = Object.keys(stats).reverse().map(y => `
-                <div style="margin-bottom:10px; border-bottom:1px solid #222; padding-bottom:5px;">
-                    <div style="color:var(--accent); font-weight:bold; font-size:12px;">SAISON ${y}</div>
-                    ${Object.keys(stats[y]).map(u => `<div style="display:flex; justify-content:space-between;"><span>Total</span><strong>${stats[y][u]} ${u}</strong></div>`).join('')}
+                <div style="margin-bottom:10px; padding-bottom:5px;">
+                    <div class="note-meta">SAISON ${y}</div>
+                    ${Object.keys(stats[y]).map(u => `
+                        <div class="item">
+                            <div class="item-name">Production totale</div>
+                            <div class="item-qty">${stats[y][u]} ${u}</div>
+                        </div>`).join('')}
                 </div>
             `).join('');
         }
 
-        function renderJournal(entries) {
+        function renderHistory(entries) {
             const history = entries.reverse().slice(0, 5);
             document.getElementById('journal-history').innerHTML = history.length > 0 ? history.map(e => `
-                <div class="info-card" style="padding:12px; margin-bottom:10px; border-left:3px solid var(--accent);">
-                    <div style="font-size:10px; color:#666;">${e.date}</div>
-                    <div style="color:var(--accent); font-weight:bold;">${e.action}</div>
-                    <div style="font-size:13px; color:#bbb;">${e.note || ''}</div>
-                    ${e.photo ? `<img src="${e.photo}" style="width:100%; border-radius:8px; margin-top:10px;">` : ''}
+                <div class="journal-card" style="margin-bottom:12px;">
+                    <div class="note-meta">${e.date} • ${e.action}</div>
+                    <div class="note-content">${e.note || 'Aucun commentaire.'}</div>
+                    ${e.photo ? `<img src="${e.photo}" class="journal-img">` : ''}
                 </div>
-            `).join('') : "Aucune note.";
+            `).join('') : '<div class="empty-msg">Aucune note pour cette plante.</div>';
         }
 
         window.onload = init;
