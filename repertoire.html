@@ -5,6 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mon Répertoire - Semences</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/frugman/potager/main/favicon.png">
+    <style>
+        /* Style spécifique pour le bouton flottant d'ajout */
+        .fab {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--accent-green);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            z-index: 90;
+            font-weight: bold;
+        }
+        .fab:active { transform: scale(0.9); }
+    </style>
 </head>
 <body>
 
@@ -12,12 +35,15 @@
         <h1>📚 Répertoire</h1>
     </header>
 
-    <div class="search-container">
-        <input type="text" class="search-bar" placeholder="Rechercher une variété..." id="searchInput">
-    </div>
+    <div class="container">
+        <div class="card" style="padding: 12px; margin-bottom: 20px;">
+            <input type="text" id="searchInput" placeholder="Rechercher une plante ou une variété..." 
+                   style="margin-bottom: 0; background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23555%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><circle cx=%2211%22 cy=%2211%22 r=%228%22></circle><line x1=%2221%22 y1=%2221%22 x2=%2216.65%22 y2=%2216.65%22></line></svg>'); background-repeat: no-repeat; background-position: 15px center; padding-left: 45px;">
+        </div>
 
-    <div id="seedGrid" class="grid">
-        <p style="text-align:center; padding:40px; color:#666;">Chargement de vos semences...</p>
+        <div id="seedGrid">
+            <div class="empty-msg">Chargement de votre collection...</div>
+        </div>
     </div>
 
     <a href="ajout-semence.html" class="fab">+</a>
@@ -38,54 +64,47 @@
 
         async function loadSeeds() {
             if (!token) {
-                document.getElementById('seedGrid').innerHTML = '<p style="text-align:center; padding:40px;">Session expirée. Reconnectez-vous sur l\'accueil.</p>';
+                document.getElementById('seedGrid').innerHTML = '<div class="empty-msg">Veuillez vous connecter.</div>';
                 return;
             }
             try {
-                // Ajout d'un paramètre timestamp pour éviter le cache GitHub
-                const url = `https://api.github.com/repos/${user}/${repo}/contents/semences.json?t=${Date.now()}`;
-                const res = await fetch(url, { 
+                const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json?t=${Date.now()}`, { 
                     headers: { 'Authorization': `Bearer ${token}` } 
                 });
                 
-                if (!res.ok) throw new Error("Impossible de charger le fichier JSON");
+                if (!res.ok) throw new Error("Fichier introuvable");
                 
                 const data = await res.json();
-                const content = decodeURIComponent(escape(atob(data.content)));
-                allSemences = JSON.parse(content);
+                allSemences = JSON.parse(decodeURIComponent(escape(atob(data.content))));
                 
-                // Tri alphabétique
-                allSemences.sort((a, b) => {
-                    const nomA = a.identite?.nom_commun || "";
-                    const nomB = b.identite?.nom_commun || "";
-                    return nomA.localeCompare(nomB);
-                });
+                // Tri alphabétique par nom commun
+                allSemences.sort((a, b) => (a.identite?.nom_commun || "").localeCompare(b.identite?.nom_commun || ""));
                 
                 renderSeeds(allSemences);
             } catch (e) {
                 console.error(e);
-                document.getElementById('seedGrid').innerHTML = `<p style="color:red; text-align:center; padding:20px;">Erreur : ${e.message}</p>`;
+                document.getElementById('seedGrid').innerHTML = `<div class="empty-msg" style="color:var(--danger-red);">Erreur : ${e.message}</div>`;
             }
         }
 
         function renderSeeds(data) {
             const grid = document.getElementById('seedGrid');
             if (data.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; padding:40px; color:#666;">Aucune semence trouvée.</p>';
+                grid.innerHTML = '<div class="empty-msg">Aucune semence ne correspond.</div>';
                 return;
             }
 
             grid.innerHTML = data.map(s => {
-                // Utilise s.id ou un fallback si l'ID est ailleurs
-                const seedId = s.id || (s.identite && s.identite.id);
-                
+                const seedId = s.id;
                 return `
-                    <div class="card" onclick="window.location.href='fiche-semence.html?id=${seedId}'">
-                        <div class="card-info">
-                            <h3>${s.identite?.nom_commun || 'Nom inconnu'}</h3>
-                            <p>${s.identite?.variete || ''}</p>
+                    <div class="card" onclick="window.location.href='fiche-semence.html?id=${seedId}'" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;">
+                        <div>
+                            <div style="font-weight: 800; font-size: 16px; color: var(--text-primary);">${s.identite?.nom_commun || 'Sans nom'}</div>
+                            <div style="font-size: 13px; color: var(--text-secondary); margin-top: 2px;">${s.identite?.variete || ''}</div>
                         </div>
-                        <span class="tag-provenance">${s.identite?.provenance || 'N/C'}</span>
+                        <span class="badge" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 10px;">
+                            ${s.identite?.provenance || 'N/C'}
+                        </span>
                     </div>
                 `;
             }).join('');
