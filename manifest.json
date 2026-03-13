@@ -1,0 +1,17 @@
+{
+  "name": "Mon Potager 2026",
+  "short_name": "Potager",
+  "description": "Assistant de culture intelligent et journal de bord.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#4CAF50",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
