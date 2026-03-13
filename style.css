@@ -38,6 +38,51 @@ header { display: flex; justify-content: space-between; align-items: center; mar
 header h1 { font-size: 24px; font-weight: 800; margin: 0; }
 .section-title { font-size: 13px; color: var(--accent-green); text-transform: uppercase; margin: 25px 0 12px; letter-spacing: 1px; font-weight: bold; border-left: 3px solid var(--accent-green); padding-left: 10px; }
 
+/* --- HEADER NAVIGATION (Boutons Retour & Modifier) --- */
+header a.back-btn {
+    text-decoration: none;
+    color: var(--text-primary);
+    font-size: 28px; /* Plus grand pour cliquer facilement au pouce */
+    font-weight: 300;
+    line-height: 1;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    transition: opacity 0.2s;
+}
+
+header a.back-btn:active {
+    opacity: 0.5;
+}
+
+header .edit-btn {
+    text-decoration: none;
+    background: rgba(241, 196, 15, 0.15); /* Fond jaune translucide */
+    color: var(--edit-yellow);
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid var(--edit-yellow);
+    transition: all 0.2s;
+}
+
+header .edit-btn:active {
+    background: var(--edit-yellow);
+    color: var(--bg-main);
+    transform: scale(0.95);
+}
+
+header h1 {
+    flex: 1;
+    text-align: center; /* Centre le titre entre les deux boutons */
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0 10px;
+}
+
 /* ==========================================================================
    CARTES (BACS, JOURNAL, FICHES)
    ========================================================================== */
