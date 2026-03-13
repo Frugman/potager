@@ -5,48 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mon Potager 2026</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" href="icon.png">
-    <meta name="theme-color" content="#4CAF50">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/frugman/potager/main/favicon.png">
+    <meta name="theme-color" content="#0c1015">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header><h1>Potager 2026</h1><a href="parametres.html" style="text-decoration:none; font-size:24px;">⚙️</a></header>
+    <header>
+        <h1>Potager 2026</h1>
+        <a href="parametres.html" style="text-decoration:none; font-size:24px; color:#fff;">⚙️</a>
+    </header>
 
-    <section id="action-express">
-        <div class="type-grid">
-            <div class="type-btn" onclick="selectAction(this, 'Semis')">Semis</div>
-            <div class="type-btn" onclick="selectAction(this, 'Repiquage')">Repiq.</div>
-            <div class="type-btn" onclick="selectAction(this, 'Plantation')">Plant.</div>
-            <div class="type-btn" onclick="selectAction(this, 'Récolte')">Récolte</div>
-            <div class="type-btn" onclick="selectAction(this, 'Note')" style="grid-column: span 2;">📝 Note Libre</div>
-        </div>
-        <div id="express-form" class="hidden">
-            <label>Plante concernée</label>
-            <select id="val-seed"><option value="">📝 Note générale</option></select>
-            <label>Date</label><input type="date" id="val-date">
-            <div id="extra-fields"></div>
-            <label>Commentaire</label><textarea id="val-note" rows="2" placeholder="Observations..."></textarea>
-            <div onclick="document.getElementById('file-input').click()" class="photo-btn">📸 Ajouter une photo</div>
-            <input type="file" id="file-input" class="hidden" accept="image/*" onchange="processPhoto(this)">
-            <img id="preview-img" src="">
-            <button class="save-btn" id="btnSave" onclick="saveEntry()">ENREGISTRER</button>
-        </div>
-    </section>
+    <div class="container">
+        <section id="action-express">
+            <div class="type-grid">
+                <div class="type-btn" onclick="selectAction(this, 'Semis')"><span>🌱</span>Semis</div>
+                <div class="type-btn" onclick="selectAction(this, 'Repiquage')"><span>🪴</span>Repiq.</div>
+                <div class="type-btn" onclick="selectAction(this, 'Plantation')"><span>🚜</span>Plant.</div>
+                <div class="type-btn" onclick="selectAction(this, 'Récolte')"><span>🧺</span>Récolte</div>
+                <div class="type-btn" onclick="selectAction(this, 'Note')" style="grid-column: span 2; flex-direction: row; gap: 10px;"><span>📝</span>Note Libre</div>
+            </div>
 
-    <section class="widget">
-        <h2>🌤️ MÉTÉO <a href="https://meteofrance.com/previsions-meteo-france/la-roche-sur-yon/85000" target="_blank" style="font-size:10px; color:#666; text-decoration:none; font-weight:normal;">La Roche ↗</a></h2>
-        <div class="weather-scroll" id="weather-box">Chargement...</div>
-    </section>
+            <div id="express-form" class="card hidden">
+                <div class="note-meta">Action Express</div>
+                
+                <label>Plante concernée</label>
+                <select id="val-seed"><option value="">📝 Note générale</option></select>
+                
+                <label>Date</label>
+                <input type="date" id="val-date">
+                
+                <div id="extra-fields"></div>
+                
+                <label>Commentaire</label>
+                <textarea id="val-note" rows="2" placeholder="Observations..."></textarea>
+                
+                <div onclick="document.getElementById('file-input').click()" class="photo-btn">📸 Ajouter une photo</div>
+                <input type="file" id="file-input" class="hidden" accept="image/*" onchange="processPhoto(this)">
+                
+                <img id="preview-img" style="display:none;">
+                
+                <button class="save-btn" id="btnSave" onclick="saveEntry()">ENREGISTRER</button>
+            </div>
+        </section>
 
-    <section class="widget">
-        <h2>📅 URGENT (7 JOURS)</h2>
-        <div id="agenda-box" class="card">Calcul des tâches...</div>
-    </section>
+        <section class="widget">
+            <div class="section-title">🌤️ MÉTÉO <a href="https://meteofrance.com/previsions-meteo-france/la-roche-sur-yon/85000" target="_blank" style="font-size:10px; color:var(--text-secondary); text-decoration:none; margin-left:10px;">La Roche ↗</a></div>
+            <div class="weather-scroll" id="weather-box">Chargement...</div>
+        </section>
 
-    <section class="widget" style="padding-bottom:20px;">
-        <h2>📝 DERNIÈRES NOTES</h2>
-        <div id="notes-box"></div>
-    </section>
+        <section class="widget">
+            <div class="section-title">📅 URGENT (7 JOURS)</div>
+            <div id="agenda-box" class="card">Calcul des tâches...</div>
+        </section>
+
+        <section class="widget" style="padding-bottom:20px;">
+            <div class="section-title">📖 DERNIÈRES NOTES</div>
+            <div id="notes-box"></div>
+        </section>
+    </div>
 
     <nav class="nav-bar">
         <a href="index.html" class="nav-item active-nav"><span class="nav-icon">🏠</span>Accueil</a>
@@ -81,6 +97,7 @@
             } catch(e) { console.error(e); }
         }
 
+        // Réduction image 500px max
         function processPhoto(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
@@ -88,13 +105,18 @@
                     const img = new Image();
                     img.onload = function() {
                         const canvas = document.createElement('canvas');
-                        let width = img.width, height = img.height, max = 1024;
-                        if (width > max) { height *= max / width; width = max; }
+                        let width = img.width, height = img.height, max = 500;
+                        if (width > height) {
+                            if (width > max) { height *= max / width; width = max; }
+                        } else {
+                            if (height > max) { width *= max / height; height = max; }
+                        }
                         canvas.width = width; canvas.height = height;
                         canvas.getContext('2d').drawImage(img, 0, 0, width, height);
                         const data = canvas.toDataURL('image/jpeg', 0.7);
-                        document.getElementById('preview-img').src = data;
-                        document.getElementById('preview-img').style.display = 'block';
+                        const preview = document.getElementById('preview-img');
+                        preview.src = data;
+                        preview.style.display = 'block';
                         base64Photo = data.split(',')[1];
                         photoName = `IMG_${Date.now()}.jpg`;
                     };
@@ -111,37 +133,29 @@
             document.getElementById('express-form').classList.remove('hidden');
             let html = "";
             if(type === 'Semis' || type === 'Repiquage') html = `<label>Lieu</label><select id="val-loc"><option>Serre intérieure</option><option>Serre extérieure</option></select><label>Contenant</label><input type="text" id="val-cont" placeholder="Godet, plaque...">`;
-            else if(type === 'Plantation') html = `<label>Bac</label><select id="val-bac"><option>Bac A</option><option>Bac B</option><option>Bac C</option><option>Bac D</option><option>Bac E</option><option>Autre</option></select>`;
+            else if(type === 'Plantation') html = `<label>Bac</label><select id="val-bac"><option>Bac A</option><option>Bac B</option><option>Bac C</option><option>Bac D</option><option>Bac E</option></select>`;
             else if(type === 'Récolte') {
-            html = `
-                <label>Quantité récoltée</label>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <input type="number" id="val-qty" placeholder="Nombre">
-                    <select id="val-unit">
-                        <option value="unités">Produit(s)</option>
-                        <option value="kg">kg</option>
-                        <option value="g">grammes</option>
-                    </select>
-                </div>
-            `;
-        }
+                html = `<label>Quantité récoltée</label><div class="grid-2"><input type="number" id="val-qty" placeholder="Nombre"><select id="val-unit"><option value="unités">Produit(s)</option><option value="kg">kg</option><option value="g">g</option></select></div>`;
+            }
             document.getElementById('extra-fields').innerHTML = html;
         }
 
         async function saveEntry() {
-            const btn = document.getElementById('btnSave'); btn.innerText = "⏳..."; btn.disabled = true;
-            let photoUrl = "";
-            if(base64Photo) {
-                const path = `photos/${photoName}`;
-                await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`, { method: 'PUT', headers: { 'Authorization': `Bearer ${token}` }, body: JSON.stringify({ message: "Photo", content: base64Photo }) });
-                photoUrl = `https://raw.githubusercontent.com/${user}/${repo}/master/${path}`;
-            }
-            const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
-            const dataJ = await resJ.json();
-            let journal = JSON.parse(decodeURIComponent(escape(atob(dataJ.content))));
-            journal.push({ id: Date.now(), date: document.getElementById('val-date').value, action: currentType, seedId: document.getElementById('val-seed').value, note: document.getElementById('val-note').value, photo: photoUrl, quantite: parseInt(document.getElementById('val-qty')?.value) || 0, bac: document.getElementById('val-bac')?.value, emplacement: document.getElementById('val-loc')?.value, unite: document.getElementById('val-unit')?.value || "" });
-            await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { method: 'PUT', headers: { 'Authorization': `Bearer ${token}` }, body: JSON.stringify({ message: "Update", content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: dataJ.sha }) });
-            location.reload();
+            const btn = document.getElementById('btnSave'); btn.innerText = "⏳ ENREGISTREMENT..."; btn.disabled = true;
+            try {
+                let photoUrl = "";
+                if(base64Photo) {
+                    const path = `photos/${photoName}`;
+                    await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`, { method: 'PUT', headers: { 'Authorization': `Bearer ${token}` }, body: JSON.stringify({ message: "Photo Express", content: base64Photo }) });
+                    photoUrl = `https://raw.githubusercontent.com/${user}/${repo}/master/${path}`;
+                }
+                const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const dataJ = await resJ.json();
+                let journal = JSON.parse(decodeURIComponent(escape(atob(dataJ.content))));
+                journal.push({ id: Date.now(), date: document.getElementById('val-date').value, action: currentType, seedId: document.getElementById('val-seed').value, note: document.getElementById('val-note').value, photo: photoUrl, quantite: parseInt(document.getElementById('val-qty')?.value) || 0, bac: document.getElementById('val-bac')?.value, emplacement: document.getElementById('val-loc')?.value, contenant: document.getElementById('val-cont')?.value, unite: document.getElementById('val-unit')?.value || "" });
+                await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { method: 'PUT', headers: { 'Authorization': `Bearer ${token}` }, body: JSON.stringify({ message: "Update Express", content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: dataJ.sha }) });
+                location.reload();
+            } catch(e) { alert("Erreur d'enregistrement"); btn.disabled = false; btn.innerText = "ENREGISTRER"; }
         }
 
         async function loadWeather() {
@@ -155,7 +169,11 @@
                     if (code >= 95) return "⛈️"; return "☁️";
                 };
                 document.getElementById('weather-box').innerHTML = data.daily.time.map((t, i) => `
-                    <div class="weather-day"><b>${i===0?"Auj.":new Date(t).toLocaleDateString('fr-FR',{weekday:'short'})}</b><br>${getWeatherIcon(data.daily.weathercode[i])}<br><b>${Math.round(data.daily.temperature_2m_max[i])}°</b></div>
+                    <div class="weather-day">
+                        <small>${i===0?"Auj.":new Date(t).toLocaleDateString('fr-FR',{weekday:'short'})}</small>
+                        <div style="font-size:24px; margin:5px 0;">${getWeatherIcon(data.daily.weathercode[i])}</div>
+                        <strong>${Math.round(data.daily.temperature_2m_max[i])}°</strong>
+                    </div>
                 `).join('');
             } catch(e) { document.getElementById('weather-box').innerText = "Erreur météo"; }
         }
@@ -164,48 +182,45 @@
             const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
             const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
             
-            // Notes
+            // Dernières Notes stylisées
             document.getElementById('notes-box').innerHTML = journal.slice(-3).reverse().map(n => {
-                const s = seeds.find(i=>i.id===n.seedId) || {identite:{nom_commun:"Note Générale", variete:""}};
-                return `<div class="card note-card" onclick="window.location.href='journal.html'"><b>${n.date}</b> - ${s.identite.nom_commun}<br>${n.photo?`<img src="${n.photo}" class="note-img">`:''}<p style="font-size:12px;color:#888;">${n.note||''}</p></div>`;
+                const s = seeds.find(i=>String(i.id) === String(n.seedId)) || {identite:{nom_commun:"Note Générale", variete:""}};
+                return `
+                <div class="journal-card" onclick="window.location.href='journal.html'">
+                    <div class="note-meta">${n.date} • ${n.action}</div>
+                    <div class="note-title">${s.identite.nom_commun}</div>
+                    <p class="note-content">${n.note || ''}</p>
+                    ${n.photo ? `<img src="${n.photo}" class="journal-img">` : ''}
+                </div>`;
             }).join('');
 
-            // Agenda Urgent complet
+            // Agenda Urgent (7 jours)
             const today = new Date(); today.setHours(0,0,0,0);
             const in7Days = new Date(); in7Days.setDate(today.getDate() + 7);
             let urgentTasks = [];
 
-            journal.forEach(entry => {
-                if(entry.action === 'Semis') {
-                    const s = seeds.find(i => i.id === entry.seedId);
-                    if(!s) return;
-                    const dSemis = new Date(entry.date);
-                    const steps = [
-                        { d: s.delais.levee, t: "🌱 Levée" },
-                        { d: s.delais.levee + s.delais.repiquage, t: "🪴 Repiquage" },
-                        { d: s.delais.levee + s.delais.repiquage + s.delais.plantation, t: "🚜 Plantation" },
-                        { d: s.delais.levee + s.delais.repiquage + s.delais.plantation + s.delais.maturite, t: "🧺 Récolte" }
-                    ];
-                    steps.forEach(st => {
-                        const target = addDays(dSemis, st.d);
-                        if(target >= today && target <= in7Days) urgentTasks.push({ date: target, title: st.t, plant: s.identite.nom_commun });
-                    });
-                    if(s.taches_entretien) {
-                        s.taches_entretien.forEach(te => {
-                            const target = addDays(dSemis, te.delai);
-                            if(target >= today && target <= in7Days) urgentTasks.push({ date: target, title: te.label, plant: s.identite.nom_commun });
-                        });
-                    }
-                }
+            journal.filter(j => j.action === 'Semis').forEach(entry => {
+                const s = seeds.find(i => String(i.id) === String(entry.seedId));
+                if(!s) return;
+                const dSemis = entry.date;
+                const tasks = [
+                    { d: s.delais.levee, t: "🌱 Levée" },
+                    { d: s.delais.levee + s.delais.repiquage, t: "🪴 Repiquage" },
+                    { d: s.delais.levee + s.delais.repiquage + s.delais.plantation, t: "🚜 Plantation" }
+                ];
+                tasks.forEach(st => {
+                    const target = addDays(dSemis, st.d);
+                    if(target >= today && target <= in7Days) urgentTasks.push({ date: target, title: st.t, plant: s.identite.nom_commun });
+                });
             });
 
             urgentTasks.sort((a,b) => a.date - b.date);
             document.getElementById('agenda-box').innerHTML = urgentTasks.map(t => `
-                <div class="agenda-item">
-                    <span>${t.title} : <b>${t.plant}</b></span>
-                    <span class="agenda-date">${t.date.toLocaleDateString('fr-FR', {day:'numeric', month:'short'})}</span>
+                <div class="item">
+                    <div class="item-name">${t.title} : ${t.plant}</div>
+                    <div class="item-qty">${t.date.toLocaleDateString('fr-FR', {day:'numeric', month:'short'})}</div>
                 </div>
-            `).join('') || "Aucune tâche urgente.";
+            `).join('') || `<div class="empty-msg">Aucune urgence cette semaine.</div>`;
         }
         window.onload = init;
     </script>
