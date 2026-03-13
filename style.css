@@ -1,289 +1,94 @@
 /* ==========================================================================
-   TABLE DES MATIÈRES / VARIABLES GLOBALES
+   VARIABLES & BASE
    ========================================================================== */
 :root {
-    /* Palette de couleurs Stitch */
-    --bg-main: #0c1015;        /* Fond très sombre légèrement bleuté */
-    --card-bg: #151a21;        /* Fond des cartes plus clair */
-    --card-hover-bg: #1f262e;  /* Fond au survol des cartes */
-    --text-primary: #ffffff;    /* Texte blanc */
-    --text-secondary: #9aa1a9;  /* Texte gris pour descriptions/labels */
-    --accent-green: #35b05b;    /* Vert d'action */
-    --border-color: #2b3540;    /* Couleur des bordures */
-    --danger-red: #da373c;      /* Rouge pour alertes/danger */
-    --edit-yellow: #f1c40f;      /* Jaune pour modification */
+    --bg-main: #0c1015;
+    --card-bg: #151a21;
+    --card-hover-bg: #1f262e;
+    --text-primary: #ffffff;
+    --text-secondary: #9aa1a9;
+    --accent-green: #35b05b;
+    --border-color: #2b3540;
+    --danger-red: #da373c;
+    --edit-yellow: #f1c40f;
 }
 
-/* ==========================================================================
-   RESET & BASE STYLES
-   ========================================================================== */
-* {
-    box-sizing: border-box; /* Crucial pour empêcher les débordements */
-    -webkit-tap-highlight-color: transparent; /* Désactive la surbrillance au toucher sur mobile */
-}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
 body {
     background-color: var(--bg-main);
     color: var(--text-primary);
-    font-family: 'Inter', -apple-system, sans-serif; /* Police moderne et lisible */
-    margin: 0;
-    padding: 20px;
-    padding-bottom: 110px; /* Espace pour la barre de navigation basse */
-    font-size: 16px;
-    line-height: 1.4;
-    -webkit-font-smoothing: antialiased; /* Rendu des polices plus net */
+    font-family: 'Inter', -apple-system, sans-serif;
+    margin: 0; padding: 20px; padding-bottom: 110px;
+    font-size: 16px; line-height: 1.4;
 }
 
 /* ==========================================================================
-   STRUCTURE GLOBAL & LAYOUT
+   LAYOUT & EN-TÊTES
    ========================================================================== */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-}
-
-header h1 {
-    font-size: 24px;
-    font-weight: 800; /* Stitch style : titres très gras */
-    margin: 0;
-}
-
-.container {
-    width: 100%;
-}
+header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+header h1 { font-size: 24px; font-weight: 800; margin: 0; }
+.section-title { font-size: 13px; color: var(--accent-green); text-transform: uppercase; margin: 25px 0 12px; letter-spacing: 1px; font-weight: bold; border-left: 3px solid var(--accent-green); padding-left: 10px; }
 
 /* ==========================================================================
-   COMPOSANTS : CARTES & BLOCS
+   CARTES (BACS, JOURNAL, FICHES)
    ========================================================================== */
-/* La carte de base Stitch */
 .card, .info-card, .zone-card, .journal-card {
-    background: var(--card-bg);
-    border-radius: 20px; /* Bordures bien arrondies Stitch style */
-    padding: 20px;
-    border: 1px solid var(--border-color);
-    margin-bottom: 15px;
-    width: 100%;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    background: var(--card-bg); border-radius: 20px; padding: 20px;
+    border: 1px solid var(--border-color); margin-bottom: 15px; width: 100%;
 }
 
-/* Interaction au clic sur une carte */
-.card:active, .info-card:active, .journal-card:active {
-    background-color: var(--card-hover-bg);
-    transform: scale(0.98);
-}
+/* Spécifique BACS (Pliage/Dépliage) */
+.extra-item { display: none; }
+.zone-card.is-expanded .extra-item { display: flex; animation: fadeIn 0.3s ease; }
+.badge { background: var(--accent-green); color: #fff; font-size: 12px; padding: 2px 10px; border-radius: 20px; font-weight: 900; }
+.empty-msg { color: #555; font-style: italic; font-size: 13px; text-align: center; padding: 10px; }
 
-/* Bloc d'entête de zone (Serres, Bacs) */
-.zone-header {
-    background-color: #1a222c; /* Légère nuance Stitch style */
-    padding: 15px 20px;
-    border-radius: 20px 20px 0 0; /* Arrondis en haut seulement */
-    border-bottom: 1px solid var(--border-color);
-    font-weight: 700;
-    font-size: 17px;
-}
-
-/* Bloc de contenu de zone (Items) */
-.zone-content {
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-/* Bloc d'item individuel dans une zone */
-.item {
-    background-color: rgba(255, 255, 255, 0.03); /* Très léger fond */
-    padding: 15px;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-}
-
-.item:active { background-color: rgba(255, 255, 255, 0.06); }
+/* Spécifique AGENDA (Timeline) */
+.timeline { position: relative; padding-left: 20px; border-left: 2px solid #222; margin-left: 10px; }
+.task-card::before { content: ''; position: absolute; left: -31px; top: 22px; width: 12px; height: 12px; background: var(--accent-green); border-radius: 50%; border: 4px solid var(--bg-main); }
+.past-task { opacity: 0.4; filter: grayscale(1); }
 
 /* ==========================================================================
-   FORMULAIRES & INPUTS
+   FORMULAIRES & BOUTONS
    ========================================================================== */
-label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 12px;
-    color: var(--accent-green); /* Stitch style : labels en vert accent */
-    text-transform: uppercase;
-    font-weight: 700;
-    letter-spacing: 0.8px; /* Stitch style : labels espacés */
-}
+label { display: block; margin-bottom: 8px; font-size: 12px; color: var(--accent-green); text-transform: uppercase; font-weight: 700; letter-spacing: 0.8px; }
+input, select, textarea { width: 100%; padding: 16px; background-color: #080a0d; color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 14px; font-size: 16px; margin-bottom: 18px; outline: none; font-family: inherit; }
+input:focus, textarea:focus { border-color: var(--accent-green); box-shadow: 0 0 0 3px rgba(53, 176, 91, 0.2); }
 
-input, select, textarea {
-    width: 100%;
-    padding: 16px;
-    background-color: #080a0d; /* Fond très sombre pour les inputs */
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-    border-radius: 14px; /* Stitch style : inputs bien arrondis */
-    font-size: 16px;
-    margin-bottom: 18px;
-    outline: none;
-    font-family: inherit;
-    display: block;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
+.type-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 25px; }
+.type-btn { padding: 15px 5px; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; color: var(--text-primary); font-size: 13px; font-weight: 700; text-align: center; cursor: pointer; }
+.type-btn.active { background-color: var(--accent-green); border-color: var(--accent-green); }
 
-input:focus, textarea:focus, select:focus {
-    border-color: var(--accent-green);
-    box-shadow: 0 0 0 3px rgba(53, 176, 91, 0.2); /* Léger effet de halo Stitch style */
-}
-
-textarea { resize: vertical; } /* Permet de redimensionner verticalement seulement */
+.save-btn { width: 100%; padding: 18px; background-color: var(--accent-green); color: white; border: none; border-radius: 16px; font-weight: 800; font-size: 18px; cursor: pointer; }
+.photo-btn { width: 100%; padding: 16px; background-color: rgba(255, 255, 255, 0.02); border: 2px dashed rgba(255, 255, 255, 0.1); border-radius: 14px; color: var(--text-secondary); font-weight: 600; text-align: center; cursor: pointer; margin-bottom: 18px; display: flex; align-items: center; justify-content: center; gap: 10px; }
 
 /* ==========================================================================
-   BOUTONS & INTERACTIONS
+   FICHES SEMENCES (ICONES & STATS)
    ========================================================================== */
-/* Grille de sélection d'actions (Semis, Repiq., etc.) Stitch style */
-.type-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* S'adapte au nombre d'items */
-    gap: 12px;
-    margin-bottom: 25px;
-}
-
-.type-btn {
-    padding: 18px;
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 16px; /* Stitch style : gros boutons arrondis */
-    color: var(--text-primary);
-    font-size: 14px;
-    font-weight: 700;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.2s ease, transform 0.1s ease;
-}
-
-.type-btn:active {
-    transform: scale(0.96); /* Stitch style : effet "pressé" prononcé */
-}
-
-.type-btn.active {
-    background-color: var(--accent-green); /* Stitch style : fond vert quand actif */
-    border-color: var(--accent-green);
-}
-
-/* Bouton principal Stitch style */
-.save-btn {
-    width: 100%;
-    padding: 18px;
-    background-color: var(--accent-green);
-    color: white;
-    border: none;
-    border-radius: 16px;
-    font-weight: 800; /* Stitch style : texte très gras */
-    font-size: 18px;
-    cursor: pointer;
-    margin-top: 15px;
-    transition: transform 0.1s ease;
-}
-
-.save-btn:active { transform: scale(0.97); }
-
-/* Bouton de modification Stitch style */
-.edit-btn {
-    text-decoration: none;
-    background: rgba(241, 196, 15, 0.1); /* Fond jaune translucide Stitch style */
-    color: var(--edit-yellow);
-    padding: 8px 15px;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 700;
-    border: 1px solid var(--edit-yellow);
-}
-
-/* Bouton photo Stitch style */
-.photo-btn {
-    width: 100%;
-    padding: 16px;
-    background-color: rgba(255, 255, 255, 0.02); /* Très léger fond */
-    border: 2px dashed rgba(255, 255, 255, 0.1); /* Bordure dashed subtile */
-    border-radius: 14px;
-    color: var(--text-secondary);
-    font-weight: 600;
-    text-align: center;
-    cursor: pointer;
-    margin-bottom: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
+.icon-item { background: var(--card-bg); padding: 12px 5px; border-radius: 12px; text-align: center; border: 1px solid var(--border-color); margin-bottom: 10px; }
+.icon-val { font-size: 14px; font-weight: bold; color: #fff; display: block; }
+.icon-sub { font-size: 9px; color: #777; text-transform: uppercase; }
+.tag { background: #222; padding: 5px 12px; border-radius: 8px; font-size: 12px; border: 1px solid var(--border-color); color: #ccc; }
+.stat-row { display: flex; justify-content: space-between; font-size: 14px; padding: 5px 0; border-bottom: 1px solid #222; }
 
 /* ==========================================================================
-   WIDGETS SPÉCIFIQUES
+   NAVIGATION BASSE
    ========================================================================== */
-/* Météo horizontale Stitch style */
-.weather-scroll {
-    display: flex;
-    overflow-x: auto;
-    gap: 12px;
-    padding-bottom: 15px;
-    scrollbar-width: none; /* Cache la barre sur Firefox */
-}
-
-.weather-scroll::-webkit-scrollbar { display: none; } /* Cache la barre sur Chrome/Safari */
-
-.weather-day {
-    min-width: 90px;
-    background: #111;
-    padding: 15px;
-    border-radius: 16px;
-    text-align: center;
-    border: 1px solid var(--border-color);
-    flex-shrink: 0;
-}
-
-/* Indicateur urgent Stitch style */
-.urgent-indicator {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 10px;
-    font-size: 12px;
-    color: var(--danger-red);
-    font-weight: 700;
-}
+.nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 85px; background-color: #111; border-top: 2px solid var(--border-color); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
+.nav-item { color: var(--text-primary); text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: 700; opacity: 0.5; }
+.nav-icon { font-size: 26px; margin-bottom: 4px; }
+.active-nav { color: var(--accent-green); opacity: 1; }
 
 /* ==========================================================================
-   GRILLES DE MISE EN PAGE
+   MÉTÉO & IMAGES
    ========================================================================== */
+.weather-scroll { display: flex; overflow-x: auto; gap: 12px; padding-bottom: 15px; scrollbar-width: none; }
+.weather-day { min-width: 90px; background: #111; padding: 15px; border-radius: 16px; text-align: center; border: 1px solid var(--border-color); flex-shrink: 0; }
+#preview-img, .journal-img { width: 100%; border-radius: 14px; margin-bottom: 15px; border: 1px solid var(--border-color); }
+
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-
-/* ==========================================================================
-   NAVIGATION BASSE (HARMONISÉE)
-   ========================================================================== */
-.nav-bar {
-    position: fixed; bottom: 0; left: 0; width: 100%; height: 85px;
-    background-color: #111; border-top: 2px solid var(--border-color);
-    display: flex; justify-content: space-around; align-items: center; z-index: 100;
-}
-
-.nav-item {
-    color: var(--text-primary); text-decoration: none; font-size: 11px;
-    display: flex; flex-direction: column; align-items: center;
-    flex: 1; font-weight: 700; /* Stitch style : texte gras */
-    opacity: 0.6; /* Stitch style : icônes inactives translucides */
-}
-
-.nav-icon { font-size: 26px; margin-bottom: 4px; }
-.active-nav { color: var(--accent-green); opacity: 1; /* Stitch style : icône active nette */ }
-
-/* ==========================================================================
-   UTILITAIRES
-   ========================================================================== */
 .hidden { display: none; }
-#preview-img { width: 100%; border-radius: 14px; margin-bottom: 18px; border: 1px solid var(--border-color); }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
