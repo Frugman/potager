@@ -140,7 +140,19 @@
             let html = "";
             if(type === 'Semis' || type === 'Repiquage') html = `<label>Lieu</label><select id="val-loc"><option>Serre intérieure</option><option>Serre extérieure</option></select><label>Contenant</label><input type="text" id="val-cont" placeholder="Godet, plaque...">`;
             else if(type === 'Plantation') html = `<label>Bac</label><select id="val-bac"><option>Bac A</option><option>Bac B</option><option>Bac C</option><option>Bac D</option><option>Bac E</option><option>Autre</option></select>`;
-            else if(type === 'Récolte') html = `<label>Quantité récoltée</label><input type="number" id="val-qty" placeholder="Nombre/Poids">`;
+            else if(type === 'Récolte') {
+            html = `
+                <label>Quantité récoltée</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <input type="number" id="val-qty" placeholder="Nombre">
+                    <select id="val-unit">
+                        <option value="unités">Produit(s)</option>
+                        <option value="kg">kg</option>
+                        <option value="g">grammes</option>
+                    </select>
+                </div>
+            `;
+        }
             document.getElementById('extra-fields').innerHTML = html;
         }
 
@@ -155,7 +167,7 @@
             const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
             const dataJ = await resJ.json();
             let journal = JSON.parse(decodeURIComponent(escape(atob(dataJ.content))));
-            journal.push({ id: Date.now(), date: document.getElementById('val-date').value, action: currentType, seedId: document.getElementById('val-seed').value, note: document.getElementById('val-note').value, photo: photoUrl, quantite: parseInt(document.getElementById('val-qty')?.value) || 0, bac: document.getElementById('val-bac')?.value, emplacement: document.getElementById('val-loc')?.value });
+            journal.push({ id: Date.now(), date: document.getElementById('val-date').value, action: currentType, seedId: document.getElementById('val-seed').value, note: document.getElementById('val-note').value, photo: photoUrl, quantite: parseInt(document.getElementById('val-qty')?.value) || 0, bac: document.getElementById('val-bac')?.value, emplacement: document.getElementById('val-loc')?.value, unite: document.getElementById('val-unit')?.value || "" });
             await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { method: 'PUT', headers: { 'Authorization': `Bearer ${token}` }, body: JSON.stringify({ message: "Update", content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: dataJ.sha }) });
             location.reload();
         }
