@@ -12,19 +12,25 @@
         <h1>🗓️ Agenda & Soins</h1>
     </header>
 
-    <div class="filters">
-        <button class="filter-btn" onclick="toggleHistory()">VOIR L'HISTORIQUE</button>
-        <select id="actionFilter" onchange="renderAgenda()">
-            <option value="all">Toutes les actions</option>
-            <option value="Semis">🌱 Semis / Levée</option>
-            <option value="Entretien">✂️ Soins & Taille</option>
-            <option value="Plantation">🚜 Plantation</option>
-            <option value="Récolte">🧺 Récolte</option>
-        </select>
-    </div>
+    <div class="container">
+        <div class="card">
+            <div class="note-meta">Options d'affichage</div>
+            
+            <div class="grid-2">
+                <button class="filter-btn" id="toggleHistBtn" onclick="toggleHistory()" style="margin-bottom:0;">VOIR L'HISTORIQUE</button>
+                <select id="actionFilter" onchange="renderAgenda()" style="margin-bottom:0;">
+                    <option value="all">Toutes les actions</option>
+                    <option value="Semis">🌱 Semis / Levée</option>
+                    <option value="Entretien">✂️ Soins & Taille</option>
+                    <option value="Plantation">🚜 Plantation</option>
+                    <option value="Récolte">🧺 Récolte</option>
+                </select>
+            </div>
+        </div>
 
-    <div id="agenda-container">
-        <p style="text-align:center; padding:40px; color:#666;">Calcul de votre calendrier...</p>
+        <div id="agenda-container">
+            <div class="empty-msg">Calcul de votre calendrier...</div>
+        </div>
     </div>
 
     <nav class="nav-bar">
@@ -51,7 +57,7 @@
 
         function toggleHistory() {
             showHistory = !showHistory;
-            event.target.innerText = showHistory ? "MASQUER L'HISTORIQUE" : "VOIR L'HISTORIQUE";
+            document.getElementById('toggleHistBtn').innerText = showHistory ? "MASQUER L'HISTORIQUE" : "VOIR L'HISTORIQUE";
             renderAgenda();
         }
 
@@ -67,7 +73,10 @@
                 const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
 
                 calculateTasks(seeds, journal);
-            } catch (e) { console.error(e); }
+            } catch (e) { 
+                console.error(e); 
+                document.getElementById('agenda-container').innerHTML = `<div class="empty-msg">Erreur de chargement.</div>`;
+            }
         }
 
         function calculateTasks(seeds, journal) {
@@ -82,11 +91,11 @@
 
                 const semisDate = entry.date;
 
-                // 1. Étapes de croissance théoriques
+                // 1. Étapes de croissance théoriques (Labels propres avec espaces)
                 const etapes = [
                     { d: seed.delais?.levee, t: "🌱 Levée attendue", cat: "Semis" },
-                    { d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0), t: "🪴 Repiquage", cat: "Semis" },
-                    { d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0) + (seed.delais?.plantation || 0), t: "🚜 Plantation", cat: "Plantation" },
+                    { d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0), t: "🪴 Repiquage recommandé", cat: "Semis" },
+                    { d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0) + (seed.delais?.plantation || 0), t: "🚜 Plantation en bac", cat: "Plantation" },
                     { d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0) + (seed.delais?.plantation || 0) + (seed.delais?.maturite || 0), t: "🧺 Récolte estimée", cat: "Récolte" }
                 ];
 
@@ -106,10 +115,8 @@
                 if (seed.taches_entretien) {
                     seed.taches_entretien.forEach(te => {
                         let baseDate = semisDate;
-                        
-                        // Si la base est la plantation, on cherche si elle a déjà été faite
                         if (te.base === 'plantation') {
-                            const realPlantation = journal.find(j => j.seedId === entry.seedId && j.action === 'Plantation');
+                            const realPlantation = journal.find(j => String(j.seedId) === String(entry.seedId) && j.action === 'Plantation');
                             if (realPlantation) baseDate = realPlantation.date;
                             else baseDate = addDays(semisDate, (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0) + (seed.delais?.plantation || 0));
                         } 
@@ -119,7 +126,7 @@
 
                         allTasks.push({
                             date: addDays(baseDate, te.delai),
-                            title: te.label,
+                            title: `✂️ ${te.label}`,
                             plant: `${seed.identite.nom_commun} - ${seed.identite.variete}`,
                             seedId: seed.id,
                             category: "Entretien"
@@ -137,18 +144,16 @@
             const today = new Date();
             today.setHours(0,0,0,0);
 
-            // Filtrage
             let filtered = allTasks.filter(t => {
                 const isFuture = t.date >= today;
                 const matchCat = filter === 'all' || t.category === filter;
                 return (showHistory ? true : isFuture) && matchCat;
             });
 
-            // Tri chronologique
             filtered.sort((a, b) => a.date - b.date);
 
             if (filtered.length === 0) {
-                container.innerHTML = `<p style="text-align:center; padding:40px; color:#666;">Aucune tâche programmée.</p>`;
+                container.innerHTML = `<div class="empty-msg">Aucune tâche prévue.</div>`;
                 return;
             }
 
@@ -157,8 +162,9 @@
 
             filtered.forEach(t => {
                 const taskMonth = t.date.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+                
                 if (taskMonth !== currentMonth) {
-                    if (currentMonth !== "") html += `</div>`;
+                    if (currentMonth !== "") html += `</div>`; // Fermer la timeline précédente
                     html += `<div class="month-title">${taskMonth}</div><div class="timeline">`;
                     currentMonth = taskMonth;
                 }
