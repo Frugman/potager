@@ -3,209 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Espace Culture - Serres & Bacs</title>
+    <title>Mes Bacs - Potager 2026</title>
     <style>
-        :root {
-            --bg: #000000;
-            --card-bg: #1a1a1a;
-            --text: #ffffff;
-            --accent: #4CAF50;
-            --border: #333;
-        }
+        :root { --bg: #000; --card-bg: #1a1a1a; --text: #fff; --accent: #4CAF50; --border: #333; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; padding-bottom: 110px; font-size: 16px; }
+        
+        h1 { font-size: 24px; margin: 0 0 20px 0; }
+        h2 { font-size: 13px; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; margin: 25px 0 12px; border-bottom: 1px solid #222; padding-bottom: 8px; }
 
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', -apple-system, sans-serif;
-            margin: 0;
-            padding: 20px;
-            padding-bottom: 110px;
-            font-size: 16px; /* CDC 5.0 */
-        }
-
-        header { margin-bottom: 25px; }
-        h1 { font-size: 24px; margin: 0; }
-        h2 { font-size: 14px; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; margin: 25px 0 15px; border-bottom: 1px solid #222; padding-bottom: 8px; }
-
-        .zone-container { display: flex; flex-direction: column; gap: 20px; }
-
-        .zone-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            overflow: hidden;
-        }
-
-        .zone-header {
-            background: #222;
-            padding: 12px 20px;
-            font-weight: bold;
-            font-size: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
+        .zone-card { background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
+        .zone-header { background: #222; padding: 15px 20px; font-weight: bold; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
+        
         .zone-content { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
 
-        .item {
-            background: #080808;
-            padding: 12px;
-            border-radius: 12px;
-            border: 1px solid #222;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .item-info h4 { margin: 0; font-size: 15px; color: #fff; }
+        .item { background: #080808; padding: 12px; border-radius: 12px; border: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
+        .item-info h4 { margin: 0; font-size: 15px; }
         .item-info p { margin: 2px 0 0; font-size: 12px; color: #888; }
-
         .item-meta { text-align: right; font-size: 13px; font-weight: bold; color: var(--accent); }
+
+        /* Style de la vue repliée */
+        .items-hidden { display: none; }
+        .expand-btn { width: 100%; padding: 10px; background: none; border: none; color: var(--accent); font-size: 13px; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 5px; min-height: 44px; }
+        
         .empty-msg { color: #555; font-style: italic; font-size: 13px; text-align: center; padding: 10px; }
 
-        /* Nav Bar */
-        .nav-bar {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 85px;
-            background: #111; border-top: 2px solid var(--border);
-            display: flex; justify-content: space-around; align-items: center; z-index: 100;
-        }
+        /* Nav */
+        .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 85px; background: #111; border-top: 2px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
         .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; flex: 1; font-weight: bold; }
-        .nav-icon { font-size: 26px; margin-bottom: 2px; }
+        .nav-icon { font-size: 26px; }
         .active-nav { color: var(--accent); }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>🍱 Espace Culture</h1>
-    </header>
+    <h1>🍱 Espace Culture</h1>
 
-    <div class="zone-container">
-        
+    <div id="content-area">
         <h2>🏠 Serres</h2>
-        <div id="serre-int" class="zone-card">
+        <div class="zone-card">
             <div class="zone-header">Serre Intérieure</div>
-            <div class="zone-content" id="content-serre-int"></div>
+            <div class="zone-content" id="serre-int"></div>
         </div>
-
-        <div id="serre-ext" class="zone-card">
+        <div class="zone-card">
             <div class="zone-header">Serre Extérieure</div>
-            <div class="zone-content" id="content-serre-ext"></div>
+            <div class="zone-content" id="serre-ext"></div>
         </div>
 
-        <h2>🌳 Pleine Terre</h2>
-        <div id="bacs-list"></div>
-        
+        <h2>🌳 Pleine Terre / Bacs</h2>
+        <div id="bacs-container"></div>
     </div>
 
     <nav class="nav-bar">
-        <a href="index.html" class="nav-item">
-            <span class="nav-icon">🏠</span>Accueil
-        </a>
-        <a href="repertoire.html" class="nav-item">
-            <span class="nav-icon">📚</span>Semences
-        </a>
-        <a href="bacs.html" class="nav-item active-nav">
-            <span class="nav-icon">🍱</span>Bacs
-        </a>
-        <a href="agenda.html" class="nav-item">
-            <span class="nav-icon">📅</span>Agenda
-        </a>
-        <a href="journal.html" class="nav-item">
-            <span class="nav-icon">📖</span>Journal
-        </a>
+        <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Accueil</a>
+        <a href="repertoire.html" class="nav-item"><span class="nav-icon">📚</span>Semences</a>
+        <a href="bacs.html" class="nav-item active-nav"><span class="nav-icon">🍱</span>Bacs</a>
+        <a href="agenda.html" class="nav-item"><span class="nav-icon">📅</span>Agenda</a>
+        <a href="journal.html" class="nav-item"><span class="nav-icon">📖</span>Journal</a>
     </nav>
 
     <script>
         const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
-        const bacsOrder = ["Bac A", "Bac B", "Bac C", "Bac D", "Bac E"];
+        const bacsList = ["Bac A", "Bac B", "Bac C", "Bac D", "Bac E"];
 
-        async function load() {
-            if (!token) return;
+        async function init() {
+            if(!token) return;
             try {
-                // Charger Semences pour les noms [cite: 5]
                 const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
                 const seeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
-                const seedMap = {};
-                seeds.forEach(s => seedMap[s.id] = s.identite);
-
-                // Charger Journal pour les actions [cite: 5]
+                
                 const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
                 const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
 
-                render(journal, seedMap);
+                renderBacs(seeds, journal);
             } catch (e) { console.error(e); }
         }
 
-        function render(journal, seedMap) {
-            // 1. Gérer les Serres (Semis et Repiquages) 
-            const semis = journal.filter(e => e.action === 'Semis' || e.action === 'Repiquage');
-            fillZone('content-serre-int', semis.filter(s => s.emplacement === 'Serre intérieure'), seedMap, 'contenant');
-            fillZone('content-serre-ext', semis.filter(s => s.emplacement === 'Serre extérieure'), seedMap, 'contenant');
+        function renderBacs(seeds, journal) {
+            // 1. Gérer les Serres
+            const semis = journal.filter(n => n.action === 'Semis' || n.action === 'Repiquage');
+            fillSerre('serre-int', semis.filter(s => s.emplacement === 'Serre intérieure'), seeds);
+            fillSerre('serre-ext', semis.filter(s => s.emplacement === 'Serre extérieure'), seeds);
 
-            // 2. Gérer les Bacs (Plantations) 
-            const plantations = journal.filter(e => e.action === 'Plantation');
-            const bacsContainer = document.getElementById('bacs-list');
-            bacsContainer.innerHTML = "";
-
-            // On regroupe par bac
+            // 2. Gérer les Bacs (Plantation)
+            const plantations = journal.filter(n => n.action === 'Plantation');
             const groups = {};
             plantations.forEach(p => {
-                if (!groups[p.bac]) groups[p.bac] = [];
+                if(!groups[p.bac]) groups[p.bac] = [];
                 groups[p.bac].push(p);
             });
 
-            // Affichage trié par ordre (A, B, C, D, E puis les autres)
-            const allBacs = [...bacsOrder, ...Object.keys(groups).filter(b => !bacsOrder.includes(b))];
+            const container = document.getElementById('bacs-container');
+            const allBacs = [...bacsList, ...Object.keys(groups).filter(b => !bacsList.includes(b))];
             
-            allBacs.forEach(bacName => {
-                if (!groups[bacName] && !bacsOrder.includes(bacName)) return;
-                
-                const div = document.createElement('div');
-                div.className = "zone-card";
-                div.style.marginBottom = "15px";
-                
+            container.innerHTML = allBacs.map(bacName => {
                 const items = groups[bacName] || [];
-                let itemsHtml = items.length > 0 ? "" : '<p class="empty-msg">Rien de planté.</p>';
+                if(items.length === 0 && !bacsList.includes(bacName)) return "";
+
+                let html = `<div class="zone-card"><div class="zone-header">${bacName}</div><div class="zone-content">`;
                 
-                items.forEach(p => {
-                    const info = seedMap[p.seedId] || { nom_commun: p.seedId, variete: "" };
-                    itemsHtml += `
-                        <div class="item">
-                            <div class="item-info">
-                                <h4>${info.nom_commun}</h4>
-                                <p>${info.variete} ${p.filet ? '• 🕸️ Filet' : ''}</p>
-                            </div>
-                            <div class="item-meta">x${p.quantite || 0}</div>
-                        </div>`;
-                });
+                if(items.length === 0) {
+                    html += `<p class="empty-msg">Bac vide</p>`;
+                } else {
+                    items.forEach((p, idx) => {
+                        const s = seeds.find(i => i.id === p.seedId) || { identite: { nom_commun: p.seedId, variete: "" } };
+                        const isHidden = idx >= 2 ? 'items-hidden' : ''; // Replié après 2 items
+                        html += `
+                            <div class="item ${isHidden}" data-bac="${bacName}">
+                                <div class="item-info">
+                                    <h4>${s.identite.nom_commun}</h4>
+                                    <p>${s.identite.variete} ${p.filet ? '• 🕸️ Filet' : ''}</p>
+                                </div>
+                                <div class="item-meta">x${p.quantite || 0}</div>
+                            </div>`;
+                    });
 
-                div.innerHTML = `<div class="zone-header">${bacName}</div><div class="zone-content">${itemsHtml}</div>`;
-                bacsContainer.appendChild(div);
-            });
-        }
-
-        function fillZone(id, items, seedMap, subInfoKey) {
-            const container = document.getElementById(id);
-            if (items.length === 0) {
-                container.innerHTML = '<p class="empty-msg">Aucun plant actuellement.</p>';
-                return;
-            }
-            container.innerHTML = items.map(i => {
-                const info = seedMap[i.seedId] || { nom_commun: i.seedId, variete: "" };
-                return `
-                    <div class="item">
-                        <div class="item-info">
-                            <h4>${info.nom_commun}</h4>
-                            <p>${info.variete} • ${i[subInfoKey] || ''}</p>
-                        </div>
-                        <div class="item-meta">x${i.quantite || 0}</div>
-                    </div>`;
+                    if(items.length > 2) {
+                        html += `<button class="expand-btn" onclick="expandBac(this, '${bacName}')">Voir les ${items.length - 2} autres culture(s) ↓</button>`;
+                    }
+                }
+                
+                return html + `</div></div>`;
             }).join('');
         }
 
-        window.onload = load;
+        function fillSerre(id, items, seeds) {
+            const el = document.getElementById(id);
+            if(items.length === 0) { el.innerHTML = `<p class="empty-msg">Aucun semis</p>`; return; }
+            el.innerHTML = items.map(p => {
+                const s = seeds.find(i => i.id === p.seedId) || { identite: { nom_commun: p.seedId, variete: "" } };
+                return `<div class="item"><div class="item-info"><h4>${s.identite.nom_commun}</h4><p>${s.identite.variete} • ${p.contenant || '-'}</p></div><div class="item-meta">x${p.quantite || 0}</div></div>`;
+            }).join('');
+        }
+
+        function expandBac(btn, bacName) {
+            const hiddenItems = document.querySelectorAll(`.item.items-hidden[data-bac="${bacName}"]`);
+            hiddenItems.forEach(item => item.classList.remove('items-hidden'));
+            btn.style.display = 'none';
+        }
+
+        window.onload = init;
     </script>
 </body>
 </html>
