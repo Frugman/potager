@@ -53,13 +53,23 @@
 
     <div class="container">
         <div class="info-card">
-            <div class="info-group">
-                <span class="info-label">Variété</span>
-                <div class="info-value" id="view-variete">N/C</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="info-group">
+                    <span class="info-label">Variété</span>
+                    <div class="info-value" id="view-variete">N/C</div>
+                </div>
+                <div class="info-group">
+                    <span class="info-label">Famille</span>
+                    <div class="info-value" id="view-famille">N/C</div>
+                </div>
             </div>
-            <div class="info-group" id="role-container">
-                <span class="info-label">Type / Port</span>
-                <div class="info-value" id="view-role">N/C</div>
+            <div class="info-group">
+                <span class="info-label">Description</span>
+                <div class="info-value" id="view-desc" style="font-size: 14px; color: #ccc; line-height: 1.4;">-</div>
+            </div>
+            <div class="info-group" style="margin-bottom:0;">
+                <span class="info-label">Associations</span>
+                <div class="info-value" id="view-assoc" style="font-size: 14px; color: #FFC107;">-</div>
             </div>
         </div>
 
@@ -76,14 +86,9 @@
             <div class="delai-item"><span class="delai-days" id="d-maturite">0</span><span class="delai-label">Récolte</span></div>
         </div>
 
-        <div class="info-card">
-            <span class="info-label">Culture & Entretien</span>
-            <div id="view-notes" style="font-size: 14px; color: #ccc; margin-top:8px;">Aucune note.</div>
-        </div>
-
         <div class="history-section">
             <h2>📜 Historique & Photos</h2>
-            <div id="journal-history">Aucun historique trouvé.</div>
+            <div id="journal-history">Chargement du journal...</div>
         </div>
     </div>
 
@@ -96,83 +101,61 @@
     </nav>
 
     <script>
-        const user = localStorage.getItem('gh_user'), 
-              repo = localStorage.getItem('gh_repo'), 
-              token = localStorage.getItem('gh_token');
-
+        const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
         const params = new URLSearchParams(window.location.search);
         const seedId = params.get('id');
 
-        async function fetchGitHub(path) {
-            const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}?t=${Date.now()}`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            if (!res.ok) return null;
-            const data = await res.json();
-            return JSON.parse(decodeURIComponent(escape(atob(data.content))));
-        }
-
-        async function loadAllData() {
+        async function init() {
             if(!token || !seedId) return;
             document.getElementById('link-edit').href = `ajout-semence.html?edit=${seedId}`;
 
             try {
-                // 1. Charger la semence
-                const seeds = await fetchGitHub('semences.json');
-                if (seeds) {
-                    const seed = seeds.find(s => String(s.id) === String(seedId));
-                    if (seed) {
-                        document.getElementById('page-title').innerText = seed.identite.nom_commun;
-                        document.getElementById('view-variete').innerText = seed.identite.variete || 'N/C';
-                        document.getElementById('view-notes').innerText = seed.notes || 'Aucune consigne.';
-                        
-                        // Gestion du rôle
-                        if(seed.identite.role && seed.identite.role.trim() !== "") {
-                            document.getElementById('view-role').innerText = seed.identite.role;
-                            document.getElementById('role-container').style.display = 'block';
-                        } else {
-                            document.getElementById('role-container').style.display = 'none';
-                        }
-
-                        // Technique
-                        document.getElementById('view-soleil').innerText = seed.technique?.exposition || "N/C";
-                        document.getElementById('view-eau').innerText = seed.technique?.eau || "N/C";
-                        document.getElementById('view-dist').innerText = seed.technique?.distance ? seed.technique.distance + " cm" : "N/C";
-
-                        // Délais
-                        document.getElementById('d-levee').innerText = seed.delais?.levee || 0;
-                        document.getElementById('d-repiquage').innerText = seed.delais?.repiquage || 0;
-                        document.getElementById('d-plantation').innerText = seed.delais?.plantation || 0;
-                        document.getElementById('d-maturite').innerText = seed.delais?.maturite || 0;
-                    }
-                }
-
-                // 2. Charger le journal (Séparé pour ne pas tout bloquer)
-                const journal = await fetchGitHub('journal.json');
-                const historyBox = document.getElementById('journal-history');
+                // 1. Charger les semences
+                const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const seeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
                 
-                if(journal) {
-                    const filtered = journal.filter(entry => String(entry.seedId) === String(seedId)).reverse();
-                    if(filtered.length > 0) {
-                        historyBox.innerHTML = filtered.map(entry => `
-                            <div class="journal-card">
-                                <div class="journal-date">${entry.date}</div>
-                                <span class="journal-action">${entry.action}</span>
-                                <div class="journal-note">${entry.note || ''}</div>
-                                ${entry.photo ? `<img src="${entry.photo}" class="journal-img">` : ''}
-                            </div>
-                        `).join('');
-                    } else {
-                        historyBox.innerHTML = "Aucune note pour cette semence.";
-                    }
+                // Recherche par ID (chaîne de caractères)
+                const seed = seeds.find(s => String(s.id) === String(seedId));
+
+                if(seed) {
+                    document.getElementById('page-title').innerText = seed.identite.nom_commun;
+                    document.getElementById('view-variete').innerText = seed.identite.variete || 'N/C';
+                    document.getElementById('view-famille').innerText = seed.identite.famille || 'N/C';
+                    document.getElementById('view-desc').innerText = seed.identite.description || seed.notes || '-';
+                    document.getElementById('view-assoc').innerText = seed.particularites?.associes || 'Aucune connue';
+
+                    // Mapping structure "culture"
+                    document.getElementById('view-soleil').innerText = seed.culture?.exposition || "N/C";
+                    document.getElementById('view-eau').innerText = seed.culture?.eau || "N/C";
+                    document.getElementById('view-dist').innerText = seed.culture?.dist_rang ? seed.culture.dist_rang + "cm" : "N/C";
+
+                    // Délais
+                    document.getElementById('d-levee').innerText = seed.delais?.levee || 0;
+                    document.getElementById('d-repiquage').innerText = seed.delais?.repiquage || 0;
+                    document.getElementById('d-plantation').innerText = seed.delais?.plantation || 0;
+                    document.getElementById('d-maturite').innerText = seed.delais?.maturite || 0;
                 }
-            } catch(e) { 
-                console.error(e);
-                document.getElementById('page-title').innerText = "Erreur de chargement";
-            }
+
+                // 2. Charger le journal
+                const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } });
+                if(resJ.ok) {
+                    const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
+                    const filtered = journal.filter(entry => String(entry.seedId) === String(seedId)).reverse();
+                    
+                    document.getElementById('journal-history').innerHTML = filtered.length > 0 ? filtered.map(entry => `
+                        <div class="journal-card">
+                            <div class="journal-date">${entry.date}</div>
+                            <span class="journal-action">${entry.action}</span>
+                            <div class="journal-note">${entry.note || ''}</div>
+                            ${entry.photo ? `<img src="${entry.photo}" class="journal-img">` : ''}
+                        </div>
+                    `).join('') : "Aucune note pour le moment.";
+                }
+
+            } catch(e) { console.error(e); }
         }
 
-        window.onload = loadAllData;
+        window.onload = init;
     </script>
 </body>
 </html>
