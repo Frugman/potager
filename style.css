@@ -13,7 +13,15 @@
     --edit-yellow: #f1c40f;
 }
 
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+* { 
+    box-sizing: border-box; 
+}
+
+img {
+    max-width: 100%; /* L'image ne peut pas être plus large que la box */
+    height: auto;    /* Garde les proportions d'origine */
+    display: block;  /* Évite les espaces vides sous l'image */
+}
 
 body {
     background-color: var(--bg-main);
@@ -86,6 +94,27 @@ input:focus, textarea:focus { border-color: var(--accent-green); box-shadow: 0 0
 .weather-scroll { display: flex; overflow-x: auto; gap: 12px; padding-bottom: 15px; scrollbar-width: none; }
 .weather-day { min-width: 90px; background: #111; padding: 15px; border-radius: 16px; text-align: center; border: 1px solid var(--border-color); flex-shrink: 0; }
 #preview-img, .journal-img { width: 100%; border-radius: 14px; margin-bottom: 15px; border: 1px solid var(--border-color); }
+
+/* --- SECTION IMAGES CORRIGÉE --- */
+#preview-img, .journal-img { 
+    width: 100%; 
+    border-radius: 14px; 
+    margin-bottom: 15px; 
+    border: 1px solid var(--border-color); 
+}
+
+/* Correctif pour les images dans les box (Fiches & Journal) */
+.journal-card img, .info-card img, .card img {
+    max-width: 100%;       /* Ne dépasse jamais du cadre */
+    max-height: 400px;     /* Limite la hauteur pour rester lisible */
+    width: auto;           /* Garde le bon ratio en largeur */
+    height: auto;          /* Garde le bon ratio en hauteur */
+    object-fit: contain;   /* L'image est entière et non déformée */
+    border-radius: 12px;   /* Coins arrondis Stitch Style */
+    border: 1px solid var(--border-color);
+    margin-top: 10px;
+    display: block;        /* Évite les bugs d'alignement */
+}
 
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
