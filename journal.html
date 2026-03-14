@@ -15,25 +15,35 @@
 
     <div class="container">
         <div class="journal-card">
-            <div class="note-meta">📝 Nouvelle observation</div>
+            <div class="note-meta">📝 Nouvelle entrée</div>
             
+            <div class="type-grid" style="margin-top: 10px;">
+                <div class="type-btn active" onclick="selectAction(this, 'Note')"><span>📝</span>Note</div>
+                <div class="type-btn" onclick="selectAction(this, 'Semis')"><span>🌱</span>Semis</div>
+                <div class="type-btn" onclick="selectAction(this, 'Repiquage')"><span>🪴</span>Repiq.</div>
+                <div class="type-btn" onclick="selectAction(this, 'Plantation')"><span>🚜</span>Plant.</div>
+                <div class="type-btn" onclick="selectAction(this, 'Récolte')"><span>🧺</span>Récolte</div>
+            </div>
+
             <label>Plante concernée</label>
             <select id="note-seed">
                 <option value="">📝 Note générale</option>
             </select>
 
-            <label>Date de l'observation</label>
+            <label>Date de l'événement</label>
             <input type="date" id="note-date">
 
+            <div id="extra-fields"></div>
+
             <label>Observation détaillée</label>
-            <textarea id="note-text" rows="3" placeholder="Décrivez ce que vous remarquez (croissance, parasites, fleurs...)"></textarea>
+            <textarea id="note-text" rows="3" placeholder="Description de l'action ou de l'observation..."></textarea>
 
             <div onclick="document.getElementById('file-input').click()" class="photo-btn">📸 Ajouter une photo</div>
             <input type="file" id="file-input" class="hidden" accept="image/*" onchange="processPhoto(this)">
             
             <img id="preview-img" style="display:none;">
             
-            <button class="save-btn" id="btnSaveNote" onclick="saveQuickNote()">ENREGISTRER LA NOTE</button>
+            <button class="save-btn" id="btnSaveNote" onclick="saveQuickNote()">ENREGISTRER L'ENTRÉE</button>
         </div>
 
         <div class="section-title">Chronologie des notes</div>
@@ -54,14 +64,13 @@
         const user = localStorage.getItem('gh_user'), 
               repo = localStorage.getItem('gh_repo'), 
               token = localStorage.getItem('gh_token');
-        let allSeeds = [], base64Photo = "", photoName = "";
+        let allSeeds = [], base64Photo = "", photoName = "", currentAction = "Note";
 
         async function init() {
             if(!token) return;
             document.getElementById('note-date').valueAsDate = new Date();
             
             try {
-                // Chargement des semences pour le menu déroulant
                 const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json?t=${Date.now()}`, { 
                     headers: { 'Authorization': `Bearer ${token}` } 
                 });
@@ -73,10 +82,61 @@
                 });
                 
                 loadJournal();
-            } catch(e) { console.error("Erreur lors de l'initialisation :", e); }
+            } catch(e) { console.error("Erreur init:", e); }
         }
 
-        // Gestion et compression de la photo (500px max pour économiser le stockage GitHub)
+        // Gestion du formulaire dynamique
+        function selectAction(btn, type) {
+            document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentAction = type;
+            
+            let html = "";
+            if(type === 'Semis' || type === 'Repiquage') {
+                html = `
+                    <label>Lieu</label>
+                    <select id="val-loc">
+                        <option>Serre intérieure</option>
+                        <option>Serre extérieure</option>
+                        <option>Pleine terre</option>
+                    </select>
+                    <label>Contenant</label>
+                    <select id="val-cont">
+                        <option>Plaque de semis</option>
+                        <option>Godet</option>
+                        <option>Caissette</option>
+                        <option>Pot individuel</option>
+                        <option>Autre</option>
+                    </select>
+                    <label>Nombre de ${type === 'Semis' ? 'graines' : 'plants'}</label>
+                    <input type="number" id="val-qty" placeholder="Quantité réalisée">
+                `;
+            } else if(type === 'Plantation') {
+                html = `
+                    <label>Bac de destination</label>
+                    <select id="val-bac">
+                        <option>Bac A</option><option>Bac B</option><option>Bac C</option>
+                        <option>Bac D</option><option>Bac E</option><option>Autre</option>
+                    </select>
+                    <label>Nombre de plants installés</label>
+                    <input type="number" id="val-qty" placeholder="Ex: 5">
+                `;
+            } else if(type === 'Récolte') {
+                html = `
+                    <label>Quantité récoltée</label>
+                    <div class="grid-2">
+                        <input type="number" id="val-qty" placeholder="Nombre">
+                        <select id="val-unit">
+                            <option value="unités">Produit(s)</option>
+                            <option value="kg">kg</option>
+                            <option value="g">g</option>
+                        </select>
+                    </div>
+                `;
+            }
+            document.getElementById('extra-fields').innerHTML = html;
+        }
+
         function processPhoto(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
@@ -84,22 +144,14 @@
                     const img = new Image();
                     img.onload = () => {
                         const canvas = document.createElement('canvas');
-                        let width = img.width, height = img.height;
-                        const max = 500; 
-
-                        if (width > height) {
-                            if (width > max) { height *= max / width; width = max; }
-                        } else {
-                            if (height > max) { width *= max / height; height = max; }
-                        }
-
+                        let width = img.width, height = img.height, max = 500; 
+                        if (width > height) { if (width > max) { height *= max / width; width = max; } } 
+                        else { if (height > max) { width *= max / height; height = max; } }
                         canvas.width = width; canvas.height = height;
                         canvas.getContext('2d').drawImage(img, 0, 0, width, height);
                         const data = canvas.toDataURL('image/jpeg', 0.7);
-                        
                         const preview = document.getElementById('preview-img');
-                        preview.src = data;
-                        preview.style.display = 'block';
+                        preview.src = data; preview.style.display = 'block';
                         base64Photo = data.split(',')[1];
                         photoName = `IMG_${Date.now()}.jpg`;
                     };
@@ -118,29 +170,33 @@
                 
                 document.getElementById('journal-list').innerHTML = journal.reverse().map(n => {
                     const s = allSeeds.find(i => String(i.id) === String(n.seedId)) || { identite: { nom_commun: "Note Générale", variete: "" } };
+                    const icon = n.action === 'Récolte' ? '🧺' : (n.action === 'Semis' ? '🌱' : (n.action === 'Plantation' ? '🚜' : '📝'));
                     
                     return `
                     <div class="journal-card" onclick="window.location.href='modifier-journal.html?id=${n.id}'">
-                        <div class="note-meta">${n.date} • ${n.action} ${n.action==='Récolte'?'🧺':''}</div>
+                        <div class="note-meta">${n.date} • ${n.action} ${icon}</div>
                         <div class="note-title">${s.identite.nom_commun} <span style="font-weight:400; font-size:14px; color:var(--text-secondary);">${s.identite.variete}</span></div>
                         
                         ${n.quantite ? `<div style="margin: 8px 0;"><span class="badge">+ ${n.quantite} ${n.unite || 'unité(s)'}</span></div>` : ''}
                         
                         ${n.note ? `<div class="note-content">${n.note}</div>` : ''}
-                        
                         ${n.photo ? `<img src="${n.photo}" class="journal-img">` : ''}
                         
-                        ${n.bac || n.emplacement ? `<div style="margin-top:10px;"><span style="font-size:12px; opacity:0.6;">📍 ${n.bac || n.emplacement}</span></div>` : ''}
+                        <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+                            ${n.bac ? `<span style="font-size:12px; opacity:0.6;">🍱 ${n.bac}</span>` : ''}
+                            ${n.emplacement ? `<span style="font-size:12px; opacity:0.6;">📍 ${n.emplacement}</span>` : ''}
+                            ${n.contenant ? `<span style="font-size:12px; opacity:0.6;">📦 ${n.contenant}</span>` : ''}
+                        </div>
                     </div>`;
                 }).join('');
             } catch (e) {
-                document.getElementById('journal-list').innerHTML = `<div class="empty-msg">Aucune note trouvée.</div>`;
+                document.getElementById('journal-list').innerHTML = `<div class="empty-msg">Aucune entrée trouvée.</div>`;
             }
         }
 
         async function saveQuickNote() {
             const text = document.getElementById('note-text').value;
-            if(!text && !base64Photo) return;
+            if(!text && !base64Photo && !document.getElementById('val-qty')?.value) return;
             
             const btn = document.getElementById('btnSaveNote');
             const originalText = btn.innerText;
@@ -151,41 +207,38 @@
                 if(base64Photo) {
                     const path = `photos/${photoName}`;
                     await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`, { 
-                        method: 'PUT', 
-                        headers: { 'Authorization': `Bearer ${token}` }, 
+                        method: 'PUT', headers: { 'Authorization': `Bearer ${token}` }, 
                         body: JSON.stringify({ message: "Photo journal", content: base64Photo }) 
                     });
                     photoUrl = `https://raw.githubusercontent.com/${user}/${repo}/master/${path}`;
                 }
 
-                const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { 
-                    headers: { 'Authorization': `Bearer ${token}` } 
-                });
+                const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { headers: { 'Authorization': `Bearer ${token}` } });
                 const dataJ = await resJ.json();
                 let journal = JSON.parse(decodeURIComponent(escape(atob(dataJ.content))));
                 
                 journal.push({ 
                     id: Date.now(), 
                     date: document.getElementById('note-date').value, 
-                    action: "Note", 
+                    action: currentAction, 
                     seedId: document.getElementById('note-seed').value, 
                     note: text, 
-                    photo: photoUrl 
+                    photo: photoUrl,
+                    quantite: parseInt(document.getElementById('val-qty')?.value) || 0,
+                    unite: document.getElementById('val-unit')?.value || "",
+                    bac: document.getElementById('val-bac')?.value || "",
+                    emplacement: document.getElementById('val-loc')?.value || "",
+                    contenant: document.getElementById('val-cont')?.value || ""
                 });
                 
                 await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { 
-                    method: 'PUT', 
-                    headers: { 'Authorization': `Bearer ${token}` }, 
-                    body: JSON.stringify({ 
-                        message: "Nouvelle note journal", 
-                        content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), 
-                        sha: dataJ.sha 
-                    }) 
+                    method: 'PUT', headers: { 'Authorization': `Bearer ${token}` }, 
+                    body: JSON.stringify({ message: `Ajout ${currentAction}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: dataJ.sha }) 
                 });
                 
                 location.reload();
             } catch(e) { 
-                alert("Erreur lors de l'enregistrement sur GitHub");
+                alert("Erreur lors de l'enregistrement");
                 btn.innerText = originalText; btn.disabled = false;
             }
         }
