@@ -178,5 +178,18 @@
     "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1773412230575.jpg",
     "quantite": 0,
     "unite": ""
+  },
+  {
+    "id": 1773498945048,
+    "date": "2026-03-14",
+    "action": "Semis",
+    "seedId": "tomate-dream",
+    "note": "Sous verrière, retirer dans 5 à 8 jours dès que le vert apparaît",
+    "photo": "",
+    "quantite": 10,
+    "unite": "",
+    "bac": "",
+    "emplacement": "Serre intérieure",
+    "contenant": "Plaque de semis"
   }
 ]
