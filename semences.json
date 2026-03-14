@@ -642,5 +642,351 @@
       { "label": "✂️ Taille de formation (première année)", "delai": 60, "base": "plantation" }
     ],
     "recolte": { "historique": { "2026": "-" } }
+  },
+  {
+    "id": "tomate-wild-cherry",
+    "identite": {
+      "nom_commun": "Tomate cerise",
+      "variete": "Matt's Wild Cherry",
+      "famille": "Solanacées",
+      "provenance": "Kokopelli",
+      "duree_germ": "5",
+      "description": "Petites cerises très sucrées, croissance vigoureuse."
+    },
+    "delais": { "levee": 8, "repiquage": 45, "plantation": 15, "maturite": 70 },
+    "culture": {
+      "exposition": "Plein soleil", "eau": "Fort", "style_semis": "Graine à graine", "profondeur": "5mm", "temp_levee": "22°C", "dist_rang": 50, "dist_inter": 80, "periode_semis": ["Mar", "Avr"]
+    },
+    "particularites": { "soins": ["Tuteur"], "associes": "Basilic, Souci" },
+    "taches_entretien": [
+      { "label": "✂️ Tuteurage", "delai": 20, "base": "plantation" }
+    ],
+    "recolte": { "historique": { "2026": "-" } }
+  },
+  {
+    "id": "concombre-mexique",
+    "identite": {
+      "nom_commun": "Concombre",
+      "variete": "Du Mexique",
+      "famille": "Cucurbitacées",
+      "provenance": "Kokopelli",
+      "duree_germ": "5",
+      "description": "Petits fruits ressemblant à des pastèques miniatures au goût de concombre acidulé."
+    },
+    "delais": { "levee": 10, "repiquage": 15, "plantation": 10, "maturite": 75 },
+    "culture": {
+      "exposition": "Plein soleil", "eau": "Fort", "style_semis": "En poquet", "profondeur": "1cm", "temp_levee": "22°C", "dist_rang": 40, "dist_inter": 40, "periode_semis": ["Avr", "Mai"]
+    },
+    "particularites": { "soins": ["Treillis"], "associes": "Maïs, Tournesol" },
+    "taches_entretien": [
+      { "label": "🌿 Installation du support de grimpe", "delai": 5, "base": "plantation" }
+    ],
+    "recolte": { "historique": { "2026": "-" } }
+  },
+  {
+    "id": "courge-spaghetti",
+    "identite": {
+      "nom_commun": "Courge Spaghetti",
+      "variete": "Végétal",
+      "famille": "Cucurbitacées",
+      "provenance": "Kokopelli",
+      "duree_germ": "6",
+      "description": "Chair se transformant en filaments après cuisson."
+    },
+    "delais": { "levee": 7, "repiquage": 15, "plantation": 10, "maturite": 95 },
+    "culture": {
+      "exposition": "Soleil", "eau": "Fort", "style_semis": "En poquet", "profondeur": "2cm", "temp_levee": "22°C", "dist_rang": 100, "dist_inter": 150, "periode_semis": ["Avr", "Mai"]
+    },
+    "particularites": { "soins": ["Paillage"], "associes": "Maïs, Haricot" },
+    "taches_entretien": [
+      { "label": "🌿 Paillage épais", "delai": 15, "base": "plantation" }
+    ],
+    "recolte": { "historique": { "2026": "-" } }
+  },
+  {
+    "id": "kiwano-jelly",
+    "identite": {
+      "nom_commun": "Kiwano",
+      "variete": "Jelly Round",
+      "famille": "Cucurbitacées",
+      "provenance": "Kokopelli",
+      "duree_germ": "5",
+      "description": "Concombre cornu d'Afrique, goût de banane et de kiwi."
+    },
+    "delais": { "levee": 10, "repiquage": 15, "plantation": 10, "maturite": 100 },
+    "culture": {
+      "exposition": "Plein soleil", "eau": "Moyen", "style_semis": "En poquet", "profondeur": "1cm", "temp_levee": "24°C", "dist_rang": 50, "dist_inter": 80, "periode_semis": ["Avr", "Mai"]
+    },
+    "particularites": { "soins": ["Treillis"], "associes": "" },
+    "taches_entretien": [],
+    "recolte": { "historique": { "2026": "-" } }
+  },
+  {
+    "id": "mais-sweet-hills",
+    "identite": {
+      "nom_commun": "Maïs Doux",
+      "variete": "Sweet Painted Hills",
+      "famille": "Poacées",
+      "provenance": "Kokopelli",
+      "duree_germ": "3",
+      "description": "Maïs multicouleur très précoce et rustique."
+    },
+    "delais": { "levee": 10, "repiquage": 0, "plantation": 0, "maturite": 85 },
+    "culture": {
+      "exposition": "Plein soleil", "eau": "Important", "style_semis": "En ligne/Poquet", "profondeur": "3cm", "temp_levee": "18°C", "dist_rang": 25, "dist_inter": 70, "periode_semis": ["Avr", "Mai"]
+    },
+    "particularites": { "soins": ["Buttage"], "associes": "Courge, Haricot" },
+    "taches_entretien": [
+      { "label": "🚜 Butter les pieds pour ancrer les racines", "delai": 30, "base": "levee" }
+    ],
+    "recolte": { "historique": { "2026": "-" } }
+  },
+  {
+    "id": "melon-pike",
+    "identite": {
+      "nom_commun": "Melon",
+      "variete": "Pike",
+      "famille": "Cucurbitacées",
+      "provenance": "Kokopelli",
+      "duree_germ": "5",
+      "description": "Variété ancienne très rustique adaptée aux sols difficiles."
+    },
+    "delais": { "levee": 7, "repiquage": 15, "plantation": 10, "maturite": 85 },
+    "culture": {
+      "exposition": "Plein soleil", "eau": "Moyen", "style_semis": "En poquet", "profondeur": "1.5cm", "temp_levee": "22°C", "dist_rang": 80, "dist_inter": 100, "periode_semis": ["Avr", "Mai"]
+    },
+    "particularites": { "soins": ["Pincement"], "associes": "Maïs" },
+    "taches_entretien": [
+      { "label": "✂️ Tailler pour favoriser la fructification", "delai": 25, "base": "plantation" }
+    ],
+    "recolte": { "historique": { "2026": "-" } }
+  },
+  {
+    "id": "mache-elan",
+    "identite": {
+      "nom_commun": "Mâche",
+      "variete": "Élan",
+      "famille": "Caprifoliacées",
+      "provenance": "Kokopelli",
+      "duree_germ": "4",
+      "description": "Variété de mâche à croissance rapide."
+    },
+    "delais": { "levee": 12, "repiquage": 0, "plantation": 0, "maturite": 60 },
+    "culture": {
+      "exposition": "Soleil/Mi-ombre", "eau": "Moyen", "style_semis": "À la volée", "profondeur": "5mm", "temp_levee": "15°C", "dist_rang": 5, "dist_inter": 20, "periode_semis": ["Août", "Sep", "Oct"]
+    },
+    "particularites": { "soins": [], "associes": "Poireau" },
+    "taches_entretien": [],
+    "recolte": { "historique": { "2026": "-" } }
+  },
+  {
+    "id": "tetragone-cornue",
+    "identite": {
+      "nom_commun": "Tétragone Cornue",
+      "variete": "Standard",
+      "famille": "Aizoacées",
+      "provenance": "Kokopelli",
+      "duree_germ": "4",
+      "description": "Épinard d'été résistant à la chaleur et à la sécheresse."
+    },
+    "delais": { "levee": 15, "repiquage": 0, "plantation": 0, "maturite": 65 },
+    "culture": {
+      "exposition": "Soleil", "eau": "Faible", "style_semis": "En poquet", "profondeur": "2cm", "temp_levee": "20°C", "dist_rang": 60, "dist_inter": 80, "periode_semis": ["Avr", "Mai"]
+    },
+    "particularites": { "soins": ["Trempage"], "associes": "Fraise" },
+    "taches_entretien": [
+      { "label": "💧 Tremper les graines 24h avant semis", "delai": -1, "base": "semis" }
+    ],
+    "recolte": { "historique": { "2026": "-" } }
+  },
+  {
+    "id": "betterave-chioggia",
+    "identite": {
+      "nom_commun": "Betterave",
+      "variete": "Rose et Blanche De Chioggia",
+      "famille": "Amaranthacées",
+      "provenance": "Kokopelli",
+      "duree_germ": "5",
+      "description": "Racine ronde, chair alternée de blanc et de rose vif."
+    },
+    "delais": { "levee": 12, "repiquage": 0, "plantation": 0, "maturite": 65 },
+    "culture": {
+      "exposition": "Soleil", "eau": "Moyen", "style_semis": "En ligne", "profondeur": "2cm", "temp_levee": "15°C", "dist_rang": 10, "dist_inter": 30, "periode_semis": ["Avr", "Mai", "Juin"]
+    },
+    "particularites": { "soins": [], "associes": "Oignon, Chou" },
+    "taches_entretien": [
+      { "label": "🌿 Éclaircir les plants", "delai": 20, "base": "levee" }
+    ],
+    "recolte": { "historique": { "2026": "-" } }
+  },
+  {
+    "id": "betterave-detroit",
+    "identite": {
+      "nom_commun": "Betterave",
+      "variete": "Rouge Ronde de Détroit",
+      "famille": "Amaranthacées",
+      "provenance": "Kokopelli",
+      "duree_germ": "5",
+      "description": "Standard incontournable, racine bien rouge et sucrée."
+    },
+    "delais": { "levee": 12, "repiquage": 0, "plantation": 0, "maturite": 60 },
+    "culture": {
+      "exposition": "Soleil", "eau": "Moyen", "style_semis": "En ligne", "profondeur": "2cm", "temp_levee": "15°C", "dist_rang": 10, "dist_inter": 30, "periode_semis": ["Avr", "Mai", "Juin"]
+    },
+    "particularites": { "soins": [], "associes": "Ail, Laitue" },
+    "taches_entretien": [
+      { "label": "🌿 Éclaircir les plants", "delai": 20, "base": "levee" }
+    ],
+    "recolte": { "historique": { "2026": "-" } }
+  },
+  {
+    "id": "haricot-victoire",
+    "identite": {
+      "nom_commun": "Haricot Mangetout",
+      "variete": "Nain La Victoire",
+      "famille": "Fabacées",
+      "provenance": "Kokopelli",
+      "duree_germ": "3",
+      "description": "Gousses fines vert foncé, très productif et sans fils."
+    },
+    "delais": { "levee": 8, "repiquage": 0, "plantation": 0, "maturite": 55 },
+    "culture": {
+      "exposition": "Soleil", "eau": "Moyen", "style_semis": "En poquet", "profondeur": "3cm", "temp_levee": "18°C", "dist_rang": 10, "dist_inter": 40, "periode_semis": ["Mai", "Juin", "Juillet"]
+    },
+    "particularites": { "soins": ["Buttage"], "associes": "Maïs, Sarriette" },
+    "taches_entretien": [
+      { "label": "🚜 Butter les pieds", "delai": 20, "base": "levee" }
+    ],
+    "recolte": { "historique": { "2026": "-" } }
+  },
+  {
+    "id": "hysope-officinale",
+    "identite": {
+      "nom_commun": "Hysope Officinale",
+      "variete": "Standard",
+      "famille": "Lamiacées",
+      "provenance": "Kokopelli",
+      "duree_germ": "4",
+      "description": "Plante aromatique et médicinale, fleurs bleues très mellifères."
+    },
+    "delais": { "levee": 14, "repiquage": 30, "plantation": 15, "maturite": 90 },
+    "culture": {
+      "exposition": "Plein soleil", "eau": "Faible", "style_semis": "En surface", "profondeur": "2mm", "temp_levee": "18°C", "dist_rang": 40, "dist_inter": 40, "periode_semis": ["Mar", "Avr"]
+    },
+    "particularites": { "soins": [], "associes": "Vigne" },
+    "taches_entretien": [],
+    "recolte": { "historique": { "2026": "-" } }
+  },
+  {
+    "id": "dahlia-double-extreme",
+    "identite": {
+      "nom_commun": "Dahlia",
+      "variete": "Double Extreme",
+      "famille": "Astéracées",
+      "provenance": "Kokopelli",
+      "duree_germ": "4",
+      "description": "Mélange de dahlias aux fleurs très doubles."
+    },
+    "delais": { "levee": 12, "repiquage": 30, "plantation": 10, "maturite": 110 },
+    "culture": {
+      "exposition": "Soleil", "eau": "Moyen", "style_semis": "En caissette", "profondeur": "5mm", "temp_levee": "20°C", "dist_rang": 50, "dist_inter": 50, "periode_semis": ["Mar", "Avr"]
+    },
+    "particularites": { "soins": ["Tuteur"], "associes": "" },
+    "taches_entretien": [
+      { "label": "✂️ Pincer les tiges pour favoriser la floraison", "delai": 30, "base": "plantation" }
+    ],
+    "recolte": { "historique": { "2026": "-" } }
+  },
+  {
+    "id": "dahlia-mystery-mix",
+    "identite": {
+      "nom_commun": "Dahlia",
+      "variete": "Mystery Mix",
+      "famille": "Astéracées",
+      "provenance": "Kokopelli",
+      "duree_germ": "4",
+      "description": "Mélange surprise de formes et de couleurs."
+    },
+    "delais": { "levee": 12, "repiquage": 30, "plantation": 10, "maturite": 110 },
+    "culture": {
+      "exposition": "Soleil", "eau": "Moyen", "style_semis": "En caissette", "profondeur": "5mm", "temp_levee": "20°C", "dist_rang": 50, "dist_inter": 50, "periode_semis": ["Mar", "Avr"]
+    },
+    "particularites": { "soins": ["Tuteur"], "associes": "" },
+    "taches_entretien": [
+      { "label": "✂️ Pincer les tiges", "delai": 30, "base": "plantation" }
+    ],
+    "recolte": { "historique": { "2026": "-" } }
+  },
+  {
+    "id": "oeillets-electron",
+    "identite": {
+      "nom_commun": "Œillets",
+      "variete": "Electron",
+      "famille": "Caryophyllacées",
+      "provenance": "Kokopelli",
+      "duree_germ": "4",
+      "description": "Fleurs très colorées et parfumées."
+    },
+    "delais": { "levee": 15, "repiquage": 25, "plantation": 10, "maturite": 100 },
+    "culture": {
+      "exposition": "Soleil", "eau": "Faible", "style_semis": "En surface", "profondeur": "2mm", "temp_levee": "18°C", "dist_rang": 25, "dist_inter": 25, "periode_semis": ["Mar", "Avr"]
+    },
+    "particularites": { "soins": [], "associes": "" },
+    "taches_entretien": [],
+    "recolte": { "historique": { "2026": "-" } }
+  },
+  {
+    "id": "pavot-pink-peony",
+    "identite": {
+      "nom_commun": "Pavot",
+      "variete": "Fine Petal Pink Peony",
+      "famille": "Papavéracées",
+      "provenance": "Kokopelli",
+      "duree_germ": "4",
+      "description": "Fleurs de pivoine roses, pétales frangés."
+    },
+    "delais": { "levee": 12, "repiquage": 0, "plantation": 0, "maturite": 90 },
+    "culture": {
+      "exposition": "Soleil", "eau": "Faible", "style_semis": "À la volée", "profondeur": "2mm", "temp_levee": "15°C", "dist_rang": 20, "dist_inter": 25, "periode_semis": ["Mar", "Avr"]
+    },
+    "particularites": { "soins": [], "associes": "" },
+    "taches_entretien": [],
+    "recolte": { "historique": { "2026": "-" } }
+  },
+  {
+    "id": "pavot-snowball",
+    "identite": {
+      "nom_commun": "Pavot",
+      "variete": "Snowball Peony",
+      "famille": "Papavéracées",
+      "provenance": "Kokopelli",
+      "duree_germ": "4",
+      "description": "Fleurs blanches doubles et ébouriffées."
+    },
+    "delais": { "levee": 12, "repiquage": 0, "plantation": 0, "maturite": 90 },
+    "culture": {
+      "exposition": "Soleil", "eau": "Faible", "style_semis": "À la volée", "profondeur": "2mm", "temp_levee": "15°C", "dist_rang": 20, "dist_inter": 25, "periode_semis": ["Mar", "Avr"]
+    },
+    "particularites": { "soins": [], "associes": "" },
+    "taches_entretien": [],
+    "recolte": { "historique": { "2026": "-" } }
+  },
+  {
+    "id": "tabac-jasmin",
+    "identite": {
+      "nom_commun": "Tabac Grandiflora",
+      "variete": "Au Parfum de Jasmin",
+      "famille": "Solanacées",
+      "provenance": "Kokopelli",
+      "duree_germ": "4",
+      "description": "Fleurs blanches étoilées s'ouvrant le soir au parfum envoûtant."
+    },
+    "delais": { "levee": 14, "repiquage": 30, "plantation": 15, "maturite": 100 },
+    "culture": {
+      "exposition": "Soleil/Mi-ombre", "eau": "Moyen", "style_semis": "En surface", "profondeur": "0mm", "temp_levee": "20°C", "dist_rang": 30, "dist_inter": 40, "periode_semis": ["Mar", "Avr"]
+    },
+    "particularites": { "soins": [], "associes": "" },
+    "taches_entretien": [],
+    "recolte": { "historique": { "2026": "-" } }
   }
 ]
