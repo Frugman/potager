@@ -90,7 +90,6 @@
             } catch(e) { console.error(e); }
         }
 
-        // --- Logique Widget Accueil ---
         async function loadWidgets(seeds) {
             const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } });
             const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
@@ -108,29 +107,22 @@
                 </div>`;
             }).join('');
 
-            // 2. PROCHAINES ACTIONS (REPRISE EXACTE DE LA LOGIQUE AGENDA)
+            // 2. PROCHAINES ACTIONS (REPRISE LOGIQUE AGENDA)
             let allTasks = [];
             const today = new Date(); today.setHours(0,0,0,0);
-
             journal.filter(j => j.action === 'Semis').forEach(entry => {
                 const seed = seeds.find(s => String(s.id) === String(entry.seedId));
                 if (!seed) return;
-
                 const semisDate = entry.date;
-
-                // Étapes théoriques
                 const stages = [
                     { d: seed.delais?.levee, t: "🌱 Levée attendue" },
                     { d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0), t: "🪴 Repiquage" },
                     { d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0) + (seed.delais?.plantation || 0), t: "🚜 Plantation" },
                     { d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0) + (seed.delais?.plantation || 0) + (seed.delais?.maturite || 0), t: "🧺 Récolte estimée" }
                 ];
-
                 stages.forEach(st => {
                     if(st.d > 0) allTasks.push({ date: addDays(semisDate, st.d), title: st.t, plant: seed.identite.nom_commun });
                 });
-
-                // Tâches d'entretien (Logique synchro Agenda)
                 if (seed.taches_entretien) {
                     seed.taches_entretien.forEach(te => {
                         let baseDate = semisDate;
@@ -145,13 +137,7 @@
                     });
                 }
             });
-
-            // On trie tout par date et on ne garde que les 5 prochaines tâches futures
-            const nextTasks = allTasks
-                .filter(t => t.date >= today)
-                .sort((a, b) => a.date - b.date)
-                .slice(0, 5);
-
+            const nextTasks = allTasks.filter(t => t.date >= today).sort((a, b) => a.date - b.date).slice(0, 5);
             document.getElementById('agenda-box').innerHTML = nextTasks.map(t => `
                 <div class="item">
                     <div class="item-name"><b>${t.title}</b> : ${t.plant}</div>
@@ -160,7 +146,6 @@
             `).join('') || `<div class="empty-msg">Aucune action prévue prochainement.</div>`;
         }
 
-        // --- Fonctions Utilitaires ---
         function processPhoto(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
@@ -190,14 +175,53 @@
             btn.classList.add('active'); currentType = type;
             document.getElementById('express-form').classList.remove('hidden');
             let html = "";
-            if(type === 'Semis' || type === 'Repiquage') html = `<label>Lieu</label><select id="val-loc"><option>Serre intérieure</option><option>Serre extérieure</option></select><label>Contenant</label><input type="text" id="val-cont" placeholder="Plaque, Godet...">`;
-            else if(type === 'Plantation') html = `<label>Bac</label><select id="val-bac"><option>Bac A</option><option>Bac B</option><option>Bac C</option><option>Bac D</option><option>Bac E</option></select>`;
-            else if(type === 'Récolte') html = `<label>Quantité récoltée</label><div class="grid-2"><input type="number" id="val-qty" placeholder="Nombre"><select id="val-unit"><option value="unités">Produit(s)</option><option value="kg">kg</option><option value="g">g</option></select></div>`;
+            if(type === 'Semis' || type === 'Repiquage') {
+                html = `
+                    <label>Lieu</label>
+                    <select id="val-loc">
+                        <option>Serre intérieure</option>
+                        <option>Serre extérieure</option>
+                        <option>Pleine terre</option>
+                    </select>
+                    <label>Contenant</label>
+                    <select id="val-cont">
+                        <option>Plaque de semis</option>
+                        <option>Godet</option>
+                        <option>Caissette</option>
+                        <option>Pot individuel</option>
+                        <option>Autre</option>
+                    </select>
+                    <label>Nombre de ${type === 'Semis' ? 'graines' : 'plants'}</label>
+                    <input type="number" id="val-qty" placeholder="Quantité réalisée">
+                `;
+            } else if(type === 'Plantation') {
+                html = `
+                    <label>Bac de destination</label>
+                    <select id="val-bac">
+                        <option>Bac A</option><option>Bac B</option><option>Bac C</option>
+                        <option>Bac D</option><option>Bac E</option><option>Autre</option>
+                    </select>
+                    <label>Nombre de plants installés</label>
+                    <input type="number" id="val-qty" placeholder="Ex: 5">
+                `;
+            } else if(type === 'Récolte') {
+                html = `
+                    <label>Quantité récoltée</label>
+                    <div class="grid-2">
+                        <input type="number" id="val-qty" placeholder="Nombre">
+                        <select id="val-unit">
+                            <option value="unités">Produit(s)</option>
+                            <option value="kg">kg</option>
+                            <option value="g">g</option>
+                        </select>
+                    </div>
+                `;
+            }
             document.getElementById('extra-fields').innerHTML = html;
         }
 
         async function saveEntry() {
-            const btn = document.getElementById('btnSave'); btn.innerText = "⏳..."; btn.disabled = true;
+            const btn = document.getElementById('btnSave'); btn.innerText = "⏳ ENREGISTREMENT..."; btn.disabled = true;
             try {
                 let photoUrl = "";
                 if(base64Photo) {
