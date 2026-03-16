@@ -298,5 +298,17 @@
     "emplacement": "Serre intérieure",
     "contenant": "Caissette",
     "unite": ""
+  },
+  {
+    "id": 1773669833859,
+    "date": "2026-03-16",
+    "action": "Semis",
+    "seedId": "dahlia-mystery-mix",
+    "note": "",
+    "photo": "",
+    "quantite": 8,
+    "emplacement": "Serre intérieure",
+    "contenant": "Caissette",
+    "unite": ""
   }
 ]
