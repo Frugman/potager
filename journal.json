@@ -286,5 +286,17 @@
     "emplacement": "Serre intérieure",
     "contenant": "Caissette",
     "unite": ""
+  },
+  {
+    "id": 1773669805848,
+    "date": "2026-03-16",
+    "action": "Semis",
+    "seedId": "dahlia-double-extreme",
+    "note": "",
+    "photo": "",
+    "quantite": 8,
+    "emplacement": "Serre intérieure",
+    "contenant": "Caissette",
+    "unite": ""
   }
 ]
