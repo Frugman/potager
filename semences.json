@@ -9,15 +9,43 @@
       "duree_germ": "5",
       "description": "Grandes feuilles très parfumées, idéal pour le pesto."
     },
-    "delais": { "levee": 7, "repiquage": 25, "plantation": 15, "maturite": 60 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Fort", "style_semis": "En poquet", "profondeur": "3mm", "temp_levee": "20°C", "dist_rang": 25, "dist_inter": 30, "periode_semis": ["Avr", "Mai"]
+    "delais": {
+      "levee": 7,
+      "repiquage": 25,
+      "plantation": 15,
+      "maturite": 60
     },
-    "particularites": { "soins": ["Pincement"], "associes": "Tomate, Poivron" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Fort",
+      "style_semis": "En poquet",
+      "profondeur": "3mm",
+      "temp_levee": "20°C",
+      "dist_rang": 25,
+      "dist_inter": 30,
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Pincement"
+      ],
+      "associes": "Tomate, Poivron"
+    },
     "taches_entretien": [
-      { "label": "✂️ Pincer les têtes (favorise la ramification)", "delai": 20, "base": "plantation" }
+      {
+        "label": "✂️ Pincer les têtes (favorise la ramification)",
+        "delai": 20,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "basilic-grand-vert",
@@ -29,15 +57,43 @@
       "duree_germ": "5",
       "description": "Classique du potager, feuilles moyennes très odorantes."
     },
-    "delais": { "levee": 7, "repiquage": 25, "plantation": 15, "maturite": 60 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Fort", "style_semis": "En poquet", "profondeur": "3mm", "temp_levee": "20°C", "dist_rang": 25, "dist_inter": 30, "periode_semis": ["Avr", "Mai"]
+    "delais": {
+      "levee": 7,
+      "repiquage": 25,
+      "plantation": 15,
+      "maturite": 60
     },
-    "particularites": { "soins": ["Pincement"], "associes": "Tomate, Concombre" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Fort",
+      "style_semis": "En poquet",
+      "profondeur": "3mm",
+      "temp_levee": "20°C",
+      "dist_rang": 25,
+      "dist_inter": 30,
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Pincement"
+      ],
+      "associes": "Tomate, Concombre"
+    },
     "taches_entretien": [
-      { "label": "✂️ Pincer les têtes (favorise la ramification)", "delai": 20, "base": "plantation" }
+      {
+        "label": "✂️ Pincer les têtes (favorise la ramification)",
+        "delai": 20,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "bourrache-bleue",
@@ -49,15 +105,42 @@
       "duree_germ": "3",
       "description": "Fleurs comestibles au goût iodé, excellente mellifère."
     },
-    "delais": { "levee": 10, "repiquage": 0, "plantation": 0, "maturite": 60 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Moyen", "style_semis": "À la volée", "profondeur": "1cm", "temp_levee": "15°C", "dist_rang": 40, "dist_inter": 40, "periode_semis": ["Mar", "Avr", "Mai"]
+    "delais": {
+      "levee": 10,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 60
     },
-    "particularites": { "soins": [], "associes": "Fèves, Courgette" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Moyen",
+      "style_semis": "À la volée",
+      "profondeur": "1cm",
+      "temp_levee": "15°C",
+      "dist_rang": 40,
+      "dist_inter": 40,
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Fèves, Courgette"
+    },
     "taches_entretien": [
-      { "label": "🌿 Éclaircir les plants trop serrés", "delai": 20, "base": "levee" }
+      {
+        "label": "🌿 Éclaircir les plants trop serrés",
+        "delai": 20,
+        "base": "levee"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "camomille-zloty",
@@ -69,13 +152,35 @@
       "duree_germ": "4",
       "description": "Variété riche en principes actifs, fleurs très odorantes."
     },
-    "delais": { "levee": 14, "repiquage": 20, "plantation": 10, "maturite": 90 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Faible", "style_semis": "En surface", "profondeur": "0mm", "temp_levee": "18°C", "dist_rang": 20, "dist_inter": 25, "periode_semis": ["Mar", "Avr"]
+    "delais": {
+      "levee": 14,
+      "repiquage": 20,
+      "plantation": 10,
+      "maturite": 90
     },
-    "particularites": { "soins": [], "associes": "Chou, Oignon" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Faible",
+      "style_semis": "En surface",
+      "profondeur": "0mm",
+      "temp_levee": "18°C",
+      "dist_rang": 20,
+      "dist_inter": 25,
+      "periode_semis": [
+        "Mar",
+        "Avr"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Chou, Oignon"
+    },
     "taches_entretien": [],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "capucine-empress",
@@ -87,15 +192,41 @@
       "duree_germ": "3",
       "description": "Fleurs rouge cramoisi, feuillage sombre, comestible."
     },
-    "delais": { "levee": 12, "repiquage": 0, "plantation": 0, "maturite": 70 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Moyen", "style_semis": "En poquet", "profondeur": "2cm", "temp_levee": "15°C", "dist_rang": 30, "dist_inter": 30, "periode_semis": ["Avr", "Mai"]
+    "delais": {
+      "levee": 12,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 70
     },
-    "particularites": { "soins": [], "associes": "Tomate, Chou" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Moyen",
+      "style_semis": "En poquet",
+      "profondeur": "2cm",
+      "temp_levee": "15°C",
+      "dist_rang": 30,
+      "dist_inter": 30,
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Tomate, Chou"
+    },
     "taches_entretien": [
-      { "label": "🔍 Surveiller l'arrivée des pucerons noirs", "delai": 30, "base": "levee" }
+      {
+        "label": "🔍 Surveiller l'arrivée des pucerons noirs",
+        "delai": 30,
+        "base": "levee"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "ciboule-tokyo",
@@ -107,15 +238,42 @@
       "duree_germ": "2",
       "description": "Ressemble à un petit poireau tendre, goût d'oignon frais."
     },
-    "delais": { "levee": 15, "repiquage": 30, "plantation": 10, "maturite": 70 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Moyen", "style_semis": "En ligne", "profondeur": "1cm", "temp_levee": "18°C", "dist_rang": 10, "dist_inter": 20, "periode_semis": ["Mar", "Avr", "Mai"]
+    "delais": {
+      "levee": 15,
+      "repiquage": 30,
+      "plantation": 10,
+      "maturite": 70
     },
-    "particularites": { "soins": [], "associes": "Carotte, Laitue" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Moyen",
+      "style_semis": "En ligne",
+      "profondeur": "1cm",
+      "temp_levee": "18°C",
+      "dist_rang": 10,
+      "dist_inter": 20,
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Carotte, Laitue"
+    },
     "taches_entretien": [
-      { "label": "✂️ Couper les tiges (garder 5cm pour forcir)", "delai": 40, "base": "semis" }
+      {
+        "label": "✂️ Couper les tiges (garder 5cm pour forcir)",
+        "delai": 40,
+        "base": "semis"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "ciboulette-commune",
@@ -127,15 +285,42 @@
       "duree_germ": "2",
       "description": "Vivace indispensable, fleurs violettes comestibles."
     },
-    "delais": { "levee": 15, "repiquage": 30, "plantation": 10, "maturite": 80 },
-    "culture": {
-      "exposition": "Soleil/Mi-ombre", "eau": "Moyen", "style_semis": "En poquet", "profondeur": "5mm", "temp_levee": "18°C", "dist_rang": 20, "dist_inter": 20, "periode_semis": ["Mar", "Avr", "Mai"]
+    "delais": {
+      "levee": 15,
+      "repiquage": 30,
+      "plantation": 10,
+      "maturite": 80
     },
-    "particularites": { "soins": [], "associes": "Tomate, Carotte" },
+    "culture": {
+      "exposition": "Soleil/Mi-ombre",
+      "eau": "Moyen",
+      "style_semis": "En poquet",
+      "profondeur": "5mm",
+      "temp_levee": "18°C",
+      "dist_rang": 20,
+      "dist_inter": 20,
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Tomate, Carotte"
+    },
     "taches_entretien": [
-      { "label": "✂️ Couper les premières fleurs pour booster le feuillage", "delai": 60, "base": "plantation" }
+      {
+        "label": "✂️ Couper les premières fleurs pour booster le feuillage",
+        "delai": 60,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "concombre-bushy",
@@ -147,15 +332,43 @@
       "duree_germ": "5",
       "description": "Variété compacte idéale pour les petits espaces."
     },
-    "delais": { "levee": 7, "repiquage": 15, "plantation": 10, "maturite": 60 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Fort", "style_semis": "En poquet", "profondeur": "1.5cm", "temp_levee": "22°C", "dist_rang": 40, "dist_inter": 40, "periode_semis": ["Avr", "Mai"]
+    "delais": {
+      "levee": 7,
+      "repiquage": 15,
+      "plantation": 10,
+      "maturite": 60
     },
-    "particularites": { "soins": ["Tuteur"], "associes": "Aneth, Maïs" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Fort",
+      "style_semis": "En poquet",
+      "profondeur": "1.5cm",
+      "temp_levee": "22°C",
+      "dist_rang": 40,
+      "dist_inter": 40,
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Tuteur"
+      ],
+      "associes": "Aneth, Maïs"
+    },
     "taches_entretien": [
-      { "label": "🌿 Pailler le pied pour garder l'humidité", "delai": 10, "base": "plantation" }
+      {
+        "label": "🌿 Pailler le pied pour garder l'humidité",
+        "delai": 10,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "cornichon-paris",
@@ -167,15 +380,43 @@
       "duree_germ": "5",
       "description": "Variété très productive, fruits à récolter jeunes."
     },
-    "delais": { "levee": 7, "repiquage": 15, "plantation": 10, "maturite": 55 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Fort", "style_semis": "En poquet", "profondeur": "1.5cm", "temp_levee": "22°C", "dist_rang": 40, "dist_inter": 40, "periode_semis": ["Avr", "Mai"]
+    "delais": {
+      "levee": 7,
+      "repiquage": 15,
+      "plantation": 10,
+      "maturite": 55
     },
-    "particularites": { "soins": ["Tuteur"], "associes": "Chou, Oignon" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Fort",
+      "style_semis": "En poquet",
+      "profondeur": "1.5cm",
+      "temp_levee": "22°C",
+      "dist_rang": 40,
+      "dist_inter": 40,
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Tuteur"
+      ],
+      "associes": "Chou, Oignon"
+    },
     "taches_entretien": [
-      { "label": "🌿 Pailler le pied", "delai": 10, "base": "plantation" }
+      {
+        "label": "🌿 Pailler le pied",
+        "delai": 10,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "cosmos-capriola",
@@ -187,15 +428,43 @@
       "duree_germ": "3",
       "description": "Fleurs blanches cerclées de rose pourpre, très élégant."
     },
-    "delais": { "levee": 10, "repiquage": 15, "plantation": 10, "maturite": 90 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Faible", "style_semis": "En surface", "profondeur": "2mm", "temp_levee": "20°C", "dist_rang": 30, "dist_inter": 30, "periode_semis": ["Avr", "Mai"]
+    "delais": {
+      "levee": 10,
+      "repiquage": 15,
+      "plantation": 10,
+      "maturite": 90
     },
-    "particularites": { "soins": ["Tuteur"], "associes": "Tomate, Potiron" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Faible",
+      "style_semis": "En surface",
+      "profondeur": "2mm",
+      "temp_levee": "20°C",
+      "dist_rang": 30,
+      "dist_inter": 30,
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Tuteur"
+      ],
+      "associes": "Tomate, Potiron"
+    },
     "taches_entretien": [
-      { "label": "✂️ Pincer les tiges (favorise la floraison)", "delai": 25, "base": "plantation" }
+      {
+        "label": "✂️ Pincer les tiges (favorise la floraison)",
+        "delai": 25,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "courgette-alberello",
@@ -207,15 +476,41 @@
       "duree_germ": "6",
       "description": "Variété italienne vert clair, très productive, fruits longs."
     },
-    "delais": { "levee": 6, "repiquage": 15, "plantation": 10, "maturite": 55 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Fort", "style_semis": "En poquet", "profondeur": "2cm", "temp_levee": "22°C", "dist_rang": 80, "dist_inter": 100, "periode_semis": ["Avr", "Mai"]
+    "delais": {
+      "levee": 6,
+      "repiquage": 15,
+      "plantation": 10,
+      "maturite": 55
     },
-    "particularites": { "soins": [], "associes": "Haricot, Maïs" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Fort",
+      "style_semis": "En poquet",
+      "profondeur": "2cm",
+      "temp_levee": "22°C",
+      "dist_rang": 80,
+      "dist_inter": 100,
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Haricot, Maïs"
+    },
     "taches_entretien": [
-      { "label": "🌿 Paillage épais au pied", "delai": 10, "base": "plantation" }
+      {
+        "label": "🌿 Paillage épais au pied",
+        "delai": 10,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "courgette-rheinau",
@@ -227,15 +522,41 @@
       "duree_germ": "6",
       "description": "Superbe courgette jaune d'or, saveur délicate."
     },
-    "delais": { "levee": 6, "repiquage": 15, "plantation": 10, "maturite": 55 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Fort", "style_semis": "En poquet", "profondeur": "2cm", "temp_levee": "22°C", "dist_rang": 80, "dist_inter": 100, "periode_semis": ["Avr", "Mai"]
+    "delais": {
+      "levee": 6,
+      "repiquage": 15,
+      "plantation": 10,
+      "maturite": 55
     },
-    "particularites": { "soins": [], "associes": "Fèves, Souci" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Fort",
+      "style_semis": "En poquet",
+      "profondeur": "2cm",
+      "temp_levee": "22°C",
+      "dist_rang": 80,
+      "dist_inter": 100,
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Fèves, Souci"
+    },
     "taches_entretien": [
-      { "label": "🌿 Paillage épais au pied", "delai": 10, "base": "plantation" }
+      {
+        "label": "🌿 Paillage épais au pied",
+        "delai": 10,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "epinard-matador",
@@ -247,15 +568,43 @@
       "duree_germ": "4",
       "description": "Grandes feuilles charnues, résistant à la montée en graine."
     },
-    "delais": { "levee": 10, "repiquage": 0, "plantation": 0, "maturite": 50 },
-    "culture": {
-      "exposition": "Mi-ombre", "eau": "Fort", "style_semis": "En ligne", "profondeur": "1cm", "temp_levee": "15°C", "dist_rang": 10, "dist_inter": 25, "periode_semis": ["Mar", "Avr", "Août", "Sep"]
+    "delais": {
+      "levee": 10,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 50
     },
-    "particularites": { "soins": [], "associes": "Fraise, Pois" },
+    "culture": {
+      "exposition": "Mi-ombre",
+      "eau": "Fort",
+      "style_semis": "En ligne",
+      "profondeur": "1cm",
+      "temp_levee": "15°C",
+      "dist_rang": 10,
+      "dist_inter": 25,
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Août",
+        "Sep"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Fraise, Pois"
+    },
     "taches_entretien": [
-      { "label": "🌿 Éclaircir à 10cm", "delai": 20, "base": "levee" }
+      {
+        "label": "🌿 Éclaircir à 10cm",
+        "delai": 20,
+        "base": "levee"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "feves-karmazyn",
@@ -267,15 +616,43 @@
       "duree_germ": "5",
       "description": "Exceptionnelle variété à grains roses, peau fine et tendre."
     },
-    "delais": { "levee": 12, "repiquage": 0, "plantation": 0, "maturite": 90 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Moyen", "style_semis": "En poquet", "profondeur": "5cm", "temp_levee": "10°C", "dist_rang": 15, "dist_inter": 40, "periode_semis": ["Fév", "Mar"]
+    "delais": {
+      "levee": 12,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 90
     },
-    "particularites": { "soins": ["Pincement"], "associes": "Laitue, Chou" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Moyen",
+      "style_semis": "En poquet",
+      "profondeur": "5cm",
+      "temp_levee": "10°C",
+      "dist_rang": 15,
+      "dist_inter": 40,
+      "periode_semis": [
+        "Fév",
+        "Mar"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Pincement"
+      ],
+      "associes": "Laitue, Chou"
+    },
     "taches_entretien": [
-      { "label": "✂️ Pincer les têtes pour limiter les pucerons", "delai": 45, "base": "semis" }
+      {
+        "label": "✂️ Pincer les têtes pour limiter les pucerons",
+        "delai": 45,
+        "base": "semis"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "laitue-bowl",
@@ -287,15 +664,43 @@
       "duree_germ": "4",
       "description": "Laitue à couper, feuilles tendres, résiste bien à la chaleur."
     },
-    "delais": { "levee": 6, "repiquage": 20, "plantation": 10, "maturite": 50 },
-    "culture": {
-      "exposition": "Soleil/Mi-ombre", "eau": "Fort", "style_semis": "En ligne", "profondeur": "3mm", "temp_levee": "18°C", "dist_rang": 20, "dist_inter": 25, "periode_semis": ["Mar", "Avr", "Mai", "Juin"]
+    "delais": {
+      "levee": 6,
+      "repiquage": 20,
+      "plantation": 10,
+      "maturite": 50
     },
-    "particularites": { "soins": [], "associes": "Carotte, Radis" },
+    "culture": {
+      "exposition": "Soleil/Mi-ombre",
+      "eau": "Fort",
+      "style_semis": "En ligne",
+      "profondeur": "3mm",
+      "temp_levee": "18°C",
+      "dist_rang": 20,
+      "dist_inter": 25,
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Juin"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Carotte, Radis"
+    },
     "taches_entretien": [
-      { "label": "🔍 Surveillance limaces", "delai": 5, "base": "plantation" }
+      {
+        "label": "🔍 Surveillance limaces",
+        "delai": 5,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "laitue-sucrine",
@@ -307,15 +712,43 @@
       "duree_germ": "4",
       "description": "Petite pomme croquante et sucrée, excellente saveur."
     },
-    "delais": { "levee": 6, "repiquage": 20, "plantation": 10, "maturite": 60 },
-    "culture": {
-      "exposition": "Soleil/Mi-ombre", "eau": "Fort", "style_semis": "En ligne", "profondeur": "3mm", "temp_levee": "18°C", "dist_rang": 25, "dist_inter": 30, "periode_semis": ["Mar", "Avr", "Mai", "Juin"]
+    "delais": {
+      "levee": 6,
+      "repiquage": 20,
+      "plantation": 10,
+      "maturite": 60
     },
-    "particularites": { "soins": [], "associes": "Fèves, Oignon" },
+    "culture": {
+      "exposition": "Soleil/Mi-ombre",
+      "eau": "Fort",
+      "style_semis": "En ligne",
+      "profondeur": "3mm",
+      "temp_levee": "18°C",
+      "dist_rang": 25,
+      "dist_inter": 30,
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Juin"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Fèves, Oignon"
+    },
     "taches_entretien": [
-      { "label": "🔍 Surveillance limaces", "delai": 5, "base": "plantation" }
+      {
+        "label": "🔍 Surveillance limaces",
+        "delai": 5,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "oeillets-inde",
@@ -327,13 +760,36 @@
       "duree_germ": "3",
       "description": "Indispensable pour protéger les tomates des nématodes."
     },
-    "delais": { "levee": 10, "repiquage": 20, "plantation": 10, "maturite": 70 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Moyen", "style_semis": "En surface", "profondeur": "2mm", "temp_levee": "20°C", "dist_rang": 25, "dist_inter": 25, "periode_semis": ["Mar", "Avr", "Mai"]
+    "delais": {
+      "levee": 10,
+      "repiquage": 20,
+      "plantation": 10,
+      "maturite": 70
     },
-    "particularites": { "soins": [], "associes": "Tomate, Poivron" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Moyen",
+      "style_semis": "En surface",
+      "profondeur": "2mm",
+      "temp_levee": "20°C",
+      "dist_rang": 25,
+      "dist_inter": 25,
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Tomate, Poivron"
+    },
     "taches_entretien": [],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "oignon-jaune",
@@ -345,15 +801,41 @@
       "duree_germ": "2",
       "description": "Bulbe rond, jaune cuivré, très bonne conservation."
     },
-    "delais": { "levee": 15, "repiquage": 35, "plantation": 10, "maturite": 120 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Faible", "style_semis": "En ligne", "profondeur": "1cm", "temp_levee": "18°C", "dist_rang": 10, "dist_inter": 25, "periode_semis": ["Fév", "Mar"]
+    "delais": {
+      "levee": 15,
+      "repiquage": 35,
+      "plantation": 10,
+      "maturite": 120
     },
-    "particularites": { "soins": [], "associes": "Carotte, Fraise" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Faible",
+      "style_semis": "En ligne",
+      "profondeur": "1cm",
+      "temp_levee": "18°C",
+      "dist_rang": 10,
+      "dist_inter": 25,
+      "periode_semis": [
+        "Fév",
+        "Mar"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Carotte, Fraise"
+    },
     "taches_entretien": [
-      { "label": "✂️ Couper le haut des tiges (garder 5-7cm pour forcir)", "delai": 40, "base": "semis" }
+      {
+        "label": "✂️ Couper le haut des tiges (garder 5-7cm pour forcir)",
+        "delai": 40,
+        "base": "semis"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "oignon-rose",
@@ -365,15 +847,41 @@
       "duree_germ": "2",
       "description": "Oignon doux de type échalote, saveur remarquable."
     },
-    "delais": { "levee": 15, "repiquage": 35, "plantation": 10, "maturite": 120 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Faible", "style_semis": "En ligne", "profondeur": "1cm", "temp_levee": "18°C", "dist_rang": 10, "dist_inter": 25, "periode_semis": ["Fév", "Mar"]
+    "delais": {
+      "levee": 15,
+      "repiquage": 35,
+      "plantation": 10,
+      "maturite": 120
     },
-    "particularites": { "soins": [], "associes": "Betterave, Laitue" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Faible",
+      "style_semis": "En ligne",
+      "profondeur": "1cm",
+      "temp_levee": "18°C",
+      "dist_rang": 10,
+      "dist_inter": 25,
+      "periode_semis": [
+        "Fév",
+        "Mar"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Betterave, Laitue"
+    },
     "taches_entretien": [
-      { "label": "✂️ Couper le haut des tiges (garder 5-7cm pour forcir)", "delai": 40, "base": "semis" }
+      {
+        "label": "✂️ Couper le haut des tiges (garder 5-7cm pour forcir)",
+        "delai": 40,
+        "base": "semis"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "persil-bio",
@@ -385,13 +893,36 @@
       "duree_germ": "3",
       "description": "Feuillage plat très aromatique, levée longue."
     },
-    "delais": { "levee": 25, "repiquage": 20, "plantation": 10, "maturite": 80 },
-    "culture": {
-      "exposition": "Soleil/Mi-ombre", "eau": "Fort", "style_semis": "En ligne", "profondeur": "5mm", "temp_levee": "18°C", "dist_rang": 15, "dist_inter": 25, "periode_semis": ["Mar", "Avr", "Mai"]
+    "delais": {
+      "levee": 25,
+      "repiquage": 20,
+      "plantation": 10,
+      "maturite": 80
     },
-    "particularites": { "soins": [], "associes": "Tomate, Asperge" },
+    "culture": {
+      "exposition": "Soleil/Mi-ombre",
+      "eau": "Fort",
+      "style_semis": "En ligne",
+      "profondeur": "5mm",
+      "temp_levee": "18°C",
+      "dist_rang": 15,
+      "dist_inter": 25,
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Tomate, Asperge"
+    },
     "taches_entretien": [],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "piment-ordono",
@@ -403,15 +934,43 @@
       "duree_germ": "4",
       "description": "Piment ornemental et piquant, fruits changeant de couleur."
     },
-    "delais": { "levee": 15, "repiquage": 45, "plantation": 15, "maturite": 100 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Moyen", "style_semis": "Graine à graine", "profondeur": "5mm", "temp_levee": "25°C", "dist_rang": 40, "dist_inter": 50, "periode_semis": ["Fév", "Mar"]
+    "delais": {
+      "levee": 15,
+      "repiquage": 45,
+      "plantation": 15,
+      "maturite": 100
     },
-    "particularites": { "soins": ["Tuteur"], "associes": "Basilic, Souci" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Moyen",
+      "style_semis": "Graine à graine",
+      "profondeur": "5mm",
+      "temp_levee": "25°C",
+      "dist_rang": 40,
+      "dist_inter": 50,
+      "periode_semis": [
+        "Fév",
+        "Mar"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Tuteur"
+      ],
+      "associes": "Basilic, Souci"
+    },
     "taches_entretien": [
-      { "label": "✂️ Pincer après le 1er fruit pour ramifier", "delai": 30, "base": "plantation" }
+      {
+        "label": "✂️ Pincer après le 1er fruit pour ramifier",
+        "delai": 30,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "poireau-victor",
@@ -423,15 +982,42 @@
       "duree_germ": "2",
       "description": "Variété rustique à feuillage bleuté-violet, très résistant au froid."
     },
-    "delais": { "levee": 15, "repiquage": 60, "plantation": 10, "maturite": 150 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Moyen", "style_semis": "En ligne", "profondeur": "1cm", "temp_levee": "18°C", "dist_rang": 15, "dist_inter": 30, "periode_semis": ["Mar", "Avr", "Mai"]
+    "delais": {
+      "levee": 15,
+      "repiquage": 60,
+      "plantation": 10,
+      "maturite": 150
     },
-    "particularites": { "soins": [], "associes": "Carotte, Fraise" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Moyen",
+      "style_semis": "En ligne",
+      "profondeur": "1cm",
+      "temp_levee": "18°C",
+      "dist_rang": 15,
+      "dist_inter": 30,
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Carotte, Fraise"
+    },
     "taches_entretien": [
-      { "label": "✂️ Habillage (couper le haut des tiges à 5-7cm pour forcir)", "delai": 45, "base": "semis" }
+      {
+        "label": "✂️ Habillage (couper le haut des tiges à 5-7cm pour forcir)",
+        "delai": 45,
+        "base": "semis"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "poivron-yag",
@@ -443,15 +1029,43 @@
       "duree_germ": "4",
       "description": "Poivron charnu de type 'Kapiya', chair épaisse et sucrée."
     },
-    "delais": { "levee": 15, "repiquage": 45, "plantation": 15, "maturite": 100 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Moyen", "style_semis": "Graine à graine", "profondeur": "5mm", "temp_levee": "25°C", "dist_rang": 40, "dist_inter": 50, "periode_semis": ["Fév", "Mar"]
+    "delais": {
+      "levee": 15,
+      "repiquage": 45,
+      "plantation": 15,
+      "maturite": 100
     },
-    "particularites": { "soins": ["Tuteur"], "associes": "Basilic, Oeillet" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Moyen",
+      "style_semis": "Graine à graine",
+      "profondeur": "5mm",
+      "temp_levee": "25°C",
+      "dist_rang": 40,
+      "dist_inter": 50,
+      "periode_semis": [
+        "Fév",
+        "Mar"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Tuteur"
+      ],
+      "associes": "Basilic, Oeillet"
+    },
     "taches_entretien": [
-      { "label": "✂️ Pincer les têtes pour booster les ramifications", "delai": 30, "base": "plantation" }
+      {
+        "label": "✂️ Pincer les têtes pour booster les ramifications",
+        "delai": 30,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "poivron-marconi",
@@ -463,15 +1077,43 @@
       "duree_germ": "4",
       "description": "Longs fruits rouges très doux et sucrés."
     },
-    "delais": { "levee": 15, "repiquage": 45, "plantation": 15, "maturite": 100 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Moyen", "style_semis": "Graine à graine", "profondeur": "5mm", "temp_levee": "25°C", "dist_rang": 40, "dist_inter": 50, "periode_semis": ["Fév", "Mar"]
+    "delais": {
+      "levee": 15,
+      "repiquage": 45,
+      "plantation": 15,
+      "maturite": 100
     },
-    "particularites": { "soins": ["Tuteur"], "associes": "Souci, Basilic" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Moyen",
+      "style_semis": "Graine à graine",
+      "profondeur": "5mm",
+      "temp_levee": "25°C",
+      "dist_rang": 40,
+      "dist_inter": 50,
+      "periode_semis": [
+        "Fév",
+        "Mar"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Tuteur"
+      ],
+      "associes": "Souci, Basilic"
+    },
     "taches_entretien": [
-      { "label": "✂️ Pincer les têtes", "delai": 30, "base": "plantation" }
+      {
+        "label": "✂️ Pincer les têtes",
+        "delai": 30,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "roquette-sauvage",
@@ -483,13 +1125,38 @@
       "duree_germ": "4",
       "description": "Goût beaucoup plus prononcé que la roquette annuelle."
     },
-    "delais": { "levee": 7, "repiquage": 0, "plantation": 0, "maturite": 40 },
-    "culture": {
-      "exposition": "Soleil/Mi-ombre", "eau": "Fort", "style_semis": "À la volée", "profondeur": "2mm", "temp_levee": "18°C", "dist_rang": 5, "dist_inter": 20, "periode_semis": ["Mar", "Avr", "Mai", "Août", "Sep"]
+    "delais": {
+      "levee": 7,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 40
     },
-    "particularites": { "soins": [], "associes": "Laitue, Betterave" },
+    "culture": {
+      "exposition": "Soleil/Mi-ombre",
+      "eau": "Fort",
+      "style_semis": "À la volée",
+      "profondeur": "2mm",
+      "temp_levee": "18°C",
+      "dist_rang": 5,
+      "dist_inter": 20,
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Août",
+        "Sep"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Laitue, Betterave"
+    },
     "taches_entretien": [],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "serpolet-bleu",
@@ -501,13 +1168,35 @@
       "duree_germ": "3",
       "description": "Thym rampant très odorant, fleurs bleues."
     },
-    "delais": { "levee": 20, "repiquage": 30, "plantation": 15, "maturite": 120 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Faible", "style_semis": "En surface", "profondeur": "0mm", "temp_levee": "18°C", "dist_rang": 25, "dist_inter": 25, "periode_semis": ["Avr", "Mai"]
+    "delais": {
+      "levee": 20,
+      "repiquage": 30,
+      "plantation": 15,
+      "maturite": 120
     },
-    "particularites": { "soins": [], "associes": "Chou, Chou-fleur" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Faible",
+      "style_semis": "En surface",
+      "profondeur": "0mm",
+      "temp_levee": "18°C",
+      "dist_rang": 25,
+      "dist_inter": 25,
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Chou, Chou-fleur"
+    },
     "taches_entretien": [],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "souci-orange",
@@ -519,13 +1208,36 @@
       "duree_germ": "3",
       "description": "Fleurs médicinales orange vif, protège le jardin."
     },
-    "delais": { "levee": 10, "repiquage": 15, "plantation": 10, "maturite": 70 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Moyen", "style_semis": "En poquet", "profondeur": "1cm", "temp_levee": "18°C", "dist_rang": 25, "dist_inter": 25, "periode_semis": ["Mar", "Avr", "Mai"]
+    "delais": {
+      "levee": 10,
+      "repiquage": 15,
+      "plantation": 10,
+      "maturite": 70
     },
-    "particularites": { "soins": [], "associes": "Tomate, Pomme de terre" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Moyen",
+      "style_semis": "En poquet",
+      "profondeur": "1cm",
+      "temp_levee": "18°C",
+      "dist_rang": 25,
+      "dist_inter": 25,
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Tomate, Pomme de terre"
+    },
     "taches_entretien": [],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "tagete-mexique",
@@ -537,13 +1249,36 @@
       "duree_germ": "3",
       "description": "Saveur proche de l'estragon, fleurs jaunes lumineuses."
     },
-    "delais": { "levee": 12, "repiquage": 20, "plantation": 10, "maturite": 90 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Moyen", "style_semis": "En surface", "profondeur": "2mm", "temp_levee": "20°C", "dist_rang": 30, "dist_inter": 30, "periode_semis": ["Mar", "Avr", "Mai"]
+    "delais": {
+      "levee": 12,
+      "repiquage": 20,
+      "plantation": 10,
+      "maturite": 90
     },
-    "particularites": { "soins": [], "associes": "Tomate, Courge" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Moyen",
+      "style_semis": "En surface",
+      "profondeur": "2mm",
+      "temp_levee": "20°C",
+      "dist_rang": 30,
+      "dist_inter": 30,
+      "periode_semis": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Tomate, Courge"
+    },
     "taches_entretien": [],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "tomate-dream",
@@ -555,15 +1290,44 @@
       "duree_germ": "5",
       "description": "Fruits ronds très savoureux, productive et résistante."
     },
-    "delais": { "levee": 8, "repiquage": 45, "plantation": 15, "maturite": 80 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Fort", "style_semis": "Graine à graine", "profondeur": "5mm", "temp_levee": "22°C", "dist_rang": 50, "dist_inter": 80, "periode_semis": ["Mar", "Avr"]
+    "delais": {
+      "levee": 8,
+      "repiquage": 45,
+      "plantation": 15,
+      "maturite": 80
     },
-    "particularites": { "soins": ["Tuteur", "Mildiou"], "associes": "Basilic, Persil" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Fort",
+      "style_semis": "Graine à graine",
+      "profondeur": "5mm",
+      "temp_levee": "22°C",
+      "dist_rang": 50,
+      "dist_inter": 80,
+      "periode_semis": [
+        "Mar",
+        "Avr"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Tuteur",
+        "Mildiou"
+      ],
+      "associes": "Basilic, Persil"
+    },
     "taches_entretien": [
-      { "label": "✂️ Taille des gourmands et tuteurage", "delai": 20, "base": "plantation" }
+      {
+        "label": "✂️ Taille des gourmands et tuteurage",
+        "delai": 20,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "tomate-akers",
@@ -575,15 +1339,45 @@
       "duree_germ": "5",
       "description": "Enorme fruit de type coeur de boeuf, chair dense."
     },
-    "delais": { "levee": 8, "repiquage": 45, "plantation": 15, "maturite": 85 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Fort", "style_semis": "Graine à graine", "profondeur": "5mm", "temp_levee": "22°C", "dist_rang": 50, "dist_inter": 80, "periode_semis": ["Mar", "Avr"]
+    "delais": {
+      "levee": 8,
+      "repiquage": 45,
+      "plantation": 15,
+      "maturite": 85
     },
-    "particularites": { "soins": ["Tuteur", "Pincement", "Mildiou"], "associes": "Souci, Basilic" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Fort",
+      "style_semis": "Graine à graine",
+      "profondeur": "5mm",
+      "temp_levee": "22°C",
+      "dist_rang": 50,
+      "dist_inter": 80,
+      "periode_semis": [
+        "Mar",
+        "Avr"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Tuteur",
+        "Pincement",
+        "Mildiou"
+      ],
+      "associes": "Souci, Basilic"
+    },
     "taches_entretien": [
-      { "label": "✂️ Taille des gourmands et tuteurage", "delai": 20, "base": "plantation" }
+      {
+        "label": "✂️ Taille des gourmands et tuteurage",
+        "delai": 20,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "tomate-cerise",
@@ -595,15 +1389,44 @@
       "duree_germ": "5",
       "description": "Variété très résistante, fruits sucrés et juteux."
     },
-    "delais": { "levee": 8, "repiquage": 45, "plantation": 15, "maturite": 75 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Fort", "style_semis": "Graine à graine", "profondeur": "5mm", "temp_levee": "22°C", "dist_rang": 50, "dist_inter": 80, "periode_semis": ["Mar", "Avr"]
+    "delais": {
+      "levee": 8,
+      "repiquage": 45,
+      "plantation": 15,
+      "maturite": 75
     },
-    "particularites": { "soins": ["Tuteur", "Mildiou"], "associes": "Persil, Oignon" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Fort",
+      "style_semis": "Graine à graine",
+      "profondeur": "5mm",
+      "temp_levee": "22°C",
+      "dist_rang": 50,
+      "dist_inter": 80,
+      "periode_semis": [
+        "Mar",
+        "Avr"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Tuteur",
+        "Mildiou"
+      ],
+      "associes": "Persil, Oignon"
+    },
     "taches_entretien": [
-      { "label": "✂️ Taille des gourmands et tuteurage", "delai": 20, "base": "plantation" }
+      {
+        "label": "✂️ Taille des gourmands et tuteurage",
+        "delai": 20,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "zinnia-mix",
@@ -615,15 +1438,43 @@
       "duree_germ": "4",
       "description": "Mélange de couleurs éclatantes, fleurs très robustes."
     },
-    "delais": { "levee": 7, "repiquage": 15, "plantation": 10, "maturite": 70 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Moyen", "style_semis": "En surface", "profondeur": "3mm", "temp_levee": "20°C", "dist_rang": 30, "dist_inter": 30, "periode_semis": ["Avr", "Mai"]
+    "delais": {
+      "levee": 7,
+      "repiquage": 15,
+      "plantation": 10,
+      "maturite": 70
     },
-    "particularites": { "soins": ["Tuteur"], "associes": "Tomate, Concombre" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Moyen",
+      "style_semis": "En surface",
+      "profondeur": "3mm",
+      "temp_levee": "20°C",
+      "dist_rang": 30,
+      "dist_inter": 30,
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Tuteur"
+      ],
+      "associes": "Tomate, Concombre"
+    },
     "taches_entretien": [
-      { "label": "✂️ Pincer les tiges (favorise les fleurs)", "delai": 20, "base": "plantation" }
+      {
+        "label": "✂️ Pincer les tiges (favorise les fleurs)",
+        "delai": 20,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "seed-1773075252130",
@@ -635,13 +1486,34 @@
       "duree_germ": "0",
       "description": "2 plants donnés par Mathieu Fétiveau et plantés à côté des piquets de linge derrière le 15 février 2026"
     },
-    "delais": { "levee": 0, "repiquage": 0, "plantation": 0, "maturite": 900 },
-    "culture": { "exposition": "Plein soleil", "eau": "Moyen" },
-    "particularites": { "soins": ["Tuteur"], "associes": "" },
+    "delais": {
+      "levee": 0,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 900
+    },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Moyen"
+    },
+    "particularites": {
+      "soins": [
+        "Tuteur"
+      ],
+      "associes": ""
+    },
     "taches_entretien": [
-      { "label": "✂️ Taille de formation (première année)", "delai": 60, "base": "plantation" }
+      {
+        "label": "✂️ Taille de formation (première année)",
+        "delai": 60,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "tomate-wild-cherry",
@@ -653,15 +1525,43 @@
       "duree_germ": "5",
       "description": "Petites cerises très sucrées, croissance vigoureuse."
     },
-    "delais": { "levee": 8, "repiquage": 45, "plantation": 15, "maturite": 70 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Fort", "style_semis": "Graine à graine", "profondeur": "5mm", "temp_levee": "22°C", "dist_rang": 50, "dist_inter": 80, "periode_semis": ["Mar", "Avr"]
+    "delais": {
+      "levee": 8,
+      "repiquage": 45,
+      "plantation": 15,
+      "maturite": 70
     },
-    "particularites": { "soins": ["Tuteur"], "associes": "Basilic, Souci" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Fort",
+      "style_semis": "Graine à graine",
+      "profondeur": "5mm",
+      "temp_levee": "22°C",
+      "dist_rang": 50,
+      "dist_inter": 80,
+      "periode_semis": [
+        "Mar",
+        "Avr"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Tuteur"
+      ],
+      "associes": "Basilic, Souci"
+    },
     "taches_entretien": [
-      { "label": "✂️ Tuteurage", "delai": 20, "base": "plantation" }
+      {
+        "label": "✂️ Tuteurage",
+        "delai": 20,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "concombre-mexique",
@@ -673,15 +1573,43 @@
       "duree_germ": "5",
       "description": "Petits fruits ressemblant à des pastèques miniatures au goût de concombre acidulé."
     },
-    "delais": { "levee": 10, "repiquage": 15, "plantation": 10, "maturite": 75 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Fort", "style_semis": "En poquet", "profondeur": "1cm", "temp_levee": "22°C", "dist_rang": 40, "dist_inter": 40, "periode_semis": ["Avr", "Mai"]
+    "delais": {
+      "levee": 10,
+      "repiquage": 15,
+      "plantation": 10,
+      "maturite": 75
     },
-    "particularites": { "soins": ["Treillis"], "associes": "Maïs, Tournesol" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Fort",
+      "style_semis": "En poquet",
+      "profondeur": "1cm",
+      "temp_levee": "22°C",
+      "dist_rang": 40,
+      "dist_inter": 40,
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Treillis"
+      ],
+      "associes": "Maïs, Tournesol"
+    },
     "taches_entretien": [
-      { "label": "🌿 Installation du support de grimpe", "delai": 5, "base": "plantation" }
+      {
+        "label": "🌿 Installation du support de grimpe",
+        "delai": 5,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "courge-spaghetti",
@@ -693,15 +1621,43 @@
       "duree_germ": "6",
       "description": "Chair se transformant en filaments après cuisson."
     },
-    "delais": { "levee": 7, "repiquage": 15, "plantation": 10, "maturite": 95 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Fort", "style_semis": "En poquet", "profondeur": "2cm", "temp_levee": "22°C", "dist_rang": 100, "dist_inter": 150, "periode_semis": ["Avr", "Mai"]
+    "delais": {
+      "levee": 7,
+      "repiquage": 15,
+      "plantation": 10,
+      "maturite": 95
     },
-    "particularites": { "soins": ["Paillage"], "associes": "Maïs, Haricot" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Fort",
+      "style_semis": "En poquet",
+      "profondeur": "2cm",
+      "temp_levee": "22°C",
+      "dist_rang": 100,
+      "dist_inter": 150,
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Paillage"
+      ],
+      "associes": "Maïs, Haricot"
+    },
     "taches_entretien": [
-      { "label": "🌿 Paillage épais", "delai": 15, "base": "plantation" }
+      {
+        "label": "🌿 Paillage épais",
+        "delai": 15,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "kiwano-jelly",
@@ -713,13 +1669,37 @@
       "duree_germ": "5",
       "description": "Concombre cornu d'Afrique, goût de banane et de kiwi."
     },
-    "delais": { "levee": 10, "repiquage": 15, "plantation": 10, "maturite": 100 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Moyen", "style_semis": "En poquet", "profondeur": "1cm", "temp_levee": "24°C", "dist_rang": 50, "dist_inter": 80, "periode_semis": ["Avr", "Mai"]
+    "delais": {
+      "levee": 10,
+      "repiquage": 15,
+      "plantation": 10,
+      "maturite": 100
     },
-    "particularites": { "soins": ["Treillis"], "associes": "" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Moyen",
+      "style_semis": "En poquet",
+      "profondeur": "1cm",
+      "temp_levee": "24°C",
+      "dist_rang": 50,
+      "dist_inter": 80,
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Treillis"
+      ],
+      "associes": ""
+    },
     "taches_entretien": [],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "mais-sweet-hills",
@@ -731,15 +1711,43 @@
       "duree_germ": "3",
       "description": "Maïs multicouleur très précoce et rustique."
     },
-    "delais": { "levee": 10, "repiquage": 0, "plantation": 0, "maturite": 85 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Important", "style_semis": "En ligne/Poquet", "profondeur": "3cm", "temp_levee": "18°C", "dist_rang": 25, "dist_inter": 70, "periode_semis": ["Avr", "Mai"]
+    "delais": {
+      "levee": 10,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 85
     },
-    "particularites": { "soins": ["Buttage"], "associes": "Courge, Haricot" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Important",
+      "style_semis": "En ligne/Poquet",
+      "profondeur": "3cm",
+      "temp_levee": "18°C",
+      "dist_rang": 25,
+      "dist_inter": 70,
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Buttage"
+      ],
+      "associes": "Courge, Haricot"
+    },
     "taches_entretien": [
-      { "label": "🚜 Butter les pieds pour ancrer les racines", "delai": 30, "base": "levee" }
+      {
+        "label": "🚜 Butter les pieds pour ancrer les racines",
+        "delai": 30,
+        "base": "levee"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "melon-pike",
@@ -751,15 +1759,43 @@
       "duree_germ": "5",
       "description": "Variété ancienne très rustique adaptée aux sols difficiles."
     },
-    "delais": { "levee": 7, "repiquage": 15, "plantation": 10, "maturite": 85 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Moyen", "style_semis": "En poquet", "profondeur": "1.5cm", "temp_levee": "22°C", "dist_rang": 80, "dist_inter": 100, "periode_semis": ["Avr", "Mai"]
+    "delais": {
+      "levee": 7,
+      "repiquage": 15,
+      "plantation": 10,
+      "maturite": 85
     },
-    "particularites": { "soins": ["Pincement"], "associes": "Maïs" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Moyen",
+      "style_semis": "En poquet",
+      "profondeur": "1.5cm",
+      "temp_levee": "22°C",
+      "dist_rang": 80,
+      "dist_inter": 100,
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Pincement"
+      ],
+      "associes": "Maïs"
+    },
     "taches_entretien": [
-      { "label": "✂️ Tailler pour favoriser la fructification", "delai": 25, "base": "plantation" }
+      {
+        "label": "✂️ Tailler pour favoriser la fructification",
+        "delai": 25,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "mache-elan",
@@ -771,13 +1807,36 @@
       "duree_germ": "4",
       "description": "Variété de mâche à croissance rapide."
     },
-    "delais": { "levee": 12, "repiquage": 0, "plantation": 0, "maturite": 60 },
-    "culture": {
-      "exposition": "Soleil/Mi-ombre", "eau": "Moyen", "style_semis": "À la volée", "profondeur": "5mm", "temp_levee": "15°C", "dist_rang": 5, "dist_inter": 20, "periode_semis": ["Août", "Sep", "Oct"]
+    "delais": {
+      "levee": 12,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 60
     },
-    "particularites": { "soins": [], "associes": "Poireau" },
+    "culture": {
+      "exposition": "Soleil/Mi-ombre",
+      "eau": "Moyen",
+      "style_semis": "À la volée",
+      "profondeur": "5mm",
+      "temp_levee": "15°C",
+      "dist_rang": 5,
+      "dist_inter": 20,
+      "periode_semis": [
+        "Août",
+        "Sep",
+        "Oct"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Poireau"
+    },
     "taches_entretien": [],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "tetragone-cornue",
@@ -789,15 +1848,43 @@
       "duree_germ": "4",
       "description": "Épinard d'été résistant à la chaleur et à la sécheresse."
     },
-    "delais": { "levee": 15, "repiquage": 0, "plantation": 0, "maturite": 65 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Faible", "style_semis": "En poquet", "profondeur": "2cm", "temp_levee": "20°C", "dist_rang": 60, "dist_inter": 80, "periode_semis": ["Avr", "Mai"]
+    "delais": {
+      "levee": 15,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 65
     },
-    "particularites": { "soins": ["Trempage"], "associes": "Fraise" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Faible",
+      "style_semis": "En poquet",
+      "profondeur": "2cm",
+      "temp_levee": "20°C",
+      "dist_rang": 60,
+      "dist_inter": 80,
+      "periode_semis": [
+        "Avr",
+        "Mai"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Trempage"
+      ],
+      "associes": "Fraise"
+    },
     "taches_entretien": [
-      { "label": "💧 Tremper les graines 24h avant semis", "delai": -1, "base": "semis" }
+      {
+        "label": "💧 Tremper les graines 24h avant semis",
+        "delai": -1,
+        "base": "semis"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "betterave-chioggia",
@@ -809,15 +1896,42 @@
       "duree_germ": "5",
       "description": "Racine ronde, chair alternée de blanc et de rose vif."
     },
-    "delais": { "levee": 12, "repiquage": 0, "plantation": 0, "maturite": 65 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Moyen", "style_semis": "En ligne", "profondeur": "2cm", "temp_levee": "15°C", "dist_rang": 10, "dist_inter": 30, "periode_semis": ["Avr", "Mai", "Juin"]
+    "delais": {
+      "levee": 12,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 65
     },
-    "particularites": { "soins": [], "associes": "Oignon, Chou" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Moyen",
+      "style_semis": "En ligne",
+      "profondeur": "2cm",
+      "temp_levee": "15°C",
+      "dist_rang": 10,
+      "dist_inter": 30,
+      "periode_semis": [
+        "Avr",
+        "Mai",
+        "Juin"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Oignon, Chou"
+    },
     "taches_entretien": [
-      { "label": "🌿 Éclaircir les plants", "delai": 20, "base": "levee" }
+      {
+        "label": "🌿 Éclaircir les plants",
+        "delai": 20,
+        "base": "levee"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "betterave-detroit",
@@ -829,15 +1943,42 @@
       "duree_germ": "5",
       "description": "Standard incontournable, racine bien rouge et sucrée."
     },
-    "delais": { "levee": 12, "repiquage": 0, "plantation": 0, "maturite": 60 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Moyen", "style_semis": "En ligne", "profondeur": "2cm", "temp_levee": "15°C", "dist_rang": 10, "dist_inter": 30, "periode_semis": ["Avr", "Mai", "Juin"]
+    "delais": {
+      "levee": 12,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 60
     },
-    "particularites": { "soins": [], "associes": "Ail, Laitue" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Moyen",
+      "style_semis": "En ligne",
+      "profondeur": "2cm",
+      "temp_levee": "15°C",
+      "dist_rang": 10,
+      "dist_inter": 30,
+      "periode_semis": [
+        "Avr",
+        "Mai",
+        "Juin"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Ail, Laitue"
+    },
     "taches_entretien": [
-      { "label": "🌿 Éclaircir les plants", "delai": 20, "base": "levee" }
+      {
+        "label": "🌿 Éclaircir les plants",
+        "delai": 20,
+        "base": "levee"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "haricot-victoire",
@@ -849,15 +1990,44 @@
       "duree_germ": "3",
       "description": "Gousses fines vert foncé, très productif et sans fils."
     },
-    "delais": { "levee": 8, "repiquage": 0, "plantation": 0, "maturite": 55 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Moyen", "style_semis": "En poquet", "profondeur": "3cm", "temp_levee": "18°C", "dist_rang": 10, "dist_inter": 40, "periode_semis": ["Mai", "Juin", "Juillet"]
+    "delais": {
+      "levee": 8,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 55
     },
-    "particularites": { "soins": ["Buttage"], "associes": "Maïs, Sarriette" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Moyen",
+      "style_semis": "En poquet",
+      "profondeur": "3cm",
+      "temp_levee": "18°C",
+      "dist_rang": 10,
+      "dist_inter": 40,
+      "periode_semis": [
+        "Mai",
+        "Juin",
+        "Juillet"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Buttage"
+      ],
+      "associes": "Maïs, Sarriette"
+    },
     "taches_entretien": [
-      { "label": "🚜 Butter les pieds", "delai": 20, "base": "levee" }
+      {
+        "label": "🚜 Butter les pieds",
+        "delai": 20,
+        "base": "levee"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "hysope-officinale",
@@ -869,13 +2039,35 @@
       "duree_germ": "4",
       "description": "Plante aromatique et médicinale, fleurs bleues très mellifères."
     },
-    "delais": { "levee": 14, "repiquage": 30, "plantation": 15, "maturite": 90 },
-    "culture": {
-      "exposition": "Plein soleil", "eau": "Faible", "style_semis": "En surface", "profondeur": "2mm", "temp_levee": "18°C", "dist_rang": 40, "dist_inter": 40, "periode_semis": ["Mar", "Avr"]
+    "delais": {
+      "levee": 14,
+      "repiquage": 30,
+      "plantation": 15,
+      "maturite": 90
     },
-    "particularites": { "soins": [], "associes": "Vigne" },
+    "culture": {
+      "exposition": "Plein soleil",
+      "eau": "Faible",
+      "style_semis": "En surface",
+      "profondeur": "2mm",
+      "temp_levee": "18°C",
+      "dist_rang": 40,
+      "dist_inter": 40,
+      "periode_semis": [
+        "Mar",
+        "Avr"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": "Vigne"
+    },
     "taches_entretien": [],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "dahlia-double-extreme",
@@ -887,15 +2079,43 @@
       "duree_germ": "4",
       "description": "Mélange de dahlias aux fleurs très doubles."
     },
-    "delais": { "levee": 12, "repiquage": 30, "plantation": 10, "maturite": 110 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Moyen", "style_semis": "En caissette", "profondeur": "5mm", "temp_levee": "20°C", "dist_rang": 50, "dist_inter": 50, "periode_semis": ["Mar", "Avr"]
+    "delais": {
+      "levee": 12,
+      "repiquage": 30,
+      "plantation": 10,
+      "maturite": 110
     },
-    "particularites": { "soins": ["Tuteur"], "associes": "" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Moyen",
+      "style_semis": "En caissette",
+      "profondeur": "5mm",
+      "temp_levee": "20°C",
+      "dist_rang": 50,
+      "dist_inter": 50,
+      "periode_semis": [
+        "Mar",
+        "Avr"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Tuteur"
+      ],
+      "associes": ""
+    },
     "taches_entretien": [
-      { "label": "✂️ Pincer les tiges pour favoriser la floraison", "delai": 30, "base": "plantation" }
+      {
+        "label": "✂️ Pincer les tiges pour favoriser la floraison",
+        "delai": 30,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "dahlia-mystery-mix",
@@ -907,15 +2127,43 @@
       "duree_germ": "4",
       "description": "Mélange surprise de formes et de couleurs."
     },
-    "delais": { "levee": 12, "repiquage": 30, "plantation": 10, "maturite": 110 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Moyen", "style_semis": "En caissette", "profondeur": "5mm", "temp_levee": "20°C", "dist_rang": 50, "dist_inter": 50, "periode_semis": ["Mar", "Avr"]
+    "delais": {
+      "levee": 12,
+      "repiquage": 30,
+      "plantation": 10,
+      "maturite": 110
     },
-    "particularites": { "soins": ["Tuteur"], "associes": "" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Moyen",
+      "style_semis": "En caissette",
+      "profondeur": "5mm",
+      "temp_levee": "20°C",
+      "dist_rang": 50,
+      "dist_inter": 50,
+      "periode_semis": [
+        "Mar",
+        "Avr"
+      ]
+    },
+    "particularites": {
+      "soins": [
+        "Tuteur"
+      ],
+      "associes": ""
+    },
     "taches_entretien": [
-      { "label": "✂️ Pincer les tiges", "delai": 30, "base": "plantation" }
+      {
+        "label": "✂️ Pincer les tiges",
+        "delai": 30,
+        "base": "plantation"
+      }
     ],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "oeillets-electron",
@@ -927,13 +2175,35 @@
       "duree_germ": "4",
       "description": "Fleurs très colorées et parfumées."
     },
-    "delais": { "levee": 15, "repiquage": 25, "plantation": 10, "maturite": 100 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Faible", "style_semis": "En surface", "profondeur": "2mm", "temp_levee": "18°C", "dist_rang": 25, "dist_inter": 25, "periode_semis": ["Mar", "Avr"]
+    "delais": {
+      "levee": 15,
+      "repiquage": 25,
+      "plantation": 10,
+      "maturite": 100
     },
-    "particularites": { "soins": [], "associes": "" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Faible",
+      "style_semis": "En surface",
+      "profondeur": "2mm",
+      "temp_levee": "18°C",
+      "dist_rang": 25,
+      "dist_inter": 25,
+      "periode_semis": [
+        "Mar",
+        "Avr"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": ""
+    },
     "taches_entretien": [],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "pavot-pink-peony",
@@ -945,13 +2215,35 @@
       "duree_germ": "4",
       "description": "Fleurs de pivoine roses, pétales frangés."
     },
-    "delais": { "levee": 12, "repiquage": 0, "plantation": 0, "maturite": 90 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Faible", "style_semis": "À la volée", "profondeur": "2mm", "temp_levee": "15°C", "dist_rang": 20, "dist_inter": 25, "periode_semis": ["Mar", "Avr"]
+    "delais": {
+      "levee": 12,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 90
     },
-    "particularites": { "soins": [], "associes": "" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Faible",
+      "style_semis": "À la volée",
+      "profondeur": "2mm",
+      "temp_levee": "15°C",
+      "dist_rang": 20,
+      "dist_inter": 25,
+      "periode_semis": [
+        "Mar",
+        "Avr"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": ""
+    },
     "taches_entretien": [],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "pavot-snowball",
@@ -963,13 +2255,35 @@
       "duree_germ": "4",
       "description": "Fleurs blanches doubles et ébouriffées."
     },
-    "delais": { "levee": 12, "repiquage": 0, "plantation": 0, "maturite": 90 },
-    "culture": {
-      "exposition": "Soleil", "eau": "Faible", "style_semis": "À la volée", "profondeur": "2mm", "temp_levee": "15°C", "dist_rang": 20, "dist_inter": 25, "periode_semis": ["Mar", "Avr"]
+    "delais": {
+      "levee": 12,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 90
     },
-    "particularites": { "soins": [], "associes": "" },
+    "culture": {
+      "exposition": "Soleil",
+      "eau": "Faible",
+      "style_semis": "À la volée",
+      "profondeur": "2mm",
+      "temp_levee": "15°C",
+      "dist_rang": 20,
+      "dist_inter": 25,
+      "periode_semis": [
+        "Mar",
+        "Avr"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": ""
+    },
     "taches_entretien": [],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
   },
   {
     "id": "tabac-jasmin",
@@ -981,12 +2295,55 @@
       "duree_germ": "4",
       "description": "Fleurs blanches étoilées s'ouvrant le soir au parfum envoûtant."
     },
-    "delais": { "levee": 14, "repiquage": 30, "plantation": 15, "maturite": 100 },
-    "culture": {
-      "exposition": "Soleil/Mi-ombre", "eau": "Moyen", "style_semis": "En surface", "profondeur": "0mm", "temp_levee": "20°C", "dist_rang": 30, "dist_inter": 40, "periode_semis": ["Mar", "Avr"]
+    "delais": {
+      "levee": 14,
+      "repiquage": 30,
+      "plantation": 15,
+      "maturite": 100
     },
-    "particularites": { "soins": [], "associes": "" },
+    "culture": {
+      "exposition": "Soleil/Mi-ombre",
+      "eau": "Moyen",
+      "style_semis": "En surface",
+      "profondeur": "0mm",
+      "temp_levee": "20°C",
+      "dist_rang": 30,
+      "dist_inter": 40,
+      "periode_semis": [
+        "Mar",
+        "Avr"
+      ]
+    },
+    "particularites": {
+      "soins": [],
+      "associes": ""
+    },
     "taches_entretien": [],
-    "recolte": { "historique": { "2026": "-" } }
+    "recolte": {
+      "historique": {
+        "2026": "-"
+      }
+    }
+  },
+  {
+    "id": 1773670024994,
+    "identite": {
+      "nom_commun": "Celosia",
+      "variete": "Pampa Plume",
+      "provenance": "Kokopelli",
+      "role": "Fleur"
+    },
+    "technique": {
+      "exposition": "Soleil",
+      "eau": "Normal",
+      "distance": 0
+    },
+    "delais": {
+      "levee": 16,
+      "repiquage": 60,
+      "plantation": 70,
+      "maturite": 120
+    },
+    "notes": ""
   }
 ]
