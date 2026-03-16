@@ -322,5 +322,17 @@
     "emplacement": "Serre intérieure",
     "contenant": "Caissette",
     "unite": ""
+  },
+  {
+    "id": 1773669891872,
+    "date": "2026-03-16",
+    "action": "Semis",
+    "seedId": "oeillets-electron",
+    "note": "",
+    "photo": "",
+    "quantite": 15,
+    "emplacement": "Serre intérieure",
+    "contenant": "Caissette",
+    "unite": ""
   }
 ]
