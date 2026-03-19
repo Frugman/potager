@@ -346,5 +346,16 @@
     "emplacement": "Serre intérieure",
     "contenant": "Caissette",
     "unite": ""
+  },
+  {
+    "id": 1773939283742,
+    "date": "2026-03-19",
+    "action": "Plantation",
+    "seedId": "betterave-chioggia",
+    "note": "Graines semées, filet mis",
+    "photo": "",
+    "quantite": 20,
+    "bac": "Bac A",
+    "unite": ""
   }
 ]
