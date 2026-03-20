@@ -2892,7 +2892,8 @@
     "identite": {
       "nom_commun": "Betterave",
       "variete": "Détroit",
-      "provenance": "Mes Semences",
+      "famille": "Chénopodiacées",
+      "provenance": "Kokopelli",
       "duree_germ": "5",
       "description": "Ajouté depuis le lexique permaculturel."
     },
@@ -2907,8 +2908,10 @@
       "eau": "Normal",
       "style_semis": "En poquet",
       "profondeur": "1cm",
+      "temp_levee": "",
       "dist_rang": 30,
-      "dist_inter": 30
+      "dist_inter": 30,
+      "periode_semis": []
     },
     "taches_entretien": [
       {
@@ -2924,8 +2927,14 @@
       "texte": "Semer directement en pleine terre. Le sol de Vendée se réchauffe vite. Éclaircir quelques semaines après la levée pour ne garder que les plus vigoureux."
     },
     "particularites": {
-      "bons_compagnons": [],
-      "mauvais_compagnons": []
+      "bons_compagnons": [
+        "Epinard",
+        "Haricot Mangetout",
+        "Laitue"
+      ],
+      "mauvais_compagnons": [
+        "Oignon"
+      ]
     }
   },
   {
