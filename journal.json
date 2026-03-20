@@ -368,16 +368,5 @@
     "quantite": 20,
     "bac": "Bac A",
     "unite": ""
-  },
-  {
-    "id": 1774047074214,
-    "date": "2026-03-20",
-    "action": "Plantation",
-    "seedId": "tomate-dream",
-    "note": "",
-    "photo": "",
-    "quantite": 2,
-    "emplacement": "Bac A",
-    "unite": ""
   }
 ]
