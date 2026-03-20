@@ -76,6 +76,15 @@
             return res;
         }
 
+        const glossaryWords = ['stratifier', 'scarifier', 'poquet', 'plomber', 'gourmand', 'ébourgeonner', 'pincer', 'étêter', 'étreter', 'éclaircir', 'diriger', 'butter', 'biner', 'sarcler', 'pailler', 'arroser', 'nettoyer', 'palisser'];
+        function getLexiqueBadge(text) {
+            if(!text) return "";
+            if(glossaryWords.some(w => text.toLowerCase().includes(w))) {
+                return ` <a href="lexique.html" title="Voir l'Antisèche" style="text-decoration:none; filter:grayscale(100%); font-size:12px;" onclick="event.stopPropagation();">💡</a>`;
+            }
+            return "";
+        }
+
         async function init() {
             if(!token) { window.location.href = 'parametres.html'; return; }
             document.getElementById('val-date').valueAsDate = new Date();
@@ -135,7 +144,13 @@
                         } else if (te.base === 'levee') {
                             baseDate = addDays(semisDate, seed.delais?.levee || 0);
                         }
-                        allTasks.push({ date: addDays(baseDate, te.delai), title: `✂️ ${te.label}`, plant: seed.identite.nom_commun });
+                        
+                        const occ = te.occurences || 1;
+                        const freq = te.frequence || 0;
+                        const badge = getLexiqueBadge(te.label);
+                        for(let i=0; i<occ; i++) {
+                            allTasks.push({ date: addDays(baseDate, te.delai + (i * freq)), title: `✂️ ${te.label}${badge}`, plant: seed.identite.nom_commun });
+                        }
                     });
                 }
             });
@@ -153,7 +168,12 @@
                     }
                     if (seed.taches_entretien) {
                         seed.taches_entretien.filter(te => te.base === 'plantation').forEach(te => {
-                            allTasks.push({ date: addDays(entry.date, te.delai), title: `✂️ ${te.label}`, plant: seed.identite.nom_commun });
+                            const occ = te.occurences || 1;
+                            const freq = te.frequence || 0;
+                            const badge = getLexiqueBadge(te.label);
+                            for(let i=0; i<occ; i++) {
+                                allTasks.push({ date: addDays(entry.date, te.delai + (i * freq)), title: `✂️ ${te.label}${badge}`, plant: seed.identite.nom_commun });
+                            }
                         });
                     }
                 }

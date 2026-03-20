@@ -107,16 +107,15 @@
                     document.getElementById('d_maturite').value = s.delais.maturite;
 
                     if(s.taches_entretien) {
-                        s.taches_entretien.forEach(t => addTask(t.label, t.delai, t.base));
+                        s.taches_entretien.forEach(t => addTask(t.label, t.delai, t.base, t.frequence, t.occurences));
                     }
                 }
             } catch(e) { console.error(e); }
         }
 
-        function addTask(label = "", delai = 0, base = "semis") {
+        function addTask(label = "", delai = 0, base = "semis", frequence = 0, occurences = 1) {
             const container = document.getElementById('tasks-container');
             const div = document.createElement('div');
-            // Utilisation du style 'item' pour les tâches
             div.style.padding = "15px";
             div.style.background = "rgba(255,255,255,0.02)";
             div.style.borderRadius = "12px";
@@ -131,7 +130,7 @@
                 
                 <div class="grid-2">
                     <div>
-                        <label>Délai (j)</label>
+                        <label>Délai initial (j)</label>
                         <input type="number" class="t-delai" value="${delai}">
                     </div>
                     <div>
@@ -139,7 +138,18 @@
                         <select class="t-base">
                             <option value="semis" ${base==='semis'?'selected':''}>Après semis</option>
                             <option value="plantation" ${base==='plantation'?'selected':''}>Après plant.</option>
+                            <option value="levee" ${base==='levee'?'selected':''}>Après levée</option>
                         </select>
+                    </div>
+                </div>
+                <div class="grid-2" style="margin-top:10px; padding-top:10px; border-top:1px dashed var(--border-color);">
+                    <div>
+                        <label>Répéter tous les (j)</label>
+                        <input type="number" class="t-freq" value="${frequence}" placeholder="0 = non">
+                    </div>
+                    <div>
+                        <label>Nb. de fois max</label>
+                        <input type="number" class="t-occ" value="${occurences}" placeholder="1 = ponctuel">
                     </div>
                 </div>
             `;
@@ -164,7 +174,9 @@
                         tasks.push({
                             label: label,
                             delai: parseInt(el.querySelector('.t-delai').value) || 0,
-                            base: el.querySelector('.t-base').value
+                            base: el.querySelector('.t-base').value,
+                            frequence: parseInt(el.querySelector('.t-freq').value) || 0,
+                            occurences: parseInt(el.querySelector('.t-occ').value) || 1
                         });
                     }
                 });

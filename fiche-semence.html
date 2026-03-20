@@ -180,7 +180,9 @@
                     if(s.taches_entretien) {
                         document.getElementById('s-tasks').innerHTML = s.taches_entretien.map(t => `
                             <div class="item">
-                                <div class="item-name" style="font-size:13px;">${t.label}</div>
+                                <div class="item-name" style="font-size:13px;">${t.label} 
+                                    ${t.frequence > 0 ? `<br><small style="color:var(--text-secondary)">Tous les ${t.frequence}j (${t.occurences}x)</small>` : ''}
+                                </div>
                                 <div class="item-qty" style="font-size:11px;">+${t.delai}j (${t.base})</div>
                             </div>
                         `).join('');
