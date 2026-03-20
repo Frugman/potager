@@ -178,11 +178,33 @@
                     }
                 }
             });
+
+            // 3. Semis idéal conseillé
+            const recoGroups = {};
+            const cy = today.getFullYear();
+            seeds.forEach(s => {
+                if(s.conseil_semis && s.conseil_semis.date) {
+                    const hasSemis = journal.some(j => j.action === 'Semis' && String(j.seedId) === String(s.id) && new Date(j.date).getFullYear() === cy);
+                    if(!hasSemis) {
+                        const d = new Date(s.conseil_semis.date); d.setFullYear(cy);
+                        const k = d.getTime() + "|" + s.conseil_semis.texte;
+                        if(!recoGroups[k]) recoGroups[k] = { date: d, t: s.conseil_semis.texte, p: [] };
+                        recoGroups[k].p.push(s.identite.nom_commun);
+                    }
+                }
+            });
+            Object.values(recoGroups).forEach(g => {
+                allTasks.push({ date: g.date, title: "🎯 Faire Semis", plant: [...new Set(g.p)].join(', '), desc: g.t });
+            });
+
             const nextTasks = allTasks.filter(t => t.date >= today).sort((a, b) => a.date - b.date).slice(0, 5);
             document.getElementById('agenda-box').innerHTML = nextTasks.map(t => `
                 <div class="item">
-                    <div class="item-name"><b>${t.title}</b> : ${t.plant}</div>
-                    <div class="item-qty">${t.date.toLocaleDateString('fr-FR', {day:'numeric', month:'short'})}</div>
+                    <div style="flex:1;">
+                        <div class="item-name"><b>${t.title}</b> : ${t.plant}</div>
+                        ${t.desc ? `<div style="font-size:11px; color:#FFA500; margin-top:3px; font-weight:normal;">💡 ${t.desc.length > 55 ? t.desc.substring(0,55)+'...' : t.desc}</div>` : ''}
+                    </div>
+                    <div class="item-qty" style="align-self: flex-start; margin-left:10px; margin-top:2px;">${t.date.toLocaleDateString('fr-FR', {day:'numeric', month:'short'})}</div>
                 </div>
             `).join('') || `<div class="empty-msg">Aucune action prévue prochainement.</div>`;
         }

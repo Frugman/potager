@@ -185,6 +185,27 @@
                 }
             });
 
+            // 3. Semis Idéal Conseillé (Regroupement)
+            const recoGroups = {};
+            const cy = today.getFullYear();
+            seeds.forEach(s => {
+                if(s.conseil_semis && s.conseil_semis.date) {
+                    const hasSemis = journal.some(j => j.action === 'Semis' && String(j.seedId) === String(s.id) && new Date(j.date).getFullYear() === cy);
+                    if(!hasSemis) {
+                        const d = new Date(s.conseil_semis.date); d.setFullYear(cy);
+                        const k = d.getTime() + "|" + s.conseil_semis.texte;
+                        if(!recoGroups[k]) recoGroups[k] = { date: d, t: s.conseil_semis.texte, p: [], ids: [] };
+                        recoGroups[k].p.push(s.identite.nom_commun + (s.identite.variete ? ` ${s.identite.variete}` : ''));
+                        recoGroups[k].ids.push(s.id);
+                    }
+                }
+            });
+            Object.values(recoGroups).forEach(g => {
+                allTasks.push({
+                    date: g.date, title: "🎯 Prévision de Semis", plant: g.p.join(', '), seedId: g.ids[0], category: "Semis", desc: g.t
+                });
+            });
+
             renderAgenda();
         }
 
@@ -225,6 +246,7 @@
                         <div class="task-date">${t.date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}</div>
                         <div class="task-title">${t.title}</div>
                         <div class="task-plant">${t.plant}</div>
+                        ${t.desc ? `<div style="margin-top:8px; font-size:12px; color:#FFA500; padding:8px; background:rgba(255,165,0,0.05); border-left:2px solid #FFA500; font-style:italic;">💡 ${t.desc}</div>` : ''}
                     </div>
                 `;
             });
