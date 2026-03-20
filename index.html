@@ -47,6 +47,11 @@
             <div class="weather-scroll" id="weather-box" onclick="window.location.href='meteo.html'" style="cursor: pointer;">Chargement...</div>
         </section>
 
+        <section class="widget" id="sprouts-section" style="display:none; margin-bottom:15px;">
+            <div class="section-title" style="color:#f1c40f; border-left-color:#f1c40f;">👀 LEVÉES SOUS SURVEILLANCE</div>
+            <div id="sprouts-box" style="display:flex; flex-wrap:wrap; gap:8px; background:var(--card-bg); padding:15px; border-radius:12px; border:1px solid var(--border-color);"></div>
+        </section>
+
         <section class="widget">
             <div class="section-title">📅 PROCHAINES ACTIONS</div>
             <div id="agenda-box" class="card">Calcul de votre calendrier...</div>
@@ -78,6 +83,15 @@
         }
 
         const glossaryWords = ['stratifier', 'scarifier', 'poquet', 'plomber', 'gourmand', 'ébourgeonner', 'pincer', 'étêter', 'étreter', 'éclaircir', 'diriger', 'butter', 'biner', 'sarcler', 'pailler', 'arroser', 'nettoyer', 'palisser'];
+        function getClosestSaturday(d) {
+            const date = new Date(d);
+            const day = date.getDay();
+            const diff = day === 6 ? 0 : (day <= 2 ? -day - 1 : 6 - day);
+            date.setDate(date.getDate() + diff);
+            date.setHours(0,0,0,0);
+            return date;
+        }
+
         function getLexiqueBadge(text) {
             if(!text) return "";
             if(glossaryWords.some(w => text.toLowerCase().includes(w))) {
@@ -122,6 +136,7 @@
 
             // 2. PROCHAINES ACTIONS (REPRISE LOGIQUE AGENDA)
             let allTasks = [];
+            let allSprouts = [];
             const today = new Date(); today.setHours(0,0,0,0);
             // 1. Calculs depuis les Semis
             journal.filter(j => j.action === 'Semis').forEach(entry => {
@@ -132,7 +147,7 @@
                 const stages = [];
                 
                 if (seed.delais?.levee > 0) {
-                    stages.push({ d: seed.delais.levee, t: "🌱 Levée attendue" });
+                    allSprouts.push({ date: addDays(semisDate, seed.delais.levee), plant: seed.identite.nom_commun });
                 }
                 if (!isDirectSowing && seed.delais?.repiquage > 0) {
                     stages.push({ d: (seed.delais?.levee || 0) + seed.delais.repiquage, t: "🪴 Repiquage" });
@@ -145,7 +160,7 @@
                 }
                 
                 stages.forEach(st => {
-                    if(st.d > 0) allTasks.push({ date: addDays(semisDate, st.d), title: st.t, plant: seed.identite.nom_commun });
+                    if(st.d > 0) allTasks.push({ date: getClosestSaturday(addDays(semisDate, st.d)), title: st.t, plant: seed.identite.nom_commun });
                 });
                 if (seed.taches_entretien) {
                     seed.taches_entretien.forEach(te => {
@@ -162,7 +177,7 @@
                         const freq = te.frequence || 0;
                         const badge = getLexiqueBadge(te.label);
                         for(let i=0; i<occ; i++) {
-                            allTasks.push({ date: addDays(baseDate, te.delai + (i * freq)), title: `✂️ ${te.label}${badge}`, plant: seed.identite.nom_commun });
+                            allTasks.push({ date: getClosestSaturday(addDays(baseDate, te.delai + (i * freq))), title: `✂️ ${te.label}${badge}`, plant: seed.identite.nom_commun });
                         }
                     });
                 }
@@ -177,7 +192,7 @@
                                       new Date(s.date) <= planDate && (planDate - new Date(s.date)) < 100 * 24 * 60 * 60 * 1000);
                 if(!hasRecentSemis) {
                     if (seed.delais?.maturite > 0) {
-                        allTasks.push({ date: addDays(entry.date, seed.delais.maturite), title: "🧺 Récolte estimée (Achat)", plant: seed.identite.nom_commun });
+                        allTasks.push({ date: getClosestSaturday(addDays(entry.date, seed.delais.maturite)), title: "🧺 Récolte estimée (Achat)", plant: seed.identite.nom_commun });
                     }
                     if (seed.taches_entretien) {
                         seed.taches_entretien.filter(te => te.base === 'plantation').forEach(te => {
@@ -185,7 +200,7 @@
                             const freq = te.frequence || 0;
                             const badge = getLexiqueBadge(te.label);
                             for(let i=0; i<occ; i++) {
-                                allTasks.push({ date: addDays(entry.date, te.delai + (i * freq)), title: `✂️ ${te.label}${badge}`, plant: seed.identite.nom_commun });
+                                allTasks.push({ date: getClosestSaturday(addDays(entry.date, te.delai + (i * freq))), title: `✂️ ${te.label}${badge}`, plant: seed.identite.nom_commun });
                             }
                         });
                     }
@@ -207,19 +222,37 @@
                 }
             });
             Object.values(recoGroups).forEach(g => {
-                allTasks.push({ date: g.date, title: "🎯 Faire Semis", plant: [...new Set(g.p)].join(', '), desc: g.t });
+                allTasks.push({ date: getClosestSaturday(g.date), title: "🎯 Faire Semis", plant: [...new Set(g.p)].join(', '), desc: g.t });
             });
 
-            const nextTasks = allTasks.filter(t => t.date >= today).sort((a, b) => a.date - b.date).slice(0, 10);
-            document.getElementById('agenda-box').innerHTML = nextTasks.map(t => `
-                <div class="item">
-                    <div style="flex:1;">
-                        <div class="item-name"><b>${t.title}</b> : ${t.plant}</div>
-                        ${t.desc ? `<div style="font-size:11px; color:#FFA500; margin-top:3px; font-weight:normal;">💡 ${t.desc.length > 55 ? t.desc.substring(0,55)+'...' : t.desc}</div>` : ''}
+            const nextSprouts = allSprouts.filter(t => t.date >= today && t.date <= addDays(today, 14)).sort((a,b)=>a.date-b.date);
+            if(nextSprouts.length > 0) {
+                const spHTML = nextSprouts.map(s => `<span class="badge" style="background:rgba(241,196,15,0.1); color:#f1c40f; border:1px solid #f1c40f;">🌱 ${s.plant} (${s.date.getDate()}/${s.date.getMonth()+1})</span>`).join(' ');
+                document.getElementById('sprouts-box').innerHTML = spHTML;
+                document.getElementById('sprouts-section').style.display = 'block';
+            } else {
+                document.getElementById('sprouts-section').style.display = 'none';
+            }
+
+            const nextTasks = allTasks.filter(t => t.date >= today).sort((a, b) => a.date - b.date);
+            const grouped = {};
+            nextTasks.forEach(t => {
+                const k = t.date.getTime();
+                if(!grouped[k]) grouped[k] = { date: t.date, items: [] };
+                grouped[k].items.push(t);
+            });
+
+            const saturdays = Object.values(grouped).slice(0, 5);
+            document.getElementById('agenda-box').innerHTML = saturdays.map(g => `
+                <div class="item" style="flex-direction:column; align-items:flex-start; background:rgba(0,0,0,0.2); border:1px solid var(--border-color); border-left:3px solid var(--accent-green); padding:15px; border-radius:8px;">
+                    <div style="font-weight:900; font-size:16px; margin-bottom:12px; color:var(--accent-green); display:flex; align-items:center; gap:8px;">
+                        <span>📆 Samedi ${g.date.toLocaleDateString('fr-FR', {day:'numeric', month:'long'})}</span>
                     </div>
-                    <div class="item-qty" style="align-self: flex-start; margin-left:10px; margin-top:2px;">${t.date.toLocaleDateString('fr-FR', {day:'numeric', month:'short'})}</div>
+                    <ul style="margin:0; padding-left:20px; list-style-type:circle;">
+                        ${g.items.map(i => `<li style="margin-bottom:6px;"><b>${i.title}</b> : ${i.plant} ${i.desc ? `<div style="font-size:11.5px; color:#FFA500; font-style:italic; margin-top:2px;">💡 ${i.desc}</div>` : '' }</li>`).join('')}
+                    </ul>
                 </div>
-            `).join('') || `<div class="empty-msg">Aucune action prévue prochainement.</div>`;
+            `).join('') || `<div class="empty-msg">Aucune action physique au jardin prévue.</div>`;
         }
 
         function processPhoto(input) {
