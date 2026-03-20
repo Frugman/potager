@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Météo Agricole - Potager 2026</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/frugman/potager/main/favicon.png">
+    <style>
+        .meteo-item {
+            display: flex; flex-direction: column; background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color); border-radius: 12px;
+            padding: 15px; margin-bottom: 15px;
+        }
+        .m-header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px dashed var(--border-color); padding-bottom: 10px; margin-bottom: 10px;
+        }
+        .m-date { font-weight: 800; font-size: 16px; color: var(--text-primary); text-transform: capitalize; }
+        .m-icon { font-size: 30px; }
+        .m-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .m-stat-box { display: flex; flex-direction: column; align-items: flex-start; }
+        .m-val { font-size: 15px; font-weight: 800; color: var(--accent-green); }
+        .m-lbl { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; }
+        
+        .alert-gel { color: #87CEFA; font-weight: bold; }
+        .alert-vent { color: #FFA500; font-weight: bold; }
+        .alert-sec { color: var(--danger-red); font-weight: bold; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="#" onclick="window.history.length > 1 ? window.history.back() : window.location.href='autres.html'; return false;" class="back-btn">←</a>
+        <h1>☁️ Météo Agricole</h1>
+    </header>
+
+    <div class="container" id="meteo-container">
+        <div class="empty-msg">Analyse des flux satellites...</div>
+    </div>
+
+    <div style="height: 100px;"></div>
+
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Accueil</a>
+        <a href="repertoire.html" class="nav-item"><span class="nav-icon">📚</span>Semences</a>
+        <a href="bacs.html" class="nav-item"><span class="nav-icon">🍱</span>Bacs</a>
+        <a href="agenda.html" class="nav-item"><span class="nav-icon">📅</span>Agenda</a>
+        <a href="autres.html" class="nav-item active-nav"><span class="nav-icon">🗂️</span>Autres</a>
+    </nav>
+
+    <script>
+        const getWeatherIcon = (code) => {
+            if (code === 0) return "☀️"; if (code <= 3) return "🌤️";
+            if (code >= 51 && code <= 67) return "🌧️";
+            if (code >= 80 && code <= 82) return "🌦️";
+            if (code >= 95) return "⛈️"; return "☁️";
+        };
+
+        const getDesc = (code) => {
+            if (code === 0) return "Soleil radieux"; if (code <= 3) return "Ciel mitigé";
+            if (code >= 51 && code <= 67) return "Pluie continue";
+            if (code >= 80 && code <= 82) return "Averses locales";
+            if (code >= 95) return "Risque d'orages"; return "Très nuageux";
+        };
+
+        async function loadFullWeather() {
+            try {
+                // Modèles météo à 7 jours + Agricole pour La Roche-sur-Yon
+                const url = "https://api.open-meteo.com/v1/forecast?latitude=46.6702&longitude=-1.4264&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,windspeed_10m_max,et0_fao_evapotranspiration&timezone=Europe%2FParis";
+                const res = await fetch(url);
+                const data = await res.json();
+                
+                let html = `
+                    <div class="card" style="margin-bottom: 20px; font-size: 13px; color: var(--text-secondary);">
+                        <span style="color:var(--accent-green); font-weight:800;">📍 La Roche-sur-Yon (Vendée)</span><br><br>
+                        - <b>ET0 (Évapotranspiration)</b> : La quantité d'eau qui s'évapore du sol et des plantes chaque jour. Si l'ET0 dépasse la pluie, la terre s'assèche rapidement.<br><br>
+                        - <b>Alertes automatiques</b> si T° < 5°C, Vents > 40km/h ou fort déficit hydrique.
+                    </div>
+                `;
+
+                data.daily.time.forEach((t, i) => {
+                    const tmin = Math.round(data.daily.temperature_2m_min[i]);
+                    const tmax = Math.round(data.daily.temperature_2m_max[i]);
+                    const precipProb = data.daily.precipitation_probability_max[i] || 0;
+                    const precipSum = data.daily.precipitation_sum[i] || 0;
+                    const wind = Math.round(data.daily.windspeed_10m_max[i]);
+                    const et0 = data.daily.et0_fao_evapotranspiration[i];
+                    
+                    const code = data.daily.weathercode[i];
+                    const dateObj = new Date(t);
+                    let dateStr = dateObj.toLocaleDateString('fr-FR',{weekday:'long', day:'numeric', month:'long'});
+                    if (i === 0) dateStr = "Aujourd'hui";
+                    else if (i === 1) dateStr = "Demain";
+
+                    let tminClass = "m-val"; if(tmin <= 5) tminClass += " alert-gel";
+                    let windClass = "m-val"; if(wind >= 40) windClass += " alert-vent";
+                    let et0Class = "m-val"; if(et0 >= 4 && precipSum < et0) et0Class += " alert-sec";
+
+                    // Conditions d'alertes
+                    let alertMsgs = [];
+                    if(tmin <= 5) alertMsgs.push(`<div style="font-size:11px; margin-top:10px; color:#87CEFA; font-weight:bold;">❄️ RISQUE DE GEL : Préparez un voile de forçage !</div>`);
+                    if(wind >= 40) alertMsgs.push(`<div style="font-size:11px; margin-top:10px; color:#FFA500; font-weight:bold;">🌪️ VENT FORT : Vérifiez les accroches de la serre.</div>`);
+                    if(et0 >= 4 && precipSum < et0) alertMsgs.push(`<div style="font-size:11px; margin-top:10px; color:var(--danger-red); font-weight:bold;">💧 SÈCHERESSE : Pensez à vérifier l'arrosage.</div>`);
+
+                    html += `
+                        <div class="meteo-item">
+                            <div class="m-header">
+                                <div>
+                                    <div class="m-date">${dateStr}</div>
+                                    <div style="font-size:12px; color:var(--text-secondary); margin-top:3px;">${getDesc(code)}</div>
+                                </div>
+                                <div class="m-icon">${getWeatherIcon(code)}</div>
+                            </div>
+                            <div class="m-stats">
+                                <div class="m-stat-box">
+                                    <div class="${tminClass}">${tmin}° / <span style="font-weight:normal; color:var(--text-primary);">${tmax}°C</span></div>
+                                    <div class="m-lbl">Températures (min/max)</div>
+                                </div>
+                                <div class="m-stat-box">
+                                    <div class="m-val">${precipSum} mm <span style="font-weight:normal; font-size:12px;">(${precipProb}%)</span></div>
+                                    <div class="m-lbl">Gouttes (Volume / Risque)</div>
+                                </div>
+                                <div class="m-stat-box">
+                                    <div class="${windClass}">${wind} km/h</div>
+                                    <div class="m-lbl">Vent (Rafales max)</div>
+                                </div>
+                                <div class="m-stat-box">
+                                    <div class="${et0Class}">${et0} mm/j</div>
+                                    <div class="m-lbl">Assèchement (ET0)</div>
+                                </div>
+                            </div>
+                            ${alertMsgs.join('')}
+                        </div>
+                    `;
+                });
+
+                document.getElementById('meteo-container').innerHTML = html;
+            } catch(e) {
+                console.error(e);
+                document.getElementById('meteo-container').innerHTML = `<div class="empty-msg" style="color:var(--danger-red);">Impossible de synchroniser le système météo.</div>`;
+            }
+        }
+
+        window.onload = loadFullWeather;
+    </script>
+</body>
+</html>
