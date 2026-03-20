@@ -85,13 +85,13 @@
             today.setHours(0,0,0,0);
 
             // Pour chaque semis enregistré dans le journal
+            // 1. Calculs depuis les Semis
             journal.filter(j => j.action === 'Semis').forEach(entry => {
                 const seed = seeds.find(s => String(s.id) === String(entry.seedId));
                 if (!seed) return;
 
                 const semisDate = entry.date;
 
-                // 1. Étapes de croissance théoriques (Labels propres avec espaces)
                 const etapes = [
                     { d: seed.delais?.levee, t: "🌱 Levée attendue", cat: "Semis" },
                     { d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0), t: "🪴 Repiquage recommandé", cat: "Semis" },
@@ -111,7 +111,6 @@
                     }
                 });
 
-                // 2. Tâches d'entretien spécifiques
                 if (seed.taches_entretien) {
                     seed.taches_entretien.forEach(te => {
                         let baseDate = semisDate;
@@ -132,6 +131,38 @@
                             category: "Entretien"
                         });
                     });
+                }
+            });
+
+            // 2. Calculs depuis les Plantations directes (plants achetés sans semis)
+            journal.filter(j => j.action === 'Plantation').forEach(entry => {
+                const seed = seeds.find(s => String(s.id) === String(entry.seedId));
+                if (!seed) return;
+                const planDate = new Date(entry.date);
+                const hasRecentSemis = journal.some(s => s.action === 'Semis' && String(s.seedId) === String(entry.seedId) && 
+                                      new Date(s.date) <= planDate && (planDate - new Date(s.date)) < 100 * 24 * 60 * 60 * 1000);
+                
+                if(!hasRecentSemis) {
+                    if (seed.delais?.maturite > 0) {
+                        allTasks.push({
+                            date: addDays(entry.date, seed.delais.maturite),
+                            title: "🧺 Récolte estimée (Achat)",
+                            plant: `${seed.identite.nom_commun} - ${seed.identite.variete}`,
+                            seedId: seed.id,
+                            category: "Récolte"
+                        });
+                    }
+                    if (seed.taches_entretien) {
+                        seed.taches_entretien.filter(te => te.base === 'plantation').forEach(te => {
+                            allTasks.push({
+                                date: addDays(entry.date, te.delai),
+                                title: `✂️ ${te.label}`,
+                                plant: `${seed.identite.nom_commun} - ${seed.identite.variete}`,
+                                seedId: seed.id,
+                                category: "Entretien"
+                            });
+                        });
+                    }
                 }
             });
 
