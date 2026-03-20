@@ -245,13 +245,14 @@
   {
     "id": 1773591180504,
     "date": "2026-03-15",
-    "action": "Plantation",
+    "action": "Semis",
     "seedId": "roquette-sauvage",
     "note": "Filet installé",
     "photo": "",
     "quantite": 20,
-    "bac": "Bac D",
-    "unite": ""
+    "unite": "",
+    "emplacement": "Bac D",
+    "contenant": "Pleine terre (sans contenant)"
   },
   {
     "id": 1773591237505,
