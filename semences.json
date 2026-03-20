@@ -6,21 +6,21 @@
       "variete": "Bio Genovese",
       "famille": "Lamiacées",
       "provenance": "Kokopelli",
-      "duree_germ": "5",
+      "duree_germ": "4",
       "description": "Grandes feuilles très parfumées, idéal pour le pesto."
     },
     "delais": {
       "levee": 7,
-      "repiquage": 25,
+      "repiquage": 21,
       "plantation": 15,
       "maturite": 60
     },
     "culture": {
-      "exposition": "Plein soleil",
-      "eau": "Fort",
-      "style_semis": "En poquet",
-      "profondeur": "3mm",
-      "temp_levee": "20°C",
+      "exposition": "Soleil",
+      "eau": "Normal",
+      "style_semis": "Godet puis terre",
+      "profondeur": "En surface",
+      "temp_levee": "18-20°C",
       "dist_rang": 25,
       "dist_inter": 30,
       "periode_semis": [
@@ -67,21 +67,21 @@
       "variete": "Grand Vert",
       "famille": "Lamiacées",
       "provenance": "Kokopelli",
-      "duree_germ": "5",
+      "duree_germ": "4",
       "description": "Classique du potager, feuilles moyennes très odorantes."
     },
     "delais": {
       "levee": 7,
-      "repiquage": 25,
+      "repiquage": 21,
       "plantation": 15,
-      "maturite": 60
+      "maturite": 65
     },
     "culture": {
-      "exposition": "Plein soleil",
-      "eau": "Fort",
-      "style_semis": "En poquet",
-      "profondeur": "3mm",
-      "temp_levee": "20°C",
+      "exposition": "Soleil",
+      "eau": "Normal",
+      "style_semis": "Godet puis terre",
+      "profondeur": "En surface",
+      "temp_levee": "18-20°C",
       "dist_rang": 25,
       "dist_inter": 30,
       "periode_semis": [
@@ -128,22 +128,22 @@
       "variete": "À fleurs bleues",
       "famille": "Boraginacées",
       "provenance": "Kokopelli",
-      "duree_germ": "3",
+      "duree_germ": "8",
       "description": "Fleurs comestibles au goût iodé, excellente mellifère."
     },
     "delais": {
-      "levee": 10,
+      "levee": 7,
       "repiquage": 0,
       "plantation": 0,
-      "maturite": 60
+      "maturite": 55
     },
     "culture": {
-      "exposition": "Plein soleil",
-      "eau": "Moyen",
-      "style_semis": "À la volée",
+      "exposition": "Soleil",
+      "eau": "Faible",
+      "style_semis": "En poquet",
       "profondeur": "1cm",
-      "temp_levee": "15°C",
-      "dist_rang": 40,
+      "temp_levee": "15-20°C",
+      "dist_rang": 30,
       "dist_inter": 40,
       "periode_semis": [
         "Mar",
