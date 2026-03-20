@@ -1,4 +1,10 @@
-<!DOCTYPE html>
+import re
+
+modifier_path = r'e:\LOGICIELS\OUTIL POTAGER\potager\modifier-semence.html'
+repertoire_path = r'e:\LOGICIELS\OUTIL POTAGER\potager\repertoire.html'
+fiche_path = r'e:\LOGICIELS\OUTIL POTAGER\potager\fiche-semence.html'
+
+html_content = """<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -295,7 +301,7 @@
 
         function generateSlug(nom, variete) {
             let str = (nom + " " + variete).toLowerCase();
-            str = str.normalize("NFD").replace(/[̀-ͯ]/g, ""); 
+            str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); 
             str = str.replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""); 
             return str || "semence-inconnue";
         }
@@ -399,3 +405,22 @@
     </script>
 </body>
 </html>
+"""
+
+with open(modifier_path, "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+# Update repertoire.html and fiche-semence.html
+with open(repertoire_path, "r", encoding="utf-8") as f:
+    rep = f.read()
+rep = rep.replace('href="ajout-semence.html"', 'href="modifier-semence.html"')
+with open(repertoire_path, "w", encoding="utf-8") as f:
+    f.write(rep)
+
+with open(fiche_path, "r", encoding="utf-8") as f:
+    fiche = f.read()
+fiche = fiche.replace('href=`ajout-semence.html?edit=${seedId}`', 'href=`modifier-semence.html?id=${seedId}`')
+with open(fiche_path, "w", encoding="utf-8") as f:
+    f.write(fiche)
+
+print("done")
