@@ -108,9 +108,23 @@ header h1 {
 }
 
 .note-content { 
-    color: var(--text-secondary); 
+    color: var(--text-primary); 
     font-size: 14px; 
     white-space: pre-wrap; /* Respecte les retours à la ligne */
+}
+
+.info-label {
+    display: block; 
+    font-size: 11px; 
+    color: var(--accent-green); 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    margin-bottom: 2px;
+}
+
+.info-value {
+    margin-bottom: 12px;
+    font-size: 15px;
 }
 
 /* ==========================================================================
