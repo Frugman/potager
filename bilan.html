@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bilan des Récoltes - Potager 2026</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/frugman/potager/main/favicon.png">
+</head>
+<body>
+    <header>
+        <a href="autres.html" class="back-btn">←</a>
+        <h1>📊 Bilan des Récoltes</h1>
+    </header>
+
+    <div class="container">
+        <!-- Sélecteur d'année -->
+        <div style="margin-bottom: 20px;">
+            <select id="year-select" class="filter-btn" onchange="renderBilan()" style="width: 100%; border-style: dashed;">
+                <option value="all">Historique Complet</option>
+            </select>
+        </div>
+
+        <div id="stats-global" class="grid-2" style="margin-bottom: 20px;">
+            <!-- Poids total, Unités totales (injecté en JS) -->
+        </div>
+
+        <div id="bilan-container">
+            <div class="empty-msg">Chargement des données...</div>
+        </div>
+        
+        <div style="height: 100px;"></div>
+    </div>
+
+    <!-- Barre de navigation classique -->
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Accueil</a>
+        <a href="repertoire.html" class="nav-item"><span class="nav-icon">📚</span>Semences</a>
+        <a href="bacs.html" class="nav-item"><span class="nav-icon">🍱</span>Bacs</a>
+        <a href="agenda.html" class="nav-item"><span class="nav-icon">📅</span>Agenda</a>
+        <a href="autres.html" class="nav-item active-nav"><span class="nav-icon">🗂️</span>Autres</a>
+    </nav>
+
+    <script>
+        const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
+        let journalData = [];
+        let seedsData = [];
+
+        async function load() {
+            if(!token) { window.location.href = 'parametres.html'; return; }
+            try {
+                const [resS, resJ] = await Promise.all([
+                    fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } }),
+                    fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } })
+                ]);
+                seedsData = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
+                journalData = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
+
+                // Trouver dynamiquement les années ayant des récoltes
+                const harvestYears = new Set();
+                journalData.filter(j => j.action === 'Récolte' && j.date).forEach(j => {
+                    harvestYears.add(new Date(j.date).getFullYear());
+                });
+
+                const sel = document.getElementById('year-select');
+                Array.from(harvestYears).sort().reverse().forEach(y => {
+                    sel.innerHTML += `<option value="${y}">Saison ${y}</option>`;
+                });
+
+                // Sélectionner automatiquement l'année en cours s'il y a des récoltes, sinon par défaut 'all'
+                const currentYear = new Date().getFullYear();
+                if(harvestYears.has(currentYear)) {
+                    sel.value = currentYear;
+                }
+
+                renderBilan();
+            } catch(e) {
+                console.error(e);
+                document.getElementById('bilan-container').innerHTML = `<div class="empty-msg" style="color:var(--danger-red);">Erreur lors de la récupération des données.</div>`;
+            }
+        }
+
+        function renderBilan() {
+            const year = document.getElementById('year-select').value;
+            const harvests = journalData.filter(j => j.action === 'Récolte' && (year === 'all' || new Date(j.date).getFullYear() == year));
+
+            if(harvests.length === 0) {
+                document.getElementById('stats-global').innerHTML = "";
+                document.getElementById('bilan-container').innerHTML = `<div class="empty-msg">Vous n'avez enregistré aucune récolte pour le moment. Allez ajouter des paniers depuis le bouton "Action rapide" de l'Accueil !</div>`;
+                return;
+            }
+
+            let totalKg = 0;
+            let totalUnites = 0;
+            const stats = {};
+
+            harvests.forEach(h => {
+                const seedId = h.seedId;
+                let q = parseFloat(h.quantite) || 0;
+                let u = h.unite || 'unités';
+                
+                // Normalisation : On transforme 'g' en 'kg' pour le total global
+                let isWeight = false;
+                if(u === 'g') { q = q / 1000; u = 'kg'; isWeight = true; }
+                if(u === 'kg') { isWeight = true; }
+
+                if(isWeight) {
+                    totalKg += q;
+                } else {
+                    totalUnites += q;
+                }
+
+                // Statistiques par semence
+                if(!stats[seedId]) stats[seedId] = { kg: 0, unites: 0 };
+                if(isWeight) {
+                    stats[seedId].kg += q;
+                } else {
+                    stats[seedId].unites += q;
+                }
+            });
+
+            // Affichage Global
+            document.getElementById('stats-global').innerHTML = `
+                <div class="card" style="margin:0; text-align:center; padding:20px 10px;">
+                    <div style="font-size:28px; font-weight:900; color:var(--accent-green);">${totalKg.toFixed(2)}</div>
+                    <div style="font-size:12px; color:var(--text-secondary); text-transform:uppercase; margin-top:5px; letter-spacing:1px;">Kilos récoltés</div>
+                </div>
+                <div class="card" style="margin:0; text-align:center; padding:20px 10px;">
+                    <div style="font-size:28px; font-weight:900; color:var(--accent-green);">${(totalUnites % 1 === 0 ? totalUnites : totalUnites.toFixed(1))}</div>
+                    <div style="font-size:12px; color:var(--text-secondary); text-transform:uppercase; margin-top:5px; letter-spacing:1px;">Unités cueillies</div>
+                </div>
+            `;
+
+            // Affichage Détendu par Variété
+            let html = "";
+            // Trier les semences par quantité récoltée (d'abord le plus lourd, puis le plus d'unités)
+            const sortedSeedIds = Object.keys(stats).sort((a, b) => {
+                if(stats[b].kg !== stats[a].kg) return stats[b].kg - stats[a].kg;
+                return stats[b].unites - stats[a].unites;
+            });
+
+            sortedSeedIds.forEach(sid => {
+                const s = seedsData.find(item => String(item.id) === String(sid)) || { id: sid, identite: { nom_commun: "Plante inconnue", variete: "Ancienne donnée supprimée" } };
+                const st = stats[sid];
+                
+                let qtyStr = [];
+                if(st.kg > 0) qtyStr.push(`<span style="font-size:16px;">${st.kg.toFixed(2)} kg</span>`);
+                if(st.unites > 0) qtyStr.push(`<span style="font-size:16px;">${(st.unites % 1 === 0 ? st.unites : st.unites.toFixed(1))} pt(s)</span>`);
+
+                html += `
+                    <div class="item" onclick="window.location.href='fiche-semence.html?id=${s.id}'">
+                        <div class="item-info">
+                            <div class="item-name" style="font-size: 15px;">${s.identite.nom_commun}</div>
+                            <div class="item-variety">${s.identite.variete || '-'}</div>
+                        </div>
+                        <div class="item-qty" style="color:var(--accent-green); font-weight:800; display:flex; flex-direction:column; align-items:flex-end;">
+                            ${qtyStr.join('<span style="font-size:10px; color:var(--text-secondary); font-weight:normal;">+</span> ')}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('bilan-container').innerHTML = `
+                <div class="card">
+                    <div class="note-meta">Détail par variété</div>
+                    ${html}
+                </div>
+            `;
+        }
+
+        window.onload = load;
+    </script>
+</body>
+</html>
