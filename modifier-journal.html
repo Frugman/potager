@@ -132,7 +132,14 @@
                 if(type === 'Semis' || type === 'Repiquage') {
                     contHTML = `
                         <label>Contenant</label>
-                        <input type="text" id="val-cont" value="${entry?.contenant || ''}" placeholder="Plaque, Godet...">
+                        <select id="val-cont">
+                            <option ${entry?.contenant === 'Pleine terre (sans contenant)'?'selected':''}>Pleine terre (sans contenant)</option>
+                            <option ${entry?.contenant === 'Plaque de semis'?'selected':''}>Plaque de semis</option>
+                            <option ${entry?.contenant === 'Godet'?'selected':''}>Godet</option>
+                            <option ${entry?.contenant === 'Caissette'?'selected':''}>Caissette</option>
+                            <option ${entry?.contenant === 'Pot individuel'?'selected':''}>Pot individuel</option>
+                            <option ${entry?.contenant === 'Autre'?'selected':''}>Autre</option>
+                        </select>
                     `;
                 }
 
