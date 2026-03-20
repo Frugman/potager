@@ -200,7 +200,7 @@
                 allTasks.push({ date: g.date, title: "🎯 Faire Semis", plant: [...new Set(g.p)].join(', '), desc: g.t });
             });
 
-            const nextTasks = allTasks.filter(t => t.date >= today).sort((a, b) => a.date - b.date).slice(0, 5);
+            const nextTasks = allTasks.filter(t => t.date >= today).sort((a, b) => a.date - b.date).slice(0, 10);
             document.getElementById('agenda-box').innerHTML = nextTasks.map(t => `
                 <div class="item">
                     <div style="flex:1;">
