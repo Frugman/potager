@@ -135,6 +135,15 @@
         const params = new URLSearchParams(window.location.search);
         const seedId = params.get('id');
 
+        const glossaryWords = ['stratifier', 'scarifier', 'poquet', 'plomber', 'gourmand', 'ébourgeonner', 'pincer', 'étêter', 'étreter', 'éclaircir', 'diriger', 'butter', 'biner', 'sarcler', 'pailler', 'arroser', 'nettoyer', 'palisser'];
+        function getLexiqueBadge(text) {
+            if(!text) return "";
+            if(glossaryWords.some(w => text.toLowerCase().includes(w))) {
+                return ` <a href="lexique.html" title="Voir l'Antisèche" style="text-decoration:none; filter:grayscale(100%); font-size:14px;" onclick="event.stopPropagation();">💡</a>`;
+            }
+            return "";
+        }
+
         async function init() {
             if(!token || !seedId) return;
             document.getElementById('link-edit').href = `ajout-semence.html?edit=${seedId}`;
@@ -178,14 +187,17 @@
                         document.getElementById('s-soins').innerHTML = s.particularites.soins.map(soin => `<span class="badge">${soin}</span>`).join('');
                     }
                     if(s.taches_entretien) {
-                        document.getElementById('s-tasks').innerHTML = s.taches_entretien.map(t => `
-                            <div class="item">
-                                <div class="item-name" style="font-size:13px;">${t.label} 
+                        document.getElementById('s-tasks').innerHTML = s.taches_entretien.map(t => {
+                            const badge = getLexiqueBadge(t.label);
+                            return `
+                            <div class="item" style="cursor:default;">
+                                <div class="item-name" style="font-size:13px;">${t.label}${badge}
                                     ${t.frequence > 0 ? `<br><small style="color:var(--text-secondary)">Tous les ${t.frequence}j (${t.occurences}x)</small>` : ''}
                                 </div>
                                 <div class="item-qty" style="font-size:11px;">+${t.delai}j (${t.base})</div>
                             </div>
-                        `).join('');
+                            `;
+                        }).join('');
                     }
 
                     // Historique & Stats

@@ -97,7 +97,7 @@
             grid.innerHTML = data.map(s => {
                 const seedId = s.id;
                 return `
-                    <div class="card" onclick="window.location.href='fiche-semence.html?id=${seedId}'" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;">
+                    <div class="card" onclick="window.location.href='fiche-semence.html?id=${seedId}'" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; cursor: pointer;">
                         <div>
                             <div style="font-weight: 800; font-size: 16px; color: var(--text-primary);">${s.identite?.nom_commun || 'Sans nom'}</div>
                             <div style="font-size: 13px; color: var(--text-secondary); margin-top: 2px;">${s.identite?.variete || ''}</div>
