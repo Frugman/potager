@@ -34,9 +34,14 @@
       ],
       "bons_compagnons": [
         "Tomate",
-        "Poivron"
+        "Poivron",
+        "Courgette",
+        "Concombre",
+        "Aubergine"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Rue"
+      ]
     },
     "taches_entretien": [
       {
@@ -90,9 +95,14 @@
       ],
       "bons_compagnons": [
         "Tomate",
-        "Concombre"
+        "Poivron",
+        "Courgette",
+        "Concombre",
+        "Aubergine"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Rue"
+      ]
     },
     "taches_entretien": [
       {
@@ -144,8 +154,12 @@
     "particularites": {
       "soins": [],
       "bons_compagnons": [
-        "Fèves",
-        "Courgette"
+        "Tomate",
+        "Courgette",
+        "Haricot",
+        "Haricot Mangetout",
+        "Concombre",
+        "Fraisier"
       ],
       "mauvais_compagnons": []
     },
@@ -197,10 +211,7 @@
     },
     "particularites": {
       "soins": [],
-      "bons_compagnons": [
-        "Chou",
-        "Oignon"
-      ],
+      "bons_compagnons": [],
       "mauvais_compagnons": []
     },
     "taches_entretien": [],
@@ -246,8 +257,12 @@
     "particularites": {
       "soins": [],
       "bons_compagnons": [
+        "Fèves",
+        "Haricot",
+        "Haricot Mangetout",
+        "Courge",
         "Tomate",
-        "Chou"
+        "Radis"
       ],
       "mauvais_compagnons": []
     },
@@ -302,9 +317,18 @@
       "soins": [],
       "bons_compagnons": [
         "Carotte",
-        "Laitue"
+        "Tomate",
+        "Betterave",
+        "Laitue",
+        "Camomille",
+        "Fraisier"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Haricot",
+        "Haricot Mangetout",
+        "Fèves",
+        "Pois"
+      ]
     },
     "taches_entretien": [
       {
@@ -356,10 +380,19 @@
     "particularites": {
       "soins": [],
       "bons_compagnons": [
+        "Carotte",
         "Tomate",
-        "Carotte"
+        "Betterave",
+        "Laitue",
+        "Camomille",
+        "Fraisier"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Haricot",
+        "Haricot Mangetout",
+        "Fèves",
+        "Pois"
+      ]
     },
     "taches_entretien": [
       {
@@ -412,10 +445,24 @@
         "Tuteur"
       ],
       "bons_compagnons": [
-        "Aneth",
-        "Maïs"
+        "Maïs",
+        "Maïs Doux",
+        "Haricot",
+        "Haricot Mangetout",
+        "Laitue",
+        "Oignon",
+        "Camomille",
+        "Basilic",
+        "Tournesol"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Tomate",
+        "Radis",
+        "Pomme de terre",
+        "Courgette",
+        "Courge",
+        "Melon"
+      ]
     },
     "taches_entretien": [
       {
@@ -468,10 +515,24 @@
         "Tuteur"
       ],
       "bons_compagnons": [
-        "Chou",
-        "Oignon"
+        "Maïs",
+        "Maïs Doux",
+        "Haricot",
+        "Haricot Mangetout",
+        "Laitue",
+        "Oignon",
+        "Camomille",
+        "Basilic",
+        "Tournesol"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Tomate",
+        "Radis",
+        "Pomme de terre",
+        "Courgette",
+        "Courge",
+        "Melon"
+      ]
     },
     "taches_entretien": [
       {
@@ -523,10 +584,7 @@
       "soins": [
         "Tuteur"
       ],
-      "bons_compagnons": [
-        "Tomate",
-        "Potiron"
-      ],
+      "bons_compagnons": [],
       "mauvais_compagnons": []
     },
     "taches_entretien": [
@@ -578,10 +636,25 @@
     "particularites": {
       "soins": [],
       "bons_compagnons": [
+        "Maïs",
+        "Maïs Doux",
         "Haricot",
-        "Maïs"
+        "Haricot Mangetout",
+        "Capucine",
+        "Bourrache",
+        "Oignon",
+        "Laitue",
+        "Souci",
+        "Camomille",
+        "Basilic"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Tomate",
+        "Radis",
+        "Pomme de terre",
+        "Concombre",
+        "Melon"
+      ]
     },
     "taches_entretien": [
       {
@@ -632,10 +705,25 @@
     "particularites": {
       "soins": [],
       "bons_compagnons": [
-        "Fèves",
-        "Souci"
+        "Maïs",
+        "Maïs Doux",
+        "Haricot",
+        "Haricot Mangetout",
+        "Capucine",
+        "Bourrache",
+        "Oignon",
+        "Laitue",
+        "Souci",
+        "Camomille",
+        "Basilic"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Tomate",
+        "Radis",
+        "Pomme de terre",
+        "Concombre",
+        "Melon"
+      ]
     },
     "taches_entretien": [
       {
@@ -687,10 +775,7 @@
     },
     "particularites": {
       "soins": [],
-      "bons_compagnons": [
-        "Fraise",
-        "Pois"
-      ],
+      "bons_compagnons": [],
       "mauvais_compagnons": []
     },
     "taches_entretien": [
@@ -744,10 +829,26 @@
         "Pincement"
       ],
       "bons_compagnons": [
+        "Maïs",
+        "Maïs Doux",
+        "Courge",
+        "Courgette",
+        "Carotte",
         "Laitue",
-        "Chou"
+        "Épinard",
+        "Bourrache",
+        "Souci",
+        "Cosmos",
+        "Capucine"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Oignon",
+        "Poireau",
+        "Ciboule",
+        "Ciboulette",
+        "Ail",
+        "Fenouil"
+      ]
     },
     "taches_entretien": [
       {
@@ -800,10 +901,21 @@
     "particularites": {
       "soins": [],
       "bons_compagnons": [
+        "Betterave",
         "Carotte",
-        "Radis"
+        "Oignon",
+        "Radis",
+        "Capucine",
+        "Haricot",
+        "Tomate",
+        "Concombre",
+        "Poireau"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Céleri",
+        "Persil",
+        "Fenouil"
+      ]
     },
     "taches_entretien": [
       {
@@ -856,10 +968,21 @@
     "particularites": {
       "soins": [],
       "bons_compagnons": [
-        "Fèves",
-        "Oignon"
+        "Betterave",
+        "Carotte",
+        "Oignon",
+        "Radis",
+        "Capucine",
+        "Haricot",
+        "Tomate",
+        "Concombre",
+        "Poireau"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Céleri",
+        "Persil",
+        "Fenouil"
+      ]
     },
     "taches_entretien": [
       {
@@ -912,9 +1035,14 @@
       "soins": [],
       "bons_compagnons": [
         "Tomate",
-        "Poivron"
+        "Poivron",
+        "Aubergine",
+        "Haricot",
+        "Pomme de terre"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Haricot"
+      ]
     },
     "taches_entretien": [],
     "recolte": {
@@ -960,9 +1088,20 @@
       "soins": [],
       "bons_compagnons": [
         "Carotte",
-        "Fraise"
+        "Tomate",
+        "Betterave",
+        "Laitue",
+        "Camomille",
+        "Fraisier",
+        "Concombre"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Haricot",
+        "Haricot Mangetout",
+        "Fèves",
+        "Pois",
+        "Chou"
+      ]
     },
     "taches_entretien": [
       {
@@ -1013,10 +1152,21 @@
     "particularites": {
       "soins": [],
       "bons_compagnons": [
+        "Carotte",
+        "Tomate",
         "Betterave",
-        "Laitue"
+        "Laitue",
+        "Camomille",
+        "Fraisier",
+        "Concombre"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Haricot",
+        "Haricot Mangetout",
+        "Fèves",
+        "Pois",
+        "Chou"
+      ]
     },
     "taches_entretien": [
       {
@@ -1067,10 +1217,7 @@
     },
     "particularites": {
       "soins": [],
-      "bons_compagnons": [
-        "Tomate",
-        "Asperge"
-      ],
+      "bons_compagnons": [],
       "mauvais_compagnons": []
     },
     "taches_entretien": [],
@@ -1119,9 +1266,17 @@
       ],
       "bons_compagnons": [
         "Basilic",
-        "Souci"
+        "Tomate",
+        "Bourrache",
+        "Carotte",
+        "Oignon",
+        "Oeillets d'Inde"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Fenouil",
+        "Haricot",
+        "Moutarde"
+      ]
     },
     "taches_entretien": [
       {
@@ -1174,9 +1329,19 @@
       "soins": [],
       "bons_compagnons": [
         "Carotte",
-        "Fraise"
+        "Tomate",
+        "Betterave",
+        "Laitue",
+        "Camomille",
+        "Fraisier"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Haricot",
+        "Haricot Mangetout",
+        "Fèves",
+        "Pois",
+        "Betterave"
+      ]
     },
     "taches_entretien": [
       {
@@ -1230,9 +1395,18 @@
       ],
       "bons_compagnons": [
         "Basilic",
-        "Oeillet"
+        "Tomate",
+        "Bourrache",
+        "Carotte",
+        "Oignon",
+        "Oeillets d'Inde"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Fenouil",
+        "Haricot",
+        "Haricot Mangetout",
+        "Moutarde"
+      ]
     },
     "taches_entretien": [
       {
@@ -1285,10 +1459,19 @@
         "Tuteur"
       ],
       "bons_compagnons": [
-        "Souci",
-        "Basilic"
+        "Basilic",
+        "Tomate",
+        "Bourrache",
+        "Carotte",
+        "Oignon",
+        "Oeillets d'Inde"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Fenouil",
+        "Haricot",
+        "Haricot Mangetout",
+        "Moutarde"
+      ]
     },
     "taches_entretien": [
       {
@@ -1342,8 +1525,13 @@
     "particularites": {
       "soins": [],
       "bons_compagnons": [
-        "Laitue",
-        "Betterave"
+        "Betterave",
+        "Carotte",
+        "Oignon",
+        "Radis",
+        "Capucine",
+        "Haricot",
+        "Tomate"
       ],
       "mauvais_compagnons": []
     },
@@ -1389,10 +1577,7 @@
     },
     "particularites": {
       "soins": [],
-      "bons_compagnons": [
-        "Chou",
-        "Chou-fleur"
-      ],
+      "bons_compagnons": [],
       "mauvais_compagnons": []
     },
     "taches_entretien": [],
@@ -1440,7 +1625,10 @@
       "soins": [],
       "bons_compagnons": [
         "Tomate",
-        "Pomme de terre"
+        "Haricot",
+        "Asperge",
+        "Courgette",
+        "Carotte"
       ],
       "mauvais_compagnons": []
     },
@@ -1487,10 +1675,7 @@
     },
     "particularites": {
       "soins": [],
-      "bons_compagnons": [
-        "Tomate",
-        "Courge"
-      ],
+      "bons_compagnons": [],
       "mauvais_compagnons": []
     },
     "taches_entretien": [],
@@ -1540,9 +1725,27 @@
       ],
       "bons_compagnons": [
         "Basilic",
-        "Persil"
+        "Oeillets d'Inde",
+        "Tagète",
+        "Bourrache",
+        "Poireau",
+        "Oignon",
+        "Ciboulette",
+        "Ciboule",
+        "Cosmos",
+        "Souci",
+        "Persil",
+        "Carotte",
+        "Laitue"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Concombre",
+        "Cornichon",
+        "Fenouil",
+        "Pomme de terre",
+        "Betterave",
+        "Maïs"
+      ]
     },
     "taches_entretien": [
       {
@@ -1596,10 +1799,28 @@
         "Mildiou"
       ],
       "bons_compagnons": [
+        "Basilic",
+        "Oeillets d'Inde",
+        "Tagète",
+        "Bourrache",
+        "Poireau",
+        "Oignon",
+        "Ciboulette",
+        "Ciboule",
+        "Cosmos",
+        "Souci",
         "Persil",
-        "Oignon"
+        "Carotte",
+        "Laitue"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Concombre",
+        "Cornichon",
+        "Fenouil",
+        "Pomme de terre",
+        "Betterave",
+        "Maïs"
+      ]
     },
     "taches_entretien": [
       {
@@ -1651,10 +1872,7 @@
       "soins": [
         "Tuteur"
       ],
-      "bons_compagnons": [
-        "Tomate",
-        "Concombre"
-      ],
+      "bons_compagnons": [],
       "mauvais_compagnons": []
     },
     "taches_entretien": [
@@ -1753,9 +1971,27 @@
       ],
       "bons_compagnons": [
         "Basilic",
-        "Souci"
+        "Oeillets d'Inde",
+        "Tagète",
+        "Bourrache",
+        "Poireau",
+        "Oignon",
+        "Ciboulette",
+        "Ciboule",
+        "Cosmos",
+        "Souci",
+        "Persil",
+        "Carotte",
+        "Laitue"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Concombre",
+        "Cornichon",
+        "Fenouil",
+        "Pomme de terre",
+        "Betterave",
+        "Maïs"
+      ]
     },
     "taches_entretien": [
       {
@@ -1809,9 +2045,23 @@
       ],
       "bons_compagnons": [
         "Maïs",
+        "Maïs Doux",
+        "Haricot",
+        "Haricot Mangetout",
+        "Laitue",
+        "Oignon",
+        "Camomille",
+        "Basilic",
         "Tournesol"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Tomate",
+        "Radis",
+        "Pomme de terre",
+        "Courgette",
+        "Courge",
+        "Melon"
+      ]
     },
     "taches_entretien": [
       {
@@ -1865,9 +2115,24 @@
       ],
       "bons_compagnons": [
         "Maïs",
-        "Haricot"
+        "Maïs Doux",
+        "Haricot",
+        "Haricot Mangetout",
+        "Capucine",
+        "Bourrache",
+        "Oignon",
+        "Laitue",
+        "Souci",
+        "Camomille",
+        "Basilic"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Tomate",
+        "Radis",
+        "Pomme de terre",
+        "Concombre",
+        "Melon"
+      ]
     },
     "taches_entretien": [
       {
@@ -1919,8 +2184,26 @@
       "soins": [
         "Treillis"
       ],
-      "bons_compagnons": [],
-      "mauvais_compagnons": []
+      "bons_compagnons": [
+        "Maïs",
+        "Maïs Doux",
+        "Haricot",
+        "Haricot Mangetout",
+        "Capucine",
+        "Bourrache",
+        "Oignon",
+        "Laitue",
+        "Souci",
+        "Camomille",
+        "Basilic"
+      ],
+      "mauvais_compagnons": [
+        "Tomate",
+        "Radis",
+        "Pomme de terre",
+        "Concombre",
+        "Melon"
+      ]
     },
     "taches_entretien": [],
     "recolte": {
@@ -1968,9 +2251,20 @@
       ],
       "bons_compagnons": [
         "Courge",
-        "Haricot"
+        "Courgette",
+        "Haricot",
+        "Haricot Mangetout",
+        "Fèves",
+        "Concombre",
+        "Melon",
+        "Tournesol",
+        "Laitue"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Tomate",
+        "Betterave",
+        "Céleri"
+      ]
     },
     "taches_entretien": [
       {
@@ -2022,7 +2316,13 @@
     "particularites": {
       "soins": [],
       "bons_compagnons": [
-        "Poireau"
+        "Betterave",
+        "Carotte",
+        "Oignon",
+        "Radis",
+        "Capucine",
+        "Haricot",
+        "Tomate"
       ],
       "mauvais_compagnons": []
     },
@@ -2071,7 +2371,13 @@
         "Trempage"
       ],
       "bons_compagnons": [
-        "Fraise"
+        "Betterave",
+        "Carotte",
+        "Oignon",
+        "Radis",
+        "Capucine",
+        "Haricot",
+        "Tomate"
       ],
       "mauvais_compagnons": []
     },
@@ -2128,9 +2434,26 @@
       ],
       "bons_compagnons": [
         "Maïs",
-        "Sarriette"
+        "Maïs Doux",
+        "Courge",
+        "Courgette",
+        "Carotte",
+        "Laitue",
+        "Épinard",
+        "Bourrache",
+        "Souci",
+        "Cosmos",
+        "Capucine"
       ],
-      "mauvais_compagnons": []
+      "mauvais_compagnons": [
+        "Oignon",
+        "Poireau",
+        "Ciboule",
+        "Ciboulette",
+        "Ail",
+        "Fenouil",
+        "Poivron"
+      ]
     },
     "taches_entretien": [
       {
@@ -2180,9 +2503,7 @@
     },
     "particularites": {
       "soins": [],
-      "bons_compagnons": [
-        "Vigne"
-      ],
+      "bons_compagnons": [],
       "mauvais_compagnons": []
     },
     "taches_entretien": [],
@@ -2548,8 +2869,29 @@
       "texte": "Semer au chaud (20°C mini en intérieur ou véranda) en godets individuels. Ne pas trop tasser le terreau. Garder humide mais pas détrempé."
     },
     "particularites": {
-      "bons_compagnons": [],
-      "mauvais_compagnons": []
+      "bons_compagnons": [
+        "Basilic",
+        "Oeillets d'Inde",
+        "Tagète",
+        "Bourrache",
+        "Poireau",
+        "Oignon",
+        "Ciboulette",
+        "Ciboule",
+        "Cosmos",
+        "Souci",
+        "Persil",
+        "Carotte",
+        "Laitue"
+      ],
+      "mauvais_compagnons": [
+        "Concombre",
+        "Cornichon",
+        "Fenouil",
+        "Pomme de terre",
+        "Betterave",
+        "Maïs"
+      ]
     }
   },
   {
@@ -2589,8 +2931,29 @@
       "texte": "Semer au chaud (20°C mini en intérieur ou véranda) en godets individuels. Ne pas trop tasser le terreau. Garder humide mais pas détrempé."
     },
     "particularites": {
-      "bons_compagnons": [],
-      "mauvais_compagnons": []
+      "bons_compagnons": [
+        "Basilic",
+        "Oeillets d'Inde",
+        "Tagète",
+        "Bourrache",
+        "Poireau",
+        "Oignon",
+        "Ciboulette",
+        "Ciboule",
+        "Cosmos",
+        "Souci",
+        "Persil",
+        "Carotte",
+        "Laitue"
+      ],
+      "mauvais_compagnons": [
+        "Concombre",
+        "Cornichon",
+        "Fenouil",
+        "Pomme de terre",
+        "Betterave",
+        "Maïs"
+      ]
     }
   },
   {
@@ -2630,8 +2993,29 @@
       "texte": "Semer au chaud (20°C mini en intérieur ou véranda) en godets individuels. Ne pas trop tasser le terreau. Garder humide mais pas détrempé."
     },
     "particularites": {
-      "bons_compagnons": [],
-      "mauvais_compagnons": []
+      "bons_compagnons": [
+        "Basilic",
+        "Oeillets d'Inde",
+        "Tagète",
+        "Bourrache",
+        "Poireau",
+        "Oignon",
+        "Ciboulette",
+        "Ciboule",
+        "Cosmos",
+        "Souci",
+        "Persil",
+        "Carotte",
+        "Laitue"
+      ],
+      "mauvais_compagnons": [
+        "Concombre",
+        "Cornichon",
+        "Fenouil",
+        "Pomme de terre",
+        "Betterave",
+        "Maïs"
+      ]
     }
   },
   {
@@ -2671,8 +3055,20 @@
       "texte": "Semer au chaud (20°C mini en intérieur ou véranda) en godets individuels. Ne pas trop tasser le terreau. Garder humide mais pas détrempé."
     },
     "particularites": {
-      "bons_compagnons": [],
-      "mauvais_compagnons": []
+      "bons_compagnons": [
+        "Basilic",
+        "Tomate",
+        "Bourrache",
+        "Carotte",
+        "Oignon",
+        "Oeillets d'Inde"
+      ],
+      "mauvais_compagnons": [
+        "Fenouil",
+        "Haricot",
+        "Haricot Mangetout",
+        "Moutarde"
+      ]
     }
   },
   {
@@ -2712,8 +3108,22 @@
       "texte": "Semis classique de printemps. À adapter selon la météo locale (protection si nuits froides < 5°C)."
     },
     "particularites": {
-      "bons_compagnons": [],
-      "mauvais_compagnons": []
+      "bons_compagnons": [
+        "Courge",
+        "Courgette",
+        "Haricot",
+        "Haricot Mangetout",
+        "Fèves",
+        "Concombre",
+        "Melon",
+        "Tournesol",
+        "Laitue"
+      ],
+      "mauvais_compagnons": [
+        "Tomate",
+        "Betterave",
+        "Céleri"
+      ]
     }
   },
   {
@@ -2760,8 +3170,23 @@
       "texte": "Semer au chaud (20°C mini en intérieur ou véranda) en godets individuels. Ne pas trop tasser le terreau. Garder humide mais pas détrempé."
     },
     "particularites": {
-      "bons_compagnons": [],
-      "mauvais_compagnons": []
+      "bons_compagnons": [
+        "Maïs",
+        "Maïs Doux",
+        "Haricot",
+        "Laitue",
+        "Oignon",
+        "Camomille",
+        "Basilic"
+      ],
+      "mauvais_compagnons": [
+        "Tomate",
+        "Radis",
+        "Pomme de terre",
+        "Courgette",
+        "Courge",
+        "Concombre"
+      ]
     }
   },
   {
@@ -2801,8 +3226,25 @@
       "texte": "Semer en godets sous serre non chauffée ou en poquet de 3 graines directement en place si le sol est bien réchauffé. Ne tolère aucun gel !"
     },
     "particularites": {
-      "bons_compagnons": [],
-      "mauvais_compagnons": []
+      "bons_compagnons": [
+        "Maïs",
+        "Maïs Doux",
+        "Haricot",
+        "Haricot Mangetout",
+        "Laitue",
+        "Oignon",
+        "Camomille",
+        "Basilic",
+        "Tournesol"
+      ],
+      "mauvais_compagnons": [
+        "Tomate",
+        "Radis",
+        "Pomme de terre",
+        "Courgette",
+        "Courge",
+        "Melon"
+      ]
     }
   },
   {
@@ -2842,8 +3284,25 @@
       "texte": "Semer en godets sous serre non chauffée ou en poquet de 3 graines directement en place si le sol est bien réchauffé. Ne tolère aucun gel !"
     },
     "particularites": {
-      "bons_compagnons": [],
-      "mauvais_compagnons": []
+      "bons_compagnons": [
+        "Maïs",
+        "Maïs Doux",
+        "Haricot",
+        "Haricot Mangetout",
+        "Laitue",
+        "Oignon",
+        "Camomille",
+        "Basilic",
+        "Tournesol"
+      ],
+      "mauvais_compagnons": [
+        "Tomate",
+        "Radis",
+        "Pomme de terre",
+        "Courgette",
+        "Courge",
+        "Melon"
+      ]
     }
   },
   {
@@ -2883,8 +3342,22 @@
       "texte": "Semer directement en pleine terre. Le sol de Vendée se réchauffe vite. Éclaircir quelques semaines après la levée pour ne garder que les plus vigoureux."
     },
     "particularites": {
-      "bons_compagnons": [],
-      "mauvais_compagnons": []
+      "bons_compagnons": [
+        "Oignon",
+        "Laitue",
+        "Haricot",
+        "Bourrache",
+        "Mâche",
+        "Épinard",
+        "Chou",
+        "Radis"
+      ],
+      "mauvais_compagnons": [
+        "Poireau",
+        "Tomate",
+        "Maïs",
+        "Épinard"
+      ]
     }
   },
   {
@@ -2928,12 +3401,20 @@
     },
     "particularites": {
       "bons_compagnons": [
-        "Epinard",
-        "Haricot Mangetout",
-        "Laitue"
+        "Oignon",
+        "Laitue",
+        "Haricot",
+        "Bourrache",
+        "Mâche",
+        "Épinard",
+        "Chou",
+        "Radis"
       ],
       "mauvais_compagnons": [
-        "Oignon"
+        "Poireau",
+        "Tomate",
+        "Maïs",
+        "Épinard"
       ]
     }
   },
@@ -2974,8 +3455,21 @@
       "texte": "Semis en caissette ou petite terrine. À fleur de terre, très peu couvert de terreau tamisé."
     },
     "particularites": {
-      "bons_compagnons": [],
-      "mauvais_compagnons": []
+      "bons_compagnons": [
+        "Carotte",
+        "Tomate",
+        "Betterave",
+        "Laitue",
+        "Camomille",
+        "Fraisier"
+      ],
+      "mauvais_compagnons": [
+        "Haricot",
+        "Haricot Mangetout",
+        "Fèves",
+        "Pois",
+        "Betterave"
+      ]
     }
   },
   {
@@ -3056,7 +3550,13 @@
       "texte": "Semis en caissette ou petite terrine. À fleur de terre, très peu couvert de terreau tamisé."
     },
     "particularites": {
-      "bons_compagnons": [],
+      "bons_compagnons": [
+        "Tomate",
+        "Haricot",
+        "Asperge",
+        "Courgette",
+        "Carotte"
+      ],
       "mauvais_compagnons": []
     }
   }
