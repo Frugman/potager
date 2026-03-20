@@ -1006,25 +1006,25 @@
     "identite": {
       "nom_commun": "Oeillets d'Inde",
       "variete": "Mai",
-      "famille": "Astéracées",
+      "famille": "Astéracées / Divers",
       "provenance": "Kokopelli",
-      "duree_germ": "3",
+      "duree_germ": "4",
       "description": "Indispensable pour protéger les tomates des nématodes."
     },
     "delais": {
-      "levee": 10,
-      "repiquage": 20,
-      "plantation": 10,
-      "maturite": 70
+      "levee": 8,
+      "repiquage": 25,
+      "plantation": 20,
+      "maturite": 80
     },
     "culture": {
-      "exposition": "Soleil",
-      "eau": "Moyen",
-      "style_semis": "En surface",
-      "profondeur": "2mm",
+      "exposition": "Plein Soleil",
+      "eau": "Normal",
+      "style_semis": "En terrine ou Mottes",
+      "profondeur": "3mm",
       "temp_levee": "20°C",
-      "dist_rang": 25,
-      "dist_inter": 25,
+      "dist_rang": 40,
+      "dist_inter": 40,
       "periode_semis": [
         "Mar",
         "Avr",
@@ -1196,19 +1196,19 @@
       "description": "Feuillage plat très aromatique, levée longue."
     },
     "delais": {
-      "levee": 25,
-      "repiquage": 20,
-      "plantation": 10,
+      "levee": 21,
+      "repiquage": 0,
+      "plantation": 0,
       "maturite": 80
     },
     "culture": {
-      "exposition": "Soleil/Mi-ombre",
-      "eau": "Fort",
-      "style_semis": "En ligne",
-      "profondeur": "5mm",
-      "temp_levee": "18°C",
-      "dist_rang": 15,
-      "dist_inter": 25,
+      "exposition": "Mi-ombre",
+      "eau": "Normal",
+      "style_semis": "En place, graine trempée 24h",
+      "profondeur": "1cm",
+      "temp_levee": "15-20°C",
+      "dist_rang": 20,
+      "dist_inter": 30,
       "periode_semis": [
         "Mar",
         "Avr",
@@ -1501,19 +1501,19 @@
       "description": "Goût beaucoup plus prononcé que la roquette annuelle."
     },
     "delais": {
-      "levee": 7,
+      "levee": 6,
       "repiquage": 0,
       "plantation": 0,
       "maturite": 40
     },
     "culture": {
-      "exposition": "Soleil/Mi-ombre",
-      "eau": "Fort",
-      "style_semis": "À la volée",
-      "profondeur": "2mm",
-      "temp_levee": "18°C",
-      "dist_rang": 5,
-      "dist_inter": 20,
+      "exposition": "Mi-ombre (Monte vite à graine)",
+      "eau": "Constant (Sinon très piquante)",
+      "style_semis": "En ligne claire",
+      "profondeur": "1cm",
+      "temp_levee": "15°C",
+      "dist_rang": 10,
+      "dist_inter": 15,
       "periode_semis": [
         "Mar",
         "Avr",
@@ -1557,19 +1557,19 @@
       "description": "Thym rampant très odorant, fleurs bleues."
     },
     "delais": {
-      "levee": 20,
-      "repiquage": 30,
-      "plantation": 15,
-      "maturite": 120
+      "levee": 15,
+      "repiquage": 40,
+      "plantation": 20,
+      "maturite": 90
     },
     "culture": {
-      "exposition": "Plein soleil",
-      "eau": "Faible",
-      "style_semis": "En surface",
-      "profondeur": "0mm",
-      "temp_levee": "18°C",
-      "dist_rang": 25,
-      "dist_inter": 25,
+      "exposition": "Plein Soleil",
+      "eau": "Faible / Sec",
+      "style_semis": "En pépinière",
+      "profondeur": "En surface (Laisser à la lumière)",
+      "temp_levee": "18-20°C",
+      "dist_rang": 30,
+      "dist_inter": 40,
       "periode_semis": [
         "Avr",
         "Mai"
@@ -1596,25 +1596,25 @@
     "identite": {
       "nom_commun": "Souci",
       "variete": "Orange",
-      "famille": "Astéracées",
+      "famille": "Astéracées / Divers",
       "provenance": "Kokopelli",
-      "duree_germ": "3",
+      "duree_germ": "4",
       "description": "Fleurs médicinales orange vif, protège le jardin."
     },
     "delais": {
-      "levee": 10,
-      "repiquage": 15,
-      "plantation": 10,
-      "maturite": 70
+      "levee": 8,
+      "repiquage": 25,
+      "plantation": 20,
+      "maturite": 80
     },
     "culture": {
-      "exposition": "Soleil",
-      "eau": "Moyen",
-      "style_semis": "En poquet",
-      "profondeur": "1cm",
-      "temp_levee": "18°C",
-      "dist_rang": 25,
-      "dist_inter": 25,
+      "exposition": "Plein Soleil",
+      "eau": "Normal",
+      "style_semis": "En terrine ou Mottes",
+      "profondeur": "3mm",
+      "temp_levee": "20°C",
+      "dist_rang": 40,
+      "dist_inter": 40,
       "periode_semis": [
         "Mar",
         "Avr",
@@ -1648,25 +1648,25 @@
     "identite": {
       "nom_commun": "Tagète",
       "variete": "Estragon du Mexique",
-      "famille": "Astéracées",
+      "famille": "Astéracées / Divers",
       "provenance": "Kokopelli",
-      "duree_germ": "3",
+      "duree_germ": "4",
       "description": "Saveur proche de l'estragon, fleurs jaunes lumineuses."
     },
     "delais": {
-      "levee": 12,
-      "repiquage": 20,
-      "plantation": 10,
-      "maturite": 90
+      "levee": 8,
+      "repiquage": 25,
+      "plantation": 20,
+      "maturite": 80
     },
     "culture": {
-      "exposition": "Soleil",
-      "eau": "Moyen",
-      "style_semis": "En surface",
-      "profondeur": "2mm",
+      "exposition": "Plein Soleil",
+      "eau": "Normal",
+      "style_semis": "En terrine ou Mottes",
+      "profondeur": "3mm",
       "temp_levee": "20°C",
-      "dist_rang": 30,
-      "dist_inter": 30,
+      "dist_rang": 40,
+      "dist_inter": 40,
       "periode_semis": [
         "Mar",
         "Avr",
@@ -1844,25 +1844,25 @@
     "identite": {
       "nom_commun": "Zinnia",
       "variete": "Jim Baggett Choice Mix",
-      "famille": "Astéracées",
+      "famille": "Astéracées / Divers",
       "provenance": "Kokopelli",
       "duree_germ": "4",
       "description": "Mélange de couleurs éclatantes, fleurs très robustes."
     },
     "delais": {
-      "levee": 7,
-      "repiquage": 15,
-      "plantation": 10,
-      "maturite": 70
+      "levee": 8,
+      "repiquage": 25,
+      "plantation": 20,
+      "maturite": 80
     },
     "culture": {
-      "exposition": "Plein soleil",
-      "eau": "Moyen",
-      "style_semis": "En surface",
+      "exposition": "Plein Soleil",
+      "eau": "Normal",
+      "style_semis": "En terrine ou Mottes",
       "profondeur": "3mm",
       "temp_levee": "20°C",
-      "dist_rang": 30,
-      "dist_inter": 30,
+      "dist_rang": 40,
+      "dist_inter": 40,
       "periode_semis": [
         "Avr",
         "Mai"
@@ -1899,18 +1899,23 @@
       "variete": "Chasselas",
       "famille": "Vitacées",
       "provenance": "Donation",
-      "duree_germ": "0",
+      "duree_germ": "N/A",
       "description": "2 plants donnés par Mathieu Fétiveau et plantés à côté des piquets de linge derrière le 15 février 2026"
     },
     "delais": {
       "levee": 0,
       "repiquage": 0,
       "plantation": 0,
-      "maturite": 900
+      "maturite": 700
     },
     "culture": {
-      "exposition": "Plein soleil",
-      "eau": "Moyen"
+      "exposition": "Plein Soleil (Sud / Mur)",
+      "eau": "Faible",
+      "style_semis": "Plantation (Bouture / Scion)",
+      "profondeur": "20cm de sol profond",
+      "temp_levee": "N/A",
+      "dist_rang": 150,
+      "dist_inter": 250
     },
     "particularites": {
       "soins": [
@@ -2288,24 +2293,24 @@
     "identite": {
       "nom_commun": "Mâche",
       "variete": "Élan",
-      "famille": "Caprifoliacées",
+      "famille": "Valérianacées",
       "provenance": "Kokopelli",
       "duree_germ": "4",
       "description": "Variété de mâche à croissance rapide."
     },
     "delais": {
-      "levee": 12,
+      "levee": 8,
       "repiquage": 0,
       "plantation": 0,
       "maturite": 60
     },
     "culture": {
-      "exposition": "Soleil/Mi-ombre",
-      "eau": "Moyen",
-      "style_semis": "À la volée",
-      "profondeur": "5mm",
-      "temp_levee": "15°C",
-      "dist_rang": 5,
+      "exposition": "Soleil (Automne/Hiver)",
+      "eau": "Normal",
+      "style_semis": "À la volée (Sol tassé)",
+      "profondeur": "1cm",
+      "temp_levee": "10-15°C (Le sol doit refroidir)",
+      "dist_rang": 15,
       "dist_inter": 20,
       "periode_semis": [
         "Août",
@@ -2479,22 +2484,22 @@
       "variete": "Standard",
       "famille": "Lamiacées",
       "provenance": "Kokopelli",
-      "duree_germ": "4",
+      "duree_germ": "3",
       "description": "Plante aromatique et médicinale, fleurs bleues très mellifères."
     },
     "delais": {
-      "levee": 14,
-      "repiquage": 30,
-      "plantation": 15,
+      "levee": 15,
+      "repiquage": 40,
+      "plantation": 20,
       "maturite": 90
     },
     "culture": {
-      "exposition": "Plein soleil",
-      "eau": "Faible",
-      "style_semis": "En surface",
-      "profondeur": "2mm",
-      "temp_levee": "18°C",
-      "dist_rang": 40,
+      "exposition": "Plein Soleil",
+      "eau": "Faible / Sec",
+      "style_semis": "En pépinière",
+      "profondeur": "En surface (Laisser à la lumière)",
+      "temp_levee": "18-20°C",
+      "dist_rang": 30,
       "dist_inter": 40,
       "periode_semis": [
         "Mar",
@@ -2522,25 +2527,25 @@
     "identite": {
       "nom_commun": "Dahlia",
       "variete": "Double Extreme",
-      "famille": "Astéracées",
+      "famille": "Astéracées / Divers",
       "provenance": "Kokopelli",
       "duree_germ": "4",
       "description": "Mélange de dahlias aux fleurs très doubles."
     },
     "delais": {
-      "levee": 12,
-      "repiquage": 30,
-      "plantation": 10,
+      "levee": 8,
+      "repiquage": 25,
+      "plantation": 20,
       "maturite": 110
     },
     "culture": {
-      "exposition": "Soleil",
-      "eau": "Moyen",
-      "style_semis": "En caissette",
-      "profondeur": "5mm",
+      "exposition": "Plein Soleil",
+      "eau": "Important (pour tubercule)",
+      "style_semis": "En terrine ou Mottes",
+      "profondeur": "3mm",
       "temp_levee": "20°C",
-      "dist_rang": 50,
-      "dist_inter": 50,
+      "dist_rang": 60,
+      "dist_inter": 40,
       "periode_semis": [
         "Mar",
         "Avr"
@@ -2575,25 +2580,25 @@
     "identite": {
       "nom_commun": "Dahlia",
       "variete": "Mystery Mix",
-      "famille": "Astéracées",
+      "famille": "Astéracées / Divers",
       "provenance": "Kokopelli",
       "duree_germ": "4",
       "description": "Mélange surprise de formes et de couleurs."
     },
     "delais": {
-      "levee": 12,
-      "repiquage": 30,
-      "plantation": 10,
+      "levee": 8,
+      "repiquage": 25,
+      "plantation": 20,
       "maturite": 110
     },
     "culture": {
-      "exposition": "Soleil",
-      "eau": "Moyen",
-      "style_semis": "En caissette",
-      "profondeur": "5mm",
+      "exposition": "Plein Soleil",
+      "eau": "Important (pour tubercule)",
+      "style_semis": "En terrine ou Mottes",
+      "profondeur": "3mm",
       "temp_levee": "20°C",
-      "dist_rang": 50,
-      "dist_inter": 50,
+      "dist_rang": 60,
+      "dist_inter": 40,
       "periode_semis": [
         "Mar",
         "Avr"
@@ -2628,25 +2633,25 @@
     "identite": {
       "nom_commun": "Œillets",
       "variete": "Electron",
-      "famille": "Caryophyllacées",
+      "famille": "Astéracées / Divers",
       "provenance": "Kokopelli",
       "duree_germ": "4",
       "description": "Fleurs très colorées et parfumées."
     },
     "delais": {
-      "levee": 15,
+      "levee": 8,
       "repiquage": 25,
-      "plantation": 10,
-      "maturite": 100
+      "plantation": 20,
+      "maturite": 80
     },
     "culture": {
-      "exposition": "Soleil",
-      "eau": "Faible",
-      "style_semis": "En surface",
-      "profondeur": "2mm",
-      "temp_levee": "18°C",
-      "dist_rang": 25,
-      "dist_inter": 25,
+      "exposition": "Plein Soleil",
+      "eau": "Normal",
+      "style_semis": "En terrine ou Mottes",
+      "profondeur": "3mm",
+      "temp_levee": "20°C",
+      "dist_rang": 40,
+      "dist_inter": 40,
       "periode_semis": [
         "Mar",
         "Avr"
@@ -2679,19 +2684,19 @@
       "description": "Fleurs de pivoine roses, pétales frangés."
     },
     "delais": {
-      "levee": 12,
+      "levee": 14,
       "repiquage": 0,
       "plantation": 0,
-      "maturite": 90
+      "maturite": 70
     },
     "culture": {
-      "exposition": "Soleil",
-      "eau": "Faible",
-      "style_semis": "À la volée",
-      "profondeur": "2mm",
+      "exposition": "Plein Soleil",
+      "eau": "Normal",
+      "style_semis": "A la volée (Direct en place !)",
+      "profondeur": "Surface (Plomber avec le râteau)",
       "temp_levee": "15°C",
       "dist_rang": 20,
-      "dist_inter": 25,
+      "dist_inter": 20,
       "periode_semis": [
         "Mar",
         "Avr"
@@ -2724,19 +2729,19 @@
       "description": "Fleurs blanches doubles et ébouriffées."
     },
     "delais": {
-      "levee": 12,
+      "levee": 14,
       "repiquage": 0,
       "plantation": 0,
-      "maturite": 90
+      "maturite": 70
     },
     "culture": {
-      "exposition": "Soleil",
-      "eau": "Faible",
-      "style_semis": "À la volée",
-      "profondeur": "2mm",
+      "exposition": "Plein Soleil",
+      "eau": "Normal",
+      "style_semis": "A la volée (Direct en place !)",
+      "profondeur": "Surface (Plomber avec le râteau)",
       "temp_levee": "15°C",
       "dist_rang": 20,
-      "dist_inter": 25,
+      "dist_inter": 20,
       "periode_semis": [
         "Mar",
         "Avr"
@@ -2763,24 +2768,24 @@
     "identite": {
       "nom_commun": "Tabac Grandiflora",
       "variete": "Au Parfum de Jasmin",
-      "famille": "Solanacées",
+      "famille": "Astéracées / Divers",
       "provenance": "Kokopelli",
       "duree_germ": "4",
       "description": "Fleurs blanches étoilées s'ouvrant le soir au parfum envoûtant."
     },
     "delais": {
-      "levee": 14,
-      "repiquage": 30,
-      "plantation": 15,
-      "maturite": 100
+      "levee": 8,
+      "repiquage": 25,
+      "plantation": 20,
+      "maturite": 80
     },
     "culture": {
-      "exposition": "Soleil/Mi-ombre",
-      "eau": "Moyen",
-      "style_semis": "En surface",
-      "profondeur": "0mm",
+      "exposition": "Plein Soleil",
+      "eau": "Normal",
+      "style_semis": "En terrine ou Mottes",
+      "profondeur": "3mm",
       "temp_levee": "20°C",
-      "dist_rang": 30,
+      "dist_rang": 40,
       "dist_inter": 40,
       "periode_semis": [
         "Mar",
@@ -2809,7 +2814,9 @@
       "nom_commun": "Celosia",
       "variete": "Pampa Plume",
       "provenance": "Kokopelli",
-      "role": "Fleur"
+      "role": "Fleur",
+      "famille": "Astéracées / Divers",
+      "duree_germ": "4"
     },
     "technique": {
       "exposition": "Soleil",
@@ -2817,10 +2824,10 @@
       "distance": 0
     },
     "delais": {
-      "levee": 16,
-      "repiquage": 60,
-      "plantation": 70,
-      "maturite": 120
+      "levee": 8,
+      "repiquage": 25,
+      "plantation": 20,
+      "maturite": 80
     },
     "notes": "",
     "conseil_semis": {
@@ -2830,6 +2837,15 @@
     "particularites": {
       "bons_compagnons": [],
       "mauvais_compagnons": []
+    },
+    "culture": {
+      "exposition": "Plein Soleil",
+      "eau": "Normal",
+      "style_semis": "En terrine ou Mottes",
+      "profondeur": "3mm",
+      "temp_levee": "20°C",
+      "dist_rang": 40,
+      "dist_inter": 40
     }
   },
   {
@@ -3494,22 +3510,24 @@
       "nom_commun": "Dahlia",
       "variete": "",
       "provenance": "Mes Semences",
-      "duree_germ": "5",
-      "description": "Ajouté depuis le lexique permaculturel."
+      "duree_germ": "4",
+      "description": "Ajouté depuis le lexique permaculturel.",
+      "famille": "Astéracées / Divers"
     },
     "delais": {
-      "levee": 7,
-      "repiquage": 20,
-      "plantation": 10,
-      "maturite": 60
+      "levee": 8,
+      "repiquage": 25,
+      "plantation": 20,
+      "maturite": 110
     },
     "culture": {
-      "exposition": "Soleil",
-      "eau": "Normal",
-      "style_semis": "En poquet",
-      "profondeur": "1cm",
-      "dist_rang": 30,
-      "dist_inter": 30
+      "exposition": "Plein Soleil",
+      "eau": "Important (pour tubercule)",
+      "style_semis": "En terrine ou Mottes",
+      "profondeur": "3mm",
+      "dist_rang": 60,
+      "dist_inter": 40,
+      "temp_levee": "20°C"
     },
     "taches_entretien": [
       {
@@ -3535,22 +3553,24 @@
       "nom_commun": "Souci",
       "variete": "",
       "provenance": "Mes Semences",
-      "duree_germ": "5",
-      "description": "Ajouté depuis le lexique permaculturel."
+      "duree_germ": "4",
+      "description": "Ajouté depuis le lexique permaculturel.",
+      "famille": "Astéracées / Divers"
     },
     "delais": {
-      "levee": 7,
-      "repiquage": 20,
-      "plantation": 10,
-      "maturite": 60
+      "levee": 8,
+      "repiquage": 25,
+      "plantation": 20,
+      "maturite": 80
     },
     "culture": {
-      "exposition": "Soleil",
+      "exposition": "Plein Soleil",
       "eau": "Normal",
-      "style_semis": "En poquet",
-      "profondeur": "1cm",
-      "dist_rang": 30,
-      "dist_inter": 30
+      "style_semis": "En terrine ou Mottes",
+      "profondeur": "3mm",
+      "dist_rang": 40,
+      "dist_inter": 40,
+      "temp_levee": "20°C"
     },
     "taches_entretien": [
       {
