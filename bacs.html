@@ -70,84 +70,94 @@
         }
 
         function renderBacs(seeds, journal) {
-            // 1. Filtrage pour les Serres (Semis et Repiquage)
-            const semis = journal.filter(n => n.action === 'Semis' || n.action === 'Repiquage');
-            fillZone('serre-int', semis.filter(s => s.emplacement === 'Serre intérieure'), seeds, 'badge-serre-int');
-            fillZone('serre-ext', semis.filter(s => s.emplacement === 'Serre extérieure'), seeds, 'badge-serre-ext');
+            let inventory = {};
 
-            // 2. Gestion des Bacs
-            const plantations = journal.filter(n => n.action === 'Plantation');
-            const groups = {};
-            plantations.forEach(p => { 
-                if(!groups[p.bac]) groups[p.bac] = []; 
-                groups[p.bac].push(p); 
+            // Trier le journal par ordre chronologique
+            const sortedJournal = journal.sort((a,b) => new Date(a.date) - new Date(b.date));
+
+            sortedJournal.forEach(entry => {
+                const seedId = entry.seedId;
+                if(!seedId) return;
+
+                const qty = parseInt(entry.quantite) || 0;
+                // on unifie : action dans "emplacement" ou dans "bac"
+                const lieu = entry.bac || entry.emplacement;
+
+                if(entry.action === 'Semis' || entry.action === 'Repiquage' || entry.action === 'Plantation') {
+                    if(!inventory[lieu]) inventory[lieu] = {};
+                    inventory[lieu][seedId] = (inventory[lieu][seedId] || 0) + qty;
+
+                    // Si c'est une plantation, on présume qu'elle vient des serres, on doit la déduire
+                    if (entry.action === 'Plantation') {
+                        if (inventory['Serre intérieure'] && inventory['Serre intérieure'][seedId]) {
+                            inventory['Serre intérieure'][seedId] = Math.max(0, inventory['Serre intérieure'][seedId] - qty);
+                        } else if (inventory['Serre extérieure'] && inventory['Serre extérieure'][seedId]) {
+                            inventory['Serre extérieure'][seedId] = Math.max(0, inventory['Serre extérieure'][seedId] - qty);
+                        }
+                    }
+                }
+                else if (entry.action === 'Arrachage') {
+                    if (lieu && inventory[lieu]) {
+                        if (qty > 0) {
+                            inventory[lieu][seedId] = Math.max(0, (inventory[lieu][seedId] || 0) - qty);
+                        } else {
+                            inventory[lieu][seedId] = 0; // vide complet si pas de quantité (qty=0)
+                        }
+                    }
+                }
             });
 
-            const container = document.getElementById('bacs-container');
-            const activeBacs = [...bacsReference, ...Object.keys(groups).filter(b => !bacsReference.includes(b))];
-            
-            container.innerHTML = activeBacs.map(bacName => {
-                const items = groups[bacName] || [];
-                if(items.length === 0 && !bacsReference.includes(bacName)) return "";
+            // Fonction utilitaire de rendu pour chaque zone
+            const renderZone = (lieu, isSerre) => {
+                const items = inventory[lieu] || {};
+                const activeSeeds = Object.keys(items).filter(id => items[id] > 0);
+                
+                let html = "";
+                activeSeeds.forEach((id, idx) => {
+                    const s = seeds.find(item => String(item.id) === String(id)) || { id: id, identite: { nom_commun: "Inconnu", variete: "" } };
+                    const extraClass = idx >= 3 ? 'extra-item' : '';
+                    html += `
+                        <div class="item ${extraClass}" onclick="window.location.href='fiche-semence.html?id=${s.id}'">
+                            <div class="item-info">
+                                <div class="item-name">${s.identite.nom_commun}</div>
+                                <div class="item-variety">${s.identite.variete}</div>
+                            </div>
+                            <div class="item-qty">x${items[id]}</div>
+                        </div>`;
+                });
 
-                let html = `
+                if (activeSeeds.length > 3) html += `<button class="toggle-btn" onclick="toggleZone(this, ${activeSeeds.length - 3})">Afficher plus (${activeSeeds.length - 3}) ↓</button>`;
+                if(activeSeeds.length === 0) html = `<p class="empty-msg">Zone vide</p>`;
+                
+                return { count: activeSeeds.length, html: html };
+            };
+
+            // Remplir Serres
+            const serreInt = renderZone('Serre intérieure', true);
+            document.getElementById('badge-serre-int').innerText = serreInt.count;
+            document.getElementById('serre-int').innerHTML = serreInt.html;
+
+            const serreExt = renderZone('Serre extérieure', true);
+            document.getElementById('badge-serre-ext').innerText = serreExt.count;
+            document.getElementById('serre-ext').innerHTML = serreExt.html;
+
+            // Remplir Bacs
+            const bacsContainer = document.getElementById('bacs-container');
+            const sortedBacs = [...bacsReference, ...Object.keys(inventory).filter(b => !bacsReference.includes(b) && b !== 'Serre intérieure' && b !== 'Serre extérieure')];
+            
+            bacsContainer.innerHTML = sortedBacs.map(bacName => {
+                const zone = renderZone(bacName, false);
+                if(zone.count === 0 && !bacsReference.includes(bacName)) return ""; // Masquer les zones "Autres" vides
+
+                return `
                     <div class="zone-card">
                         <div class="zone-header">
                             <span>${bacName}</span>
-                            <span class="badge">${items.length}</span>
+                            <span class="badge">${zone.count}</span>
                         </div>
-                        <div class="zone-content">`;
-
-                if(items.length === 0) {
-                    html += `<p class="empty-msg">Aucune culture enregistrée</p>`;
-                } else {
-                    items.forEach((p, idx) => {
-                        const s = seeds.find(i => String(i.id) === String(p.seedId)) || { id: p.seedId, identite: { nom_commun: "Inconnu", variete: "" } };
-                        const extraClass = idx >= 3 ? 'extra-item' : '';
-                        html += `
-                            <div class="item ${extraClass}" onclick="window.location.href='fiche-semence.html?id=${s.id}'">
-                                <div class="item-info">
-                                    <div class="item-name">${s.identite.nom_commun}</div>
-                                    <div class="item-variety">${s.identite.variete}</div>
-                                </div>
-                                <div class="item-qty">x${p.quantite || 0}</div>
-                            </div>`;
-                    });
-
-                    if(items.length > 3) {
-                        html += `<button class="toggle-btn" onclick="toggleZone(this, ${items.length - 3})">Afficher plus (${items.length - 3}) ↓</button>`;
-                    }
-                }
-                return html + `</div></div>`;
-            }).join('');
-        }
-
-        function fillZone(id, items, seeds, badgeId) {
-            const el = document.getElementById(id);
-            const badge = document.getElementById(badgeId);
-            if(badge) badge.innerText = items.length;
-            
-            if(items.length === 0) { 
-                el.innerHTML = `<p class="empty-msg">Serre vide</p>`; 
-                return; 
-            }
-            
-            el.innerHTML = items.map((p, idx) => {
-                const s = seeds.find(i => String(i.id) === String(p.seedId)) || { id: p.seedId, identite: { nom_commun: "Inconnu", variete: "" } };
-                const extraClass = idx >= 3 ? 'extra-item' : '';
-                return `
-                    <div class="item ${extraClass}" onclick="window.location.href='fiche-semence.html?id=${s.id}'">
-                        <div class="item-info">
-                            <div class="item-name">${s.identite.nom_commun}</div>
-                            <div class="item-variety">${s.identite.variete} • ${p.contenant || '-'}</div>
-                        </div>
-                        <div class="item-qty">x${p.quantite || 0}</div>
+                        <div class="zone-content">${zone.html}</div>
                     </div>`;
             }).join('');
-
-            if(items.length > 3) {
-                el.innerHTML += `<button class="toggle-btn" onclick="toggleZone(this, ${items.length - 3})">Afficher plus (${items.length - 3}) ↓</button>`;
-            }
         }
 
         function toggleZone(btn, count) {

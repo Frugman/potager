@@ -22,7 +22,8 @@
                 <div class="type-btn" onclick="selectAction(this, 'Repiquage')"><span>🪴</span>Repiq.</div>
                 <div class="type-btn" onclick="selectAction(this, 'Plantation')"><span>🚜</span>Plant.</div>
                 <div class="type-btn" onclick="selectAction(this, 'Récolte')"><span>🧺</span>Récolte</div>
-                <div class="type-btn" onclick="selectAction(this, 'Note')" style="grid-column: span 2; flex-direction: row; gap: 10px;"><span>📝</span>Note Libre</div>
+                <div class="type-btn" onclick="selectAction(this, 'Arrachage')" style="color:var(--danger-red); border-color:var(--danger-red);"><span>🗑️</span>Arrachage</div>
+                <div class="type-btn" onclick="selectAction(this, 'Note')"><span>📝</span>Note</div>
             </div>
 
             <div id="express-form" class="card hidden">
@@ -195,34 +196,27 @@
             btn.classList.add('active'); currentType = type;
             document.getElementById('express-form').classList.remove('hidden');
             let html = "";
-            if(type === 'Semis' || type === 'Repiquage') {
+            if(type === 'Semis' || type === 'Repiquage' || type === 'Plantation' || type === 'Arrachage') {
                 html = `
-                    <label>Lieu</label>
+                    <label>Lieu / Destination</label>
                     <select id="val-loc">
-                        <option>Serre intérieure</option>
-                        <option>Serre extérieure</option>
-                        <option>Pleine terre</option>
-                    </select>
-                    <label>Contenant</label>
-                    <select id="val-cont">
-                        <option>Plaque de semis</option>
-                        <option>Godet</option>
-                        <option>Caissette</option>
-                        <option>Pot individuel</option>
-                        <option>Autre</option>
-                    </select>
-                    <label>Nombre de ${type === 'Semis' ? 'graines' : 'plants'}</label>
-                    <input type="number" id="val-qty" placeholder="Quantité réalisée">
-                `;
-            } else if(type === 'Plantation') {
-                html = `
-                    <label>Bac de destination</label>
-                    <select id="val-bac">
+                        <option>Serre intérieure</option><option>Serre extérieure</option>
                         <option>Bac A</option><option>Bac B</option><option>Bac C</option>
-                        <option>Bac D</option><option>Bac E</option><option>Autre</option>
+                        <option>Bac D</option><option>Bac E</option><option>Pleine terre</option><option>Autre</option>
                     </select>
-                    <label>Nombre de plants installés</label>
-                    <input type="number" id="val-qty" placeholder="Ex: 5">
+            `;
+                if(type === 'Semis' || type === 'Repiquage') {
+                    html += `
+                        <label>Contenant</label>
+                        <select id="val-cont">
+                            <option>Pleine terre (sans contenant)</option><option>Plaque de semis</option>
+                            <option>Godet</option><option>Caissette</option><option>Pot individuel</option><option>Autre</option>
+                        </select>
+                    `;
+                }
+                html += `
+                    <label>Quantité</label>
+                    <input type="number" id="val-qty" placeholder="${type === 'Arrachage' ? 'Vide = vider tout' : 'Nombre'}">
                 `;
             } else if(type === 'Récolte') {
                 html = `

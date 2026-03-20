@@ -22,7 +22,8 @@
                 <div class="type-btn" data-type="Repiquage" onclick="changeType('Repiquage')">Repiq.</div>
                 <div class="type-btn" data-type="Plantation" onclick="changeType('Plantation')">Plant.</div>
                 <div class="type-btn" data-type="Récolte" onclick="changeType('Récolte')">Récolte</div>
-                <div class="type-btn" data-type="Note" onclick="changeType('Note')" style="grid-column: span 2;">Note Libre</div>
+                <div class="type-btn" data-type="Arrachage" onclick="changeType('Arrachage')" style="color:var(--danger-red); border-color:var(--danger-red);">Arrach.</div>
+                <div class="type-btn" data-type="Note" onclick="changeType('Note')">Note</div>
             </div>
         </div>
 
@@ -111,27 +112,33 @@
             const dyn = document.getElementById('dynamic-fields');
             let html = "";
 
-            if(type === 'Semis' || type === 'Repiquage') {
-                html = `
-                    <label>Lieu</label>
+            if(type === 'Semis' || type === 'Repiquage' || type === 'Plantation' || type === 'Arrachage') {
+                const locHTML = `
+                    <label>Lieu / Emplacement</label>
                     <select id="val-loc">
-                        <option ${entry?.emplacement === 'Serre intérieure'?'selected':''}>Serre intérieure</option>
-                        <option ${entry?.emplacement === 'Serre extérieure'?'selected':''}>Serre extérieure</option>
+                        <option ${entry?.emplacement === 'Serre intérieure' || entry?.bac === 'Serre intérieure'?'selected':''}>Serre intérieure</option>
+                        <option ${entry?.emplacement === 'Serre extérieure' || entry?.bac === 'Serre extérieure'?'selected':''}>Serre extérieure</option>
+                        <option ${entry?.bac === 'Bac A' || entry?.emplacement === 'Bac A'?'selected':''}>Bac A</option>
+                        <option ${entry?.bac === 'Bac B' || entry?.emplacement === 'Bac B'?'selected':''}>Bac B</option>
+                        <option ${entry?.bac === 'Bac C' || entry?.emplacement === 'Bac C'?'selected':''}>Bac C</option>
+                        <option ${entry?.bac === 'Bac D' || entry?.emplacement === 'Bac D'?'selected':''}>Bac D</option>
+                        <option ${entry?.bac === 'Bac E' || entry?.emplacement === 'Bac E'?'selected':''}>Bac E</option>
+                        <option ${entry?.emplacement === 'Pleine terre' || entry?.bac === 'Pleine terre'?'selected':''}>Pleine terre</option>
+                        <option ${entry?.bac === 'Autre' || entry?.emplacement === 'Autre'?'selected':''}>Autre</option>
                     </select>
-                    <label>Contenant</label>
-                    <input type="text" id="val-cont" value="${entry?.contenant || ''}" placeholder="Plaque, Godet...">
                 `;
-            } else if(type === 'Plantation') {
-                html = `
-                    <label>Bac de destination</label>
-                    <select id="val-bac">
-                        <option ${entry?.bac === 'Bac A'?'selected':''}>Bac A</option>
-                        <option ${entry?.bac === 'Bac B'?'selected':''}>Bac B</option>
-                        <option ${entry?.bac === 'Bac C'?'selected':''}>Bac C</option>
-                        <option ${entry?.bac === 'Bac D'?'selected':''}>Bac D</option>
-                        <option ${entry?.bac === 'Bac E'?'selected':''}>Bac E</option>
-                        <option ${entry?.bac === 'Autre'?'selected':''}>Autre</option>
-                    </select>
+                
+                let contHTML = "";
+                if(type === 'Semis' || type === 'Repiquage') {
+                    contHTML = `
+                        <label>Contenant</label>
+                        <input type="text" id="val-cont" value="${entry?.contenant || ''}" placeholder="Plaque, Godet...">
+                    `;
+                }
+
+                html = locHTML + contHTML + `
+                    <label>Quantité</label>
+                    <input type="number" id="val-qty" value="${entry?.quantite || ''}" placeholder="${type === 'Arrachage' ? 'Vide = tout' : ''}">
                 `;
             } else if(type === 'Récolte') {
                 html = `
