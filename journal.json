@@ -170,16 +170,6 @@
     "filet": false
   },
   {
-    "id": 1773412244973,
-    "date": "2026-03-12",
-    "action": "Note",
-    "seedId": "",
-    "note": "Nettoyage bac E",
-    "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1773412230575.jpg",
-    "quantite": 0,
-    "unite": ""
-  },
-  {
     "id": 1773498945048,
     "date": "2026-03-14",
     "action": "Semis",
