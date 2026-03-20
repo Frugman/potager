@@ -267,13 +267,14 @@
   {
     "id": 1773591325901,
     "date": "2026-03-15",
-    "action": "Plantation",
+    "action": "Semis",
     "seedId": "souci-orange",
     "note": "Sur le haut du bac D en direction du bac A, sur les bords en tranchée sur les 3 parties",
     "photo": "",
     "quantite": 25,
-    "bac": "Bac D",
-    "unite": ""
+    "unite": "",
+    "emplacement": "Bac D",
+    "contenant": "Pleine terre (sans contenant)"
   },
   {
     "id": 1773669787459,
