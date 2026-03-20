@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Autres & Paramètres - Potager 2026</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/frugman/potager/main/favicon.png">
+</head>
+<body>
+    <header>
+        <h1>🗂️ Centre de Commandes</h1>
+    </header>
+
+    <div class="container">
+        <section class="widget">
+            <div class="section-title" style="margin-bottom: 25px;">OPTIONS DISPONIBLES</div>
+            
+            <div class="type-btn" style="padding: 24px; margin-bottom: 15px; background: rgba(53, 176, 91, 0.1); border: 2px solid var(--accent-green);" onclick="window.location.href='journal.html'">
+                <span style="font-size: 30px;">📖</span>
+                <div style="font-size: 18px; font-weight: 800; margin-top: 10px;">Le Journal de Bord</div>
+                <div style="font-size: 13px; color: var(--text-primary); margin-top: 5px; font-weight: normal;">Historique complet, galerie photo et notes libres</div>
+            </div>
+
+            <div class="type-btn" style="padding: 24px; margin-bottom: 15px;" onclick="window.location.href='parametres.html'">
+                <span style="font-size: 30px;">⚙️</span>
+                <div style="font-size: 18px; font-weight: 800; margin-top: 10px;">Paramètres GitHub</div>
+                <div style="font-size: 13px; color: var(--text-secondary); margin-top: 5px; font-weight: normal;">Configuration du compte et sécurité</div>
+            </div>
+
+            <div class="type-btn" style="padding: 24px; margin-bottom: 15px; opacity: 0.5; cursor: not-allowed;" onclick="alert('Bientôt disponible !')">
+                <span style="font-size: 30px;">📊</span>
+                <div style="font-size: 18px; font-weight: 800; margin-top: 10px;">Bilan des Récoltes</div>
+                <div style="font-size: 13px; color: var(--text-secondary); margin-top: 5px; font-weight: normal;">En cours de développement (Étape 2)</div>
+            </div>
+            
+        </section>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Accueil</a>
+        <a href="repertoire.html" class="nav-item"><span class="nav-icon">📚</span>Semences</a>
+        <a href="bacs.html" class="nav-item"><span class="nav-icon">🍱</span>Bacs</a>
+        <a href="agenda.html" class="nav-item"><span class="nav-icon">📅</span>Agenda</a>
+        <a href="autres.html" class="nav-item active-nav"><span class="nav-icon">🗂️</span>Autres</a>
+    </nav>
+</body>
+</html>
