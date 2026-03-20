@@ -76,12 +76,10 @@
         <div class="info-card" style="margin-top: -5px;">
             <span class="info-label">Style de semis</span>
             <div class="info-value" id="c-style">-</div>
-            <span class="info-label">Période idéale</span>
-            <div id="c-periodes" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 5px;"></div>
-            
-            <div id="c-conseil-box" style="display:none; margin-top:15px; padding:10px; background:rgba(255,165,0,0.05); border-left:2px solid #FFA500; border-radius:4px;">
-                <div style="font-weight:800; color:#FFA500; font-size:12px; margin-bottom:5px; text-transform:uppercase;">🎯 Objectif ciblé : <span id="c-conseil-date" style="color:var(--text-primary); text-transform:capitalize;">...</span></div>
-                <div id="c-conseil-texte" style="font-size:13px; color:var(--text-primary); font-style:italic;">...</div>
+            <div id="c-conseil-box" style="display:none; margin-top:15px; padding:12px; background:rgba(53,176,91,0.05); border-left:3px solid var(--accent-green); border-radius:6px;">
+                <span class="info-label" style="color:var(--accent-green); margin-bottom:6px; letter-spacing:0.5px;">🎯 Date idéale de Semis (Vendée)</span>
+                <div id="c-conseil-date" style="font-weight:800; font-size:16px; color:var(--text-primary); text-transform:capitalize; margin-bottom:8px;">...</div>
+                <div id="c-conseil-texte" style="font-size:13.5px; color:var(--text-secondary); font-style:italic; line-height:1.4;">...</div>
             </div>
         </div>
 
@@ -185,11 +183,7 @@
                     document.getElementById('c-dist-i').innerText = s.culture?.dist_inter ? s.culture.dist_inter + ' cm' : '-';
                     document.getElementById('c-style').innerText = s.culture?.style_semis || '-';
                     
-                    if(s.culture?.periode_semis) {
-                        document.getElementById('c-periodes').innerHTML = s.culture.periode_semis.map(p => `<span class="badge" style="background:rgba(53,176,91,0.1); color:var(--accent-green);">${p}</span>`).join('');
-                    }
-
-                    if(s.conseil_semis) {
+                    if(s.conseil_semis && s.conseil_semis.date) {
                         document.getElementById('c-conseil-box').style.display = 'block';
                         const d = new Date(s.conseil_semis.date); d.setFullYear(new Date().getFullYear());
                         document.getElementById('c-conseil-date').innerText = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });

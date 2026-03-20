@@ -156,9 +156,15 @@
                         <input type="text" id="temp_levee" placeholder="Ex: 18°C">
                     </div>
                     <div>
-                        <label>Période de semis (Mois)</label>
-                        <input type="text" id="periode_semis" placeholder="Mars, Avril...">
+                        <label>Date Idéale de Semis (Vendée)</label>
+                        <input type="date" id="date_ideale_semis">
                     </div>
+                </div>
+                
+                <div>
+                    <label>Conseil Régional / Méthode de Saisie</label>
+                    <textarea id="texte_conseil_semis" rows="2" placeholder="Semer au chaud..."></textarea>
+                </div>
                 </div>
             </div>
 
@@ -282,7 +288,10 @@
                         document.getElementById('temp_levee').value = s.culture?.temp_levee || "";
                         document.getElementById('dist_rang').value = s.culture?.dist_rang || s.technique?.distance || "";
                         document.getElementById('dist_inter').value = s.culture?.dist_inter || "";
-                        document.getElementById('periode_semis').value = (s.culture?.periode_semis || []).join(", ");
+                        if(s.conseil_semis) {
+                            document.getElementById('date_ideale_semis').value = s.conseil_semis.date || "";
+                            document.getElementById('texte_conseil_semis').value = s.conseil_semis.texte || "";
+                        }
                         
                         document.getElementById('d_levee').value = s.delais?.levee || 0;
                         document.getElementById('d_repiquage').value = s.delais?.repiquage || 0;
@@ -383,9 +392,7 @@
                     }
                 });
 
-                // Périodes
-                const periodesText = document.getElementById('periode_semis').value;
-                const periodes = periodesText ? periodesText.split(',').map(s=>s.trim()).filter(Boolean) : [];
+
 
                 const seedData = {
                     identite: {
@@ -408,7 +415,7 @@
                         temp_levee: document.getElementById('temp_levee').value,
                         dist_rang: parseInt(document.getElementById('dist_rang').value) || "",
                         dist_inter: parseInt(document.getElementById('dist_inter').value) || "",
-                        periode_semis: periodes
+                        /* deleted periode_semis */
                     },
                     delais: {
                         levee: parseInt(document.getElementById('d_levee').value) || 0,
@@ -416,7 +423,11 @@
                         plantation: parseInt(document.getElementById('d_plantation').value) || 0,
                         maturite: parseInt(document.getElementById('d_maturite').value) || 0
                     },
-                    taches_entretien: tasks
+                    taches_entretien: tasks,
+                    conseil_semis: {
+                        date: document.getElementById('date_ideale_semis').value,
+                        texte: document.getElementById('texte_conseil_semis').value
+                    }
                 };
 
                 let seeds = existingSeeds;
@@ -428,8 +439,6 @@
                 if(id) {
                     const index = seeds.findIndex(s => String(s.id) === String(id));
                     if(index !== -1) {
-                        // Conserver les vieux attributs non modifiables ici
-                        seedData.conseil_semis = seeds[index].conseil_semis;
                         seeds[index] = { ...seeds[index], ...seedData };
                     }
                 } else {
