@@ -29,7 +29,7 @@
             <div id="express-form" class="card hidden">
                 <div class="note-meta">Action Express</div>
                 <label>Plante concernée</label>
-                <select id="val-seed"><option value="">📝 Note générale</option></select>
+                <select id="val-seed" onchange="checkAssociations()"><option value="">📝 Note générale</option></select>
                 <label>Date</label>
                 <input type="date" id="val-date">
                 <div id="extra-fields"></div>
@@ -68,6 +68,7 @@
 
     <script>
         const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
+        let globalSeeds = [], globalJournal = [];
         let currentType = "", base64Photo = "", photoName = "";
 
         function addDays(date, days) {
@@ -92,6 +93,7 @@
             try {
                 const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json`, { headers: { 'Authorization': `Bearer ${token}` } });
                 const seeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
+                globalSeeds = seeds;
                 const sel = document.getElementById('val-seed');
                 seeds.sort((a,b)=>a.identite.nom_commun.localeCompare(b.identite.nom_commun)).forEach(s => {
                     sel.innerHTML += `<option value="${s.id}">${s.identite.nom_commun} - ${s.identite.variete}</option>`;
@@ -103,6 +105,7 @@
         async function loadWidgets(seeds) {
             const resJ = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } });
             const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
+            globalJournal = journal;
             
             // 1. DERNIÈRES NOTES
             document.getElementById('notes-box').innerHTML = journal.slice(-3).reverse().map(n => {
@@ -233,6 +236,79 @@
             }
         }
 
+        function checkAssociations() {
+            const seedId = document.getElementById('val-seed').value;
+            const locEl = document.getElementById('val-loc');
+            let alertEl = document.getElementById('assoc-alert');
+            
+            if(!alertEl) {
+                alertEl = document.createElement('div');
+                alertEl.id = 'assoc-alert';
+                alertEl.style.display = 'none';
+                alertEl.style.background = 'rgba(255,82,82,0.1)';
+                alertEl.style.borderLeft = '4px solid var(--danger-red)';
+                alertEl.style.padding = '10px';
+                alertEl.style.marginTop = '15px';
+                alertEl.style.marginBottom = '15px';
+                alertEl.style.borderRadius = '4px';
+                alertEl.style.fontSize = '12px';
+                const ef = document.getElementById('extra-fields');
+                if(ef) ef.insertAdjacentElement('afterend', alertEl);
+            }
+            
+            if(!seedId || !locEl || !locEl.value || (currentType !== 'Semis' && currentType !== 'Plantation' && currentType !== 'Repiquage')) {
+                alertEl.style.display = 'none';
+                return;
+            }
+
+            const currentSeed = globalSeeds.find(s => String(s.id) === String(seedId));
+            if(!currentSeed) { alertEl.style.display = 'none'; return; }
+
+            const loc = locEl.value;
+            const currentYear = new Date().getFullYear();
+            
+            // Trouver les plantes actives dans ce bac cette année
+            const activePlantsInLoc = [];
+            globalJournal.forEach(j => {
+                if(j.bac === loc && new Date(j.date).getFullYear() === currentYear && j.seedId) {
+                    if(j.action === 'Semis' || j.action === 'Plantation' || j.action === 'Repiquage') {
+                        activePlantsInLoc.push(j.seedId);
+                    }
+                    if(j.action === 'Arrachage' || j.action === 'Récolte') {
+                        const idx = activePlantsInLoc.lastIndexOf(j.seedId);
+                        if(idx > -1) activePlantsInLoc.splice(idx, 1);
+                    }
+                }
+            });
+
+            if(activePlantsInLoc.length === 0) { alertEl.style.display = 'none'; return; }
+
+            let conflicts = [];
+            const activeSeeds = activePlantsInLoc.map(id => globalSeeds.find(s => String(s.id) === String(id))).filter(Boolean);
+            
+            activeSeeds.forEach(aS => {
+                let nameA = aS.identite.nom_commun.toLowerCase();
+                let nameCur = currentSeed.identite.nom_commun.toLowerCase();
+                
+                // seed courante déteste la seed existante
+                if(currentSeed.particularites?.mauvais_compagnons?.some(m => nameA.includes(m.toLowerCase()) || m.toLowerCase().includes(nameA))) {
+                    conflicts.push(aS.identite.nom_commun);
+                }
+                // seed existante déteste la seed courante (réciprocité)
+                else if(aS.particularites?.mauvais_compagnons?.some(m => nameCur.includes(m.toLowerCase()) || m.toLowerCase().includes(nameCur))) {
+                    conflicts.push(aS.identite.nom_commun);
+                }
+            });
+
+            if(conflicts.length > 0) {
+                const uniq = [...new Set(conflicts)].join(', ');
+                alertEl.innerHTML = `<strong style="color:var(--danger-red);">⚠️ ALERTE COMPAGNONNAGE</strong><br>L'ajout de <b>${currentSeed.identite.nom_commun}</b> est une très mauvaise idée à côté de : <b>${uniq}</b> (actuellement présente(s) dans <b>${loc}</b>). Leurs croissances risquent de se perturber fortement.`;
+                alertEl.style.display = 'block';
+            } else {
+                alertEl.style.display = 'none';
+            }
+        }
+
         function selectAction(btn, type) {
             document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active'); currentType = type;
@@ -241,7 +317,7 @@
             if(type === 'Semis' || type === 'Repiquage' || type === 'Plantation' || type === 'Arrachage') {
                 html = `
                     <label>Lieu / Destination</label>
-                    <select id="val-loc">
+                    <select id="val-loc" onchange="checkAssociations()">
                         <option>Serre intérieure</option><option>Serre extérieure</option>
                         <option>Bac A</option><option>Bac B</option><option>Bac C</option>
                         <option>Bac D</option><option>Bac E</option><option>Pleine terre</option><option>Autre</option>
@@ -274,6 +350,7 @@
                 `;
             }
             document.getElementById('extra-fields').innerHTML = html;
+            checkAssociations();
         }
 
         async function saveEntry() {
