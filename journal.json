@@ -256,13 +256,14 @@
   {
     "id": 1773591237505,
     "date": "2026-03-15",
-    "action": "Plantation",
+    "action": "Semis",
     "seedId": "bourrache-bleue",
     "note": "Environ 4 graines par emplacement : à gauche du bac D, à gauche du bac C, à gauche du bac B",
     "photo": "",
     "quantite": 12,
-    "bac": "Autre",
-    "unite": ""
+    "unite": "",
+    "emplacement": "Pleine terre",
+    "contenant": "Pleine terre (sans contenant)"
   },
   {
     "id": 1773591325901,
