@@ -251,7 +251,7 @@
         function renderHistory(entries) {
             const history = entries.reverse().slice(0, 5);
             document.getElementById('journal-history').innerHTML = history.length > 0 ? history.map(e => `
-                <div class="journal-card" style="margin-bottom:12px;">
+                <div class="journal-card" style="margin-bottom:12px;" onclick="window.location.href='modifier-journal.html?id=${n.id}'">
                     <div class="note-meta">${e.date} • ${e.action}</div>
                     
                     ${e.quantite ? `<div style="margin: 8px 0;"><span class="badge">+ ${e.quantite} ${e.unite || 'unité(s)'}</span></div>` : ''}

@@ -111,7 +111,7 @@
             document.getElementById('notes-box').innerHTML = journal.slice(-3).reverse().map(n => {
                 const s = seeds.find(i => String(i.id) === String(n.seedId)) || {identite:{nom_commun:"Note Générale", variete:""}};
                 return `
-                <div class="journal-card" onclick="window.location.href='journal.html'">
+                <div class="journal-card" onclick="window.location.href='modifier-journal.html?id=${n.id}'">
                     <div class="note-meta">${n.date} • ${n.action}</div>
                     <div class="note-title">${s.identite.nom_commun}</div>
                     ${n.quantite ? `<div style="margin: 8px 0;"><span class="badge">+ ${n.quantite} ${n.unite || 'unité(s)'}</span></div>` : ''}
