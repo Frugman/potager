@@ -361,12 +361,13 @@
   {
     "id": 1773939303183,
     "date": "2026-03-19",
-    "action": "Plantation",
+    "action": "Semis",
     "seedId": "betterave-detroit",
     "note": "Graines semées, avec filet",
     "photo": "",
     "quantite": 20,
-    "bac": "Bac A",
-    "unite": ""
+    "unite": "",
+    "emplacement": "Bac A",
+    "contenant": "Pleine terre (sans contenant)"
   }
 ]
