@@ -155,15 +155,36 @@
             }
         }
 
+        function generateSlug(nom, variete) {
+            let str = (nom + " " + variete).toLowerCase();
+            str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); 
+            str = str.replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""); 
+            let baseId = str || "semence-inconnue";
+            let counter = 1;
+            while(allSemences.some(s => String(s.id) === baseId)) {
+                baseId = `${str}-${counter}`;
+                counter++;
+            }
+            return baseId;
+        }
+
         async function handleSave() {
             const btn = document.getElementById('btnSave');
             const status = document.getElementById('status-msg');
             
+            const nomVal = document.getElementById('nom_commun').value.trim();
+            const varVal = document.getElementById('variete').value.trim();
+
+            if (!nomVal) {
+                status.innerText = "⚠️ Le nom de la plante est requis.";
+                return;
+            }
+
             const newSeed = {
-                id: editId ? parseInt(editId) : Date.now(),
+                id: editId ? editId : generateSlug(nomVal, varVal),
                 identite: {
-                    nom_commun: document.getElementById('nom_commun').value,
-                    variete: document.getElementById('variete').value,
+                    nom_commun: nomVal,
+                    variete: varVal,
                     provenance: document.getElementById('provenance').value,
                     role: document.getElementById('role').value.trim()
                 },
@@ -180,11 +201,6 @@
                 },
                 notes: document.getElementById('notes').value
             };
-
-            if (!newSeed.identite.nom_commun) {
-                status.innerText = "⚠️ Le nom de la plante est requis.";
-                return;
-            }
 
             btn.disabled = true;
             btn.innerText = "⏳ SYNCHRONISATION...";
