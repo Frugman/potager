@@ -558,23 +558,23 @@
       "variete": "Capriola",
       "famille": "Astéracées",
       "provenance": "Kokopelli",
-      "duree_germ": "3",
+      "duree_germ": "4",
       "description": "Fleurs blanches cerclées de rose pourpre, très élégant."
     },
     "delais": {
-      "levee": 10,
-      "repiquage": 15,
-      "plantation": 10,
-      "maturite": 90
+      "levee": 7,
+      "repiquage": 25,
+      "plantation": 15,
+      "maturite": 60
     },
     "culture": {
-      "exposition": "Soleil",
+      "exposition": "Plein Soleil",
       "eau": "Faible",
-      "style_semis": "En surface",
-      "profondeur": "2mm",
-      "temp_levee": "20°C",
+      "style_semis": "À la volée ou Terrine",
+      "profondeur": "3mm",
+      "temp_levee": "15-20°C",
       "dist_rang": 30,
-      "dist_inter": 30,
+      "dist_inter": 40,
       "periode_semis": [
         "Avr",
         "Mai"
@@ -611,21 +611,21 @@
       "variete": "Alberello di Sarzana",
       "famille": "Cucurbitacées",
       "provenance": "Kokopelli",
-      "duree_germ": "6",
+      "duree_germ": "8",
       "description": "Variété italienne vert clair, très productive, fruits longs."
     },
     "delais": {
       "levee": 6,
       "repiquage": 15,
-      "plantation": 10,
-      "maturite": 55
+      "plantation": 15,
+      "maturite": 50
     },
     "culture": {
-      "exposition": "Soleil",
-      "eau": "Fort",
-      "style_semis": "En poquet",
-      "profondeur": "2cm",
-      "temp_levee": "22°C",
+      "exposition": "Plein Soleil",
+      "eau": "Important",
+      "style_semis": "En godet (ou poquet)",
+      "profondeur": "2cm (sur tranche, pointe en bas)",
+      "temp_levee": "20°C+",
       "dist_rang": 80,
       "dist_inter": 100,
       "periode_semis": [
@@ -680,21 +680,21 @@
       "variete": "Rheinau Gold",
       "famille": "Cucurbitacées",
       "provenance": "Kokopelli",
-      "duree_germ": "6",
+      "duree_germ": "8",
       "description": "Superbe courgette jaune d'or, saveur délicate."
     },
     "delais": {
       "levee": 6,
       "repiquage": 15,
-      "plantation": 10,
-      "maturite": 55
+      "plantation": 15,
+      "maturite": 50
     },
     "culture": {
-      "exposition": "Soleil",
-      "eau": "Fort",
-      "style_semis": "En poquet",
-      "profondeur": "2cm",
-      "temp_levee": "22°C",
+      "exposition": "Plein Soleil",
+      "eau": "Important",
+      "style_semis": "En godet (ou poquet)",
+      "profondeur": "2cm (sur tranche, pointe en bas)",
+      "temp_levee": "20°C+",
       "dist_rang": 80,
       "dist_inter": 100,
       "periode_semis": [
@@ -756,14 +756,14 @@
       "levee": 10,
       "repiquage": 0,
       "plantation": 0,
-      "maturite": 50
+      "maturite": 45
     },
     "culture": {
       "exposition": "Mi-ombre",
-      "eau": "Fort",
-      "style_semis": "En ligne",
-      "profondeur": "1cm",
-      "temp_levee": "15°C",
+      "eau": "Constant",
+      "style_semis": "En ligne claire",
+      "profondeur": "2cm",
+      "temp_levee": "10-15°C (Éviter chaleur)",
       "dist_rang": 10,
       "dist_inter": 25,
       "periode_semis": [
@@ -812,11 +812,11 @@
       "maturite": 90
     },
     "culture": {
-      "exposition": "Soleil",
-      "eau": "Moyen",
-      "style_semis": "En poquet",
+      "exposition": "Soleil / Mi-ombre",
+      "eau": "Normal",
+      "style_semis": "En poquet ou Ligne",
       "profondeur": "5cm",
-      "temp_levee": "10°C",
+      "temp_levee": "5-10°C (Germe au froid)",
       "dist_rang": 15,
       "dist_inter": 40,
       "periode_semis": [
