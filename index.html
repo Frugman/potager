@@ -128,12 +128,22 @@
                 const seed = seeds.find(s => String(s.id) === String(entry.seedId));
                 if (!seed) return;
                 const semisDate = entry.date;
-                const stages = [
-                    { d: seed.delais?.levee, t: "🌱 Levée attendue" },
-                    { d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0), t: "🪴 Repiquage" },
-                    { d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0) + (seed.delais?.plantation || 0), t: "🚜 Plantation" },
-                    { d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0) + (seed.delais?.plantation || 0) + (seed.delais?.maturite || 0), t: "🧺 Récolte estimée" }
-                ];
+                const isDirectSowing = entry.contenant === 'Pleine terre (sans contenant)';
+                const stages = [];
+                
+                if (seed.delais?.levee > 0) {
+                    stages.push({ d: seed.delais.levee, t: "🌱 Levée attendue" });
+                }
+                if (!isDirectSowing && seed.delais?.repiquage > 0) {
+                    stages.push({ d: (seed.delais?.levee || 0) + seed.delais.repiquage, t: "🪴 Repiquage" });
+                }
+                if (!isDirectSowing && seed.delais?.plantation > 0) {
+                    stages.push({ d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0) + seed.delais.plantation, t: "🚜 Plantation" });
+                }
+                if (seed.delais?.maturite > 0) {
+                    stages.push({ d: (seed.delais?.levee || 0) + (isDirectSowing ? 0 : seed.delais?.repiquage || 0) + (isDirectSowing ? 0 : seed.delais?.plantation || 0) + seed.delais.maturite, t: "🧺 Récolte estimée" });
+                }
+                
                 stages.forEach(st => {
                     if(st.d > 0) allTasks.push({ date: addDays(semisDate, st.d), title: st.t, plant: seed.identite.nom_commun });
                 });
