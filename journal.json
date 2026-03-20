@@ -350,13 +350,14 @@
   {
     "id": 1773939283742,
     "date": "2026-03-19",
-    "action": "Plantation",
+    "action": "Semis",
     "seedId": "betterave-chioggia",
     "note": "Graines semées, filet mis",
     "photo": "",
     "quantite": 20,
-    "bac": "Bac A",
-    "unite": ""
+    "unite": "",
+    "emplacement": "Bac A",
+    "contenant": "Pleine terre (sans contenant)"
   },
   {
     "id": 1773939303183,
