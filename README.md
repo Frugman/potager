@@ -1,2 +1,2 @@
 # potager
-Journal potager
+Journal de bord du potager
