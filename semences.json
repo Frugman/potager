@@ -358,19 +358,19 @@
       "description": "Vivace indispensable, fleurs violettes comestibles."
     },
     "delais": {
-      "levee": 15,
-      "repiquage": 30,
-      "plantation": 10,
-      "maturite": 80
+      "levee": 12,
+      "repiquage": 45,
+      "plantation": 15,
+      "maturite": 90
     },
     "culture": {
-      "exposition": "Soleil/Mi-ombre",
-      "eau": "Moyen",
-      "style_semis": "En poquet",
-      "profondeur": "5mm",
-      "temp_levee": "18°C",
+      "exposition": "Soleil / Mi-ombre",
+      "eau": "Normal",
+      "style_semis": "En terrine",
+      "profondeur": "1cm",
+      "temp_levee": "15-20°C",
       "dist_rang": 20,
-      "dist_inter": 20,
+      "dist_inter": 30,
       "periode_semis": [
         "Mar",
         "Avr",
@@ -418,23 +418,23 @@
       "variete": "Bushy",
       "famille": "Cucurbitacées",
       "provenance": "Kokopelli",
-      "duree_germ": "5",
+      "duree_germ": "8",
       "description": "Variété compacte idéale pour les petits espaces."
     },
     "delais": {
-      "levee": 7,
-      "repiquage": 15,
-      "plantation": 10,
-      "maturite": 60
+      "levee": 8,
+      "repiquage": 20,
+      "plantation": 15,
+      "maturite": 65
     },
     "culture": {
-      "exposition": "Plein soleil",
-      "eau": "Fort",
-      "style_semis": "En poquet",
-      "profondeur": "1.5cm",
-      "temp_levee": "22°C",
-      "dist_rang": 40,
-      "dist_inter": 40,
+      "exposition": "Plein Soleil",
+      "eau": "Important",
+      "style_semis": "En godet puis terre",
+      "profondeur": "2cm (sur tranche)",
+      "temp_levee": "20-25°C",
+      "dist_rang": 60,
+      "dist_inter": 100,
       "periode_semis": [
         "Avr",
         "Mai"
@@ -488,23 +488,23 @@
       "variete": "Vert petit de Paris",
       "famille": "Cucurbitacées",
       "provenance": "Kokopelli",
-      "duree_germ": "5",
+      "duree_germ": "8",
       "description": "Variété très productive, fruits à récolter jeunes."
     },
     "delais": {
-      "levee": 7,
-      "repiquage": 15,
-      "plantation": 10,
-      "maturite": 55
+      "levee": 8,
+      "repiquage": 20,
+      "plantation": 15,
+      "maturite": 50
     },
     "culture": {
-      "exposition": "Plein soleil",
-      "eau": "Fort",
-      "style_semis": "En poquet",
-      "profondeur": "1.5cm",
-      "temp_levee": "22°C",
-      "dist_rang": 40,
-      "dist_inter": 40,
+      "exposition": "Plein Soleil",
+      "eau": "Important",
+      "style_semis": "En godet puis terre",
+      "profondeur": "2cm (sur tranche)",
+      "temp_levee": "20-25°C",
+      "dist_rang": 60,
+      "dist_inter": 100,
       "periode_semis": [
         "Avr",
         "Mai"
@@ -2017,23 +2017,23 @@
       "variete": "Du Mexique",
       "famille": "Cucurbitacées",
       "provenance": "Kokopelli",
-      "duree_germ": "5",
+      "duree_germ": "8",
       "description": "Petits fruits ressemblant à des pastèques miniatures au goût de concombre acidulé."
     },
     "delais": {
-      "levee": 10,
-      "repiquage": 15,
-      "plantation": 10,
-      "maturite": 75
+      "levee": 8,
+      "repiquage": 20,
+      "plantation": 15,
+      "maturite": 65
     },
     "culture": {
-      "exposition": "Plein soleil",
-      "eau": "Fort",
-      "style_semis": "En poquet",
-      "profondeur": "1cm",
-      "temp_levee": "22°C",
-      "dist_rang": 40,
-      "dist_inter": 40,
+      "exposition": "Plein Soleil",
+      "eau": "Important",
+      "style_semis": "En godet puis terre",
+      "profondeur": "2cm (sur tranche)",
+      "temp_levee": "20-25°C",
+      "dist_rang": 60,
+      "dist_inter": 100,
       "periode_semis": [
         "Avr",
         "Mai"
@@ -3195,22 +3195,24 @@
       "nom_commun": "Concombre",
       "variete": "du Mexique",
       "provenance": "Mes Semences",
-      "duree_germ": "5",
-      "description": "Ajouté depuis le lexique permaculturel."
+      "duree_germ": "8",
+      "description": "Ajouté depuis le lexique permaculturel.",
+      "famille": "Cucurbitacées"
     },
     "delais": {
-      "levee": 7,
+      "levee": 8,
       "repiquage": 20,
-      "plantation": 10,
-      "maturite": 60
+      "plantation": 15,
+      "maturite": 65
     },
     "culture": {
-      "exposition": "Soleil",
-      "eau": "Normal",
-      "style_semis": "En poquet",
-      "profondeur": "1cm",
-      "dist_rang": 30,
-      "dist_inter": 30
+      "exposition": "Plein Soleil",
+      "eau": "Important",
+      "style_semis": "En godet puis terre",
+      "profondeur": "2cm (sur tranche)",
+      "dist_rang": 60,
+      "dist_inter": 100,
+      "temp_levee": "20-25°C"
     },
     "taches_entretien": [
       {
@@ -3253,22 +3255,24 @@
       "nom_commun": "Concombre",
       "variete": "Kiwano",
       "provenance": "Mes Semences",
-      "duree_germ": "5",
-      "description": "Ajouté depuis le lexique permaculturel."
+      "duree_germ": "8",
+      "description": "Ajouté depuis le lexique permaculturel.",
+      "famille": "Cucurbitacées"
     },
     "delais": {
-      "levee": 7,
+      "levee": 8,
       "repiquage": 20,
-      "plantation": 10,
-      "maturite": 60
+      "plantation": 15,
+      "maturite": 65
     },
     "culture": {
-      "exposition": "Soleil",
-      "eau": "Normal",
-      "style_semis": "En poquet",
-      "profondeur": "1cm",
-      "dist_rang": 30,
-      "dist_inter": 30
+      "exposition": "Plein Soleil",
+      "eau": "Important",
+      "style_semis": "En godet puis terre",
+      "profondeur": "2cm (sur tranche)",
+      "dist_rang": 60,
+      "dist_inter": 100,
+      "temp_levee": "20-25°C"
     },
     "taches_entretien": [
       {
