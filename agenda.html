@@ -101,12 +101,21 @@
 
                 const semisDate = entry.date;
 
-                const etapes = [
-                    { d: seed.delais?.levee, t: "🌱 Levée attendue", cat: "Semis" },
-                    { d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0), t: "🪴 Repiquage recommandé", cat: "Semis" },
-                    { d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0) + (seed.delais?.plantation || 0), t: "🚜 Plantation en bac", cat: "Plantation" },
-                    { d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0) + (seed.delais?.plantation || 0) + (seed.delais?.maturite || 0), t: "🧺 Récolte estimée", cat: "Récolte" }
-                ];
+                const isDirectSowing = entry.contenant === 'Pleine terre (sans contenant)';
+                const etapes = [];
+                
+                if (seed.delais?.levee > 0) {
+                    etapes.push({ d: seed.delais.levee, t: "🌱 Levée attendue", cat: "Semis" });
+                }
+                if (!isDirectSowing && seed.delais?.repiquage > 0) {
+                    etapes.push({ d: (seed.delais?.levee || 0) + seed.delais.repiquage, t: "🪴 Repiquage recommandé", cat: "Semis" });
+                }
+                if (!isDirectSowing && seed.delais?.plantation > 0) {
+                    etapes.push({ d: (seed.delais?.levee || 0) + (seed.delais?.repiquage || 0) + seed.delais.plantation, t: "🚜 Plantation en bac", cat: "Plantation" });
+                }
+                if (seed.delais?.maturite > 0) {
+                    etapes.push({ d: (seed.delais?.levee || 0) + (isDirectSowing ? 0 : seed.delais?.repiquage || 0) + (isDirectSowing ? 0 : seed.delais?.plantation || 0) + seed.delais.maturite, t: "🧺 Récolte estimée", cat: "Récolte" });
+                }
 
                 etapes.forEach(et => {
                     if(et.d > 0) {
