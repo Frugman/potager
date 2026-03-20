@@ -187,23 +187,23 @@
       "variete": "Zloty Lan",
       "famille": "Astéracées",
       "provenance": "Kokopelli",
-      "duree_germ": "4",
+      "duree_germ": "3",
       "description": "Variété riche en principes actifs, fleurs très odorantes."
     },
     "delais": {
-      "levee": 14,
-      "repiquage": 20,
-      "plantation": 10,
-      "maturite": 90
+      "levee": 10,
+      "repiquage": 30,
+      "plantation": 15,
+      "maturite": 70
     },
     "culture": {
-      "exposition": "Plein soleil",
+      "exposition": "Soleil",
       "eau": "Faible",
-      "style_semis": "En surface",
-      "profondeur": "0mm",
-      "temp_levee": "18°C",
-      "dist_rang": 20,
-      "dist_inter": 25,
+      "style_semis": "À la volée",
+      "profondeur": "En surface",
+      "temp_levee": "15-20°C",
+      "dist_rang": 30,
+      "dist_inter": 30,
       "periode_semis": [
         "Mar",
         "Avr"
@@ -232,21 +232,21 @@
       "variete": "Empress of India",
       "famille": "Tropaéolacées",
       "provenance": "Kokopelli",
-      "duree_germ": "3",
+      "duree_germ": "5",
       "description": "Fleurs rouge cramoisi, feuillage sombre, comestible."
     },
     "delais": {
-      "levee": 12,
+      "levee": 10,
       "repiquage": 0,
       "plantation": 0,
-      "maturite": 70
+      "maturite": 60
     },
     "culture": {
-      "exposition": "Plein soleil",
-      "eau": "Moyen",
+      "exposition": "Soleil",
+      "eau": "Faible",
       "style_semis": "En poquet",
       "profondeur": "2cm",
-      "temp_levee": "15°C",
+      "temp_levee": "15-20°C",
       "dist_rang": 30,
       "dist_inter": 30,
       "periode_semis": [
@@ -294,19 +294,19 @@
       "description": "Ressemble à un petit poireau tendre, goût d'oignon frais."
     },
     "delais": {
-      "levee": 15,
-      "repiquage": 30,
-      "plantation": 10,
-      "maturite": 70
+      "levee": 12,
+      "repiquage": 0,
+      "plantation": 0,
+      "maturite": 60
     },
     "culture": {
       "exposition": "Soleil",
-      "eau": "Moyen",
-      "style_semis": "En ligne",
+      "eau": "Normal",
+      "style_semis": "En ligne claire",
       "profondeur": "1cm",
-      "temp_levee": "18°C",
-      "dist_rang": 10,
-      "dist_inter": 20,
+      "temp_levee": "15°C",
+      "dist_rang": 15,
+      "dist_inter": 25,
       "periode_semis": [
         "Mar",
         "Avr",
