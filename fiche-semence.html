@@ -41,8 +41,8 @@
             <span class="info-label">Description</span>
             <div id="v-desc" class="note-content" style="margin-bottom: 15px;">-</div>
             
-            <span class="info-label">Associations favorables</span>
-            <div id="v-assoc" style="color: var(--edit-yellow); font-weight: bold; font-size: 14px;">-</div>
+            <span class="info-label">Associations (Amis & Ennemis)</span>
+            <div id="v-assoc" style="display:flex; flex-wrap:wrap; gap:5px;">-</div>
         </div>
 
         <div class="section-title">🌱 Conseils de culture</div>
@@ -166,7 +166,15 @@
                     document.getElementById('v-prov').innerText = s.identite.provenance || '-';
                     document.getElementById('v-germ').innerText = s.identite.duree_germ ? s.identite.duree_germ + ' jours' : '-';
                     document.getElementById('v-desc').innerText = s.identite.description || '-';
-                    document.getElementById('v-assoc').innerText = s.particularites?.associes || 'Aucune contre-indication';
+                    
+                    let assocHtml = "";
+                    if(s.particularites?.bons_compagnons && s.particularites.bons_compagnons.length > 0) {
+                        assocHtml += s.particularites.bons_compagnons.map(p => `<span class="badge" style="background:rgba(53,176,91,0.15); color:var(--accent-green); border:1px solid var(--accent-green); font-size:11px;">👍 ${p}</span>`).join('');
+                    }
+                    if(s.particularites?.mauvais_compagnons && s.particularites.mauvais_compagnons.length > 0) {
+                        assocHtml += s.particularites.mauvais_compagnons.map(p => `<span class="badge" style="background:rgba(255,82,82,0.1); color:var(--danger-red); border:1px solid var(--danger-red); font-size:11px;">👎 ${p}</span>`).join('');
+                    }
+                    document.getElementById('v-assoc').innerHTML = assocHtml || '<span style="font-size:12px; color:var(--text-secondary); font-style:italic;">Aucune association notée</span>';
 
                     // Culture
                     document.getElementById('c-expo').innerText = s.culture?.exposition || s.technique?.exposition || '-';

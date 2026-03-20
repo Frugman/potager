@@ -67,9 +67,27 @@
                             <option value="5">5+ ans</option>
                         </select>
                     </div>
-                    <div>
-                        <label>Associations</label>
-                        <input type="text" id="associes" placeholder="Bonnes/Mauvaises">
+                    </div>
+                </div>
+
+                <div class="note-meta" style="margin-top:15px; margin-bottom:10px;">Comportement & Associations</div>
+                <datalist id="datalist-seeds"></datalist>
+                
+                <div style="background:rgba(53,176,91,0.05); padding:10px; border-radius:8px; border:1px solid rgba(53,176,91,0.3); margin-bottom:15px;">
+                    <label style="color:var(--accent-green);">👍 Associations Favorables (Amis)</label>
+                    <div id="bons-tags" style="display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px;"></div>
+                    <div style="display:flex; gap:5px;">
+                        <input type="text" id="input-bon" placeholder="Choisir ou taper une plante..." list="datalist-seeds" style="margin-bottom:0;">
+                        <button type="button" onclick="addTag('bons', document.getElementById('input-bon').value)" style="padding:0 20px; border-radius:8px; background:var(--accent-green); color:#000; border:none; font-weight:bold; cursor:pointer;">+</button>
+                    </div>
+                </div>
+
+                <div style="background:rgba(255,82,82,0.05); padding:10px; border-radius:8px; border:1px solid rgba(255,82,82,0.3); margin-bottom:15px;">
+                    <label style="color:var(--danger-red);">👎 Associations à Éviter (Ennemis)</label>
+                    <div id="mauvais-tags" style="display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px;"></div>
+                    <div style="display:flex; gap:5px;">
+                        <input type="text" id="input-mauvais" placeholder="Choisir ou taper une plante..." list="datalist-seeds" style="margin-bottom:0;">
+                        <button type="button" onclick="addTag('mauvais', document.getElementById('input-mauvais').value)" style="padding:0 20px; border-radius:8px; background:var(--danger-red); color:#fff; border:none; font-weight:bold; cursor:pointer;">+</button>
                     </div>
                 </div>
 
@@ -196,6 +214,37 @@
         const id = new URLSearchParams(window.location.search).get('id');
         const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
         let currentSha = "";
+        let bons_compagnons = [];
+        let mauvais_compagnons = [];
+
+        function renderTags() {
+            document.getElementById('bons-tags').innerHTML = bons_compagnons.map(p => `
+                <span class="badge" style="background:rgba(53,176,91,0.2); color:var(--accent-green); border:1px solid var(--accent-green); display:flex; align-items:center; gap:5px; padding: 4px 8px; font-size:12px;">
+                    ${p} <span style="cursor:pointer; font-weight:bold; margin-left:5px;" onclick="removeTag('bons', '${p.replace(/'/g, "\'")}')">✕</span>
+                </span>
+            `).join('');
+            document.getElementById('mauvais-tags').innerHTML = mauvais_compagnons.map(p => `
+                <span class="badge" style="background:rgba(255,82,82,0.2); color:var(--danger-red); border:1px solid var(--danger-red); display:flex; align-items:center; gap:5px; padding: 4px 8px; font-size:12px;">
+                    ${p} <span style="cursor:pointer; font-weight:bold; margin-left:5px;" onclick="removeTag('mauvais', '${p.replace(/'/g, "\'")}')">✕</span>
+                </span>
+            `).join('');
+        }
+
+        function addTag(type, val) {
+            val = val.trim();
+            if(!val) return;
+            if(type === 'bons' && !bons_compagnons.includes(val)) bons_compagnons.push(val);
+            if(type === 'mauvais' && !mauvais_compagnons.includes(val)) mauvais_compagnons.push(val);
+            document.getElementById(type === 'bons' ? 'input-bon' : 'input-mauvais').value = '';
+            renderTags();
+        }
+
+        function removeTag(type, val) {
+            if(type === 'bons') bons_compagnons = bons_compagnons.filter(v => v !== val);
+            if(type === 'mauvais') mauvais_compagnons = mauvais_compagnons.filter(v => v !== val);
+            renderTags();
+        }
+
         let existingSeeds = [];
 
         async function load() {
@@ -210,6 +259,9 @@
                 currentSha = data.sha;
                 existingSeeds = JSON.parse(decodeURIComponent(escape(atob(data.content))));
                 
+                const uniquePlants = [...new Set(existingSeeds.map(s => s.identite.nom_commun))].filter(Boolean).sort();
+                document.getElementById('datalist-seeds').innerHTML = uniquePlants.map(p => `<option value="${p}"></option>`).join('');
+                
                 if(id) {
                     const s = existingSeeds.find(item => String(item.id) === String(id));
                     if(s) {
@@ -219,7 +271,9 @@
                         document.getElementById('provenance').value = s.identite?.provenance || "";
                         document.getElementById('duree_germ').value = s.identite?.duree_germ || "";
                         document.getElementById('description').value = s.identite?.description || "";
-                        document.getElementById('associes').value = s.particularites?.associes || "";
+                        bons_compagnons = s.particularites?.bons_compagnons || [];
+                        mauvais_compagnons = s.particularites?.mauvais_compagnons || [];
+                        renderTags();
                         
                         document.getElementById('exposition').value = s.culture?.exposition || s.technique?.exposition || "Soleil";
                         document.getElementById('eau').value = s.culture?.eau || s.technique?.eau || "Normal";
@@ -343,7 +397,8 @@
                         description: document.getElementById('description').value
                     },
                     particularites: {
-                        associes: document.getElementById('associes').value
+                        bons_compagnons: bons_compagnons,
+                        mauvais_compagnons: mauvais_compagnons
                     },
                     culture: {
                         exposition: document.getElementById('exposition').value,
@@ -367,6 +422,9 @@
                 let seeds = existingSeeds;
                 let finalId = id;
 
+                const uniquePlants = [...new Set(existingSeeds.map(s => s.identite.nom_commun))].filter(Boolean).sort();
+                document.getElementById('datalist-seeds').innerHTML = uniquePlants.map(p => `<option value="${p}"></option>`).join('');
+                
                 if(id) {
                     const index = seeds.findIndex(s => String(s.id) === String(id));
                     if(index !== -1) {
