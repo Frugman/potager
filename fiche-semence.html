@@ -151,7 +151,7 @@
 
         async function init() {
             if(!token || !seedId) return;
-            document.getElementById('link-edit').href = `ajout-semence.html?edit=${seedId}`;
+            document.getElementById('link-edit').href = `modifier-semence.html?id=${seedId}`;
 
             try {
                 const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json?t=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } });
