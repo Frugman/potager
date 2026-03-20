@@ -878,19 +878,19 @@
       "description": "Laitue à couper, feuilles tendres, résiste bien à la chaleur."
     },
     "delais": {
-      "levee": 6,
-      "repiquage": 20,
-      "plantation": 10,
+      "levee": 7,
+      "repiquage": 21,
+      "plantation": 15,
       "maturite": 50
     },
     "culture": {
-      "exposition": "Soleil/Mi-ombre",
-      "eau": "Fort",
-      "style_semis": "En ligne",
-      "profondeur": "3mm",
-      "temp_levee": "18°C",
-      "dist_rang": 20,
-      "dist_inter": 25,
+      "exposition": "Mi-ombre (Éviter chaleur)",
+      "eau": "Constant",
+      "style_semis": "En terrine ou Mottes",
+      "profondeur": "En surface (A besoin de lumière)",
+      "temp_levee": "12-15°C (Dormance si > 20°C)",
+      "dist_rang": 25,
+      "dist_inter": 30,
       "periode_semis": [
         "Mar",
         "Avr",
@@ -945,17 +945,17 @@
       "description": "Petite pomme croquante et sucrée, excellente saveur."
     },
     "delais": {
-      "levee": 6,
-      "repiquage": 20,
-      "plantation": 10,
-      "maturite": 60
+      "levee": 7,
+      "repiquage": 21,
+      "plantation": 15,
+      "maturite": 50
     },
     "culture": {
-      "exposition": "Soleil/Mi-ombre",
-      "eau": "Fort",
-      "style_semis": "En ligne",
-      "profondeur": "3mm",
-      "temp_levee": "18°C",
+      "exposition": "Mi-ombre (Éviter chaleur)",
+      "eau": "Constant",
+      "style_semis": "En terrine ou Mottes",
+      "profondeur": "En surface (A besoin de lumière)",
+      "temp_levee": "12-15°C (Dormance si > 20°C)",
       "dist_rang": 25,
       "dist_inter": 30,
       "periode_semis": [
@@ -1062,23 +1062,23 @@
       "variete": "Densité jaune",
       "famille": "Alliacées",
       "provenance": "Kokopelli",
-      "duree_germ": "2",
+      "duree_germ": "1",
       "description": "Bulbe rond, jaune cuivré, très bonne conservation."
     },
     "delais": {
-      "levee": 15,
-      "repiquage": 35,
-      "plantation": 10,
+      "levee": 14,
+      "repiquage": 0,
+      "plantation": 45,
       "maturite": 120
     },
     "culture": {
-      "exposition": "Soleil",
-      "eau": "Faible",
-      "style_semis": "En ligne",
+      "exposition": "Plein Soleil",
+      "eau": "Normal puis Faible",
+      "style_semis": "En pépinière / Terrine",
       "profondeur": "1cm",
-      "temp_levee": "18°C",
+      "temp_levee": "15-20°C",
       "dist_rang": 10,
-      "dist_inter": 25,
+      "dist_inter": 20,
       "periode_semis": [
         "Fév",
         "Mar"
@@ -1127,23 +1127,23 @@
       "variete": "Rosé d'Armorique",
       "famille": "Alliacées",
       "provenance": "Kokopelli",
-      "duree_germ": "2",
+      "duree_germ": "1",
       "description": "Oignon doux de type échalote, saveur remarquable."
     },
     "delais": {
-      "levee": 15,
-      "repiquage": 35,
-      "plantation": 10,
+      "levee": 14,
+      "repiquage": 0,
+      "plantation": 45,
       "maturite": 120
     },
     "culture": {
-      "exposition": "Soleil",
-      "eau": "Faible",
-      "style_semis": "En ligne",
+      "exposition": "Plein Soleil",
+      "eau": "Normal puis Faible",
+      "style_semis": "En pépinière / Terrine",
       "profondeur": "1cm",
-      "temp_levee": "18°C",
+      "temp_levee": "15-20°C",
       "dist_rang": 10,
-      "dist_inter": 25,
+      "dist_inter": 20,
       "periode_semis": [
         "Fév",
         "Mar"
@@ -1306,17 +1306,17 @@
       "description": "Variété rustique à feuillage bleuté-violet, très résistant au froid."
     },
     "delais": {
-      "levee": 15,
+      "levee": 14,
       "repiquage": 60,
-      "plantation": 10,
+      "plantation": 0,
       "maturite": 150
     },
     "culture": {
-      "exposition": "Soleil",
-      "eau": "Moyen",
-      "style_semis": "En ligne",
+      "exposition": "Soleil / Mi-ombre",
+      "eau": "Important",
+      "style_semis": "En pépinière profonde",
       "profondeur": "1cm",
-      "temp_levee": "18°C",
+      "temp_levee": "15-20°C",
       "dist_rang": 15,
       "dist_inter": 30,
       "periode_semis": [
@@ -3428,22 +3428,24 @@
       "nom_commun": "Poireau",
       "variete": "Saint Victor",
       "provenance": "Mes Semences",
-      "duree_germ": "5",
-      "description": "Ajouté depuis le lexique permaculturel."
+      "duree_germ": "2",
+      "description": "Ajouté depuis le lexique permaculturel.",
+      "famille": "Alliacées"
     },
     "delais": {
-      "levee": 7,
-      "repiquage": 20,
-      "plantation": 10,
-      "maturite": 60
+      "levee": 14,
+      "repiquage": 60,
+      "plantation": 0,
+      "maturite": 150
     },
     "culture": {
-      "exposition": "Soleil",
-      "eau": "Normal",
-      "style_semis": "En poquet",
+      "exposition": "Soleil / Mi-ombre",
+      "eau": "Important",
+      "style_semis": "En pépinière profonde",
       "profondeur": "1cm",
-      "dist_rang": 30,
-      "dist_inter": 30
+      "dist_rang": 15,
+      "dist_inter": 30,
+      "temp_levee": "15-20°C"
     },
     "taches_entretien": [
       {
