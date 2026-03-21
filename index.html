@@ -313,7 +313,7 @@
             // Trouver les plantes actives dans ce bac cette année
             const activePlantsInLoc = [];
             globalJournal.forEach(j => {
-                if(j.bac === loc && new Date(j.date).getFullYear() === currentYear && j.seedId) {
+                if((j.bac === loc || j.emplacement === loc) && new Date(j.date).getFullYear() === currentYear && j.seedId) {
                     if(j.action === 'Semis' || j.action === 'Plantation' || j.action === 'Repiquage') {
                         activePlantsInLoc.push(j.seedId);
                     }

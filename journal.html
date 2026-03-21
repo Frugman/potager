@@ -18,32 +18,35 @@
             <div class="note-meta">📝 Nouvelle entrée</div>
             
             <div class="type-grid" style="margin-top: 10px;">
-                <div class="type-btn active" onclick="selectAction(this, 'Note')"><span>📝</span>Note</div>
                 <div class="type-btn" onclick="selectAction(this, 'Semis')"><span>🌱</span>Semis</div>
                 <div class="type-btn" onclick="selectAction(this, 'Repiquage')"><span>🪴</span>Repiq.</div>
                 <div class="type-btn" onclick="selectAction(this, 'Plantation')"><span>🚜</span>Plant.</div>
                 <div class="type-btn" onclick="selectAction(this, 'Récolte')"><span>🧺</span>Récolte</div>
+                <div class="type-btn" onclick="selectAction(this, 'Arrachage')" style="color:var(--danger-red); border-color:var(--danger-red);"><span>🗑️</span>Arrachage</div>
+                <div class="type-btn active" onclick="selectAction(this, 'Note')"><span>📝</span>Note</div>
             </div>
 
-            <label>Plante concernée</label>
-            <select id="note-seed">
-                <option value="">📝 Note générale</option>
-            </select>
+            <div id="express-form">
+                <label>Plante concernée</label>
+                <select id="val-seed" onchange="checkAssociations()">
+                    <option value="">📝 Note générale</option>
+                </select>
 
-            <label>Date de l'événement</label>
-            <input type="date" id="note-date">
+                <label>Date de l'événement</label>
+                <input type="date" id="val-date">
 
-            <div id="extra-fields"></div>
+                <div id="extra-fields"></div>
 
-            <label>Observation détaillée</label>
-            <textarea id="note-text" rows="3" placeholder="Description de l'action ou de l'observation..."></textarea>
+                <label>Observation détaillée</label>
+                <textarea id="val-note" rows="3" placeholder="Description de l'action ou de l'observation..."></textarea>
 
-            <div onclick="document.getElementById('file-input').click()" class="photo-btn">📸 Ajouter une photo</div>
-            <input type="file" id="file-input" class="hidden" accept="image/*" onchange="processPhoto(this)">
-            
-            <img id="preview-img" style="display:none;">
-            
-            <button class="save-btn" id="btnSaveNote" onclick="saveQuickNote()">ENREGISTRER L'ENTRÉE</button>
+                <div onclick="document.getElementById('file-input').click()" class="photo-btn">📸 Ajouter une photo</div>
+                <input type="file" id="file-input" class="hidden" accept="image/*" onchange="processPhoto(this)">
+                
+                <img id="preview-img" style="display:none;">
+                
+                <button class="save-btn" id="btnSaveNote" onclick="saveEntry()">ENREGISTRER L'ENTRÉE</button>
+            </div>
         </div>
 
         <div class="section-title">Chronologie des notes</div>
@@ -64,20 +67,21 @@
         const user = localStorage.getItem('gh_user'), 
               repo = localStorage.getItem('gh_repo'), 
               token = localStorage.getItem('gh_token');
-        let allSeeds = [], base64Photo = "", photoName = "", currentAction = "Note";
+        let globalSeeds = [], globalJournal = [];
+        let base64Photo = "", photoName = "", currentType = "Note";
 
         async function init() {
             if(!token) return;
-            document.getElementById('note-date').valueAsDate = new Date();
+            document.getElementById('val-date').valueAsDate = new Date();
             
             try {
                 const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json?t=${Date.now()}`, { 
                     headers: { 'Authorization': `Bearer ${token}` } 
                 });
-                allSeeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
+                globalSeeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
                 
-                const sel = document.getElementById('note-seed');
-                allSeeds.sort((a,b)=>a.identite.nom_commun.localeCompare(b.identite.nom_commun)).forEach(s => {
+                const sel = document.getElementById('val-seed');
+                globalSeeds.sort((a,b)=>a.identite.nom_commun.localeCompare(b.identite.nom_commun)).forEach(s => {
                     sel.innerHTML += `<option value="${s.id}">${s.identite.nom_commun} - ${s.identite.variete}</option>`;
                 });
                 
@@ -85,41 +89,103 @@
             } catch(e) { console.error("Erreur init:", e); }
         }
 
-        // Gestion du formulaire dynamique
+        function checkAssociations() {
+            const seedId = document.getElementById('val-seed').value;
+            const locEl = document.getElementById('val-loc');
+            let alertEl = document.getElementById('assoc-alert');
+            
+            if(!alertEl) {
+                alertEl = document.createElement('div');
+                alertEl.id = 'assoc-alert';
+                alertEl.style.display = 'none';
+                alertEl.style.background = 'rgba(255,82,82,0.1)';
+                alertEl.style.borderLeft = '4px solid var(--danger-red)';
+                alertEl.style.padding = '10px';
+                alertEl.style.marginTop = '15px';
+                alertEl.style.marginBottom = '15px';
+                alertEl.style.borderRadius = '4px';
+                alertEl.style.fontSize = '12px';
+                const ef = document.getElementById('extra-fields');
+                if(ef) ef.insertAdjacentElement('afterend', alertEl);
+            }
+            
+            if(!seedId || !locEl || !locEl.value || (currentType !== 'Semis' && currentType !== 'Plantation' && currentType !== 'Repiquage')) {
+                alertEl.style.display = 'none';
+                return;
+            }
+
+            const currentSeed = globalSeeds.find(s => String(s.id) === String(seedId));
+            if(!currentSeed) { alertEl.style.display = 'none'; return; }
+
+            const loc = locEl.value;
+            const currentYear = new Date().getFullYear();
+            
+            const activePlantsInLoc = [];
+            globalJournal.forEach(j => {
+                if((j.bac === loc || j.emplacement === loc) && new Date(j.date).getFullYear() === currentYear && j.seedId) {
+                    if(j.action === 'Semis' || j.action === 'Plantation' || j.action === 'Repiquage') {
+                        activePlantsInLoc.push(j.seedId);
+                    }
+                    if(j.action === 'Arrachage' || j.action === 'Récolte') {
+                        const idx = activePlantsInLoc.lastIndexOf(j.seedId);
+                        if(idx > -1) activePlantsInLoc.splice(idx, 1);
+                    }
+                }
+            });
+
+            if(activePlantsInLoc.length === 0) { alertEl.style.display = 'none'; return; }
+
+            let conflicts = [];
+            const activeSeeds = activePlantsInLoc.map(id => globalSeeds.find(s => String(s.id) === String(id))).filter(Boolean);
+            
+            activeSeeds.forEach(aS => {
+                let nameA = aS.identite.nom_commun.toLowerCase();
+                let nameCur = currentSeed.identite.nom_commun.toLowerCase();
+                
+                if(currentSeed.particularites?.mauvais_compagnons?.some(m => nameA.includes(m.toLowerCase()) || m.toLowerCase().includes(nameA))) {
+                    conflicts.push(aS.identite.nom_commun);
+                }
+                else if(aS.particularites?.mauvais_compagnons?.some(m => nameCur.includes(m.toLowerCase()) || m.toLowerCase().includes(nameCur))) {
+                    conflicts.push(aS.identite.nom_commun);
+                }
+            });
+
+            if(conflicts.length > 0) {
+                const uniq = [...new Set(conflicts)].join(', ');
+                alertEl.innerHTML = `<strong style="color:var(--danger-red);">⚠️ ALERTE COMPAGNONNAGE</strong><br>L'ajout de <b>${currentSeed.identite.nom_commun}</b> est une très mauvaise idée à côté de : <b>${uniq}</b> (actuellement présente(s) dans <b>${loc}</b>). Leurs croissances risquent de se perturber fortement.`;
+                alertEl.style.display = 'block';
+            } else {
+                alertEl.style.display = 'none';
+            }
+        }
+
         function selectAction(btn, type) {
             document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentAction = type;
-            
+            btn.classList.add('active'); currentType = type;
+            let form = document.getElementById('express-form');
+            if(form) form.classList.remove('hidden');
             let html = "";
-            if(type === 'Semis' || type === 'Repiquage') {
+            if(type === 'Semis' || type === 'Repiquage' || type === 'Plantation' || type === 'Arrachage') {
                 html = `
-                    <label>Lieu</label>
-                    <select id="val-loc">
-                        <option>Serre intérieure</option>
-                        <option>Serre extérieure</option>
-                        <option>Pleine terre</option>
-                    </select>
-                    <label>Contenant</label>
-                    <select id="val-cont">
-                        <option>Plaque de semis</option>
-                        <option>Godet</option>
-                        <option>Caissette</option>
-                        <option>Pot individuel</option>
-                        <option>Autre</option>
-                    </select>
-                    <label>Nombre de ${type === 'Semis' ? 'graines' : 'plants'}</label>
-                    <input type="number" id="val-qty" placeholder="Quantité réalisée">
-                `;
-            } else if(type === 'Plantation') {
-                html = `
-                    <label>Bac de destination</label>
-                    <select id="val-bac">
+                    <label>Lieu / Destination</label>
+                    <select id="val-loc" onchange="checkAssociations()">
+                        <option>Serre intérieure</option><option>Serre extérieure</option>
                         <option>Bac A</option><option>Bac B</option><option>Bac C</option>
-                        <option>Bac D</option><option>Bac E</option><option>Autre</option>
+                        <option>Bac D</option><option>Bac E</option><option>Pleine terre</option><option>Autre</option>
                     </select>
-                    <label>Nombre de plants installés</label>
-                    <input type="number" id="val-qty" placeholder="Ex: 5">
+                `;
+                if(type === 'Semis' || type === 'Repiquage') {
+                    html += `
+                        <label>Contenant</label>
+                        <select id="val-cont">
+                            <option>Pleine terre (sans contenant)</option><option>Plaque de semis</option>
+                            <option>Godet</option><option>Caissette</option><option>Pot individuel</option><option>Autre</option>
+                        </select>
+                    `;
+                }
+                html += `
+                    <label>Quantité</label>
+                    <input type="number" id="val-qty" placeholder="${type === 'Arrachage' ? 'Vide = vider tout' : 'Nombre'}">
                 `;
             } else if(type === 'Récolte') {
                 html = `
@@ -135,6 +201,7 @@
                 `;
             }
             document.getElementById('extra-fields').innerHTML = html;
+            checkAssociations();
         }
 
         function processPhoto(input) {
@@ -167,9 +234,10 @@
                     headers: { 'Authorization': `Bearer ${token}` } 
                 });
                 const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
+                globalJournal = journal;
                 
                 document.getElementById('journal-list').innerHTML = journal.reverse().map(n => {
-                    const s = allSeeds.find(i => String(i.id) === String(n.seedId)) || { identite: { nom_commun: "Note Générale", variete: "" } };
+                    const s = globalSeeds.find(i => String(i.id) === String(n.seedId)) || { identite: { nom_commun: "Note Générale", variete: "" } };
                     const icon = n.action === 'Récolte' ? '🧺' : (n.action === 'Semis' ? '🌱' : (n.action === 'Plantation' ? '🚜' : '📝'));
                     
                     return `
@@ -194,9 +262,10 @@
             }
         }
 
-        async function saveQuickNote() {
-            const text = document.getElementById('note-text').value;
-            if(!text && !base64Photo && !document.getElementById('val-qty')?.value) return;
+        async function saveEntry() {
+            const text = document.getElementById('val-note').value;
+            // Ne pas empêcher de sauver un repiquage sans texte si action physique
+            if(currentType === 'Note' && !text && !base64Photo) return;
             
             const btn = document.getElementById('btnSaveNote');
             const originalText = btn.innerText;
@@ -219,9 +288,9 @@
                 
                 journal.push({ 
                     id: Date.now(), 
-                    date: document.getElementById('note-date').value, 
-                    action: currentAction, 
-                    seedId: document.getElementById('note-seed').value, 
+                    date: document.getElementById('val-date').value, 
+                    action: currentType, 
+                    seedId: document.getElementById('val-seed').value, 
                     note: text, 
                     photo: photoUrl,
                     quantite: parseInt(document.getElementById('val-qty')?.value) || 0,
@@ -233,7 +302,7 @@
                 
                 await fetch(`https://api.github.com/repos/${user}/${repo}/contents/journal.json`, { 
                     method: 'PUT', headers: { 'Authorization': `Bearer ${token}` }, 
-                    body: JSON.stringify({ message: `Ajout ${currentAction}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: dataJ.sha }) 
+                    body: JSON.stringify({ message: `Ajout ${currentType}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(journal, null, 2)))), sha: dataJ.sha }) 
                 });
                 
                 location.reload();
