@@ -364,16 +364,5 @@
     "unite": "",
     "emplacement": "Bac A",
     "contenant": "Pleine terre (sans contenant)"
-  },
-  {
-    "id": 1774085993766,
-    "date": "2026-03-21",
-    "action": "Plantation",
-    "seedId": "tomate-dream",
-    "note": "",
-    "photo": "",
-    "quantite": 3,
-    "emplacement": "Bac A",
-    "unite": ""
   }
 ]
