@@ -44,10 +44,12 @@
     "date": "2026-02-15",
     "seedId": "poivron-marconi",
     "action": "Semis",
-    "quantite": "15",
+    "quantite": 15,
     "note": "",
     "emplacement": "Serre intérieure",
-    "contenant": "Plaque 40 alvéoles"
+    "contenant": "Plaque de semis",
+    "photo": "",
+    "unite": ""
   },
   {
     "id": 1773076431468,
