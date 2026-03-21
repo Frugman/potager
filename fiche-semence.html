@@ -45,6 +45,42 @@
             <div id="v-assoc" style="display:flex; flex-wrap:wrap; gap:5px;">-</div>
         </div>
 
+        <div class="section-title">⏱️ Calendrier (jours)</div>
+        <div class="info-card">
+            <div class="grid-4" style="margin-bottom: 0;">
+                <div style="text-align:center;">
+                    <div class="info-value" id="d-levee" style="color:var(--accent-green); margin-bottom:0;">-</div>
+                    <small style="font-size:9px; color:var(--text-secondary); text-transform:uppercase;">Levée</small>
+                </div>
+                <div style="text-align:center;">
+                    <div class="info-value" id="d-repiq" style="color:var(--accent-green); margin-bottom:0;">-</div>
+                    <small style="font-size:9px; color:var(--text-secondary); text-transform:uppercase;">Repiq.</small>
+                </div>
+                <div style="text-align:center;">
+                    <div class="info-value" id="d-plant" style="color:var(--accent-green); margin-bottom:0;">-</div>
+                    <small style="font-size:9px; color:var(--text-secondary); text-transform:uppercase;">Plant.</small>
+                </div>
+                <div style="text-align:center;">
+                    <div class="info-value" id="d-matur" style="color:var(--accent-green); margin-bottom:0;">-</div>
+                    <small style="font-size:9px; color:var(--text-secondary); text-transform:uppercase;">Récolte</small>
+                </div>
+            </div>
+            <div id="c-conseil-box" style="display:none; margin-top:20px; padding:12px; background:rgba(53,176,91,0.05); border-left:3px solid var(--accent-green); border-radius:6px;">
+                <span class="info-label" style="color:var(--accent-green); margin-bottom:6px; letter-spacing:0.5px;">🎯 Date idéale de Semis (Vendée)</span>
+                <div id="c-conseil-date" style="font-weight:800; font-size:16px; color:var(--text-primary); text-transform:capitalize; margin-bottom:8px;">...</div>
+                <div id="c-conseil-texte" style="font-size:13.5px; color:var(--text-secondary); font-style:italic; line-height:1.4;">...</div>
+            </div>
+        </div>
+
+        <div class="section-title">✂️ Soins & Entretien</div>
+        <div class="info-card">
+            <span class="info-label">Actions spécifiques</span>
+            <div id="s-soins" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px;"></div>
+            
+            <span class="info-label">Tâches automatiques</span>
+            <div id="s-tasks"></div>
+        </div>
+
         <div class="section-title">🌱 Conseils de culture</div>
         <div class="icon-grid">
             <div class="icon-box">
@@ -72,56 +108,19 @@
                 <span>↕️ <span id="c-dist-i">-</span></span>
             </div>
         </div>
-
         <div class="info-card" style="margin-top: -5px;">
-            <span class="info-label">Style de semis</span>
+            <span class="info-label" style="margin-bottom:6px;">Style de semis</span>
             <div class="info-value" id="c-style">-</div>
-            <div id="c-conseil-box" style="display:none; margin-top:15px; padding:12px; background:rgba(53,176,91,0.05); border-left:3px solid var(--accent-green); border-radius:6px;">
-                <span class="info-label" style="color:var(--accent-green); margin-bottom:6px; letter-spacing:0.5px;">🎯 Date idéale de Semis (Vendée)</span>
-                <div id="c-conseil-date" style="font-weight:800; font-size:16px; color:var(--text-primary); text-transform:capitalize; margin-bottom:8px;">...</div>
-                <div id="c-conseil-texte" style="font-size:13.5px; color:var(--text-secondary); font-style:italic; line-height:1.4;">...</div>
-            </div>
-        </div>
-
-        <div class="section-title">⏱️ Calendrier (jours)</div>
-        <div class="info-card">
-            <div class="grid-4">
-                <div style="text-align:center;">
-                    <div class="info-value" id="d-levee" style="color:var(--accent-green); margin-bottom:0;">-</div>
-                    <small style="font-size:9px; color:var(--text-secondary); text-transform:uppercase;">Levée</small>
-                </div>
-                <div style="text-align:center;">
-                    <div class="info-value" id="d-repiq" style="color:var(--accent-green); margin-bottom:0;">-</div>
-                    <small style="font-size:9px; color:var(--text-secondary); text-transform:uppercase;">Repiq.</small>
-                </div>
-                <div style="text-align:center;">
-                    <div class="info-value" id="d-plant" style="color:var(--accent-green); margin-bottom:0;">-</div>
-                    <small style="font-size:9px; color:var(--text-secondary); text-transform:uppercase;">Plant.</small>
-                </div>
-                <div style="text-align:center;">
-                    <div class="info-value" id="d-matur" style="color:var(--accent-green); margin-bottom:0;">-</div>
-                    <small style="font-size:9px; color:var(--text-secondary); text-transform:uppercase;">Récolte</small>
-                </div>
-            </div>
-        </div>
-
-        <div class="section-title">✂️ Soins & Entretien</div>
-        <div class="info-card">
-            <span class="info-label">Actions spécifiques</span>
-            <div id="s-soins" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px;"></div>
-            
-            <span class="info-label">Tâches automatiques</span>
-            <div id="s-tasks"></div>
-        </div>
-
-        <div class="section-title">🧺 Bilan des récoltes</div>
-        <div id="stats-recoltes" class="info-card">
-            <div class="empty-msg">Aucune récolte enregistrée pour le moment.</div>
         </div>
 
         <div class="section-title">📖 Historique des notes</div>
         <div id="journal-history">
             <div class="empty-msg">Chargement des notes...</div>
+        </div>
+
+        <div class="section-title">🧺 Bilan des récoltes</div>
+        <div id="stats-recoltes" class="info-card">
+            <div class="empty-msg">Aucune récolte enregistrée pour le moment.</div>
         </div>
     </div>
 

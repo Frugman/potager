@@ -47,14 +47,14 @@
             <div class="weather-scroll" id="weather-box" onclick="window.location.href='meteo.html'" style="cursor: pointer;">Chargement...</div>
         </section>
 
-        <section class="widget" id="sprouts-section" style="display:none; margin-bottom:15px;">
-            <div class="section-title" style="color:#f1c40f; border-left-color:#f1c40f;">👀 LEVÉES SOUS SURVEILLANCE</div>
-            <div id="sprouts-box" style="display:flex; flex-wrap:wrap; gap:8px; background:var(--card-bg); padding:15px; border-radius:12px; border:1px solid var(--border-color);"></div>
-        </section>
-
         <section class="widget">
             <div class="section-title">📅 PROCHAINES ACTIONS</div>
             <div id="agenda-box" class="card">Calcul de votre calendrier...</div>
+        </section>
+
+        <section class="widget" id="sprouts-section" style="display:none; margin-bottom:15px;">
+            <div class="section-title" style="color:#f1c40f; border-left-color:#f1c40f;">👀 LEVÉES SOUS SURVEILLANCE</div>
+            <div id="sprouts-box" style="display:flex; flex-wrap:wrap; gap:8px; background:var(--card-bg); padding:15px; border-radius:12px; border:1px solid var(--border-color);"></div>
         </section>
 
         <section class="widget" style="padding-bottom:20px;">
@@ -242,7 +242,7 @@
                 grouped[k].items.push(t);
             });
 
-            const saturdays = Object.values(grouped).slice(0, 5);
+            const saturdays = Object.values(grouped).slice(0, 2);
             document.getElementById('agenda-box').innerHTML = saturdays.map(g => `
                 <div class="item" style="flex-direction:column; align-items:flex-start; background:rgba(0,0,0,0.2); border:1px solid var(--border-color); border-left:3px solid var(--accent-green); padding:15px; border-radius:8px;">
                     <div style="font-weight:900; font-size:16px; margin-bottom:12px; color:var(--accent-green); display:flex; align-items:center; gap:8px;">

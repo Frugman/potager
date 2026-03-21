@@ -55,6 +55,15 @@
             return d;
         }
 
+        function getClosestSaturday(d) {
+            const date = new Date(d);
+            const day = date.getDay();
+            const diff = day === 6 ? 0 : (day <= 2 ? -day - 1 : 6 - day);
+            date.setDate(date.getDate() + diff);
+            date.setHours(0,0,0,0);
+            return date;
+        }
+
         function toggleHistory() {
             showHistory = !showHistory;
             document.getElementById('toggleHistBtn').innerText = showHistory ? "MASQUER L'HISTORIQUE" : "VOIR L'HISTORIQUE";
