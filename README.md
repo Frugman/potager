@@ -1,6 +1,6 @@
 # 🌱 Outil Potager 2026 - Solarpunk PWA
 
-L'**Outil Potager 2026** est une application web progressive (PWA), "Low-Tech" et *Solarpunk*, conçue pour gérer un potager de permaculture. 
+L'**Outil Potager 2026** est une application web progressive (PWA), "Low-Tech" et un peu *Solarpunk*, conçue pour gérer un potager de permaculture. 
 Elle fonctionne entièrement dans votre navigateur mobile ou PC, sans aucun serveur complexe ni base de données coûteuse. Tout repose sur deux simples fichiers JSON hébergés sur GitHub qui servent de mémoire à l'application.
 
 ---
