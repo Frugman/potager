@@ -147,7 +147,7 @@
                 const stages = [];
                 
                 if (seed.delais?.levee > 0) {
-                    allSprouts.push({ date: addDays(semisDate, seed.delais.levee), plant: seed.identite.nom_commun });
+                    allSprouts.push({ date: addDays(semisDate, seed.delais.levee), plant: seed.identite.nom_commun + (seed.identite.variete ? ' - ' + seed.identite.variete : '') });
                 }
                 if (!isDirectSowing && seed.delais?.repiquage > 0) {
                     stages.push({ d: (seed.delais?.levee || 0) + seed.delais.repiquage, t: "🪴 Repiquage" });
@@ -160,7 +160,7 @@
                 }
                 
                 stages.forEach(st => {
-                    if(st.d > 0) allTasks.push({ date: getClosestSaturday(addDays(semisDate, st.d)), title: st.t, plant: seed.identite.nom_commun });
+                    if(st.d > 0) allTasks.push({ date: getClosestSaturday(addDays(semisDate, st.d)), title: st.t, plant: seed.identite.nom_commun + (seed.identite.variete ? ' - ' + seed.identite.variete : '') });
                 });
                 if (seed.taches_entretien) {
                     seed.taches_entretien.forEach(te => {
@@ -177,7 +177,7 @@
                         const freq = te.frequence || 0;
                         const badge = getLexiqueBadge(te.label);
                         for(let i=0; i<occ; i++) {
-                            allTasks.push({ date: getClosestSaturday(addDays(baseDate, te.delai + (i * freq))), title: `✂️ ${te.label}${badge}`, plant: seed.identite.nom_commun });
+                            allTasks.push({ date: getClosestSaturday(addDays(baseDate, te.delai + (i * freq))), title: `✂️ ${te.label}${badge}`, plant: seed.identite.nom_commun + (seed.identite.variete ? ' - ' + seed.identite.variete : '') });
                         }
                     });
                 }
@@ -192,7 +192,7 @@
                                       new Date(s.date) <= planDate && (planDate - new Date(s.date)) < 100 * 24 * 60 * 60 * 1000);
                 if(!hasRecentSemis) {
                     if (seed.delais?.maturite > 0) {
-                        allTasks.push({ date: getClosestSaturday(addDays(entry.date, seed.delais.maturite)), title: "🧺 Récolte estimée (Achat)", plant: seed.identite.nom_commun });
+                        allTasks.push({ date: getClosestSaturday(addDays(entry.date, seed.delais.maturite)), title: "🧺 Récolte estimée (Achat)", plant: seed.identite.nom_commun + (seed.identite.variete ? ' - ' + seed.identite.variete : '') });
                     }
                     if (seed.taches_entretien) {
                         seed.taches_entretien.filter(te => te.base === 'plantation').forEach(te => {
@@ -200,7 +200,7 @@
                             const freq = te.frequence || 0;
                             const badge = getLexiqueBadge(te.label);
                             for(let i=0; i<occ; i++) {
-                                allTasks.push({ date: getClosestSaturday(addDays(entry.date, te.delai + (i * freq))), title: `✂️ ${te.label}${badge}`, plant: seed.identite.nom_commun });
+                                allTasks.push({ date: getClosestSaturday(addDays(entry.date, te.delai + (i * freq))), title: `✂️ ${te.label}${badge}`, plant: seed.identite.nom_commun + (seed.identite.variete ? ' - ' + seed.identite.variete : '') });
                             }
                         });
                     }
@@ -217,7 +217,7 @@
                         const d = new Date(s.conseil_semis.date); d.setFullYear(cy);
                         const k = d.getTime() + "|" + s.conseil_semis.texte;
                         if(!recoGroups[k]) recoGroups[k] = { date: d, t: s.conseil_semis.texte, p: [] };
-                        recoGroups[k].p.push(s.identite.nom_commun);
+                        recoGroups[k].p.push(s.identite.nom_commun + (s.identite.variete ? ' - ' + s.identite.variete : ''));
                     }
                 }
             });
