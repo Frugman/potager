@@ -14,8 +14,9 @@
     </header>
 
     <div class="container">
-        <div class="journal-card">
-            <div class="note-meta">📝 Nouvelle entrée</div>
+        <div class="journal-col">
+            <div class="journal-card" style="cursor:default;">
+                <div class="note-meta">📝 Nouvelle entrée</div>
             
             <div class="type-grid" style="margin-top: 10px;">
                 <div class="type-btn" onclick="selectAction(this, 'Semis')"><span>🌱</span>Semis</div>
@@ -48,10 +49,30 @@
                 <button class="save-btn" id="btnSaveNote" onclick="saveEntry()">ENREGISTRER L'ENTRÉE</button>
             </div>
         </div>
+        </div>
 
-        <div class="section-title">Chronologie des notes</div>
-        <div id="journal-list">
-            <div class="empty-msg">Chargement du journal...</div>
+        <div class="journal-col">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div class="section-title" style="margin-bottom: 0;">Chronologie des notes</div>
+                <select id="filter-month" onchange="renderFilteredJournal()" style="background: var(--card-bg); color: var(--text-primary); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 8px; font-size: 14px; outline: none; cursor:pointer;">
+                    <option value="all">Tous les mois</option>
+                    <option value="01">Janvier</option>
+                    <option value="02">Février</option>
+                    <option value="03">Mars</option>
+                    <option value="04">Avril</option>
+                    <option value="05">Mai</option>
+                    <option value="06">Juin</option>
+                    <option value="07">Juillet</option>
+                    <option value="08">Août</option>
+                    <option value="09">Septembre</option>
+                    <option value="10">Octobre</option>
+                    <option value="11">Novembre</option>
+                    <option value="12">Décembre</option>
+                </select>
+            </div>
+            <div id="journal-list">
+                <div class="empty-msg">Chargement du journal...</div>
+            </div>
         </div>
     </div>
 
@@ -60,6 +81,8 @@
         <a href="repertoire.html" class="nav-item"><span class="nav-icon">📚</span>Semences</a>
         <a href="bacs.html" class="nav-item"><span class="nav-icon">🍱</span>Bacs</a>
         <a href="agenda.html" class="nav-item"><span class="nav-icon">📅</span>Agenda</a>
+        <a href="journal.html" class="nav-item desktop-only active-nav"><span class="nav-icon">📖</span>Journal</a>
+        <a href="meteo.html" class="nav-item desktop-only"><span class="nav-icon">🌦️</span>Météo</a>
         <a href="autres.html" class="nav-item"><span class="nav-icon">🗂️</span>Autres</a>
     </nav>
 
@@ -235,31 +258,49 @@
                 });
                 const journal = JSON.parse(decodeURIComponent(escape(atob((await resJ.json()).content))));
                 globalJournal = journal;
-                
-                document.getElementById('journal-list').innerHTML = journal.reverse().map(n => {
-                    const s = globalSeeds.find(i => String(i.id) === String(n.seedId)) || { identite: { nom_commun: "Note Générale", variete: "" } };
-                    const icon = n.action === 'Récolte' ? '🧺' : (n.action === 'Semis' ? '🌱' : (n.action === 'Plantation' ? '🚜' : '📝'));
-                    
-                    return `
-                    <div class="journal-card" onclick="window.location.href='modifier-journal.html?id=${n.id}'">
-                        <div class="note-meta">${n.date} • ${n.action} ${icon}</div>
-                        <div class="note-title">${s.identite.nom_commun} <span style="font-weight:400; font-size:14px; color:var(--text-secondary);">${s.identite.variete}</span></div>
-                        
-                        ${n.quantite ? `<div style="margin: 8px 0;"><span class="badge">+ ${n.quantite} ${n.unite || 'unité(s)'}</span></div>` : ''}
-                        
-                        ${n.note ? `<div class="note-content">${n.note}</div>` : ''}
-                        ${n.photo ? `<img src="${n.photo}" class="journal-img">` : ''}
-                        
-                        <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
-                            ${n.bac ? `<span style="font-size:12px; opacity:0.6;">🍱 ${n.bac}</span>` : ''}
-                            ${n.emplacement ? `<span style="font-size:12px; opacity:0.6;">📍 ${n.emplacement}</span>` : ''}
-                            ${n.contenant ? `<span style="font-size:12px; opacity:0.6;">📦 ${n.contenant}</span>` : ''}
-                        </div>
-                    </div>`;
-                }).join('');
+                globalJournal.reverse(); // On inverse une seule fois à la source
+                renderFilteredJournal(); // On passe au rendu
             } catch (e) {
                 document.getElementById('journal-list').innerHTML = `<div class="empty-msg">Aucune entrée trouvée.</div>`;
             }
+        }
+
+        function renderFilteredJournal() {
+            const m = document.getElementById('filter-month').value;
+            let filtered = globalJournal;
+            if(m !== 'all') {
+                filtered = globalJournal.filter(j => j.date && j.date.split('-')[1] === m);
+            }
+            if(filtered.length === 0) {
+                document.getElementById('journal-list').innerHTML = `<div class="empty-msg">Aucune entrée pour cette période.</div>`;
+                return;
+            }
+            
+            document.getElementById('journal-list').innerHTML = filtered.map(n => {
+                const s = globalSeeds.find(i => String(i.id) === String(n.seedId)) || { identite: { nom_commun: "Note Générale", variete: "" } };
+                const icon = n.action === 'Récolte' ? '🧺' : (n.action === 'Semis' ? '🌱' : (n.action === 'Plantation' ? '🚜' : '📝'));
+                
+                return `
+                <div class="journal-card" onclick="window.location.href='modifier-journal.html?id=${n.id}'">
+                    <div class="journal-content-wrap">
+                        <div class="journal-text">
+                            <div class="note-meta">${n.date} • ${n.action} ${icon}</div>
+                            <div class="note-title">${s.identite.nom_commun} <span style="font-weight:400; font-size:14px; color:var(--text-secondary);">${s.identite.variete}</span></div>
+                            
+                            ${n.quantite ? `<div style="margin: 8px 0;"><span class="badge">+ ${n.quantite} ${n.unite || 'unité(s)'}</span></div>` : ''}
+                        </div>
+                        ${n.photo ? `<img src="${n.photo}" class="journal-thumb" onclick="event.stopPropagation(); openImageModal(this.src)">` : ''}
+                    </div>
+                    
+                    ${n.note ? `<div class="note-content" style="margin-top:12px;">${n.note}</div>` : ''}
+                    
+                    <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+                        ${n.bac ? `<span style="font-size:12px; opacity:0.6;">🍱 ${n.bac}</span>` : ''}
+                        ${n.emplacement ? `<span style="font-size:12px; opacity:0.6;">📍 ${n.emplacement}</span>` : ''}
+                        ${n.contenant ? `<span style="font-size:12px; opacity:0.6;">📦 ${n.contenant}</span>` : ''}
+                    </div>
+                </div>`;
+            }).join('');
         }
 
         async function saveEntry() {
@@ -311,6 +352,22 @@
                 btn.innerText = originalText; btn.disabled = false;
             }
         }
+        
+        function openImageModal(src) {
+            const m = document.createElement('div');
+            m.className = 'image-modal';
+            m.onclick = () => m.remove();
+            const close = document.createElement('span');
+            close.className = 'image-modal-close';
+            close.innerHTML = '&times;';
+            const img = document.createElement('img');
+            img.src = src;
+            img.className = 'image-modal-content';
+            m.appendChild(close);
+            m.appendChild(img);
+            document.body.appendChild(m);
+        }
+
         window.onload = init;
     </script>
 </body>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Plan Visuel - Potager 2026</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="icon.png">
+    <style>
+        body.plan-mode { min-height: 100vh; padding: 0; margin: 0; }
+        
+        #game-board {
+            position: relative;
+            background: #3c5e44; /* Vert plus vibrant de type "jeu" sans agresser l'oeil */
+            width: 100%;
+            height: calc(100vh - 120px); /* Même hauteur que la palette environ */
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            overflow-y: auto; /* Scroll vertical activé */
+            overflow-x: hidden;
+            padding-bottom: 50px; /* Espace pour le dernier bac */
+        }
+        
+        .sprites-palette {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-content: flex-start;
+            padding-top: 10px;
+        }
+
+        .sprite {
+            width: 45px;
+            height: 45px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #1f2933; /* Fond de secours */
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.15);
+            cursor: grab;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4), inset 0 0 10px rgba(255,255,255,0.05);
+            transition: transform 0.1s, box-shadow 0.1s;
+            overflow: hidden;
+            font-size: 0;
+        }
+
+        .sprite.no-image {
+            background-image: none !important;
+            font-size: 16px; 
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 1px 3px black;
+        }
+
+        .sprite:active { cursor: grabbing; transform: scale(1.3); box-shadow: 0 12px 24px rgba(0,0,0,0.6); z-index: 1000; }
+        
+        /* Modèles physiques des bacs en pourcentages pour s'adapter à la grille fluide */
+        .bac-metal {
+            background: #b6c4b8; /* Métal plus clair et contemporain */
+            border-radius: 40px; 
+            border: 6px solid #8e9e90;
+            position: absolute;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.3), 0 8px 25px rgba(0,0,0,0.5);
+        }
+        
+        .terre-interieure {
+            background: #50372f; /* Terre bien chaude et moelleuse */
+            margin: 8px; /* Marge réduite pour conserver le ratio en responsif */
+            height: calc(100% - 16px);
+            border-radius: 30px;
+            box-shadow: inset 0 6px 12px rgba(0,0,0,0.6);
+            position: relative;
+        }
+
+        .bac-metal span {
+            position: absolute;
+            bottom: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.7);
+            font-weight: bold;
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+        }
+    </style>
+</head>
+<body class="plan-mode">
+
+    <!-- MOBILE ERROR MESSAGE -->
+    <div id="mobile-warning" class="container mobile-only" style="margin-top: 50px;">
+        <div class="card" style="text-align:center; padding: 40px;">
+            <div style="font-size: 50px; margin-bottom: 20px;">🖥️</div>
+            <h2 style="color: var(--danger-red)">Écran trop petit</h2>
+            <p>Le module <strong>"Plan Interactif"</strong> vous permet de tapisser l'écran pour cartographier en 2D vos cultures façon jeu vidéo.</p>
+            <p style="margin-bottom: 30px;">Pour des raisons évidentes de confort et de jouabilité, il n'est <strong>disponible que sur votre ordinateur</strong> (grand écran).</p>
+            <button class="save-btn" onclick="window.location.href='index.html'">RETOUR À L'ACCUEIL</button>
+        </div>
+    </div>
+
+    <!-- DESKTOP GAME INTERFACE -->
+    <div id="game-interface" class="desktop-only" style="padding: 15px 25px 20px 120px; display: flex; flex-direction: column; box-sizing: border-box;">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h1 style="margin: 0;">🗺️ Plan Interactif du Potager</h1>
+            <div>
+                <button class="save-btn" id="btn-save" style="margin: 0; padding: 10px 30px;" onclick="savePlan()">💾 SAUVEGARDER LE PLAN</button>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 20px; align-items: flex-start;">
+            
+            <!-- Palette (Toolbar) ancrée pour le scroll -->
+            <div id="palette" style="width: 300px; background: var(--card-bg); border-radius: 16px; padding: 20px; overflow-y: auto; border: 1px solid var(--border-color); position: sticky; top: 20px; height: calc(100vh - 120px);">
+                <div class="section-title" style="margin-top:0;">Mes Semences</div>
+                <p style="font-size:12px; color:var(--text-secondary); line-height: 1.4;">Gardez appuyé sur une pastille et glissez-la dans vos bacs en métal.<br><em>Note: En attente du spritesheet final.</em></p>
+                
+                <div class="sprites-palette" id="seeds-palette">
+                    <div class="empty-msg">Chargement des graines...</div>
+                </div>
+            </div>
+
+            <!-- Board -->
+            <div style="flex: 1; border-radius: 16px; position: relative;">
+                <div id="game-board">
+                    <!-- Bacs empilés verticalement à 90% de largeur -->
+                    <div class="bac-metal" id="bac-a" style="width: 90%; height: 350px; left: 5%; top: 40px;">
+                        <div class="terre-interieure"></div>
+                        <span>BAC A</span>
+                    </div>
+                    
+                    <div class="bac-metal" id="bac-b" style="width: 90%; height: 350px; left: 5%; top: 480px;">
+                        <div class="terre-interieure"></div>
+                        <span>BAC B</span>
+                    </div>
+
+                    <div class="bac-metal" id="bac-c" style="width: 90%; height: 350px; left: 5%; top: 920px;">
+                        <div class="terre-interieure"></div>
+                        <span>BAC C</span>
+                    </div>
+
+                    <div class="bac-metal" id="bac-d" style="width: 90%; height: 350px; left: 5%; top: 1360px;">
+                        <div class="terre-interieure"></div>
+                        <span>BAC D</span>
+                    </div>
+
+                    <!-- Bac E (Plus grand x1.5 et centré) -->
+                    <div class="bac-metal" id="bac-e" style="width: 50%; height: 250px; left: 25%; top: 1800px; border-radius: 20px; border-width: 4px;">
+                        <div class="terre-interieure" style="border-radius:15px;"></div>
+                        <span style="bottom: -28px;">BAC E</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation pour pouvoir ressortir du jeu -->
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Accueil</a>
+        <a href="repertoire.html" class="nav-item"><span class="nav-icon">📚</span>Semences</a>
+        <a href="bacs.html" class="nav-item"><span class="nav-icon">🍱</span>Bacs</a>
+        <a href="agenda.html" class="nav-item"><span class="nav-icon">📅</span>Agenda</a>
+        <a href="journal.html" class="nav-item desktop-only"><span class="nav-icon">📖</span>Journal</a>
+        <a href="meteo.html" class="nav-item desktop-only"><span class="nav-icon">🌦️</span>Météo</a>
+        <!-- On laisse active Autres vu qu'on a retiré Plan Visuel du menu gauche -->
+        <a href="autres.html" class="nav-item active-nav"><span class="nav-icon">🗂️</span>Autres</a>
+    </nav>
+
+    <script>
+        const user = localStorage.getItem('gh_user'), 
+              repo = localStorage.getItem('gh_repo'), 
+              token = localStorage.getItem('gh_token');
+        
+        let globalSeeds = [];
+        let spriteIdCounter = 0;
+
+        async function init() {
+            if(!token) return;
+            try {
+                const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json?t=${Date.now()}`, { 
+                    headers: { 'Authorization': `Bearer ${token}` } 
+                });
+                globalSeeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
+                
+                let paletteHtml = "";
+                // Pour l'instant on utilise des pastilles de couleur
+                globalSeeds.sort((a,b)=>a.identite.nom_commun.localeCompare(b.identite.nom_commun)).forEach(s => {
+                    const l1 = s.identite.nom_commun.charAt(0).toUpperCase();
+                    const l2 = s.identite.nom_commun.charAt(1) ? s.identite.nom_commun.charAt(1).toLowerCase() : '';
+                    
+                    // On tente d'utiliser l'icône personnalisée si elle existe
+                    const iconPath = `img/seeds/${s.id}.png`;
+                    
+                    paletteHtml += `
+                        <div class="sprite source-sprite" 
+                             draggable="true" 
+                             data-seed="${s.id}" 
+                             title="${s.identite.nom_commun}${s.identite.variete ? ' - ' + s.identite.variete : ''}" 
+                             style="background-image: url('${iconPath}'); background-color:hsl(${(s.id * 89) % 360}, 65%, 45%);">
+                            ${l1}${l2}
+                        </div>
+                    `;
+                });
+                document.getElementById('seeds-palette').innerHTML = paletteHtml;
+                
+                loadPlan();
+                setupDragAndDrop();
+            } catch(e) { console.error("Erreur init:", e); }
+        }
+
+        function setupDragAndDrop() {
+            const board = document.getElementById('game-board');
+            let draggedEl = null;
+            let grabOffsetX = 0;
+            let grabOffsetY = 0;
+
+            // Gestion de tous les sprites (depuis le menu ou déjà sur le board)
+            document.addEventListener('dragstart', (e) => {
+                if (e.target.classList.contains('sprite')) {
+                    draggedEl = e.target;
+                    e.dataTransfer.effectAllowed = 'copyMove';
+                    // Calcul du décalage souris - coin supérieur gauche du sprite pour un drop précis
+                    const rect = draggedEl.getBoundingClientRect();
+                    grabOffsetX = e.clientX - rect.left;
+                    grabOffsetY = e.clientY - rect.top;
+                }
+            });
+
+            document.addEventListener('dragend', (e) => {
+                draggedEl = null;
+            });
+
+            board.addEventListener('dragover', (e) => {
+                e.preventDefault(); // Autoriser le drop
+                e.dataTransfer.dropEffect = draggedEl && draggedEl.classList.contains('source-sprite') ? 'copy' : 'move';
+            });
+
+            board.addEventListener('drop', (e) => {
+                e.preventDefault();
+                if(!draggedEl) return;
+
+                const rect = board.getBoundingClientRect();
+                
+                // Position calculée en pixels absolus car le board scrolle (le pourcentage casserait au scroll)
+                let x = e.clientX - rect.left - grabOffsetX + board.scrollLeft;
+                let y = e.clientY - rect.top - grabOffsetY + board.scrollTop;
+
+                if (draggedEl.classList.contains('source-sprite')) {
+                    const clone = draggedEl.cloneNode(true);
+                    spriteIdCounter++;
+                    clone.id = 'sprite-' + spriteIdCounter;
+                    clone.classList.remove('source-sprite');
+                    clone.classList.add('board-sprite');
+                    clone.style.position = 'absolute';
+                    clone.style.left = x + 'px';
+                    clone.style.top = y + 'px';
+                    clone.draggable = true;
+                    clone.style.zIndex = 10;
+                    
+                    clone.addEventListener('dblclick', () => { clone.remove(); });
+                    
+                    board.appendChild(clone);
+                } else {
+                    draggedEl.style.left = x + 'px';
+                    draggedEl.style.top = y + 'px';
+                }
+            });
+        }
+
+        async function savePlan() {
+            const btn = document.getElementById('btn-save');
+            btn.innerText = "⏳ SAUVEGARDE...";
+            btn.disabled = true;
+
+            // Collecter toutes les coordonnées des sprites
+            const boardSprites = document.querySelectorAll('.board-sprite');
+            const planData = [];
+            boardSprites.forEach(bs => {
+                planData.push({
+                    seedId: bs.getAttribute('data-seed'),
+                    x: bs.style.left, 
+                    y: bs.style.top
+                });
+            });
+
+            try {
+                // Pour simplifier et ne pas casser GitHub inutilement pendant les tests, on utilise d'abord le localStorage
+                localStorage.setItem('potager_plan2D', JSON.stringify(planData));
+                
+                setTimeout(() => {
+                    btn.innerText = "💾 SAUVEGARDER LE PLAN";
+                    btn.disabled = false;
+                    alert("Grille sauvegardée en stockage local avec succès !");
+                }, 800);
+            } catch (e) {
+                alert("Erreur lors de la sauvegarde.");
+                btn.innerText = "💾 SAUVEGARDER LE PLAN";
+                btn.disabled = false;
+            }
+        }
+
+        function loadPlan() {
+            const data = localStorage.getItem('potager_plan2D');
+            if(data) {
+                const planData = JSON.parse(data);
+                const board = document.getElementById('game-board');
+                
+                planData.forEach(item => {
+                    const source = document.querySelector(`.source-sprite[data-seed="${item.seedId}"]`);
+                    if(source) {
+                        const clone = source.cloneNode(true);
+                        spriteIdCounter++;
+                        clone.id = 'sprite-' + spriteIdCounter;
+                        clone.classList.remove('source-sprite');
+                        clone.classList.add('board-sprite');
+                        clone.style.position = 'absolute';
+                        clone.style.left = String(item.x).includes('%') ? item.x : item.x + 'px';
+                        clone.style.top = String(item.y).includes('%') ? item.y : item.y + 'px';
+                        clone.draggable = true;
+                        clone.style.zIndex = 10;
+                        clone.addEventListener('dblclick', () => { clone.remove(); });
+                        board.appendChild(clone);
+                    }
+                });
+            }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>

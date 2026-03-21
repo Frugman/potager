@@ -16,8 +16,9 @@
     </header>
 
     <div class="container">
-        <div class="info-card">
-            <div class="note-meta">Identité & Origine</div>
+        <section class="widget">
+            <div class="info-card">
+                <div class="note-meta">Identité & Origine</div>
             <div class="grid-2">
                 <div>
                     <span class="info-label">Variété</span>
@@ -44,8 +45,10 @@
             <span class="info-label">Associations (Amis & Ennemis)</span>
             <div id="v-assoc" style="display:flex; flex-wrap:wrap; gap:5px;">-</div>
         </div>
+        </section>
 
-        <div class="section-title">⏱️ Calendrier (jours)</div>
+        <section class="widget">
+            <div class="section-title">⏱️ Calendrier (jours)</div>
         <div class="info-card">
             <div class="grid-4" style="margin-bottom: 0;">
                 <div style="text-align:center;">
@@ -71,8 +74,10 @@
                 <div id="c-conseil-texte" style="font-size:13.5px; color:var(--text-secondary); font-style:italic; line-height:1.4;">...</div>
             </div>
         </div>
+        </section>
 
-        <div class="section-title">✂️ Soins & Entretien</div>
+        <section class="widget">
+            <div class="section-title">✂️ Soins & Entretien</div>
         <div class="info-card">
             <span class="info-label">Actions spécifiques</span>
             <div id="s-soins" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px;"></div>
@@ -80,8 +85,10 @@
             <span class="info-label">Tâches automatiques</span>
             <div id="s-tasks"></div>
         </div>
+        </section>
 
-        <div class="section-title">🌱 Conseils de culture</div>
+        <section class="widget">
+            <div class="section-title">🌱 Conseils de culture</div>
         <div class="icon-grid">
             <div class="icon-box">
                 <small>Exposition</small>
@@ -112,16 +119,21 @@
             <span class="info-label" style="margin-bottom:6px;">Style de semis</span>
             <div class="info-value" id="c-style">-</div>
         </div>
+        </section>
 
-        <div class="section-title">📖 Historique des notes</div>
+        <section class="widget">
+            <div class="section-title">📖 Historique des notes</div>
         <div id="journal-history">
             <div class="empty-msg">Chargement des notes...</div>
         </div>
+        </section>
 
-        <div class="section-title">🧺 Bilan des récoltes</div>
+        <section class="widget">
+            <div class="section-title">🧺 Bilan des récoltes</div>
         <div id="stats-recoltes" class="info-card">
             <div class="empty-msg">Aucune récolte enregistrée pour le moment.</div>
         </div>
+        </section>
     </div>
 
     <nav class="nav-bar">
@@ -129,6 +141,8 @@
         <a href="repertoire.html" class="nav-item active-nav"><span class="nav-icon">📚</span>Semences</a>
         <a href="bacs.html" class="nav-item"><span class="nav-icon">🍱</span>Bacs</a>
         <a href="agenda.html" class="nav-item"><span class="nav-icon">📅</span>Agenda</a>
+        <a href="journal.html" class="nav-item desktop-only"><span class="nav-icon">📖</span>Journal</a>
+        <a href="meteo.html" class="nav-item desktop-only"><span class="nav-icon">🌦️</span>Météo</a>
         <a href="autres.html" class="nav-item"><span class="nav-icon">🗂️</span>Autres</a>
     </nav>
 
@@ -251,14 +265,31 @@
             const history = entries.reverse().slice(0, 5);
             document.getElementById('journal-history').innerHTML = history.length > 0 ? history.map(e => `
                 <div class="journal-card" style="margin-bottom:12px; cursor:pointer;" onclick="window.location.href='modifier-journal.html?id=${e.id}'">
-                    <div class="note-meta">${e.date} • ${e.action}</div>
-                    
-                    ${e.quantite ? `<div style="margin: 8px 0;"><span class="badge">+ ${e.quantite} ${e.unite || 'unité(s)'}</span></div>` : ''}
-                    
-                    <div class="note-content">${e.note || 'Aucun commentaire.'}</div>
-                    ${e.photo ? `<img src="${e.photo}" class="journal-img">` : ''}
+                    <div class="journal-content-wrap">
+                        <div class="journal-text">
+                            <div class="note-meta">${e.date} • ${e.action}</div>
+                            ${e.quantite ? `<div style="margin: 8px 0;"><span class="badge">+ ${e.quantite} ${e.unite || 'unité(s)'}</span></div>` : ''}
+                        </div>
+                        ${e.photo ? `<img src="${e.photo}" class="journal-thumb" onclick="event.stopPropagation(); openImageModal(this.src)">` : ''}
+                    </div>
+                    <div class="note-content" style="margin-top:12px;">${e.note || 'Aucun commentaire.'}</div>
                 </div>
             `).join('') : '<div class="empty-msg">Aucune note pour cette plante.</div>';
+        }
+        
+        function openImageModal(src) {
+            const m = document.createElement('div');
+            m.className = 'image-modal';
+            m.onclick = () => m.remove();
+            const close = document.createElement('span');
+            close.className = 'image-modal-close';
+            close.innerHTML = '&times;';
+            const img = document.createElement('img');
+            img.src = src;
+            img.className = 'image-modal-content';
+            m.appendChild(close);
+            m.appendChild(img);
+            document.body.appendChild(m);
         }
 
         window.onload = init;

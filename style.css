@@ -36,6 +36,16 @@ body {
     margin: 0 auto;
 }
 
+/* Éléments réservés au bureau (cachés sur mobile) */
+.desktop-only {
+    display: none !important;
+}
+
+/* Éléments invisibles sur bureau (Affichés que sur mobile) */
+.mobile-only {
+    display: block;
+}
+
 /* ==========================================================================
    2. EN-TÊTE & TITRES
    ========================================================================== */
@@ -454,4 +464,280 @@ img {
 @keyframes fadeIn { 
     from { opacity: 0; transform: translateY(-5px); } 
     to { opacity: 1; transform: translateY(0); } 
+}
+
+/* ==========================================================================
+   10. DESKTOP MODE (TABLEAU DE BORD PREMIUM)
+   ========================================================================== */
+@media (min-width: 1024px) {
+    /* Fond assombri pour faire ressortir les panneaux */
+    body {
+        background-color: #06080c; 
+        padding: 40px 60px;
+        padding-left: 150px; 
+    }
+
+    /* En-tête séparé élégamment */
+    header {
+        max-width: 1400px;
+        margin: 0 auto 40px auto;
+        padding-bottom: 25px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    header h1 {
+        text-align: left;
+        font-size: 32px;
+        letter-spacing: -0.5px;
+    }
+
+    .container {
+        max-width: 1400px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+        gap: 30px;
+        align-items: start;
+    }
+
+    /* Les titres de sections principaux séparateurs */
+    .container > .section-title {
+        grid-column: 1 / -1;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-size: 22px;
+        color: #fff;
+        border-left: none;
+        padding-left: 0;
+        text-transform: none;
+        font-weight: 800;
+        letter-spacing: 0;
+    }
+
+    /* Transformation unifiée de tous les widgets et action-express en Panneaux (Cards) Premium */
+    .widget, #action-express {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 24px;
+        padding: 30px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .widget:hover, #action-express:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Ajouter un titre généré pour unifier Action Express */
+    #action-express::before {
+        content: "⚡ ACTION RAPIDE";
+        font-size: 13px;
+        color: var(--accent-green);
+        text-transform: uppercase;
+        font-weight: 800;
+        letter-spacing: 1.2px;
+        margin-bottom: 25px;
+        border-left: 3px solid var(--accent-green);
+        padding-left: 10px;
+    }
+
+    /* Nettoyage des sous-cartes pour éviter le syndrome "boîte dans la boîte" */
+    .widget > .card, .widget > .info-card, .widget > #stats-recoltes {
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    /* Retrait des styles en ligne (inline) ajoutés via JS pour les levées */
+    #sprouts-box {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+    }
+
+    /* Les titres internes aux panneaux */
+    .widget .section-title {
+        margin-top: 0;
+        margin-bottom: 25px;
+        font-size: 13px;
+    }
+
+    /* Grille Météo intégrée harmonieusement */
+    .weather-scroll {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        gap: 12px;
+        padding: 0;
+        overflow: visible;
+    }
+
+    /* Alignement parfait en haut pour le journal en 2 colonnes */
+    .journal-col .section-title {
+        margin-top: 0;
+    }
+
+    #action-express {
+        padding: 40px;
+    }
+
+    .weather-day {
+        min-width: 0;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        border-radius: 16px;
+        transition: background 0.2s;
+    }
+    
+    .weather-day:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Scrollbars internes discrètes et élégantes */
+    #agenda-box, #notes-box {
+        max-height: 55vh;
+        overflow-y: auto;
+        padding-right: 15px; /* Espace pour la scrollbar */
+    }
+
+    #agenda-box::-webkit-scrollbar, #notes-box::-webkit-scrollbar {
+        width: 5px;
+    }
+    #agenda-box::-webkit-scrollbar-thumb, #notes-box::-webkit-scrollbar-thumb {
+        background: #2b3540;
+        border-radius: 5px;
+    }
+
+    /* Transparence des conteneurs générateurs (Bacs) */
+    #bacs-container {
+        display: contents;
+    }
+
+    /* Affichage des éléments purement desktop (ex: icônes Journal et Météo) */
+    .desktop-only {
+        display: flex !important;
+    }
+
+    /* Masquage des messages réservés au mobile */
+    .mobile-only {
+        display: none !important;
+    }
+
+    /* Barre de Navigation Verticale (Sidebar) Premium */
+    .nav-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100px;
+        height: 100vh;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 30px;
+        border-top: none;
+        border-right: 1px solid rgba(255, 255, 255, 0.04);
+        background: #090c10;
+        gap: 15px;
+    }
+
+    .nav-item {
+        font-size: 11px;
+        opacity: 0.6;
+        padding: 15px 5px;
+        width: 80px;
+        border-radius: 16px;
+        transition: all 0.2s ease;
+    }
+
+    .nav-item:hover {
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.03);
+        transform: translateY(-2px);
+    }
+
+    .nav-item.active-nav {
+        opacity: 1;
+        background: rgba(53, 176, 91, 0.1);
+        color: var(--accent-green);
+    }
+
+    .nav-icon {
+        font-size: 26px;
+        margin-bottom: 8px;
+    }
+}
+
+/* ==========================================================================
+   11. VIGNETTES ET MODALES IMAGES
+   ========================================================================== */
+.journal-content-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.journal-text {
+    flex: 1;
+    min-width: 0; /* Nécessaire pour que le texte revienne à la ligne dans flex */
+}
+
+/* Surcharge de la taille de l'image de la note (priorité max) */
+.journal-card img.journal-thumb,
+.journal-thumb {
+    width: 90px !important;
+    height: 90px !important;
+    min-width: 90px !important;
+    border-radius: 16px;
+    object-fit: cover !important;
+    background: #000;
+    border: 1px solid var(--border-color);
+    flex-shrink: 0;
+    margin: 0 !important;
+    transition: transform 0.2s;
+}
+
+.journal-thumb:hover {
+    transform: scale(1.05);
+}
+
+/* Modale plein écran (Lightbox) */
+.image-modal {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    cursor: pointer;
+}
+
+.image-modal-content {
+    max-width: 90%;
+    max-height: 85vh;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    object-fit: contain;
+}
+
+.image-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.image-modal-close:hover {
+    color: var(--danger-red);
 }

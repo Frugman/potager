@@ -16,7 +16,7 @@
         <div class="card">
             <div class="note-meta">Options d'affichage</div>
             
-            <div class="grid-2">
+            <div class="grid-2" style="margin-bottom: 15px;">
                 <button class="filter-btn" id="toggleHistBtn" onclick="toggleHistory()" style="margin-bottom:0;">VOIR L'HISTORIQUE</button>
                 <select id="actionFilter" onchange="renderAgenda()" style="margin-bottom:0;">
                     <option value="all">Toutes les actions</option>
@@ -26,6 +26,21 @@
                     <option value="Récolte">🧺 Récolte</option>
                 </select>
             </div>
+            <select id="filter-month" onchange="renderAgenda()" style="width: 100%; background: var(--card-bg); color: var(--text-primary); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 8px; font-size: 14px; outline: none; cursor:pointer;">
+                <option value="all">Tous les mois</option>
+                <option value="01">Janvier</option>
+                <option value="02">Février</option>
+                <option value="03">Mars</option>
+                <option value="04">Avril</option>
+                <option value="05">Mai</option>
+                <option value="06">Juin</option>
+                <option value="07">Juillet</option>
+                <option value="08">Août</option>
+                <option value="09">Septembre</option>
+                <option value="10">Octobre</option>
+                <option value="11">Novembre</option>
+                <option value="12">Décembre</option>
+            </select>
         </div>
 
         <div id="agenda-container">
@@ -38,6 +53,8 @@
         <a href="repertoire.html" class="nav-item"><span class="nav-icon">📚</span>Semences</a>
         <a href="bacs.html" class="nav-item"><span class="nav-icon">🍱</span>Bacs</a>
         <a href="agenda.html" class="nav-item active-nav"><span class="nav-icon">📅</span>Agenda</a>
+        <a href="journal.html" class="nav-item desktop-only"><span class="nav-icon">📖</span>Journal</a>
+        <a href="meteo.html" class="nav-item desktop-only"><span class="nav-icon">🌦️</span>Météo</a>
         <a href="autres.html" class="nav-item"><span class="nav-icon">🗂️</span>Autres</a>
     </nav>
 
@@ -228,13 +245,16 @@
         function renderAgenda() {
             const container = document.getElementById('agenda-container');
             const filter = document.getElementById('actionFilter').value;
+            const filterMonth = document.getElementById('filter-month').value;
             const today = new Date();
             today.setHours(0,0,0,0);
 
             let filtered = allTasks.filter(t => {
                 const isFuture = t.date >= today;
                 const matchCat = filter === 'all' || t.category === filter;
-                return (showHistory ? true : isFuture) && matchCat;
+                const taskMonth = String(t.date.getMonth() + 1).padStart(2, '0');
+                const matchMonth = filterMonth === 'all' || taskMonth === filterMonth;
+                return (showHistory ? true : isFuture) && matchCat && matchMonth;
             });
 
             filtered.sort((a, b) => a.date - b.date);
