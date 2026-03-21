@@ -4,10 +4,12 @@
     "date": "2026-02-15",
     "seedId": "seed-1773075252130",
     "action": "Plantation",
-    "quantite": "2",
-    "note": "Derrière dans le jardin près des piquets de linge, donnés par Mathieu Fétiveau",
-    "bac": "Autres",
-    "filet": false
+    "quantite": 2,
+    "note": "Derrière dans le jardin près des piquets de linge, scions donnés par Mathieu Fétiveau",
+    "filet": false,
+    "photo": "",
+    "emplacement": "Pleine terre",
+    "unite": ""
   },
   {
     "id": 1773076338497,
