@@ -32,3 +32,14 @@ La base `semences.json` (environ 60 plantes de permaculture pour la Vendée) a �
 - **Extraction des "Levées" :** L'attente d'une graine n'est pas une tâche physique. L'évènement "🌱 Levée attendue" a donc été extrait du flux principal de l'Agenda. Ces événements sont désormais captés et regroupés dans un nouvel encart dynamique sur l'Accueil : `👀 LEVÉES SOUS SURVEILLANCE`, qui n'apparaît que si des graines doivent germer dans les 14 jours.
 - **Batching et Loi du Samedi :** Transformation radicale de la charge mentale de l'outil. Toute action physique (Repiquage, Semis, Plantation) bénéficie d'une méthode `getClosestSaturday()`. Si l'algorithme tombe sur un Mercredi, il reculera la tâche au Samedi, si c'est un Vendredi il poussera au Samedi d'après.
 - **Interface Groupée (Clustering) :** L'affichage en liste brouillonne a été remplacé par une Interface unie regroupant toutes les missions agronomiques sous forme de listes à puces à l'intérieur de vastes cadres intitulés : *📆 Samedi [Date]* (Batch processing absolu).
+
+## 6. Plan Interactif 2D et Ergonomie Desktop (V2.5)
+- **Système de Navigation Latérale :** Introduction d'une sidebar fixe à gauche (`.nav-bar` en `position: fixed`) pour les résolutions > 1024px. Ajout de liens directs vers le **Journal** et la **Météo** pour optimiser l'espace écran.
+- **Le Plan Visuel Interactif (`plan-visuel.html`) :** Création d'un module de conception 2D exclusif au format bureau.
+    - **Architecture Verticale :** Abandon du plan fixe "une seule vue" au profit d'un défilement vertical (`overflow-y: auto`) permettant d'afficher des bacs géants (90% de largeur) pour une meilleure précision de placement.
+    - **Moteur de Drag & Drop :** Implémentation d'un système de "glisser-déposer" avec gestion des coordonnées absolues lors du drop. Les plants sont clonés depuis une palette "sticky" qui suit l'utilisateur durant son scroll.
+    - **Rendu Iconographique 1:1 :** Transition d'une spritesheet générique vers un système d'icônes individuelles haute définition (`img/seeds/[id].png`). Le code mappe automatiquement les semences à leurs illustrations via l'ID unique.
+    - **Persistance LocalStorage :** Sauvegarde de l'état du plan (positions X/Y et IDs) dans le `localStorage` sous la clé `potager_plan2D` pour garantir la reprise du travail entre deux sessions sans alourdir le JSON distant.
+- **Filtres de Saisie Saisonnière :** Ajout de sélecteurs de mois dans le Journal et l'Agenda. Le filtrage s'exécute en local sur les données déjà chargées (`globalJournal` ou `allTasks`), permettant une navigation fluide et instantanée dans l'historique des cultures.
+- **Optimisation Mobile/Desktop :** Utilisation des classes CSS `.desktop-only` et `.mobile-only` pour épurer l'interface selon le contexte d'usage (masquage du plan complexe sur smartphone avec message d'avertissement).
+
