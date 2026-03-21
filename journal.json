@@ -394,5 +394,18 @@
     "unite": "",
     "emplacement": "Bac A",
     "contenant": "Pleine terre (sans contenant)"
+  },
+  {
+    "id": 1774100576021,
+    "date": "2026-03-21",
+    "action": "Note",
+    "seedId": "poivron-marconi",
+    "note": "Bientôt prêts à repiquer",
+    "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1774100571338.jpg",
+    "quantite": 0,
+    "unite": "",
+    "bac": "",
+    "emplacement": "",
+    "contenant": ""
   }
 ]
