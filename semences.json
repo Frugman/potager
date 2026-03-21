@@ -1765,7 +1765,7 @@
     }
   },
   {
-    "id": "tomate-cerise",
+    "id": "tomate-chadwick",
     "identite": {
       "nom_commun": "Tomate cerise",
       "variete": "Cherry Chadwick",
@@ -1893,7 +1893,7 @@
     }
   },
   {
-    "id": "seed-1773075252130",
+    "id": "raisin-chasselas",
     "identite": {
       "nom_commun": "Raisin",
       "variete": "Chasselas",
@@ -2157,7 +2157,7 @@
     }
   },
   {
-    "id": "kiwano-jelly",
+    "id": "concombre-kiwano",
     "identite": {
       "nom_commun": "Kiwano",
       "variete": "Jelly Round",
@@ -2809,7 +2809,7 @@
     }
   },
   {
-    "id": 1773670024994,
+    "id": "celosia-pampa",
     "identite": {
       "nom_commun": "Celosia",
       "variete": "Pampa Plume",
@@ -2913,61 +2913,6 @@
     }
   },
   {
-    "id": "mais-sweet-painted-hills",
-    "identite": {
-      "nom_commun": "Maïs",
-      "variete": "Sweet Painted Hills",
-      "provenance": "Mes Semences",
-      "duree_germ": "5",
-      "description": "Ajouté depuis le lexique permaculturel."
-    },
-    "delais": {
-      "levee": 7,
-      "repiquage": 20,
-      "plantation": 10,
-      "maturite": 60
-    },
-    "culture": {
-      "exposition": "Soleil",
-      "eau": "Normal",
-      "style_semis": "En poquet",
-      "profondeur": "1cm",
-      "dist_rang": 30,
-      "dist_inter": 30
-    },
-    "taches_entretien": [
-      {
-        "label": "Butter (à 20cm)",
-        "delai": 20,
-        "base": "levee",
-        "frequence": 0,
-        "occurences": 1
-      }
-    ],
-    "conseil_semis": {
-      "date": "2026-04-11",
-      "texte": "Semis classique de printemps. À adapter selon la météo locale (protection si nuits froides < 5°C)."
-    },
-    "particularites": {
-      "bons_compagnons": [
-        "Courge",
-        "Courgette",
-        "Haricot",
-        "Haricot Mangetout",
-        "Fèves",
-        "Concombre",
-        "Melon",
-        "Tournesol",
-        "Laitue"
-      ],
-      "mauvais_compagnons": [
-        "Tomate",
-        "Betterave",
-        "Céleri"
-      ]
-    }
-  },
-  {
     "id": "melon-pike",
     "identite": {
       "nom_commun": "Melon",
@@ -3027,66 +2972,6 @@
         "Courgette",
         "Courge",
         "Concombre"
-      ]
-    }
-  },
-  {
-    "id": "concombre-kiwano",
-    "identite": {
-      "nom_commun": "Concombre",
-      "variete": "Kiwano",
-      "provenance": "Mes Semences",
-      "duree_germ": "8",
-      "description": "Ajouté depuis le lexique permaculturel.",
-      "famille": "Cucurbitacées"
-    },
-    "delais": {
-      "levee": 8,
-      "repiquage": 20,
-      "plantation": 15,
-      "maturite": 65
-    },
-    "culture": {
-      "exposition": "Plein Soleil",
-      "eau": "Important",
-      "style_semis": "En godet puis terre",
-      "profondeur": "2cm (sur tranche)",
-      "dist_rang": 60,
-      "dist_inter": 100,
-      "temp_levee": "20-25°C"
-    },
-    "taches_entretien": [
-      {
-        "label": "Diriger et palisser",
-        "delai": 14,
-        "base": "plantation",
-        "frequence": 7,
-        "occurences": 10
-      }
-    ],
-    "conseil_semis": {
-      "date": "2026-04-18",
-      "texte": "Semer en godets sous serre non chauffée ou en poquet de 3 graines directement en place si le sol est bien réchauffé. Ne tolère aucun gel !"
-    },
-    "particularites": {
-      "bons_compagnons": [
-        "Maïs",
-        "Maïs Doux",
-        "Haricot",
-        "Haricot Mangetout",
-        "Laitue",
-        "Oignon",
-        "Camomille",
-        "Basilic",
-        "Tournesol"
-      ],
-      "mauvais_compagnons": [
-        "Tomate",
-        "Radis",
-        "Pomme de terre",
-        "Courgette",
-        "Courge",
-        "Melon"
       ]
     }
   },
@@ -3203,154 +3088,6 @@
         "Maïs",
         "Épinard"
       ]
-    }
-  },
-  {
-    "id": "poireau-saint-victor",
-    "identite": {
-      "nom_commun": "Poireau",
-      "variete": "Saint Victor",
-      "provenance": "Mes Semences",
-      "duree_germ": "2",
-      "description": "Ajouté depuis le lexique permaculturel.",
-      "famille": "Alliacées"
-    },
-    "delais": {
-      "levee": 14,
-      "repiquage": 60,
-      "plantation": 0,
-      "maturite": 150
-    },
-    "culture": {
-      "exposition": "Soleil / Mi-ombre",
-      "eau": "Important",
-      "style_semis": "En pépinière profonde",
-      "profondeur": "1cm",
-      "dist_rang": 15,
-      "dist_inter": 30,
-      "temp_levee": "15-20°C"
-    },
-    "taches_entretien": [
-      {
-        "label": "Blanchir (Butter de 5cm)",
-        "delai": 30,
-        "base": "plantation",
-        "frequence": 30,
-        "occurences": 4
-      }
-    ],
-    "conseil_semis": {
-      "date": "2026-04-04",
-      "texte": "Semis en caissette ou petite terrine. À fleur de terre, très peu couvert de terreau tamisé."
-    },
-    "particularites": {
-      "bons_compagnons": [
-        "Carotte",
-        "Tomate",
-        "Betterave",
-        "Laitue",
-        "Camomille",
-        "Fraisier"
-      ],
-      "mauvais_compagnons": [
-        "Haricot",
-        "Haricot Mangetout",
-        "Fèves",
-        "Pois",
-        "Betterave"
-      ]
-    }
-  },
-  {
-    "id": "dahlia",
-    "identite": {
-      "nom_commun": "Dahlia",
-      "variete": "",
-      "provenance": "Mes Semences",
-      "duree_germ": "4",
-      "description": "Ajouté depuis le lexique permaculturel.",
-      "famille": "Astéracées / Divers"
-    },
-    "delais": {
-      "levee": 8,
-      "repiquage": 25,
-      "plantation": 20,
-      "maturite": 110
-    },
-    "culture": {
-      "exposition": "Plein Soleil",
-      "eau": "Important (pour tubercule)",
-      "style_semis": "En terrine ou Mottes",
-      "profondeur": "3mm",
-      "dist_rang": 60,
-      "dist_inter": 40,
-      "temp_levee": "20°C"
-    },
-    "taches_entretien": [
-      {
-        "label": "Nettoyer les fleurs fanées",
-        "delai": 60,
-        "base": "plantation",
-        "frequence": 7,
-        "occurences": 12
-      }
-    ],
-    "conseil_semis": {
-      "date": "2026-04-04",
-      "texte": "Semis en caissette ou petite terrine. À fleur de terre, très peu couvert de terreau tamisé."
-    },
-    "particularites": {
-      "bons_compagnons": [],
-      "mauvais_compagnons": []
-    }
-  },
-  {
-    "id": "souci",
-    "identite": {
-      "nom_commun": "Souci",
-      "variete": "",
-      "provenance": "Mes Semences",
-      "duree_germ": "4",
-      "description": "Ajouté depuis le lexique permaculturel.",
-      "famille": "Astéracées / Divers"
-    },
-    "delais": {
-      "levee": 8,
-      "repiquage": 25,
-      "plantation": 20,
-      "maturite": 80
-    },
-    "culture": {
-      "exposition": "Plein Soleil",
-      "eau": "Normal",
-      "style_semis": "En terrine ou Mottes",
-      "profondeur": "3mm",
-      "dist_rang": 40,
-      "dist_inter": 40,
-      "temp_levee": "20°C"
-    },
-    "taches_entretien": [
-      {
-        "label": "Nettoyer les fleurs fanées",
-        "delai": 45,
-        "base": "levee",
-        "frequence": 7,
-        "occurences": 12
-      }
-    ],
-    "conseil_semis": {
-      "date": "2026-04-04",
-      "texte": "Semis en caissette ou petite terrine. À fleur de terre, très peu couvert de terreau tamisé."
-    },
-    "particularites": {
-      "bons_compagnons": [
-        "Tomate",
-        "Haricot",
-        "Asperge",
-        "Courgette",
-        "Carotte"
-      ],
-      "mauvais_compagnons": []
     }
   }
 ]
