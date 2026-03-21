@@ -104,10 +104,12 @@
     "date": "2026-03-06",
     "seedId": "piment-ordono",
     "action": "Semis",
-    "quantite": "5",
+    "quantite": 5,
     "note": "",
     "emplacement": "Serre intérieure",
-    "contenant": "Plaque 40 alvéoles"
+    "contenant": "Plaque de semis",
+    "photo": "",
+    "unite": ""
   },
   {
     "id": 1773077065897,
