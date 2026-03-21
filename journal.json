@@ -24,10 +24,12 @@
     "date": "2026-02-15",
     "seedId": "oignon-rose",
     "action": "Semis",
-    "quantite": "20",
+    "quantite": 20,
     "note": "",
     "emplacement": "Serre intérieure",
-    "contenant": ""
+    "contenant": "Plaque de semis",
+    "photo": "",
+    "unite": ""
   },
   {
     "id": 1773076396717,
