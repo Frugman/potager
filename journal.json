@@ -93,11 +93,14 @@
     "id": 1773076873887,
     "date": "2026-03-06",
     "seedId": "epinard-matador",
-    "action": "Plantation",
-    "quantite": "30",
+    "action": "Semis",
+    "quantite": 30,
     "note": "",
-    "bac": "Bac E",
-    "filet": true
+    "filet": true,
+    "photo": "",
+    "emplacement": "Bac E",
+    "contenant": "Pleine terre (sans contenant)",
+    "unite": ""
   },
   {
     "id": 1773077051138,
