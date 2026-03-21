@@ -144,10 +144,12 @@
     "date": "2026-03-06",
     "seedId": "laitue-sucrine",
     "action": "Semis",
-    "quantite": "10",
+    "quantite": 10,
     "note": "",
     "emplacement": "Serre intérieure",
-    "contenant": "Plaque 40 alvéoles"
+    "contenant": "Plaque de semis",
+    "photo": "",
+    "unite": ""
   },
   {
     "id": 1773077128791,
