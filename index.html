@@ -130,8 +130,8 @@
                 <div class="journal-card" onclick="window.location.href='modifier-journal.html?id=${n.id}'">
                     <div class="journal-content-wrap">
                         <div class="journal-text">
-                            <div class="note-meta">${n.date} • ${n.action}</div>
-                            <div class="note-title">${s.identite.nom_commun}</div>
+                             <div class="note-meta">${n.date} • ${n.action}</div>
+                            <div class="note-title">${s.identite.nom_commun} <span style="font-weight:400; font-size:14px; color:var(--text-secondary);">${s.identite.variete}</span></div>
                             ${n.quantite ? `<div style="margin: 8px 0;"><span class="badge">+ ${n.quantite} ${n.unite || 'unité(s)'}</span></div>` : ''}
                         </div>
                         ${n.photo ? `<img src="${n.photo}" class="journal-thumb" onclick="event.stopPropagation(); openImageModal(this.src)">` : ''}
