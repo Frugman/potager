@@ -407,5 +407,17 @@
     "bac": "",
     "emplacement": "",
     "contenant": ""
+  },
+  {
+    "id": 1774279504916,
+    "date": "2026-03-23",
+    "action": "Semis",
+    "seedId": "basilic-grand-vert",
+    "note": "",
+    "photo": "",
+    "quantite": 9,
+    "emplacement": "Serre intérieure",
+    "contenant": "Godet",
+    "unite": ""
   }
 ]
