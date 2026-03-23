@@ -114,11 +114,14 @@
         
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
             <h1 style="margin: 0;">🗺️ Plan Interactif du Potager</h1>
-            <div>
-                <label style="display: inline-flex; align-items: center; color: rgba(255,255,255,0.6); font-size: 13px; cursor: pointer; margin-right: 20px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <label style="display: inline-flex; align-items: center; color: rgba(255,255,255,0.6); font-size: 13px; cursor: pointer; margin-right: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
                     <input type="checkbox" id="chk-grid" checked onchange="document.getElementById('game-board').classList.toggle('show-grid', this.checked)" style="margin-right: 8px; width: auto; margin-bottom: 0;"> Grille
                 </label>
-                <button class="save-btn" id="btn-save" style="margin: 0; padding: 10px 30px;" onclick="savePlan()">💾 SAUVEGARDER LE PLAN</button>
+                <select id="select-saves" class="btn-secondary" style="margin: 0; padding: 10px; width: 220px; background: #1a222c; color: white; border: 1px solid var(--border-color); border-radius: 12px; font-size: 13px; cursor: pointer;" onchange="if(this.value) loadPlanFromFile(this.value)">
+                    <option value="">📂 Charger un plan...</option>
+                </select>
+                <button class="save-btn" id="btn-save" style="margin: 0; padding: 10px 20px; width: auto;" onclick="savePlan()">💾 SAUVEGARDER</button>
             </div>
         </div>
 
@@ -127,7 +130,7 @@
             <!-- Palette (Toolbar) ancrée pour le scroll -->
             <div id="palette" style="width: 300px; background: var(--card-bg); border-radius: 16px; padding: 20px; overflow-y: auto; border: 1px solid var(--border-color); position: sticky; top: 20px; height: calc(100vh - 120px);">
                 <div class="section-title" style="margin-top:0;">Mes Semences</div>
-                <p style="font-size:12px; color:var(--text-secondary); line-height: 1.4;">Gardez appuyé sur une pastille et glissez-la dans vos bacs en métal.<br><em>Note: En attente du spritesheet final.</em></p>
+                <p style="font-size:12px; color:var(--text-secondary); line-height: 1.4;">Glissez-déposez les icônes dans les bacs.<br>Double-cliquez pour supprimer un plant.</p>
                 
                 <div class="sprites-palette" id="seeds-palette">
                     <div class="empty-msg">Chargement des graines...</div>
@@ -193,18 +196,16 @@
         async function init() {
             if(!token) return;
             try {
+                // Charger les semences pour la palette
                 const resS = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/semences.json?t=${Date.now()}`, { 
                     headers: { 'Authorization': `Bearer ${token}` } 
                 });
                 globalSeeds = JSON.parse(decodeURIComponent(escape(atob((await resS.json()).content))));
                 
                 let paletteHtml = "";
-                // Pour l'instant on utilise des pastilles de couleur
                 globalSeeds.sort((a,b)=>a.identite.nom_commun.localeCompare(b.identite.nom_commun)).forEach(s => {
                     const l1 = s.identite.nom_commun.charAt(0).toUpperCase();
                     const l2 = s.identite.nom_commun.charAt(1) ? s.identite.nom_commun.charAt(1).toLowerCase() : '';
-                    
-                    // On tente d'utiliser l'icône personnalisée si elle existe
                     const iconPath = `img/seeds/${s.id}.png`;
                     
                     paletteHtml += `
@@ -219,9 +220,42 @@
                 });
                 document.getElementById('seeds-palette').innerHTML = paletteHtml;
                 
-                loadPlan();
+                // Charger la liste des sauvegardes GitHub
+                await refreshSavesList();
+                
+                // Charger le dernier plan local par défaut au cas où
+                loadPlanLocal();
+                
                 setupDragAndDrop();
             } catch(e) { console.error("Erreur init:", e); }
+        }
+
+        async function refreshSavesList() {
+            if(!token) return;
+            try {
+                const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/saves?t=${Date.now()}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                const select = document.getElementById('select-saves');
+                select.innerHTML = '<option value="">📂 Charger un plan...</option>';
+                
+                if (res.ok) {
+                    const files = await res.json();
+                    // Garder uniquement les .json et trier par nom inverse (date plus récente en premier)
+                    const jsonFiles = files
+                        .filter(f => f.name.endsWith('.json'))
+                        .sort((a, b) => b.name.localeCompare(a.name));
+                    
+                    jsonFiles.forEach(f => {
+                        const opt = document.createElement('option');
+                        opt.value = f.name;
+                        // Transformer 2024-05-20_14h30.json en format lisible
+                        opt.innerText = f.name.replace('.json', '').replace('_', ' à ').replace('-', '/').replace('-', '/');
+                        select.appendChild(opt);
+                    });
+                }
+            } catch (e) { console.warn("Dossier saves non trouvé ou erreur:", e); }
         }
 
         function setupDragAndDrop() {
@@ -230,34 +264,27 @@
             let grabOffsetX = 0;
             let grabOffsetY = 0;
 
-            // Gestion de tous les sprites (depuis le menu ou déjà sur le board)
             document.addEventListener('dragstart', (e) => {
                 if (e.target.classList.contains('sprite')) {
                     draggedEl = e.target;
                     e.dataTransfer.effectAllowed = 'copyMove';
-                    // Calcul du décalage souris - coin supérieur gauche du sprite pour un drop précis
                     const rect = draggedEl.getBoundingClientRect();
                     grabOffsetX = e.clientX - rect.left;
                     grabOffsetY = e.clientY - rect.top;
                 }
             });
 
-            document.addEventListener('dragend', (e) => {
-                draggedEl = null;
-            });
+            document.addEventListener('dragend', (e) => { draggedEl = null; });
 
             board.addEventListener('dragover', (e) => {
-                e.preventDefault(); // Autoriser le drop
+                e.preventDefault();
                 e.dataTransfer.dropEffect = draggedEl && draggedEl.classList.contains('source-sprite') ? 'copy' : 'move';
             });
 
             board.addEventListener('drop', (e) => {
                 e.preventDefault();
                 if(!draggedEl) return;
-
                 const rect = board.getBoundingClientRect();
-                
-                // Position calculée et alignée sur la grille (Snap-to-Grid)
                 let x = Math.round((e.clientX - rect.left - grabOffsetX + board.scrollLeft) / GRID_SIZE) * GRID_SIZE;
                 let y = Math.round((e.clientY - rect.top - grabOffsetY + board.scrollTop) / GRID_SIZE) * GRID_SIZE;
 
@@ -272,9 +299,7 @@
                     clone.style.top = y + 'px';
                     clone.draggable = true;
                     clone.style.zIndex = 10;
-                    
                     clone.addEventListener('dblclick', () => { clone.remove(); });
-                    
                     board.appendChild(clone);
                 } else {
                     draggedEl.style.left = x + 'px';
@@ -284,11 +309,12 @@
         }
 
         async function savePlan() {
+            if (!token) { alert("Configurez GitHub dans les paramètres d'abord."); return; }
+            
             const btn = document.getElementById('btn-save');
-            btn.innerText = "⏳ SAUVEGARDE...";
+            btn.innerText = "⏳ ENVOI...";
             btn.disabled = true;
 
-            // Collecter toutes les coordonnées des sprites
             const boardSprites = document.querySelectorAll('.board-sprite');
             const planData = [];
             boardSprites.forEach(bs => {
@@ -299,46 +325,82 @@
                 });
             });
 
+            const now = new Date();
+            const filename = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}_${String(now.getHours()).padStart(2,'0')}h${String(now.getMinutes()).padStart(2,'0')}.json`;
+            const content = btoa(unescape(encodeURIComponent(JSON.stringify(planData))));
+
             try {
-                // Pour simplifier et ne pas casser GitHub inutilement pendant les tests, on utilise d'abord le localStorage
+                // Sauvegarde locale de sécurité
                 localStorage.setItem('potager_plan2D', JSON.stringify(planData));
-                
-                setTimeout(() => {
-                    btn.innerText = "💾 SAUVEGARDER LE PLAN";
-                    btn.disabled = false;
-                    alert("Grille sauvegardée en stockage local avec succès !");
-                }, 800);
+
+                // Sauvegarde GitHub
+                const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/saves/${filename}`, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: `Sauvegarde plan potager ${filename}`,
+                        content: content
+                    })
+                });
+
+                if (res.ok) {
+                    alert("Plan sauvegardé sur GitHub avec succès !");
+                    await refreshSavesList();
+                } else {
+                    const err = await res.json();
+                    throw new Error(err.message);
+                }
             } catch (e) {
-                alert("Erreur lors de la sauvegarde.");
-                btn.innerText = "💾 SAUVEGARDER LE PLAN";
+                alert("Erreur lors de la sauvegarde : " + e.message);
+            } finally {
+                btn.innerText = "💾 SAUVEGARDER";
                 btn.disabled = false;
             }
         }
 
-        function loadPlan() {
-            const data = localStorage.getItem('potager_plan2D');
-            if(data) {
-                const planData = JSON.parse(data);
-                const board = document.getElementById('game-board');
-                
-                planData.forEach(item => {
-                    const source = document.querySelector(`.source-sprite[data-seed="${item.seedId}"]`);
-                    if(source) {
-                        const clone = source.cloneNode(true);
-                        spriteIdCounter++;
-                        clone.id = 'sprite-' + spriteIdCounter;
-                        clone.classList.remove('source-sprite');
-                        clone.classList.add('board-sprite');
-                        clone.style.position = 'absolute';
-                        clone.style.left = item.x;
-                        clone.style.top = item.y;
-                        clone.draggable = true;
-                        clone.style.zIndex = 10;
-                        clone.addEventListener('dblclick', () => { clone.remove(); });
-                        board.appendChild(clone);
-                    }
+        async function loadPlanFromFile(filename) {
+            if (!filename) return;
+            if (!confirm("Charger cette sauvegarde ? Le plan actuel sera remplacé.")) return;
+
+            try {
+                const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/saves/${filename}?t=${Date.now()}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
+                const data = await res.json();
+                const planData = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+                applyPlanData(planData);
+            } catch (e) {
+                alert("Erreur lors du chargement : " + e.message);
             }
+        }
+
+        function loadPlanLocal() {
+            const data = localStorage.getItem('potager_plan2D');
+            if(data) applyPlanData(JSON.parse(data));
+        }
+
+        function applyPlanData(planData) {
+            const board = document.getElementById('game-board');
+            // Nettoyer les anciens sprites du board
+            document.querySelectorAll('.board-sprite').forEach(s => s.remove());
+            
+            planData.forEach(item => {
+                const source = document.querySelector(`.source-sprite[data-seed="${item.seedId}"]`);
+                if(source) {
+                    const clone = source.cloneNode(true);
+                    spriteIdCounter++;
+                    clone.id = 'sprite-' + spriteIdCounter;
+                    clone.classList.remove('source-sprite');
+                    clone.classList.add('board-sprite');
+                    clone.style.position = 'absolute';
+                    clone.style.left = item.x;
+                    clone.style.top = item.y;
+                    clone.draggable = true;
+                    clone.style.zIndex = 10;
+                    clone.addEventListener('dblclick', () => { clone.remove(); });
+                    board.appendChild(clone);
+                }
+            });
         }
 
         window.onload = init;
