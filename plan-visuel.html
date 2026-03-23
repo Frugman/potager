@@ -20,6 +20,13 @@
             overflow-x: hidden;
             padding-bottom: 50px; /* Espace pour le dernier bac */
         }
+
+        #game-board.show-grid {
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
         
         .sprites-palette {
             display: flex;
@@ -108,6 +115,9 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
             <h1 style="margin: 0;">🗺️ Plan Interactif du Potager</h1>
             <div>
+                <label style="display: inline-flex; align-items: center; color: rgba(255,255,255,0.6); font-size: 13px; cursor: pointer; margin-right: 20px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
+                    <input type="checkbox" id="chk-grid" checked onchange="document.getElementById('game-board').classList.toggle('show-grid', this.checked)" style="margin-right: 8px; width: auto; margin-bottom: 0;"> Grille
+                </label>
                 <button class="save-btn" id="btn-save" style="margin: 0; padding: 10px 30px;" onclick="savePlan()">💾 SAUVEGARDER LE PLAN</button>
             </div>
         </div>
@@ -126,7 +136,7 @@
 
             <!-- Board -->
             <div style="flex: 1; border-radius: 16px; position: relative;">
-                <div id="game-board">
+                <div id="game-board" class="show-grid">
                     <!-- Bacs empilés verticalement à 90% de largeur -->
                     <div class="bac-metal" id="bac-a" style="width: 90%; height: 350px; left: 5%; top: 40px;">
                         <div class="terre-interieure"></div>
@@ -176,6 +186,7 @@
               repo = localStorage.getItem('gh_repo'), 
               token = localStorage.getItem('gh_token');
         
+        const GRID_SIZE = 50;
         let globalSeeds = [];
         let spriteIdCounter = 0;
 
@@ -246,9 +257,9 @@
 
                 const rect = board.getBoundingClientRect();
                 
-                // Position calculée en pixels absolus car le board scrolle (le pourcentage casserait au scroll)
-                let x = e.clientX - rect.left - grabOffsetX + board.scrollLeft;
-                let y = e.clientY - rect.top - grabOffsetY + board.scrollTop;
+                // Position calculée et alignée sur la grille (Snap-to-Grid)
+                let x = Math.round((e.clientX - rect.left - grabOffsetX + board.scrollLeft) / GRID_SIZE) * GRID_SIZE;
+                let y = Math.round((e.clientY - rect.top - grabOffsetY + board.scrollTop) / GRID_SIZE) * GRID_SIZE;
 
                 if (draggedEl.classList.contains('source-sprite')) {
                     const clone = draggedEl.cloneNode(true);
@@ -319,8 +330,8 @@
                         clone.classList.remove('source-sprite');
                         clone.classList.add('board-sprite');
                         clone.style.position = 'absolute';
-                        clone.style.left = String(item.x).includes('%') ? item.x : item.x + 'px';
-                        clone.style.top = String(item.y).includes('%') ? item.y : item.y + 'px';
+                        clone.style.left = item.x;
+                        clone.style.top = item.y;
                         clone.draggable = true;
                         clone.style.zIndex = 10;
                         clone.addEventListener('dblclick', () => { clone.remove(); });
