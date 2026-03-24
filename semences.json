@@ -417,8 +417,8 @@
       "nom_commun": "Ail",
       "variete": "Blanc (pour aillets)",
       "famille": "Alliacées",
-      "provenance": "Inconnu",
-      "duree_germ": "N/A",
+      "provenance": "Déchets de cuisine",
+      "duree_germ": "",
       "description": "Ail blanc planté pour la récolte en aillets (jeunes pousses parfumées)."
     },
     "delais": {
@@ -430,20 +430,13 @@
     "culture": {
       "exposition": "Soleil",
       "eau": "Faible",
-      "style_semis": "Plantation de caïeux",
+      "style_semis": "En ligne claire",
       "profondeur": "3cm",
       "temp_levee": "10°C",
       "dist_rang": 10,
-      "dist_inter": 15,
-      "periode_semis": [
-        "Fév",
-        "Mar"
-      ]
+      "dist_inter": 15
     },
     "particularites": {
-      "soins": [
-        "Binage"
-      ],
       "bons_compagnons": [
         "Carotte",
         "Betterave",
@@ -461,7 +454,9 @@
       {
         "label": "🌿 Biner pour aérer le sol",
         "delai": 30,
-        "base": "plantation"
+        "base": "plantation",
+        "frequence": 0,
+        "occurences": 1
       }
     ],
     "recolte": {
