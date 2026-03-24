@@ -44,3 +44,14 @@ La base `semences.json` (environ 60 plantes de permaculture pour la Vendée) a �
 - **Filtres de Saisie Saisonnière :** Ajout de sélecteurs de mois dans le Journal et l'Agenda. Le filtrage s'exécute en local sur les données déjà chargées (`globalJournal` ou `allTasks`), permettant une navigation fluide et instantanée dans l'historique des cultures.
 - **Optimisation Mobile/Desktop :** Utilisation des classes CSS `.desktop-only` et `.mobile-only` pour épurer l'interface selon le contexte d'usage (masquage du plan complexe sur smartphone avec message d'avertissement).
 
+## 7. Synchronisation Cloud & Multi-Saves (V3.0)
+- **Migration GitHub API (Plan Visuel) :** Le stockage du plan interactif a été migré du `localStorage` vers un système de fichiers distant via l'API GitHub.
+    - **Dossier `/saves/` :** Création automatique d'un répertoire de snapshots JSON sur le dépôt.
+    - **Versioning Automatique :** Chaque sauvegarde génère un fichier nommé par horodatage (`YYYY-MM-DD_HHhMM.json`), permettant de conserver un historique complet sans intervention manuelle.
+    - **Menu de Chargement Dynamique :** Implémentation d'un sélecteur interrogeant l'API pour lister les sauvegardes disponibles, triées par date décroissante (plus récent en premier).
+- **Refonte de la Navigation (UX Premium) :**
+    - **Lisibilité :** Hausse de l'opacité des icônes inactives (80-90%) pour supprimer l'aspect "éteint" du menu.
+    - **Indicateur d'État :** Ajout d'un liseré vert (`2px solid var(--accent-green)`) et d'un halo de fond (`rgba(53, 176, 91, 0.15)`) autour de l'icône de la page active.
+    - **Zone d'Interaction :** Standardisation des hitboxes d'icônes à 44x44px pour garantir un alignement géométrique parfait.
+- **Précision des Données (Accueil) :** L'affichage des "Dernières Notes" sur `index.html` intègre désormais la **variété** de la plante (extraite de `semences.json`), garantissant une cohérence visuelle stricte avec le Journal de bord.
+

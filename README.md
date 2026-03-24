@@ -54,7 +54,7 @@ Prévisions à 7 jours basées sur une API ouverte sans clé. L'outil récupère
 Une interface visuelle exclusive aux ordinateurs pour cartographier vos bacs en métal (`Bac A` à `Bac E`).
 - **Drag & Drop de Jetons :** Glissez-déposez vos semences depuis votre bibliothèque vers vos bacs.
 - **Icônes Personnalisées :** Système de rendu 1:1 utilisant les images de `img/seeds/` basées sur l'ID des semences.
-- **Persistance 2D :** La position exacte de chaque plant est sauvegardée localement pour retrouver votre jardin virtuel à chaque session.
+- **Cloud-Sync & Multi-saves :** Vos plans ne sont plus locaux. Ils sont sauvegardés sur GitHub dans un dossier `/saves/`. L'application permet de sauvegarder plusieurs versions (datées) et de charger celle de votre choix à tout moment, garantissant une synchronisation parfaite sur tous vos appareils.
 - **Mode Focus :** Navigation verticale par "scroll" pour passer d'un bac géant à l'autre et gérer précisément ses densités de plantation.
 
 ---
@@ -64,6 +64,7 @@ Une interface visuelle exclusive aux ordinateurs pour cartographier vos bacs en 
 L'application s'adapte dynamiquement selon votre appareil :
 - **Version Mobile :** Focus sur l'Action Express et le Journal pour une saisie rapide au jardin. 
 - **Version Bureau :** Menu latéral fixe (Sidebar), affichage du Journal en deux colonnes (Saisie / Chronologie) et accès au Plan Interactif pour la phase de conception.
+- **Navigation Premium :** Les icônes de la barre de menu ont été repensées pour être plus lisibles avec un indicateur visuel (liseré vert) sur la page active.
 - **Filtres de Navigation :** Possibilité de filtrer le Journal et l'Agenda par **Mois (Saisonnier)** pour retrouver instantanément vos notes de l'année précédente ou vos semis du mois en cours.
 
 ---
