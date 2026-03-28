@@ -517,5 +517,18 @@
     "bac": "",
     "emplacement": "Serre intérieure",
     "contenant": "Godet"
+  },
+  {
+    "id": 1774714399807,
+    "date": "2026-03-28",
+    "action": "Note",
+    "seedId": "ciboule-tokyo",
+    "note": "Coupés à 5cm",
+    "photo": "",
+    "quantite": 0,
+    "unite": "",
+    "bac": "",
+    "emplacement": "",
+    "contenant": ""
   }
 ]
