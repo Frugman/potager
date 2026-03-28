@@ -466,5 +466,17 @@
     "emplacement": "Serre intérieure",
     "contenant": "Pot individuel",
     "unite": ""
+  },
+  {
+    "id": 1774714168749,
+    "date": "2026-03-28",
+    "action": "Semis",
+    "seedId": "tagete-mexique",
+    "note": "Mélange pavot rose et blanc et tagète du Mexique sur les bords dans 2 grands pots en terre cuite avec terreau au fond et terreau à semis au-dessus.",
+    "photo": "",
+    "quantite": 30,
+    "emplacement": "Serre intérieure",
+    "contenant": "Pleine terre (sans contenant)",
+    "unite": ""
   }
 ]
