@@ -491,5 +491,18 @@
     "bac": "",
     "emplacement": "Serre intérieure",
     "contenant": "Godet"
+  },
+  {
+    "id": 1774714338596,
+    "date": "2026-03-28",
+    "action": "Repiquage",
+    "seedId": "poivron-marconi",
+    "note": "Pas pu identifier quels poivrons sur la plaque donc mélange Yag Biberi et Marconi et peut-être piment Ordono",
+    "photo": "",
+    "quantite": 3,
+    "unite": "",
+    "bac": "",
+    "emplacement": "Serre intérieure",
+    "contenant": "Godet"
   }
 ]
