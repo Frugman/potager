@@ -651,5 +651,17 @@
     "emplacement": "Serre extérieure",
     "contenant": "Godet",
     "unite": ""
+  },
+  {
+    "id": 1775318519948,
+    "date": "2026-04-04",
+    "action": "Repiquage",
+    "seedId": "poivron-marconi",
+    "note": "",
+    "photo": "",
+    "quantite": 3,
+    "emplacement": "Serre extérieure",
+    "contenant": "Godet",
+    "unite": ""
   }
 ]
