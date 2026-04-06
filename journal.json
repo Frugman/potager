@@ -675,5 +675,17 @@
     "emplacement": "Serre extérieure",
     "contenant": "Godet",
     "unite": ""
+  },
+  {
+    "id": 1775465059026,
+    "date": "2026-04-06",
+    "action": "Semis",
+    "seedId": "courge-spaghetti",
+    "note": "",
+    "photo": "",
+    "quantite": 6,
+    "emplacement": "Serre intérieure",
+    "contenant": "Godet",
+    "unite": ""
   }
 ]
