@@ -748,5 +748,17 @@
     "emplacement": "Serre intérieure",
     "contenant": "Godet",
     "unite": ""
+  },
+  {
+    "id": 1775666935041,
+    "date": "2026-04-08",
+    "action": "Semis",
+    "seedId": "courgette-alberello",
+    "note": "",
+    "photo": "",
+    "quantite": 6,
+    "emplacement": "Serre intérieure",
+    "contenant": "Godet",
+    "unite": ""
   }
 ]
