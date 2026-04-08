@@ -796,5 +796,15 @@
     "emplacement": "Serre intérieure",
     "contenant": "Godet",
     "unite": ""
+  },
+  {
+    "id": 1775668593131,
+    "date": "2026-04-08",
+    "action": "Note",
+    "seedId": "raisin-chasselas",
+    "note": "Bourgeonne et fait quelques premières feuilles donc ça doit avoir pris",
+    "photo": "",
+    "quantite": 0,
+    "unite": ""
   }
 ]
