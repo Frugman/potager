@@ -784,5 +784,17 @@
     "emplacement": "Serre intérieure",
     "contenant": "Godet",
     "unite": ""
+  },
+  {
+    "id": 1775666980273,
+    "date": "2026-04-08",
+    "action": "Semis",
+    "seedId": "courgette-rheinau",
+    "note": "",
+    "photo": "",
+    "quantite": 6,
+    "emplacement": "Serre intérieure",
+    "contenant": "Godet",
+    "unite": ""
   }
 ]
