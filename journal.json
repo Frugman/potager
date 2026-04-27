@@ -826,5 +826,18 @@
     "photo": "",
     "quantite": 10,
     "unite": "unités"
+  },
+  {
+    "id": 1777291011448,
+    "date": "2026-04-27",
+    "action": "Note",
+    "seedId": "concombre-kiwano",
+    "note": "Je crois que les 6 semis sont morts, donc pas de Kiwano cette année.",
+    "photo": "",
+    "quantite": 0,
+    "unite": "",
+    "bac": "",
+    "emplacement": "",
+    "contenant": ""
   }
 ]
