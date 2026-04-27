@@ -816,5 +816,15 @@
     "photo": "",
     "quantite": 0,
     "unite": ""
+  },
+  {
+    "id": 1777289564627,
+    "date": "2026-04-20",
+    "action": "Récolte",
+    "seedId": "ail-blanc",
+    "note": "Génial. Je les ai ciselés, j'en ai fait un petit pot de pesto aillets pignons de pin huile d'olive (penser à ne pas ajouter de sel la prochaine fois) et le rester surgelés (d'abord 6H sur une plaque au congélateur, puis dans un sachet hermétique).",
+    "photo": "",
+    "quantite": 10,
+    "unite": "unités"
   }
 ]
