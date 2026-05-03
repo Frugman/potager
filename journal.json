@@ -860,5 +860,16 @@
     "photo": "",
     "quantite": 7,
     "unite": "unités"
+  },
+  {
+    "id": 1777800191011,
+    "date": "2026-05-03",
+    "action": "Arrachage",
+    "seedId": "epinard-matador",
+    "note": "Sont restés tous petits par rapport au bac A, je les ai arrachés pour mettre la ciboule de tokyo",
+    "photo": "",
+    "quantite": 4,
+    "emplacement": "Bac E",
+    "unite": ""
   }
 ]
