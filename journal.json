@@ -871,5 +871,16 @@
     "quantite": 4,
     "emplacement": "Bac E",
     "unite": ""
+  },
+  {
+    "id": 1777800261309,
+    "date": "2026-05-03",
+    "action": "Plantation",
+    "seedId": "poireau-victor",
+    "note": "Pas satisfaite du semis en sachet mais j'ai quand même mis la motte dans un carré tissu pour voir.",
+    "photo": "",
+    "quantite": 10,
+    "emplacement": "Bac E",
+    "unite": ""
   }
 ]
