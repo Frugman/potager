@@ -850,5 +850,15 @@
     "quantite": 10,
     "emplacement": "Bac E",
     "unite": ""
+  },
+  {
+    "id": 1777800131537,
+    "date": "2026-05-03",
+    "action": "Récolte",
+    "seedId": "epinard-matador",
+    "note": "Ont bien marché sous filet dans le bac A, montent vite en graine, 1 récolte puis il faut arracher le plant",
+    "photo": "",
+    "quantite": 7,
+    "unite": "unités"
   }
 ]
