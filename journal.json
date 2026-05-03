@@ -882,5 +882,18 @@
     "quantite": 10,
     "emplacement": "Bac E",
     "unite": ""
+  },
+  {
+    "id": 1777800354572,
+    "date": "2026-05-03",
+    "action": "Plantation",
+    "seedId": "poireau-victor",
+    "note": "Replantés au milieu, assez loin des betteraves de gauche (vu que les betteraves du milieu n'ont pas germé), ai séparé les fuseaux, à voir si les racines n'auront pas été trop abîmées...",
+    "photo": "",
+    "quantite": 10,
+    "unite": "",
+    "bac": "",
+    "emplacement": "Bac A",
+    "contenant": ""
   }
 ]
