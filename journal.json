@@ -906,5 +906,16 @@
     "quantite": 6,
     "emplacement": "Bac A",
     "unite": ""
+  },
+  {
+    "id": 1778085154572,
+    "date": "2026-05-06",
+    "action": "Plantation",
+    "seedId": "oignon-rose",
+    "note": "",
+    "photo": "",
+    "quantite": 6,
+    "emplacement": "Bac A",
+    "unite": ""
   }
 ]
