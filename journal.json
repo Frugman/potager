@@ -895,5 +895,16 @@
     "bac": "",
     "emplacement": "Bac A",
     "contenant": ""
+  },
+  {
+    "id": 1778085143531,
+    "date": "2026-05-06",
+    "action": "Plantation",
+    "seedId": "oignon-jaune",
+    "note": "",
+    "photo": "",
+    "quantite": 6,
+    "emplacement": "Bac A",
+    "unite": ""
   }
 ]
