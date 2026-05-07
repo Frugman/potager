@@ -950,5 +950,15 @@
     "quantite": 2,
     "emplacement": "Bac C",
     "unite": ""
+  },
+  {
+    "id": 1778146845343,
+    "date": "2026-05-07",
+    "action": "Note",
+    "seedId": "",
+    "note": "Des champignons ont poussé dans le bac D au pied des fèves mais apparemment ce n'est pas grave, ça veut dire que le sol est en bonne santé, qu'il décompose bien, et ils disparaîtront avec le soleil.",
+    "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1778146837720.jpg",
+    "quantite": 0,
+    "unite": ""
   }
 ]
