@@ -928,5 +928,16 @@
     "quantite": 1,
     "emplacement": "Bac D",
     "unite": ""
+  },
+  {
+    "id": 1778146721564,
+    "date": "2026-05-07",
+    "action": "Plantation",
+    "seedId": "courgette-alberello",
+    "note": "Un peu tôt peut-être mais je voulais tenter, j'en ai d'autres en réserve pour le 15 mai si besoin. Plantées dans le milieu du bac.",
+    "photo": "",
+    "quantite": 2,
+    "emplacement": "Bac C",
+    "unite": ""
   }
 ]
