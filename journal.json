@@ -939,5 +939,16 @@
     "quantite": 2,
     "emplacement": "Bac C",
     "unite": ""
+  },
+  {
+    "id": 1778146760640,
+    "date": "2026-05-07",
+    "action": "Plantation",
+    "seedId": "courgette-rheinau",
+    "note": "Côté fraises du bac C, peut-être un peu tôt, on verra bien, j'en ai d'autres au cas où.",
+    "photo": "",
+    "quantite": 2,
+    "emplacement": "Bac C",
+    "unite": ""
   }
 ]
