@@ -917,5 +917,16 @@
     "quantite": 6,
     "emplacement": "Bac A",
     "unite": ""
+  },
+  {
+    "id": 1778146583322,
+    "date": "2026-05-07",
+    "action": "Plantation",
+    "seedId": "courge-spaghetti",
+    "note": "Un seul plant a survécu donc je l'ai planté au bout du bac D côté palissade et je mettrai une grille vers le sol (quand la serre sera enlevée) pour qu'elle court dessus (si elle pousse)...",
+    "photo": "",
+    "quantite": 1,
+    "emplacement": "Bac D",
+    "unite": ""
   }
 ]
