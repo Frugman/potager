@@ -970,5 +970,16 @@
     "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1778146858303.jpg",
     "quantite": 0,
     "unite": ""
+  },
+  {
+    "id": 1778230706594,
+    "date": "2026-05-08",
+    "action": "Plantation",
+    "seedId": "mais-sweet-hills",
+    "note": "Planté les 4 semis qui étaient dans le même godet car ils étaient vraiment à l'étroit. Il en reste encore 3 ou 4 à planter dans quelques jours.",
+    "photo": "",
+    "quantite": 4,
+    "emplacement": "Bac D",
+    "unite": ""
   }
 ]
