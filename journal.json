@@ -1068,5 +1068,15 @@
     "quantite": 2,
     "emplacement": "Bac B",
     "unite": ""
+  },
+  {
+    "id": 1779023333752,
+    "date": "2026-05-17",
+    "action": "Note",
+    "seedId": "",
+    "note": "ATTENTION - Ne jamais laisser les ollas vides dans les bacs tant qu'elles n'ont pas de bouteilles dedans car les escargots s'y sont fait une maison et ont mangé tout un pied de courgette (remplacé).",
+    "photo": "",
+    "quantite": 0,
+    "unite": ""
   }
 ]
