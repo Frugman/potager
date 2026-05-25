@@ -1186,5 +1186,16 @@
     "quantite": 12,
     "emplacement": "Bac D",
     "unite": ""
+  },
+  {
+    "id": 1779738213666,
+    "date": "2026-05-25",
+    "action": "Plantation",
+    "seedId": "cornichon-paris",
+    "note": "Rajouté le dernier petit plant de cornichon (loin de la courge spaghetti qui fait un peu la tronche d'ailleurs), ça fait sans doute trop dans ce bac mais bon, ça se tente",
+    "photo": "",
+    "quantite": 1,
+    "emplacement": "Bac D",
+    "unite": ""
   }
 ]
