@@ -1175,5 +1175,16 @@
     "bac": "",
     "emplacement": "Autre",
     "contenant": ""
+  },
+  {
+    "id": 1779714978903,
+    "date": "2026-05-24",
+    "action": "Plantation",
+    "seedId": "haricot-victoire",
+    "note": "Graines plantées directement au pied des épis de maïs qui font déjà 20 à 40 cm",
+    "photo": "",
+    "quantite": 12,
+    "emplacement": "Bac D",
+    "unite": ""
   }
 ]
