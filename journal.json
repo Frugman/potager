@@ -1249,5 +1249,15 @@
     "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1780242770954.jpg",
     "quantite": 0,
     "unite": ""
+  },
+  {
+    "id": 1780242818052,
+    "date": "2026-05-31",
+    "action": "Note",
+    "seedId": "courgette-alberello",
+    "note": "Très bonne poussée en 10 jours de canicule",
+    "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1780242811340.jpg",
+    "quantite": 0,
+    "unite": ""
   }
 ]
