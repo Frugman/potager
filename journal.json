@@ -1217,5 +1217,17 @@
     "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1780242640184.jpg",
     "quantite": 2,
     "unite": "unités"
+  },
+  {
+    "id": 1780242686466,
+    "date": "2026-05-26",
+    "action": "Semis",
+    "seedId": "haricot-victoire",
+    "note": "",
+    "photo": "",
+    "quantite": 10,
+    "emplacement": "Bac D",
+    "contenant": "Pleine terre (sans contenant)",
+    "unite": ""
   }
 ]
