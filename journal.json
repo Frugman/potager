@@ -1279,5 +1279,15 @@
     "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1780242858041.jpg",
     "quantite": 0,
     "unite": ""
+  },
+  {
+    "id": 1780242943018,
+    "date": "2026-05-31",
+    "action": "Note",
+    "seedId": "melon-pike",
+    "note": "Même si les 2 plants replantés faisaient vraiment la tronche (escargots, manque de nutriments dans leurs godets), ils se développent en ce moment et commencent à grimper sur la treille",
+    "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1780242887701.jpg",
+    "quantite": 0,
+    "unite": ""
   }
 ]
