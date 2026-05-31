@@ -1239,5 +1239,15 @@
     "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1780242718610.jpg",
     "quantite": 0,
     "unite": ""
+  },
+  {
+    "id": 1780242774886,
+    "date": "2026-05-31",
+    "action": "Note",
+    "seedId": "mais-sweet-hills",
+    "note": "Un épi vient d'apparaître, il est magnifique !",
+    "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1780242770954.jpg",
+    "quantite": 0,
+    "unite": ""
   }
 ]
