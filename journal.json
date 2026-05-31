@@ -1269,5 +1269,15 @@
     "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1780242830378.jpg",
     "quantite": 0,
     "unite": ""
+  },
+  {
+    "id": 1780242861647,
+    "date": "2026-05-31",
+    "action": "Note",
+    "seedId": "bourrache-bleue",
+    "note": "Elle a réussi à pousser, que ce soit le plant acheté ou les graines semées, parfait !",
+    "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1780242858041.jpg",
+    "quantite": 0,
+    "unite": ""
   }
 ]
