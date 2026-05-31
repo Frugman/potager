@@ -1259,5 +1259,15 @@
     "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1780242811340.jpg",
     "quantite": 0,
     "unite": ""
+  },
+  {
+    "id": 1780242833763,
+    "date": "2026-05-31",
+    "action": "Note",
+    "seedId": "courgette-rheinau",
+    "note": "Très bonne poussée en 10 jours de canicule",
+    "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1780242830378.jpg",
+    "quantite": 0,
+    "unite": ""
   }
 ]
