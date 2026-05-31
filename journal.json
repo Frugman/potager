@@ -1229,5 +1229,15 @@
     "emplacement": "Bac D",
     "contenant": "Pleine terre (sans contenant)",
     "unite": ""
+  },
+  {
+    "id": 1780242722158,
+    "date": "2026-05-31",
+    "action": "Note",
+    "seedId": "haricot-victoire",
+    "note": "Ils poussent déjà, le but est qu'ils se servent des épis de maïs comme tuteurs.",
+    "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1780242718610.jpg",
+    "quantite": 0,
+    "unite": ""
   }
 ]
