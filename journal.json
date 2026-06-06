@@ -1312,5 +1312,18 @@
     "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1780243052426.jpg",
     "quantite": 0,
     "unite": ""
+  },
+  {
+    "id": 1780735547042,
+    "date": "2026-06-06",
+    "action": "Récolte",
+    "seedId": "betterave-detroit",
+    "note": "",
+    "photo": "",
+    "quantite": 4,
+    "unite": "unités",
+    "bac": "",
+    "emplacement": "",
+    "contenant": ""
   }
 ]
