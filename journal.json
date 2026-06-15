@@ -1325,5 +1325,17 @@
     "bac": "",
     "emplacement": "",
     "contenant": ""
+  },
+  {
+    "id": 1781554721563,
+    "date": "2026-06-15",
+    "action": "Repiquage",
+    "seedId": "tabac-jasmin",
+    "note": "Replanté dans la vasque haute pour voir s'il forme un buisson",
+    "photo": "",
+    "quantite": 1,
+    "emplacement": "Autre",
+    "contenant": "Pleine terre (sans contenant)",
+    "unite": ""
   }
 ]
