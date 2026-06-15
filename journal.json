@@ -1337,5 +1337,15 @@
     "emplacement": "Autre",
     "contenant": "Pleine terre (sans contenant)",
     "unite": ""
+  },
+  {
+    "id": 1781554801603,
+    "date": "2026-06-13",
+    "action": "Récolte",
+    "seedId": "courgette-alberello",
+    "note": "énorme genre 40cm de long et 8cm de large",
+    "photo": "",
+    "quantite": 1,
+    "unite": "unités"
   }
 ]
