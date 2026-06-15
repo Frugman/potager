@@ -1347,5 +1347,15 @@
     "photo": "",
     "quantite": 1,
     "unite": "unités"
+  },
+  {
+    "id": 1781554835416,
+    "date": "2026-06-13",
+    "action": "Récolte",
+    "seedId": "courgette-rheinau",
+    "note": "grosses (et 3 autres sont quasi prêtes)",
+    "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1781554831641.jpg",
+    "quantite": 2,
+    "unite": "unités"
   }
 ]
