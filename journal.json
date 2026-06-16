@@ -1429,5 +1429,18 @@
     "bac": "",
     "emplacement": "Bac D",
     "contenant": ""
+  },
+  {
+    "id": 1781640115428,
+    "date": "2026-06-16",
+    "action": "Récolte",
+    "seedId": "feves-karmazyn",
+    "note": "gousses",
+    "photo": "",
+    "quantite": 15,
+    "unite": "unités",
+    "bac": "",
+    "emplacement": "",
+    "contenant": ""
   }
 ]
