@@ -1391,5 +1391,17 @@
     "emplacement": "Bac D",
     "contenant": "Pleine terre (sans contenant)",
     "unite": ""
+  },
+  {
+    "id": 1781640043092,
+    "date": "2026-06-16",
+    "action": "Repiquage",
+    "seedId": "celosia-pampa",
+    "note": "Replanté dans un pot plus grand",
+    "photo": "",
+    "quantite": 1,
+    "emplacement": "Autre",
+    "contenant": "Pleine terre (sans contenant)",
+    "unite": ""
   }
 ]
