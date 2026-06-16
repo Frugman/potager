@@ -1367,5 +1367,17 @@
     "photo": "https://raw.githubusercontent.com/Frugman/potager/master/photos/IMG_1781554865233.jpg",
     "quantite": 0,
     "unite": ""
+  },
+  {
+    "id": 1781640000746,
+    "date": "2026-06-16",
+    "action": "Semis",
+    "seedId": "",
+    "note": "Salades bowl green",
+    "photo": "",
+    "quantite": 10,
+    "emplacement": "Bac A",
+    "contenant": "Pleine terre (sans contenant)",
+    "unite": ""
   }
 ]
