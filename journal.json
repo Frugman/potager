@@ -1379,5 +1379,17 @@
     "emplacement": "Bac A",
     "contenant": "Pleine terre (sans contenant)",
     "unite": ""
+  },
+  {
+    "id": 1781640023006,
+    "date": "2026-06-16",
+    "action": "Semis",
+    "seedId": "",
+    "note": "Salades laitues sucrine",
+    "photo": "",
+    "quantite": 10,
+    "emplacement": "Bac D",
+    "contenant": "Pleine terre (sans contenant)",
+    "unite": ""
   }
 ]
