@@ -1416,5 +1416,18 @@
     "bac": "",
     "emplacement": "",
     "contenant": ""
+  },
+  {
+    "id": 1781640095511,
+    "date": "2026-06-16",
+    "action": "Arrachage",
+    "seedId": "feves-karmazyn",
+    "note": "",
+    "photo": "",
+    "quantite": 0,
+    "unite": "",
+    "bac": "",
+    "emplacement": "Bac D",
+    "contenant": ""
   }
 ]
